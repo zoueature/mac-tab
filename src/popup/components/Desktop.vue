@@ -27,6 +27,9 @@ export default {
     Dock,
     Search,
     Clock,
+  },
+  mounted() {
+    document.removeEventListener("touchmove", () => {}, { passive: false });
   }
 }
 </script>
