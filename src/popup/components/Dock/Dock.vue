@@ -44,16 +44,12 @@ export default {
     margin: 0 auto;
     display: flex;
   }
-  .container:before {
-    content: " ";
-    filter: blur(100);
-  }
   .dock-item {
     flex: 2;
   }
   .bg {
     position: absolute;
-    background: rgb(174, 171, 171);
+    background: rgba(174, 171, 171, 0.5);
     z-index: -1;
     filter: blur(10px);
     border: 1px solid #ccffcc;

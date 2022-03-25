@@ -55,6 +55,6 @@ export default {
   #dock-container {
     width: 100%;
     position: fixed;
-    bottom: 43px;
+    bottom: 52px;
   }
 </style>

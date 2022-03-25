@@ -1,5 +1,5 @@
 <template>
-  <a :href="link" id="dock-item" v-bind:style="/*'background:' + color + ';*/'width: ' + size + 'px; height: ' + size + 'px'">
+  <a :href="link" id="dock-item">
       <div class="icon-container">
         <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
       </div>
@@ -19,9 +19,17 @@ export default {
     "name",
     "link"
   ],
+  created() {
+    this.itemSize = this.size + 'px'
+    this.iconSize = Math.ceil(this.size * 0.8) + "px"
+    this.zoomSize = Math.ceil(this.size * 1.5) + "px"
+    console.log(this.zoomSize)
+  },
   data() {
     return {
-      zoomSize: "100px",
+      zoomSize: "",
+      itemSize: "",
+      iconSize: ""
     }
   }
 }
@@ -29,6 +37,8 @@ export default {
 
 <style scoped>
   #dock-item {
+    width: v-bind(itemSize);
+    height: v-bind(itemSize);
   }
   a:link {
     color: black;
@@ -38,18 +48,20 @@ export default {
   }
   a:hover {
     background: red;
+    width: v-bind(zoomSize);
   }
   a {
     text-decoration: none;
   }
   .icon-container {
-    width: 80%;
-    height: 80%;
+    width: v-bind(iconSize);
+    height: v-bind(iconSize);
     margin: 0 auto;
     overflow: hidden;
     border-radius: 10px;
   }
   .title-container {
-    font-size: 7px;
+    margin-top: 3px;
+    font-weight: bold;
   }
 </style>
