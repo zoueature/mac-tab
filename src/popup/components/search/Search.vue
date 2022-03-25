@@ -1,19 +1,19 @@
 <template>
-  <div class="container">
-    <h1>dsadad</h1>
+  <div class="search-item">
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "dock-com"
+  name: "SearchCom"
 }
 </script>
 
 <style scoped>
-  .container {
-    width: 80%;
-    height: 60px;
+  .search-item {
+    width: 100%;
+    height: 100px;
     background: red;
   }
 </style>

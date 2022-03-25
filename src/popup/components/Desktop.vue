@@ -1,5 +1,11 @@
 <template>
   <div id="desktop-background">
+    <div id="clock-container">
+      <Clock/>
+    </div>
+    <div id="search-container">
+      <Search/>
+    </div>
     <div id="dock-container">
       <Dock/>
     </div>
@@ -8,7 +14,9 @@
 
 <script>
 
-import Dock from "./Dock"
+import Dock from "./Dock/Dock"
+import Search from "@/popup/components/search/Search";
+import Clock from "@/popup/components/Clock/Clock";
 
 export default {
   name: 'desk-top',
@@ -17,6 +25,8 @@ export default {
   },
   components: {
     Dock,
+    Search,
+    Clock,
   }
 }
 </script>
@@ -27,11 +37,23 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background: rgba(0, 0, 0, 0.47);
+    background-image: url("../../assets/images/wrapper/default.jpg");
+    background-size: 100% 100%;
+  }
+  #clock-container {
+    width: 250px;
+    height: 100px;
+    position: fixed;
+    right: 10px;
+    top: 10px;
+   #background: green;
+  }
+  #search-container {
+
   }
   #dock-container {
     width: 100%;
     position: fixed;
-    bottom: 0;
+    bottom: 43px;
   }
 </style>
