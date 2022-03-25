@@ -1,14 +1,19 @@
 <template>
   <div class="clock">
-    <div class="time">
-      <div class="hour">
-        {{nowTime.hour}}
-      </div>
-      <div class="dot" :style="'color: ' + nowTime.dot">
-        :
-      </div>
-      <div class="min">
-        {{nowTime.min}}
+<!--    <div class="time">-->
+<!--      <div class="hour">-->
+<!--        {{nowTime.hour}}-->
+<!--      </div>-->
+<!--      <div class="dot" :style="'color: ' + nowTime.dot">-->
+<!--        :-->
+<!--      </div>-->
+<!--      <div class="min">-->
+<!--        {{nowTime.min}}-->
+<!--      </div>-->
+<!--    </div>-->
+    <div class="process">
+      <div class="node">
+
       </div>
     </div>
   </div>
@@ -80,7 +85,7 @@ export default {
 </script>
 
 <style scoped>
-.clock {
+.clock, .process {
   width: v-bind(clockSize);
   height: v-bind(clockSize);
   border-radius: v-bind(clockSize);
@@ -88,14 +93,23 @@ export default {
   background: blue;
   border: 1px solid green;
 }
+.process {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+}
+
+.node {
+  width: 10px;
+  height: 10px;
+  background: black;
+  z-index: 10;
+}
 
 .time {
   font-size: 43px;
   color: white;
   font-weight: bold;
-}
-.time div {
-  #position: absolute;
 }
 .dot {
   font-size: 45px;

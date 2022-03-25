@@ -43,13 +43,14 @@ export default {
   #clock-container {
     width: 250px;
     height: 100px;
-    position: fixed;
+    #position: fixed;
     right: 10px;
     top: 10px;
    #background: green;
   }
   #search-container {
-
+    width: 43%;
+    margin: 0 auto;
   }
   #dock-container {
     width: 100%;
