@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :style="'width:' + (docks.length + 1 ) * size +'px; height: ' + size + 'px;'">
+  <div class="container">
     <div style="flex: 1"></div>
     <DockItem class="dock-item" v-for="dock in docks" :key="dock.id" :size="size"
               :color="dock.color"
@@ -8,7 +8,7 @@
               :link="dock.link"
     />
     <div style="flex: 1"></div>
-    <div class="bg" :style="'width:' + (docks.length + 1 ) * size +'px; height: ' + size + 'px;'"></div>
+    <div class="bg"></div>
   </div>
 </template>
 
@@ -35,12 +35,22 @@ export default {
         {id: 4, color: "purple", name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"}
       ]
     }
+  },
+  computed: {
+    containerLength() {
+      return (this.docks.length + 1 ) * this.size  + 'px'
+    },
+    dockItemSize() {
+      return (this.size + 10) + 'px'
+    }
   }
 }
 </script>
 
 <style scoped>
   .container, .bg {
+    width: v-bind(containerLength);
+    height: v-bind(dockItemSize);
     margin: 0 auto;
     display: flex;
   }
@@ -48,6 +58,8 @@ export default {
     flex: 2;
   }
   .bg {
+    width: v-bind(containerLength);
+    height: v-bind(dockItemSize);
     position: absolute;
     background: rgba(174, 171, 171, 0.5);
     z-index: -1;

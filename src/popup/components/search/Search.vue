@@ -73,7 +73,7 @@ export default {
     outline: none;
     border: none;
     font-size: 16px;
-    padding-left: 20px;
+    padding-left: 7px;
   }
   .engine-selector {
     height: 100%;

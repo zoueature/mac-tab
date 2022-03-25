@@ -47,8 +47,7 @@ export default {
     color: black;
   }
   a:hover {
-    background: red;
-    width: v-bind(zoomSize);
+    transform: scale(1.5);
   }
   a {
     text-decoration: none;
