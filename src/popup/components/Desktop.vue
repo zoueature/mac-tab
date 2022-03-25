@@ -1,7 +1,7 @@
 <template>
   <div id="desktop-background">
     <div id="clock-container">
-      <Clock/>
+      <Clock size="160"/>
     </div>
     <div id="search-container">
       <Search/>
@@ -41,16 +41,13 @@ export default {
     background-size: 100% 100%;
   }
   #clock-container {
-    width: 250px;
-    height: 100px;
-    #position: fixed;
-    right: 10px;
-    top: 10px;
-   #background: green;
+    position: fixed;
+    left: 50px;
+    top: 50px;
   }
   #search-container {
     width: 43%;
-    margin: 0 auto;
+    margin: 110px auto 0 auto;
   }
   #dock-container {
     width: 100%;
