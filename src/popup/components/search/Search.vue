@@ -1,6 +1,6 @@
 <template>
   <div class="search-item">
-    <input placeholder="" class="search-input">
+    <input placeholder="" class="search-input" @keyup="">
   </div>
 </template>
 
@@ -18,6 +18,9 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+
   }
 }
 </script>
