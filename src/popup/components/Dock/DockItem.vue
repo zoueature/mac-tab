@@ -1,5 +1,5 @@
 <template>
-  <div id="dock-item" @mouseenter="enlarge" @mouseleave="recover" :class="itemClass" @click="goto">
+  <div id="dock-item"  :class="itemClass" @click="goto">
       <div :class="iconClass">
         <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
       </div>
@@ -27,8 +27,7 @@ export default {
   created() {
     this.appType = this.type
     this.itemSize = this.size + 'px'
-    this.iconSize = Math.ceil(this.size * 0.8) + "px"
-    this.zoomSize = Math.ceil(this.size * 1.5) + "px"
+    this.iconSize = Math.ceil(this.size * 0.6) + "px"
     this.disableScale = this.disable
     this.slot = this.slotName
     if (this.margin !== undefined) {
@@ -52,15 +51,6 @@ export default {
     }
   },
   methods: {
-    enlarge() {
-      if (this.disableScale) {
-        return
-      }
-      this.scale = true
-    },
-    recover() {
-      this.scale = false
-    },
     goto() {
       window.location.href = this.link
     }
@@ -68,9 +58,6 @@ export default {
   data() {
     return {
       appType: 'app',
-      disableScale: false,
-      scale: false,
-      zoomSize: "",
       itemSize: "",
       iconSize: "",
       itemMargin: 25,

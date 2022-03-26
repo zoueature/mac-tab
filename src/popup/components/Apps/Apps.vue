@@ -10,7 +10,7 @@
                  class="app">
         <template #item="{ element }"  >
           <AppItem
-              :size="80"
+              :size="70"
               :color="element.color"
               :icon="element.icon"
               :name="element.name"

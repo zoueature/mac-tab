@@ -79,7 +79,6 @@ export default {
   methods: {
     refreshTime() {
       let now = new Date()
-      console.log(123)
       this.nowTime = {
         year: now.getFullYear(),
         month: (now.getMonth()+1) >=10 ? (now.getMonth()+1) : '0' + (now.getMonth()+1) ,
@@ -156,10 +155,10 @@ export default {
   border-radius: v-bind(nodeSizePx);
 }
 @keyframes recycle {
-  from {
+  0% {
     transform: rotate(v-bind(startRotate));
   }
-  to {
+  100% {
     transform: rotate(v-bind(endRotate));
   }
 }
