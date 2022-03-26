@@ -91,6 +91,7 @@ export default {
   }
   .title-container {
     margin-top: 3px;
-    font-weight: bold;
+    font-size: 12px;
+    #font-weight: bold;
   }
 </style>

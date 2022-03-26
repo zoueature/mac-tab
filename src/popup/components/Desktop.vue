@@ -2,9 +2,9 @@
   <div id="desktop-background">
     <div class="blank-container">
       <div class="notify-container">
-        <div id="clock-container">
-          <Clock size="160"/>
-        </div>
+<!--        <div id="clock-container">-->
+<!--          <Clock size="160"/>-->
+<!--        </div>-->
         <NewClock class="new-clock"/>
       </div>
       <div class="application-container">
@@ -12,7 +12,7 @@
           <Search/>
         </div>
         <div id="apps-container">
-          <Apps size="80" rows="4" columns="12"/>
+          <Apps size="80" rows="4" columns="10"/>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
 
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
-import Clock from "@/popup/components/Clock/Clock";
+//import Clock from "@/popup/components/Clock/Clock";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
 
@@ -40,13 +40,11 @@ export default {
   components: {
     Dock,
     Search,
-    Clock,
+    //Clock,
     Apps,
     NewClock,
   },
-  mounted() {
-    document.removeEventListener("touchmove", () => {}, { passive: false });
-  }
+  data() {}
 }
 </script>
 
@@ -59,8 +57,9 @@ export default {
     background-size: 100% 100%;
   }
   .new-clock {
-    width: 200px;
-    height: 200px;
+    width: 160px;
+    height: 160px;
+    margin: 70px auto 0 auto;
   }
   .blank-container {
     width: 100%;
