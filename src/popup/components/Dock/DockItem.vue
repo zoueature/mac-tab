@@ -1,35 +1,80 @@
 <template>
-  <a :href="link" id="dock-item">
-      <div class="icon-container">
+  <div id="dock-item" @mouseenter="enlarge" @mouseleave="recover" :class="itemClass" @click="goto">
+      <div :class="iconClass">
         <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
       </div>
       <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
         {{name}}
       </div>
-  </a>
+  </div>
 </template>
 
 <script>
 export default {
   name: "DockItem",
   props: [
+    "type",
     "color",
     "size",
     "icon",
     "name",
-    "link"
+    "link",
+    "slotName",
+    "hover",
+    "disable",
+    "margin"
   ],
   created() {
+    this.appType = this.type
     this.itemSize = this.size + 'px'
     this.iconSize = Math.ceil(this.size * 0.8) + "px"
     this.zoomSize = Math.ceil(this.size * 1.5) + "px"
-    console.log(this.zoomSize)
+    this.disableScale = this.disable
+    this.slot = this.slotName
+    if (this.margin !== undefined) {
+      this.itemMargin = this.margin
+    }
+  },
+  computed: {
+    itemClass() {
+      let cls = this.scale ? 'enlarge' : ''
+      if (this.appType === 'operate') {
+        cls += ' white'
+      }
+      return cls
+    },
+    iconClass() {
+      let cls = 'icon-container'
+      if (this.appType === 'operate') {
+        cls += ' border'
+      }
+      return cls
+    }
+  },
+  methods: {
+    enlarge() {
+      if (this.disableScale) {
+        return
+      }
+      this.scale = true
+    },
+    recover() {
+      this.scale = false
+    },
+    goto() {
+      window.location.href = this.link
+    }
   },
   data() {
     return {
+      appType: 'app',
+      disableScale: false,
+      scale: false,
       zoomSize: "",
       itemSize: "",
-      iconSize: ""
+      iconSize: "",
+      itemMargin: 25,
+      slot: "",
     }
   }
 }
@@ -39,18 +84,16 @@ export default {
   #dock-item {
     width: v-bind(itemSize);
     height: v-bind(itemSize);
+    padding-top: 34px;
   }
-  a:link {
-    color: black;
-  }
-  a:visited {
-    color: black;
-  }
-  a:hover {
+  .enlarge {
     transform: scale(1.5);
   }
-  a {
-    text-decoration: none;
+  .border {
+    border: 1px solid #FFFFFF;
+  }
+  .white {
+    color: #FFFFFF;
   }
   .icon-container {
     width: v-bind(iconSize);

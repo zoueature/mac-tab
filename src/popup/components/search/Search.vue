@@ -2,7 +2,7 @@
   <div class="search-item">
     <div class="engine-selector">
       <div class="eng-show">
-        <img :src="engine.icon" width="100%" height="100%" style="width: 100%; height: 100%">
+        <img :src="engine.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="engine.name">
       </div>
     </div>
     <div class="input-item">

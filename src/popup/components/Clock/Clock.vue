@@ -38,7 +38,7 @@ export default {
     return {
       timer: null,
       clockSize: 0,
-      nodeSize: 16,
+      nodeSize: 10,
       nowTime: {
         year: '',
         month: '',
@@ -96,11 +96,11 @@ export default {
   created() {
     this.clockSize = this.size
     this.refreshTime()
-    this.startRotate = Math.ceil(this.nowTime.sec / 60 * 360) + 'deg'
-    this.endRotate = Math.ceil((this.nowTime.sec / 60 + 1) * 360) + 'deg'
+    this.startRotate = Math.ceil(this.nowTime.sec / 60 * 360) + 1 + 'deg'
+    this.endRotate = Math.ceil((this.nowTime.sec / 60 ) * 360 ) + 1 + 360 +  'deg'
     this.timer = setInterval(
       this.refreshTime,
-        1000,
+        100,
     )
   }
 }
@@ -124,7 +124,7 @@ export default {
 }
 .hour {
   font-size: 37px;
-  font-weight: bold;
+  font-weight: bolder;
   color: white;
   vertical-align: center;
   position: relative;
@@ -134,7 +134,8 @@ export default {
 }
 .date {
   transform: translate(0, 210%);
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .process {

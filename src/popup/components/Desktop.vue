@@ -1,13 +1,24 @@
 <template>
   <div id="desktop-background">
-    <div id="clock-container">
-      <Clock size="160"/>
+    <div class="blank-container">
+      <div class="notify-container">
+        <div id="clock-container">
+          <Clock size="160"/>
+        </div>
+      </div>
+      <div class="application-container">
+        <div id="search-container">
+          <Search/>
+        </div>
+        <div id="apps-container">
+          <Apps size="80" rows="4" columns="12"/>
+        </div>
+      </div>
     </div>
-    <div id="search-container">
-      <Search/>
-    </div>
-    <div id="dock-container">
-      <Dock/>
+    <div class="dock-container">
+      <div id="dock-container">
+        <Dock/>
+      </div>
     </div>
   </div>
 </template>
@@ -17,6 +28,7 @@
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Clock from "@/popup/components/Clock/Clock";
+import Apps from "@/popup/components/Apps/Apps";
 
 export default {
   name: 'desk-top',
@@ -27,6 +39,7 @@ export default {
     Dock,
     Search,
     Clock,
+    Apps,
   },
   mounted() {
     document.removeEventListener("touchmove", () => {}, { passive: false });
@@ -34,7 +47,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   #desktop-background {
     width: 100%;
@@ -43,15 +55,40 @@ export default {
     background-image: url("../../assets/images/wrapper/default.jpg");
     background-size: 100% 100%;
   }
-  #clock-container {
-    position: fixed;
-    left: 50px;
-    top: 50px;
+  .blank-container {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    overflow: hidden;
   }
+  .notify-container {
+    flex: 3;
+    overflow: hidden;
+  }
+  .application-container {
+    flex: 10;
+    overflow: hidden;
+  }
+  .dock-container {
+    width: 100%;
+    height: 10%;
+    overflow: hidden;
+  }
+
+  #clock-container {
+    margin: 0 auto;
+    position: relative;
+  }
+
   #search-container {
-    width: 43%;
+    width: 61%;
     margin: 110px auto 0 auto;
   }
+
+  #apps-container {
+    margin: 100px auto 0 auto;
+  }
+
   #dock-container {
     width: 100%;
     position: fixed;
