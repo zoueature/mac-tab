@@ -5,6 +5,7 @@
         <div id="clock-container">
           <Clock size="160"/>
         </div>
+        <NewClock class="new-clock"/>
       </div>
       <div class="application-container">
         <div id="search-container">
@@ -29,6 +30,7 @@ import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Clock from "@/popup/components/Clock/Clock";
 import Apps from "@/popup/components/Apps/Apps";
+import NewClock from "@/popup/components/Clock/NewClock";
 
 export default {
   name: 'desk-top',
@@ -40,6 +42,7 @@ export default {
     Search,
     Clock,
     Apps,
+    NewClock,
   },
   mounted() {
     document.removeEventListener("touchmove", () => {}, { passive: false });
@@ -54,6 +57,10 @@ export default {
     position: fixed;
     background-image: url("../../assets/images/wrapper/default.jpg");
     background-size: 100% 100%;
+  }
+  .new-clock {
+    width: 200px;
+    height: 200px;
   }
   .blank-container {
     width: 100%;

@@ -53,15 +53,16 @@ export default {
       return (this.size + 10) + 'px'
     },
     dockItemClass() {
+      let that = this
       return function (index) {
         let cls = 'dock-item'
-        if (this.scaleIndex === index) {
+        if (that.scaleIndex === index) {
           cls += ' enlarge'
         }
-        if (Math.abs(this.scaleIndex - index) === 1) {
+        if (Math.abs(that.scaleIndex - index) === 1) {
           cls += ' enlarge-little'
         }
-        console.log(cls)
+        console.log(that.scaleIndex, cls)
         return cls
       }
     }
