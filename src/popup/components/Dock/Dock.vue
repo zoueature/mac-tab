@@ -93,6 +93,7 @@ export default {
     height: v-bind(dockItemSize);
     margin: 0 auto;
     display: flex;
+    position: relative;
   }
   .dock-item {
     flex: 2;
@@ -101,7 +102,7 @@ export default {
     width: v-bind(containerLength);
     height: v-bind(dockItemSize);
     position: absolute;
-    top: 20%;
+    top: -20%;
     background: rgba(215, 211, 211, 0.5);
     z-index: -1;
     filter: blur(10px);

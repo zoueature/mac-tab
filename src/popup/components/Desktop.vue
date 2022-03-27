@@ -2,17 +2,21 @@
   <div id="desktop-background">
     <div class="blank-container">
       <div class="notify-container">
-<!--        <div id="clock-container">-->
-<!--          <Clock size="160"/>-->
-<!--        </div>-->
         <NewClock class="new-clock"/>
+        <div class="component">
+          <Todo class="todo"/>
+          <Todo class="todo"/>
+        </div>
       </div>
       <div class="application-container">
         <div id="search-container">
+          <div class="news">
+            <img src="../../assets/icon/fire.png">
+          </div>
           <Search/>
         </div>
         <div id="apps-container">
-          <Apps size="80" rows="4" columns="10"/>
+          <Apps size="80" rows="4" columns="13"/>
         </div>
       </div>
     </div>
@@ -28,9 +32,9 @@
 
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
-//import Clock from "@/popup/components/Clock/Clock";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
+import Todo from "@/popup/components/todo/Todo";
 
 export default {
   name: 'desk-top',
@@ -40,11 +44,15 @@ export default {
   components: {
     Dock,
     Search,
-    //Clock,
     Apps,
     NewClock,
+    Todo,
   },
-  data() {}
+  data() {
+    return {
+
+    }
+  }
 }
 </script>
 
@@ -59,7 +67,7 @@ export default {
   .new-clock {
     width: 160px;
     height: 160px;
-    margin: 70px auto 0 auto;
+    margin: 7% auto 0 auto;
   }
   .blank-container {
     width: 100%;
@@ -80,24 +88,37 @@ export default {
     height: 10%;
     overflow: hidden;
   }
-
-  #clock-container {
-    margin: 0 auto;
-    position: relative;
+  .todo {
+    width: 200px;
+    height: 200px;
+    background: red;
+    flex: 1;
   }
 
   #search-container {
-    width: 61%;
-    margin: 110px auto 0 auto;
+    width: 70%;
+    margin: 10% auto 0 auto;
+    display: flex;
+  }
+  .news {
+    width: 43px;
+    height: 43px;
+    margin-right: 16px;
+    margin-top: 5px;
   }
 
   #apps-container {
-    margin: 100px auto 0 auto;
+    margin: 50px auto 0 auto;
+  }
+  .component {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
   }
 
   #dock-container {
     width: 100%;
     position: fixed;
-    bottom: 52px;
+    bottom: 34px;
   }
 </style>

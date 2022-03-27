@@ -14,7 +14,6 @@ export default {
   name: "DockItem",
   props: [
     "type",
-    "color",
     "size",
     "icon",
     "name",
@@ -22,11 +21,13 @@ export default {
     "slotName",
     "hover",
     "disable",
-    "margin"
+    "margin",
+    'ratio'
   ],
   created() {
     this.appType = this.type
     this.itemSize = this.size + 'px'
+    this.itemWidth = this.size * this.ratio + 'px'
     this.iconSize = Math.ceil(this.size * 0.6) + "px"
     this.disableScale = this.disable
     this.slot = this.slotName
@@ -36,7 +37,7 @@ export default {
   },
   computed: {
     itemClass() {
-      let cls = this.scale ? 'enlarge' : ''
+      let cls = ""
       if (this.appType === 'operate') {
         cls += ' white'
       }
@@ -59,6 +60,7 @@ export default {
     return {
       appType: 'app',
       itemSize: "",
+      itemWidth: '',
       iconSize: "",
       itemMargin: 25,
       slot: "",
@@ -69,9 +71,17 @@ export default {
 
 <style scoped>
   #dock-item {
-    width: v-bind(itemSize);
+    width: v-bind(itemWidth);
     height: v-bind(itemSize);
-    padding-top: 34px;
+    /*animation: shake 500ms infinite linear alternate;*/
+  }
+  @keyframes shake {
+    from {
+      transform: rotate(-10deg);
+    }
+    to {
+      transform: rotate(10deg);
+    }
   }
   .enlarge {
     transform: scale(1.5);
@@ -92,6 +102,7 @@ export default {
   .title-container {
     margin-top: 3px;
     font-size: 12px;
+    color: white;
     #font-weight: bold;
   }
 </style>

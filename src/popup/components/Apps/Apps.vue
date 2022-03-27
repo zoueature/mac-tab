@@ -6,15 +6,7 @@
                  @end="end1" 
                  class="app">
         <template #item="{ element }"  >
-          <AppItem
-              :size="70"
-              :color="element.color"
-              :icon="element.icon"
-              :name="element.name"
-              :link="element.link"
-              :disable="!element.scale"
-              :type="element.type"
-          />
+          <AppContainer :app="element"/>
         </template>
       </Draggable>
     </div>
@@ -23,13 +15,13 @@
 <script>
 
 import Draggable from 'vuedraggable'
-import AppItem from "@/popup/components/Dock/DockItem";
+import AppContainer from "@/popup/components/Apps/AppContainer";
 
 export default {
   name: "AppCom",
   components: {
     Draggable,
-    AppItem,
+    AppContainer,
   },
   props: [
     "size",
@@ -52,24 +44,35 @@ export default {
         tag: "transition"
       },
       list2: [
-        {id: 1, type: 'app', scale: true, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
-        {id: 2, type: 'app', scale: true, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
-        {id: 3, type: 'app', scale: true, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
-        {id: 4, type: 'app', scale: true, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
-        {id: 5, type: 'app', scale: true, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
-        {id: 6, type: 'app', scale: true, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
-        {id: 7, type: 'app', scale: true, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
-        {id: 8, type: 'app', scale: true, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
-        {id: 9, type: 'app', scale: true, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
-        {id: 10, type: 'app', scale: true, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
-        {id: 11, type: 'app', scale: true, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
-        {id: 12, type: 'app', scale: true, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
-        {id: 13, type: 'app', scale: true, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
-        {id: 14, type: 'app', scale: true, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
-        {id: 15, type: 'app', scale: true, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
-        {id: 16, type: 'app', scale: true, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
-        {id: 17, type: 'app', scale: true, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
         {id: 18, type: 'operate', scale: false, name:"", icon:"../../../assets/icon/plus.png", link: "https://weibo.com/"},
+        {id: 1, type: 'app', size: 100, ratio: 1,name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
+        {id: 2, type: 'app', size: 100, ratio: 1, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
+        {id: 3, type: 'app', size: 100, ratio: 1, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
+        {id: 4, type: 'app', size: 100, ratio: 1, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
+        {id: 5, type: 'app', size: 100, ratio: 1, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
+        {id: 6, type: 'app', size: 100, ratio: 1, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
+        {id: 7, type: 'app', size: 100, ratio: 1, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
+        {id: 8, type: 'app', size: 100, ratio: 1, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
+        {id: 9, type: 'app', size: 100, ratio: 1, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
+        {id: 10, type: 'app', size: 100, ratio: 1, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
+        {id: 11, type: 'app', size: 100, ratio: 1, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
+        {id: 12, type: 'app', size: 100, ratio: 1, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
+        {id: 13, type: 'app', size: 100, ratio: 1, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
+        {id: 14, type: 'app', size: 100, ratio: 1, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
+        {id: 15, type: 'app', size: 100, ratio: 1, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
+        {id: 16, type: 'app', size: 100, ratio: 1, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
+        {id: 17, type: 'app', size: 100, ratio: 1, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
+        {id: 19, type: 'app', size: 100, ratio: 1, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
+        {id: 20, type: '', size: 100, ratio: 1, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
+        {id: 21, type: 'app', size: 100, ratio: 1, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
+        {id: 22, type: 'app', size: 100, ratio: 1, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
+        {id: 23, type: 'app', size: 100, ratio: 1, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
+        {id: 24, type: 'app', size: 100, ratio: 1, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
+        {id: 25, type: 'app', size: 100, ratio: 1, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
+        {id: 26, type: 'app', size: 100, ratio: 1, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
+        {id: 27, type: 'app', size: 100, ratio: 1, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
+        {id: 28, type: 'app', size: 100, ratio: 1, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
+        {id: 29, type: 'app', size: 100, ratio: 1, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
       ],
     }
   },
@@ -99,8 +102,8 @@ export default {
 
 <style  scoped>
 .apps{
-  width: v-bind(containerWidth);
-  height: v-bind(containerHeight);
+  /*width: v-bind(containerWidth);*/
+  /*height: v-bind(containerHeight);*/
   margin: 0 auto;
 }
 .ghostClass {
@@ -108,8 +111,11 @@ export default {
 }
 
 .app{
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
+  grid-template-rows: repeat(auto-fill, 100px);
+  grid-auto-flow: row dense;
+  /*justify-items: center;*/
 }
 
 </style>

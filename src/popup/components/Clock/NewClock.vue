@@ -10,7 +10,7 @@
          :key="index"
     >
       <div class="pointer"
-           v-if="index * 6  < sec - 270 || index === 0"
+           v-if="Math.abs(index * 6 + 270 - sec) <= 10"
            :style="'transform: rotate(' + (index * 6 + 270) + 'deg)'">
         <div></div>
       </div>
@@ -40,7 +40,7 @@ const weekMap = [
 export default {
   name: "NewClock",
   created() {
-    setInterval(this.refreshTime, 100)
+    setInterval(this.refreshTime, 1000)
   },
   computed: {
     weekName() {
@@ -131,9 +131,19 @@ export default {
     width: 20%;
     height: 100%;
     border-radius: 100%;
-    background: aqua;
     position: absolute;
     right: 0;
+    animation: ss 3s linear;
+  }
+  @keyframes ss {
+    from {
+      opacity: 1;
+      background: #42b983;
+    }
+    to {
+      opacity: 0;
+      background: #464d46;
+    }
   }
   .time {
     width: 80%;
