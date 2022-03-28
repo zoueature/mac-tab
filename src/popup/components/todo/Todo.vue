@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      todos: Array(70)
+      todos: Array(7)
     }
   },
 
@@ -60,7 +60,7 @@ export default {
     background: #42b983;
     position: absolute;
     z-index: -1;
-    background: rgba(215, 211, 211, 0.5);
+    #background: rgba(215, 211, 211, 0.5);
     filter: blur(5px);
   }
   .todo-item {
@@ -81,7 +81,7 @@ export default {
     flex: 2;
   }
   .done {
-    background: aliceblue;
+    #background: aliceblue;
     margin-top: 50%;
     width: 15px;
     height: 15px;

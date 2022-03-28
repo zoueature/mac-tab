@@ -35,11 +35,27 @@ import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
 import Todo from "@/popup/components/todo/Todo";
-
+/* eslint-disable */
 export default {
   name: 'desk-top',
   props: {
     msg: String
+  },
+  created() {
+    chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+          console.log(request)
+        }
+    );
+    setTimeout(
+        () => {
+          // eslint-disable-next-line
+          chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+            console.log(response);
+          });
+        },
+        7000
+    )
   },
   components: {
     Dock,
@@ -91,7 +107,6 @@ export default {
   .todo {
     width: 200px;
     height: 200px;
-    background: red;
     flex: 1;
   }
 
@@ -114,6 +129,7 @@ export default {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    justify-items: center;
   }
 
   #dock-container {

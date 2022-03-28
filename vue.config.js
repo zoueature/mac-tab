@@ -1,4 +1,5 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require("path");
 
 // 复制文件到指定目录
@@ -56,5 +57,13 @@ module.exports = {
     extract: {
       filename: "css/[name].css"
     }
+  },
+  chainWebpack: config => {
+    config
+        .plugin('html').use(HtmlWebpackPlugin)
+        .tap(args => {
+          args.title= ''
+          return args
+        })
   }
 }

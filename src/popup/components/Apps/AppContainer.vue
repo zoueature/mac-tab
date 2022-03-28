@@ -37,7 +37,7 @@ export default {
       if (this.appInfo.type === 'app') {
         return ''
       }
-      return "grid-row: span 2; grid-column: span 2; background: white;"
+      return "grid-row: span 2; grid-column: span 2;"
     }
   },
   data() {

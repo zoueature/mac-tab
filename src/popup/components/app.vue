@@ -9,6 +9,8 @@ export default {
   name: 'App',
   components: {
     Desktop
+  },
+  mounted() {
   }
 }
 </script>

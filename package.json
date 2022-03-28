@@ -11,6 +11,7 @@
     "better-scroll": "^2.4.2",
     "copy-webpack-plugin": "^10.2.4",
     "core-js": "^3.8.3",
+    "html-webpack-plugin": "^5.5.0",
     "vue": "^3.2.13",
     "vuedraggable": "^4.1.0"
   },
