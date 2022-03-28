@@ -11,8 +11,10 @@
     "better-scroll": "^2.4.2",
     "copy-webpack-plugin": "^10.2.4",
     "core-js": "^3.8.3",
+    "gitart-vue-dialog": "^2.0.5",
     "html-webpack-plugin": "^5.5.0",
     "vue": "^3.2.13",
+    "vue-final-modal": "^3.4.3",
     "vuedraggable": "^4.1.0"
   },
   "devDependencies": {

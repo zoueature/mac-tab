@@ -15,6 +15,9 @@
           </div>
           <Search/>
         </div>
+        <Modal>
+
+        </Modal>
         <div id="apps-container">
           <Apps size="80" rows="4" columns="13"/>
         </div>
@@ -35,6 +38,7 @@ import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
 import Todo from "@/popup/components/todo/Todo";
+import Modal from "@/popup/components/common/Modal";
 /* eslint-disable */
 export default {
   name: 'desk-top',
@@ -42,20 +46,20 @@ export default {
     msg: String
   },
   created() {
-    chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-          console.log(request)
-        }
-    );
-    setTimeout(
-        () => {
-          // eslint-disable-next-line
-          chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-            console.log(response);
-          });
-        },
-        7000
-    )
+    // chrome.runtime.onMessage.addListener(
+    //     function(request, sender, sendResponse) {
+    //       console.log(request)
+    //     }
+    // );
+    // setTimeout(
+    //     () => {
+    //       // eslint-disable-next-line
+    //       chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+    //         console.log(response);
+    //       });
+    //     },
+    //     7000
+    // )
   },
   components: {
     Dock,
@@ -63,10 +67,11 @@ export default {
     Apps,
     NewClock,
     Todo,
+    Modal,
   },
   data() {
     return {
-
+      dialogState: false,
     }
   }
 }

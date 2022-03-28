@@ -36,7 +36,8 @@ export default {
   },
   data() {
     return {
-      todos: Array(7)
+      todos: Array(7),
+      showModal: false,
     }
   },
 
