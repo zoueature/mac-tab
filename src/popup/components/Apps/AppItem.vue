@@ -1,5 +1,5 @@
 <template>
-  <div id="dock-item" @click="goto">
+  <div id="dock-item" @click="handler()">
       <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
         <div v-if="icon !== '' && icon !== undefined ">
           <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
@@ -20,13 +20,21 @@ export default {
     "icon",
     "name",
     "link",
-    "iconBorder"
+    "iconBorder",
+    "click"
   ],
   created() {
     this.itemSize = this.size + 'px'
     this.iconSize = Math.ceil(this.size * 0.8) + "px"
+    this.clickHandler = this.click
   },
   computed: {
+    handler() {
+      if (this.clickHandler !== null && this.clickHandler !== undefined) {
+        return this.clickHandler
+      }
+      return this.goto
+    }
   },
   methods: {
     goto() {
@@ -37,6 +45,7 @@ export default {
     return {
       itemSize: "",
       iconSize: "",
+      clickHandler: null,
     }
   }
 }
