@@ -3,13 +3,12 @@
     <AppItem
         v-if="app.type === 'app' "
         :size="app.size"
-        :ratio="app.ratio"
-        :color="app.color"
         :icon="app.icon"
         :name="app.name"
         :link="app.link"
-        :disable="!app.scale"
-        :type="app.type"
+    />
+    <Folder v-else-if="app.type === 'folder' "
+            :folder="app"
     />
     <Todo v-else/>
   </div>
@@ -17,8 +16,9 @@
 
 <script>
 
-import DockItem from "@/popup/components/Dock/DockItem";
+import DockItem from "@/popup/components/Apps/AppItem";
 import Todo from "@/popup/components/todo/Todo";
+import Folder from "@/popup/components/Apps/Folder";
 
 export default {
   name: "AppContainer",
@@ -28,16 +28,17 @@ export default {
   components: {
     AppItem: DockItem,
     Todo,
+    Folder,
   },
   created() {
     this.appInfo = this.app
   },
   computed: {
     gridStyle() {
-      if (this.appInfo.type === 'app') {
-        return ''
+      if (this.appInfo.type === '') {
+        return "grid-row: span 2; grid-column: span 2;"
       }
-      return "grid-row: span 2; grid-column: span 2;"
+      return ''
     }
   },
   data() {

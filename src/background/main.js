@@ -5,7 +5,13 @@ let opt = {
     message: "Primary message to display",
     iconUrl: "url_to_small_icon"
 }
+import axios from 'axios'
 
+// setInterval( () => {
+//     axios.get('https://top.baidu.com/board?tab=realtime').then(res => {
+//         console.log(res)
+//     })
+// }, 1000)
 
 // eslint-disable-next-line
 setInterval(() => {

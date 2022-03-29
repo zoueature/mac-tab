@@ -1,14 +1,10 @@
 import { createApp } from 'vue'
 import App from './components/app'
-import { GDialog } from 'gitart-vue-dialog'
-import { plugin as dialogPlugin } from 'gitart-vue-dialog'
-import 'gitart-vue-dialog/dist/style.css'
-
+import vfmPlugin from 'vue-final-modal'
 
 
 
 
 const app = createApp(App)
-app.component('GDialog', GDialog)
-app.use(dialogPlugin)
+app.use(vfmPlugin)
 app.mount('#app')

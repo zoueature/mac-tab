@@ -46,8 +46,8 @@ export default {
 
 <style scoped>
   .todo-container {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
     position: relative;
     /*width: 100%;*/
     /*height: 100%;*/

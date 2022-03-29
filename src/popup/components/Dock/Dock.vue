@@ -18,7 +18,7 @@
 
 <script>
 
-import DockItem from "@/popup/components/Dock/DockItem";
+import DockItem from "@/popup/components/Apps/AppItem";
 
 export default {
   name: "dock-com",
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       scaleIndex: -2,
-      size: 79,
+      size: 70,
       docks: [
         {id: 1, type: 'app', scale: true, name:"网易云音乐", icon:"../../../assets/images/app/netease.png", link: "https://music.163.com/"},
         {id: 2, type: 'app', scale: true, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},

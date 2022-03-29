@@ -1,7 +1,10 @@
 <template>
-  <div id="dock-item"  :class="itemClass" @click="goto">
-      <div :class="iconClass">
-        <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
+  <div id="dock-item" @click="goto">
+      <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
+        <div v-if="icon !== '' && icon !== undefined ">
+          <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
+        </div>
+        <slot v-else></slot>
       </div>
       <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
         {{name}}
@@ -13,43 +16,17 @@
 export default {
   name: "DockItem",
   props: [
-    "type",
     "size",
     "icon",
     "name",
     "link",
-    "slotName",
-    "hover",
-    "disable",
-    "margin",
-    'ratio'
+    "iconBorder"
   ],
   created() {
-    this.appType = this.type
     this.itemSize = this.size + 'px'
-    this.itemWidth = this.size * this.ratio + 'px'
-    this.iconSize = Math.ceil(this.size * 0.6) + "px"
-    this.disableScale = this.disable
-    this.slot = this.slotName
-    if (this.margin !== undefined) {
-      this.itemMargin = this.margin
-    }
+    this.iconSize = Math.ceil(this.size * 0.8) + "px"
   },
   computed: {
-    itemClass() {
-      let cls = ""
-      if (this.appType === 'operate') {
-        cls += ' white'
-      }
-      return cls
-    },
-    iconClass() {
-      let cls = 'icon-container'
-      if (this.appType === 'operate') {
-        cls += ' border'
-      }
-      return cls
-    }
   },
   methods: {
     goto() {
@@ -58,12 +35,8 @@ export default {
   },
   data() {
     return {
-      appType: 'app',
       itemSize: "",
-      itemWidth: '',
       iconSize: "",
-      itemMargin: 25,
-      slot: "",
     }
   }
 }
@@ -71,7 +44,7 @@ export default {
 
 <style scoped>
   #dock-item {
-    width: v-bind(itemWidth);
+    width: v-bind(itemSize);
     height: v-bind(itemSize);
     /*animation: shake 500ms infinite linear alternate;*/
   }
@@ -97,7 +70,7 @@ export default {
     height: v-bind(iconSize);
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 7px;
   }
   .title-container {
     margin-top: 3px;
