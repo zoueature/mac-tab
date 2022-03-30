@@ -28,15 +28,18 @@
         'leave-from-class': 'translate-y-0'
             }"
         >
-          <div class="folder">
-            <AppItem v-for="app in folder.apps"
-                     :key="app.id"
-                     :name="app.name"
-                     :size="app.size"
-                     :icon="app.icon"
-                     :link="app.link"
-            >
-            </AppItem>
+          <div class="folder-content">
+            <div class="folder-name">{{folder.name}}</div>
+            <div class="folder">
+              <AppItem v-for="app in folder.apps"
+                       :key="app.id"
+                       :name="app.name"
+                       :size="app.size"
+                       :icon="app.icon"
+                       :link="app.link"
+              >
+              </AppItem>
+            </div>
           </div>
         </vue-final-modal>
       </div>
@@ -89,6 +92,19 @@ export default {
     border-radius: 1px;
     overflow: hidden;
   }
+  .folder-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+
+  }
+  .folder-name {
+    padding: 15px;
+    color: white;
+    font-size: 25px;
+  }
   .folder {
     width: v-bind(folderContainerSize);
     height: v-bind(folderContainerSize);
@@ -98,13 +114,8 @@ export default {
     justify-content: space-around;
     justify-items: center;
     align-items: center;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
     border-radius: 16px;
-    box-shadow: 1px 1px 10px white;
+    box-shadow: 2px 2px 20px white;
   }
   ::v-deep .overlay-class {
     /*background: rgba(72, 71, 71, 0.42) !important;*/
