@@ -3,20 +3,12 @@
     <div class="blank-container">
       <div class="notify-container">
         <NewClock class="new-clock"/>
-        <div class="component" ref="components">
-          <div class="test">
-            <Friday/>
-            <Todo class="todo"/>
-            <Friday/>
-            <Todo class="todo"/>
-            <Friday/>
-          </div>
-        </div>
+        <ComponentsCom/>
       </div>
       <div class="application-container">
         <div id="search-container">
           <div class="news">
-            <img src="../../assets/icon/fire.png">
+            <img src="../../assets/icon/fire.png" alt="news">
           </div>
           <Search/>
         </div>
@@ -37,9 +29,10 @@ import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
-import Todo from "@/popup/components/todo/Todo";
-import Friday from "@/popup/components/Clock/Friday";
-import BScroll from "better-scroll";
+import Todo from "@/popup/components/Widgets/Todo";
+import Friday from "@/popup/components/Widgets/Friday";
+import Components from "@/popup/components/Components/Components";
+import ComponentsCom from "@/popup/components/Components/Components";
 
 /* eslint-disable */
 export default {
@@ -47,17 +40,17 @@ export default {
   props: {
     msg: String
   },
+  components: {
+    ComponentsCom,
+    Dock,
+    Search,
+    Apps,
+    NewClock,
+    Todo,
+    Friday,
+    Components,
+  },
   mounted() {
-    this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.components, {
-        mouseWheel: {
-          speed: 1,
-          easeTime: 100,
-          dampingFactor: 0.005,
-        },
-        bounceTime: 500,
-      })
-    })
   },
   created() {
     // chrome.runtime.onMessage.addListener(
@@ -74,14 +67,6 @@ export default {
     //     },
     //     7000
     // )
-  },
-  components: {
-    Dock,
-    Search,
-    Apps,
-    NewClock,
-    Todo,
-    Friday,
   },
   data() {
     return {
@@ -145,18 +130,9 @@ export default {
   #apps-container {
     margin: 50px auto 0 auto;
   }
-  .component {
-    width: 80%;
-    height: 70%;
-    margin: 0 auto;
-    background: red;
-    overflow: hidden;
-  }
 
   #dock-container {
     width: 100%;
     height: 15%;
-    /*position: fixed;*/
-    /*bottom: 34px;*/
   }
 </style>

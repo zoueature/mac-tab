@@ -17,7 +17,7 @@
 <script>
 
 import DockItem from "@/popup/components/Apps/AppItem";
-import Todo from "@/popup/components/todo/Todo";
+import Todo from "@/popup/components/Widgets/Todo";
 import Folder from "@/popup/components/Apps/Folder";
 
 export default {

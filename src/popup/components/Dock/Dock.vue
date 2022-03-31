@@ -42,6 +42,13 @@ export default {
         {id: 10, type: 'app', scale: true, name:"Youtube", icon:"../../../assets/images/app/youtube.png", link: "https://www.youtube.com/"},
         {id: 11, type: 'app', scale: true, name:"Twitter", icon:"../../../assets/images/app/twitter.png", link: "https://www.twitter.com/"},
         {id: 12, type: 'app', scale: true, name:"京东", icon:"../../../assets/images/app/jd.png", link: "https://www.jd.com/"},
+        {id: 6, type: 'app', scale: true, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
+        {id: 7, type: 'app', scale: true, name:"即刻", icon:"../../../assets/images/app/jike.png", link: "https://web.okjike.com/"},
+        {id: 8, type: 'app', scale: true, name:"微博", icon:"../../../assets/images/app/weibo.png", link: "https://www.weibo.com/"},
+        {id: 9, type: 'app', scale: true, name:"Facebook", icon:"../../../assets/images/app/facebook.png", link: "https://www.facebook.com/"},
+        {id: 10, type: 'app', scale: true, name:"Youtube", icon:"../../../assets/images/app/youtube.png", link: "https://www.youtube.com/"},
+        {id: 11, type: 'app', scale: true, name:"Twitter", icon:"../../../assets/images/app/twitter.png", link: "https://www.twitter.com/"},
+        {id: 12, type: 'app', scale: true, name:"京东", icon:"../../../assets/images/app/jd.png", link: "https://www.jd.com/"},
       ]
     }
   },

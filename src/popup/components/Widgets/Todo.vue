@@ -23,16 +23,6 @@
 export default {
   name: "TodoCom",
   mounted() {
-    // this.$nextTick(() => {
-    //   this.scroll = new BScroll(this.$refs.todo, {
-    //     mouseWheel: {
-    //       speed: 1,
-    //       easeTime: 100,
-    //       dampingFactor: 0.005,
-    //     },
-    //     bounceTime: 500,
-    //   })
-    // })
   },
   data() {
     return {
@@ -48,28 +38,15 @@ export default {
   .todo-container {
     width: 100%;
     height: 100%;
-    position: relative;
-    /*width: 100%;*/
-    /*height: 100%;*/
-    border: 1px solid rgba(215, 211, 211, 0.48);
-    border-radius: 7px;
+    backdrop-filter: blur(7px);
     overflow: hidden;
-  }
-  .bg {
-    width: 100%;
-    height: 100%;
-    background: #42b983;
+    background: rgba(39, 142, 225, 0.7);
     position: absolute;
-    z-index: -1;
-    #background: rgba(215, 211, 211, 0.5);
-    filter: blur(5px);
   }
   .todo-item {
     display: flex;
-    height: 30px;
-    width: 80%;
+    height: 20%;
     margin: 0 auto;
-    box-shadow: 0 1px 1px rgba(171, 171, 171, 0.65);
   }
   .todo-name {
     flex: 8;

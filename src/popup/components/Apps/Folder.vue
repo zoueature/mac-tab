@@ -89,7 +89,7 @@ export default {
   .app-icon {
     width: 37%;
     height: 37%;
-    border-radius: 1px;
+    border-radius: 3px;
     overflow: hidden;
   }
   .folder-content {
