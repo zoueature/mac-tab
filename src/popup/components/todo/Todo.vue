@@ -18,21 +18,21 @@
 
 <script>
 
-import BScroll from 'better-scroll'
+// import BScroll from 'better-scroll'
 
 export default {
   name: "TodoCom",
   mounted() {
-    this.$nextTick(() => {
-      this.scroll = new BScroll(this.$refs.todo, {
-        mouseWheel: {
-          speed: 1,
-          easeTime: 100,
-          dampingFactor: 0.005,
-        },
-        bounceTime: 500,
-      })
-    })
+    // this.$nextTick(() => {
+    //   this.scroll = new BScroll(this.$refs.todo, {
+    //     mouseWheel: {
+    //       speed: 1,
+    //       easeTime: 100,
+    //       dampingFactor: 0.005,
+    //     },
+    //     bounceTime: 500,
+    //   })
+    // })
   },
   data() {
     return {

@@ -3,9 +3,14 @@
     <div class="blank-container">
       <div class="notify-container">
         <NewClock class="new-clock"/>
-        <div class="component">
-          <Todo class="todo"/>
-          <Todo class="todo"/>
+        <div class="component" ref="components">
+          <div class="test">
+            <Friday/>
+            <Todo class="todo"/>
+            <Friday/>
+            <Todo class="todo"/>
+            <Friday/>
+          </div>
         </div>
       </div>
       <div class="application-container">
@@ -15,18 +20,13 @@
           </div>
           <Search/>
         </div>
-        <Modal>
-
-        </Modal>
         <div id="apps-container">
           <Apps size="80" rows="4" columns="13"/>
         </div>
       </div>
     </div>
-    <div class="dock-container">
-      <div id="dock-container">
-        <Dock/>
-      </div>
+    <div id="dock-container">
+      <Dock/>
     </div>
   </div>
 </template>
@@ -38,12 +38,26 @@ import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
 import Todo from "@/popup/components/todo/Todo";
-import Modal from "@/popup/components/common/Modal";
+import Friday from "@/popup/components/Clock/Friday";
+import BScroll from "better-scroll";
+
 /* eslint-disable */
 export default {
   name: 'desk-top',
   props: {
     msg: String
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.scroll = new BScroll(this.$refs.components, {
+        mouseWheel: {
+          speed: 1,
+          easeTime: 100,
+          dampingFactor: 0.005,
+        },
+        bounceTime: 500,
+      })
+    })
   },
   created() {
     // chrome.runtime.onMessage.addListener(
@@ -67,7 +81,7 @@ export default {
     Apps,
     NewClock,
     Todo,
-    Modal,
+    Friday,
   },
   data() {
     return {
@@ -92,13 +106,14 @@ export default {
   }
   .blank-container {
     width: 100%;
-    height: 90%;
+    height: 85%;
     display: flex;
     overflow: hidden;
   }
   .notify-container {
     flex: 3;
     overflow: hidden;
+    height: 100%;
   }
   .application-container {
     flex: 10;
@@ -131,15 +146,17 @@ export default {
     margin: 50px auto 0 auto;
   }
   .component {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    justify-items: center;
+    width: 80%;
+    height: 70%;
+    margin: 0 auto;
+    background: red;
+    overflow: hidden;
   }
 
   #dock-container {
     width: 100%;
-    position: fixed;
-    bottom: 34px;
+    height: 15%;
+    /*position: fixed;*/
+    /*bottom: 34px;*/
   }
 </style>
