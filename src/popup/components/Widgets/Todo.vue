@@ -1,18 +1,13 @@
 <template>
   <div class="todo-container" ref="todo">
-    <div class="test">
-      <div class="todo-item" v-for="(todo, index) in todos" :key="index">
-        <div class="todo-name">
-          完成首页TODO模块的开发
-        </div>
-        <div class="todo-opt">
-          <div class="done">
-            <img src="../../../assets/icon/done.png">
-          </div>
-        </div>
+    <div class="todo-item" v-for="(todo, index) in todos" :key="index">
+      <div class="done" @click.stop="done" v-if="index !== 2">
+        <img src="../../../assets/icon/done.png">
+      </div>
+      <div :class="'todo-name ' + (index === 2 ? 'done-word': '')" >
+        完成首页TODO模块的开发,完成首页TODO模块的开发,完成首页TODO模块的开发,完成首页TODO模块的开发
       </div>
     </div>
-    <div class="bg"></div>
   </div>
 </template>
 
@@ -22,7 +17,10 @@
 
 export default {
   name: "TodoCom",
-  mounted() {
+  methods: {
+    done() {
+      console.log(123)
+    }
   },
   data() {
     return {
@@ -44,24 +42,38 @@ export default {
     position: absolute;
   }
   .todo-item {
-    display: flex;
+    width: 85%;
     height: 20%;
     margin: 0 auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.38);
+    position: relative;
+    overflow: hidden;
+  }
+  .todo-item div {
+    float: left;
   }
   .todo-name {
-    flex: 8;
     font-size: 12px;
-    height: 100%;
-    line-height: 30px;
+    color: rgba(225, 221, 221, 0.91);
+    width: 80%;
+    position: absolute;
+    left: 15%;
+    top: 50%;
+    transform: translate(0, -50%);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
-  .todo-opt {
-    height: 100%;
-    flex: 2;
+  .done-word {
+    text-decoration: line-through;
+    color: rgba(206, 205, 205, 0.47);
   }
   .done {
-    #background: aliceblue;
-    margin-top: 50%;
     width: 15px;
     height: 15px;
+    position: absolute;
+    top: 50%;
+    left: 3%;
+    transform: translate(0, -50%);
   }
 </style>

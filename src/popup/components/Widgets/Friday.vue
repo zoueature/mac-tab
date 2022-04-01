@@ -66,6 +66,7 @@ export default {
     font-size: 12px;
     margin-top: 2%;
     color: white;
+    font-weight: bolder;
   }
   .friday-countdown {
     height: 80%;
@@ -74,6 +75,7 @@ export default {
     align-items: center;
     justify-content: center;
     font-size: 25px;
+    font-weight: bolder;
     color: rgba(255, 255, 255, 0.87);
   }
   .celebrate {

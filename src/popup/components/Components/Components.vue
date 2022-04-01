@@ -81,5 +81,7 @@ export default {
   }
   .component {
     overflow: hidden;
+    margin-top: 16px;
+    border-radius: 10px;
   }
 </style>

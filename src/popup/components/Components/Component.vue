@@ -30,8 +30,8 @@ export default {
 
 <style scoped>
   .component {
-    width: 98%;
-    margin: 10px auto 0 auto;
+    width: 100%;
+    margin: 0 auto;
     border-radius: 16px;
     position: relative;
     overflow: hidden;
