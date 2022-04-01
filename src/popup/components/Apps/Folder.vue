@@ -35,7 +35,13 @@
                        :options="option"
                        class="folder">
               <template #item="{ element }"  >
-                <AppContainer :app="element"/>
+                <AppItem
+                         :name="element.name"
+                         :size="element.size"
+                         :icon="element.icon"
+                         :link="element.link"
+                >
+                </AppItem>
               </template>
             </Draggable>
           </div>
@@ -48,7 +54,7 @@
 <script>
 import Draggable from "vuedraggable";
 import AppItem from "@/popup/components/Apps/AppItem";
-import AppContainer from "@/popup/components/Apps/AppContainer";
+//import AppContainer from "@/popup/components/Apps/AppContainer";
 
 
 export default {
@@ -56,7 +62,7 @@ export default {
   components: {
     AppItem,
     Draggable,
-    AppContainer,
+//    AppContainer,
   },
   props: [
       "folder"
@@ -70,6 +76,14 @@ export default {
       showFolder: false,
       folderContainerSize: '',
       folderContainerWidth: '',
+      option: {
+        group: "app",
+        sort: true,
+        delay: 1000,
+        animation: 1000,
+        ghostClass: "ghostClass",
+        tag: "transition"
+      },
     }
   },
   methods: {
