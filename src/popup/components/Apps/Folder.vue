@@ -30,16 +30,14 @@
         >
           <div class="folder-content">
             <div class="folder-name">{{folder.name}}</div>
-            <div class="folder">
-              <AppItem v-for="app in folder.apps"
-                       :key="app.id"
-                       :name="app.name"
-                       :size="app.size"
-                       :icon="app.icon"
-                       :link="app.link"
-              >
-              </AppItem>
-            </div>
+            <Draggable :list="folder.apps"
+                       item-key="id"
+                       :options="option"
+                       class="folder">
+              <template #item="{ element }"  >
+                <AppContainer :app="element"/>
+              </template>
+            </Draggable>
           </div>
         </vue-final-modal>
       </div>
@@ -48,24 +46,30 @@
 </template>
 
 <script>
-
+import Draggable from "vuedraggable";
 import AppItem from "@/popup/components/Apps/AppItem";
+import AppContainer from "@/popup/components/Apps/AppContainer";
+
 
 export default {
   name: "FolderCom",
   components: {
-    AppItem
+    AppItem,
+    Draggable,
+    AppContainer,
   },
   props: [
       "folder"
   ],
   created() {
     this.folderContainerSize = Math.ceil(this.folder.size * 5.5) + 'px'
+    this.folderContainerWidth = Math.ceil(this.folder.size * 5.5 * 2) + 'px'
   },
   data() {
     return {
       showFolder: false,
       folderContainerSize: '',
+      folderContainerWidth: '',
     }
   },
   methods: {
@@ -106,11 +110,11 @@ export default {
     font-size: 25px;
   }
   .folder {
-    width: v-bind(folderContainerSize);
+    width: v-bind(folderContainerWidth);
     height: v-bind(folderContainerSize);
     display: grid;
     grid-template-rows: repeat(4, 25%);
-    grid-template-columns: repeat(4, 25%);
+    grid-template-columns: repeat(8, 12.5%);
     justify-content: space-around;
     justify-items: center;
     align-items: center;

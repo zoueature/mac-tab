@@ -1,11 +1,12 @@
 <template>
   <div class="todo-container" ref="todo">
+    <div class="todo-title">今日待办</div>
     <div class="todo-item" v-for="(todo, index) in todos" :key="index">
-      <div class="done" @click.stop="done" v-if="index !== 2">
+      <div class="done" @click.stop="done(index)" v-if="!todo.done">
         <img src="../../../assets/icon/done.png">
       </div>
-      <div :class="'todo-name ' + (index === 2 ? 'done-word': '')" >
-        完成首页TODO模块的开发,完成首页TODO模块的开发,完成首页TODO模块的开发,完成首页TODO模块的开发
+      <div :class="'todo-name ' + (todo.done ? 'done-word': '')" >
+        {{todo.title}}
       </div>
     </div>
   </div>
@@ -18,13 +19,39 @@
 export default {
   name: "TodoCom",
   methods: {
-    done() {
-      console.log(123)
+    done(index) {
+      this.todos[index].done = true
     }
   },
   data() {
     return {
-      todos: Array(7),
+      todos: [
+        {
+          id: 1,
+          title: "完成TODO模块的开发",
+          done: false,
+        },
+        {
+          id: 2,
+          title: "完成GP账号的注册",
+          done: true,
+        },
+        {
+          id: 2,
+          title: "完成GP账号的注册",
+          done: true,
+        },
+        {
+          id: 2,
+          title: "完成GP账号的注册",
+          done: true,
+        },
+        {
+          id: 2,
+          title: "完成GP账号的注册",
+          done: true,
+        }
+      ],
       showModal: false,
     }
   },
@@ -52,6 +79,16 @@ export default {
   .todo-item div {
     float: left;
   }
+  .todo-title {
+    margin-top: 3%;
+    text-align: left;
+    margin-left: 7%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+  }
   .todo-name {
     font-size: 12px;
     color: rgba(225, 221, 221, 0.91);
@@ -63,16 +100,17 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: left;
   }
   .done-word {
     text-decoration: line-through;
     color: rgba(206, 205, 205, 0.47);
   }
   .done {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     position: absolute;
-    top: 50%;
+    top: 37%;
     left: 3%;
     transform: translate(0, -50%);
   }

@@ -2,7 +2,7 @@
   <div class="container">
     <div style="flex: 1"></div>
     <DockItem v-for="(dock, index) in docks" :key="dock.id"
-              :size="size"
+              :size="dockSize"
               :color="dock.color"
               :icon="dock.icon"
               :name="dock.name"
@@ -53,6 +53,13 @@ export default {
     }
   },
   computed: {
+    dockSize() {
+      let size =  this.size
+      if (this.docks.length > 16) {
+        size = Math.ceil(size * 0.8)
+      }
+      return size
+    },
     containerLength() {
       return (this.docks.length + 1 ) * this.size  + 'px'
     },
