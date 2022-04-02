@@ -1,9 +1,22 @@
 <template>
   <div class="apps">
-      <Draggable :list="list2" 
+      <Draggable :list="apps"
                  item-key="id"
                  :options="option"
-                 @end="end1" 
+                 tag="transition-group"
+                 :component-data="{
+                  tag: 'ul',
+                  type: 'transition-group',
+                  name: !drag ? 'flip-list' : null
+                }"
+                 ghostClass="ghost"
+                 chosenClass="chosen"
+                 group="apps"
+                 @start="start"
+                 @end="end"
+                 @move="move"
+                 :move="move"
+                 v-bind="dragOptions"
                  class="app">
         <template #item="{ element }"  >
           <AppContainer :app="element"/>
@@ -30,6 +43,14 @@ export default {
   ],
   data() {
     return {
+      inFolder: false,
+      dragOptions: {
+        animation: 200,
+        group: "app",
+        disabled: false,
+        ghostClass: "ghost"
+      },
+      drag: false,
       disabled: false,
       appSize: 0,
       rowsNum: 0,
@@ -37,13 +58,13 @@ export default {
       list1: [],
       option: {
         group: "app",
-        sort: true,
+        sort: false,
         delay: 1000,
         animation: 1000,
         ghostClass: "ghostClass",
         tag: "transition"
       },
-      list2: [
+      apps: [
         {id: 20, type: 'folder', size: 70, name:"娱乐", apps: [
             {id: 1, type: 'app', size: 70, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
             {id: 2, type: 'app', size: 70, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
@@ -95,12 +116,26 @@ export default {
     }
   },
   methods: {
-    end1(ev) {
-      console.log("拖动结束1",ev)
+    start(ev) {
+      console.log('start', ev)
+      this.drag = true
     },
-    end2(ev) {
-      console.log("拖动结束2",ev)
+    end(ev) {
+      console.log('end', ev)
+      this.drag = false
     },
+    move(ev) {
+      let dragged = ev.draggedContext
+      let related = ev?.relatedContext?.element?.type?? '';
+      if (related === 'folder') {
+        this.dragOptions.disabled = true
+        this.apps.splice(dragged.index, 1)
+        this.apps[ev.relatedContext.index].apps.push(dragged.element)
+        console.log(123)
+      }
+      this.dragOptions.disabled = false
+      console.log(dragged)
+    }
   },
 }
 </script>
@@ -122,6 +157,16 @@ export default {
   grid-auto-flow: dense;
   justify-items: center;
   /*align-items: center;*/
+}
+
+.ghost {
+  opacity: 0.5;
+  transform: scale(1.1);
+}
+
+.chosen {
+  cursor: move;
+  /*transform: scale(0.3);*/
 }
 
 </style>

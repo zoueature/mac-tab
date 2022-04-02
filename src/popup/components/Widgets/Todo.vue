@@ -1,14 +1,20 @@
 <template>
-  <div class="todo-container" ref="todo">
+  <div class="todo-container" ref="todo" @click="openDetail">
     <div class="todo-title">今日待办</div>
     <div class="todo-item" v-for="(todo, index) in todos" :key="index">
       <div class="done" @click.stop="done(index)" v-if="!todo.done">
-        <img src="../../../assets/icon/done.png">
+        <img src="../../../assets/icon/done.png" alt="done">
       </div>
       <div :class="'todo-name ' + (todo.done ? 'done-word': '')" >
         {{todo.title}}
       </div>
     </div>
+    <CustomModal v-model="showModal" @confirm="confirm" @cancel="cancel">
+      <template v-slot:title>Hello, vue-final-modal</template>
+      <p>Vue Final Modal is a renderless, stackable, detachable and lightweight modal component.</p>
+    </CustomModal>
+
+    <button @click="showModal = true">Open modal</button>
   </div>
 </template>
 
@@ -16,11 +22,22 @@
 
 // import BScroll from 'better-scroll'
 
+import CustomModal from "@/popup/components/common/CustomModal";
+
 export default {
   name: "TodoCom",
+  components:[
+      CustomModal,
+  ],
   methods: {
     done(index) {
       this.todos[index].done = true
+    },
+    openDetail() {
+      this.showModal = true
+    },
+    cancel() {
+      console.log(123)
     }
   },
   data() {
@@ -113,5 +130,25 @@ export default {
     top: 37%;
     left: 3%;
     transform: translate(0, -50%);
+  }
+  ::v-deep .modal-content {
+    width: 200px;
+    height: 100px;
+    background: white;
+  }
+  ::v-deep .modal-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  .todo-op {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    /*transform: translate(-50%, -50%);*/
+    z-index: 1;
+    background: grey;
   }
 </style>

@@ -2,7 +2,7 @@
   <div>
     <div  class="component" :style="'height: ' + component.height + 'px'">
       <div v-if="component.component === 'friday'">
-        <Friday :height="component.height"/>
+        <Friday/>
       </div>
       <div v-else-if="component.component === 'todo'">
         <Todo/>

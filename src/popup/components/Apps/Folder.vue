@@ -6,11 +6,25 @@
         :iconBorder=" true"
         :click="openFolder"
     >
-      <div class="folder-icon">
-        <div class="app-icon" v-for="app in folder.apps.slice(0, 4)" :key="app.id">
-          <img :src="app.icon" style="width: 100%; height: 100%" :alt="app.name">
-        </div>
-      </div>
+        <Draggable :list="folder.apps.slice(0, 4)"
+                   item-key="id"
+                   :options="option"
+                   :clone="clone"
+                   @change="log"
+                   tag="transition-group"
+                   :component-data="{
+                      tag: 'div',
+                      type: 'transition-group',
+                      name:  'flip-list'
+                  }"
+                   group="apps"
+                   class="folder-icon">
+          <template #item="{ element }"  >
+            <div class="app-icon">
+              <img :src="element.icon" style="width: 100%; height: 100%" :alt="element.name">
+            </div>
+          </template>
+        </Draggable>
       <div v-if="showFolder">
         <vue-final-modal
             v-bind="$attrs"
@@ -56,6 +70,7 @@ import Draggable from "vuedraggable";
 import AppItem from "@/popup/components/Apps/AppItem";
 //import AppContainer from "@/popup/components/Apps/AppContainer";
 
+let idGlobal = 0;
 
 export default {
   name: "FolderCom",
@@ -89,6 +104,12 @@ export default {
   methods: {
     openFolder() {
       this.showFolder = true
+    },
+    clone({ name }) {
+      return { name, id: idGlobal++ };
+    },
+    log() {
+      console.log(123)
     }
   }
 }
@@ -98,15 +119,17 @@ export default {
   .folder-icon {
     width: 100%;
     height: 100%;
-    display: flex;
+    display: grid;
+    grid-template-rows: repeat(2, 50%);
+    grid-template-columns: repeat(2, 50%);
     flex-wrap: wrap;
     justify-items: center;
     justify-content: space-around;
     align-items: center;
   }
   .app-icon {
-    width: 37%;
-    height: 37%;
+    width: 75%;
+    height: 75%;
     border-radius: 3px;
     overflow: hidden;
   }
