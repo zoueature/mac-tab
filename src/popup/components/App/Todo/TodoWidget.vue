@@ -1,20 +1,16 @@
 <template>
-  <div class="todo-container" ref="todo" @click="openDetail">
-    <div class="todo-title">今日待办</div>
-    <div class="todo-item" v-for="(todo, index) in todos" :key="index">
-      <div class="done" @click.stop="done(index)" v-if="!todo.done">
-        <img src="../../../assets/icon/done.png" alt="done">
-      </div>
-      <div :class="'todo-name ' + (todo.done ? 'done-word': '')" >
-        {{todo.title}}
+  <div>
+    <div class="todo-container" ref="todo" @click="openDetail">
+      <div class="todo-title">今日待办</div>
+      <div class="todo-item" v-for="(todo, index) in todos" :key="index">
+        <div class="done" @click.stop="done(index)" v-if="!todo.done">
+          <img src="../../../../assets/icon/done.png" alt="done">
+        </div>
+        <div :class="'todo-name ' + (todo.done ? 'done-word': '')" >
+          {{todo.title}}
+        </div>
       </div>
     </div>
-    <CustomModal v-model="showModal" @confirm="confirm" @cancel="cancel">
-      <template v-slot:title>Hello, vue-final-modal</template>
-      <p>Vue Final Modal is a renderless, stackable, detachable and lightweight modal component.</p>
-    </CustomModal>
-
-    <button @click="showModal = true">Open modal</button>
   </div>
 </template>
 
@@ -22,23 +18,27 @@
 
 // import BScroll from 'better-scroll'
 
-import CustomModal from "@/popup/components/common/CustomModal";
+ // import CustomModal from "../common/WindowModal";
 
 export default {
   name: "TodoCom",
-  components:[
-      CustomModal,
-  ],
+  components: {
+     // CustomModal,
+  },
   methods: {
     done(index) {
       this.todos[index].done = true
     },
     openDetail() {
+      this.$vfm.show('todo', {})
       this.showModal = true
     },
     cancel() {
       console.log(123)
     }
+  },
+  created() {
+    this.$vfm.show('todo', {})
   },
   data() {
     return {

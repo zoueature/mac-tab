@@ -14,7 +14,7 @@
 <script>
 
 import Friday from "@/popup/components/Widgets/Friday";
-import Todo from "@/popup/components/Widgets/Todo";
+import Todo from "@/popup/components/App/Todo/TodoWidget";
 
 export default {
   name: "ComponentCom",

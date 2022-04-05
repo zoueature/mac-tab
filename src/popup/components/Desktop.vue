@@ -5,7 +5,7 @@
         <NewClock class="new-clock"/>
         <ComponentsCom/>
       </div>
-      <div class="application-container">
+      <div class="application-container" @click.right.prevent="showMenu">
         <div id="search-container">
           <div class="news">
             <img src="../../assets/icon/fire.png" alt="news">
@@ -15,10 +15,14 @@
         <div id="apps-container">
           <Apps size="80" rows="4" columns="13"/>
         </div>
+        <CustomModal></CustomModal>
       </div>
     </div>
     <div id="dock-container">
       <Dock/>
+    </div>
+    <div id="app">
+      <TodoApp></TodoApp>
     </div>
   </div>
 </template>
@@ -29,10 +33,12 @@ import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
 import NewClock from "@/popup/components/Clock/NewClock";
-import Todo from "@/popup/components/Widgets/Todo";
+import Todo from "@/popup/components/App/Todo/TodoWidget";
 import Friday from "@/popup/components/Widgets/Friday";
 import Components from "@/popup/components/Components/Components";
 import ComponentsCom from "@/popup/components/Components/Components";
+import CustomModal from "@/popup/components/common/WindowModal";
+import TodoApp from "@/popup/components/App/Todo/TodoApp"
 
 /* eslint-disable */
 export default {
@@ -49,6 +55,13 @@ export default {
     Todo,
     Friday,
     Components,
+    CustomModal,
+    TodoApp,
+  },
+  methods: {
+    showMenu(e) {
+      console.log(123, e)
+    }
   },
   mounted() {
   },
@@ -71,6 +84,8 @@ export default {
   data() {
     return {
       dialogState: false,
+      showMenu: false,
+      showModal: false,
     }
   }
 }
@@ -91,7 +106,7 @@ export default {
   }
   .blank-container {
     width: 100%;
-    height: 85%;
+    height: 90%;
     display: flex;
     overflow: hidden;
   }
@@ -133,6 +148,9 @@ export default {
 
   #dock-container {
     width: 100%;
-    height: 15%;
+    height: 10%;
+  }
+  #app {
+    position: absolute;
   }
 </style>
