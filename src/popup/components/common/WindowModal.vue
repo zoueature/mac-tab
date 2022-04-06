@@ -24,7 +24,7 @@
 <script>
 
 const defaultWidth = '50%'
-const defaultHeight = '50%'
+const defaultHeight = '60%'
 export default {
   name: 'WindowModal',
   inheritAttrs: false,
@@ -55,8 +55,13 @@ export default {
       this.height = defaultHeight
     },
     max() {
-      this.width = '100%'
-      this.height = '100%'
+      if (this.width === defaultWidth) {
+        this.width = '100%'
+        this.height = '100%'
+      } else {
+        this.width = defaultWidth
+        this.height = defaultHeight
+      }
     },
     showIcon() {
       this.showIconTrigger = true
@@ -85,6 +90,7 @@ export default {
   height: v-bind(height);
   box-shadow: 1rem 1rem 10rem rgba(19, 19, 19, 0.66);
   background: v-bind(backgroundColor);
+  overflow: hidden;
 }
 ::v-deep .overlay-class {
   background: none !important;
@@ -98,8 +104,8 @@ export default {
   margin-left: 0.7rem;
 }
 .close, .max {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   background: #ab0000;
   border-radius: 100%;
   overflow: hidden;
