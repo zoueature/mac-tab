@@ -91,6 +91,37 @@ export default {
               createTime: '2022-04-04',
               endTime: '2022-04-05',
             },
+            {
+              title: "完成Todo模块的开发",
+              createTime: '2022-04-04',
+              endTime: '2022-04-05',
+            },
+            {
+              title: "完成Todo模块的开发",
+              createTime: '2022-04-04',
+              endTime: '2022-04-05',
+            },
+            {
+              title: "完成Todo模块的开发",
+              createTime: '2022-04-04',
+              endTime: '2022-04-05',
+            },
+            {
+              title: "完成Todo模块的开发",
+              createTime: '2022-04-04',
+              endTime: '2022-04-05',
+            },
+            {
+              title: "完成Todo模块的开发",
+              createTime: '2022-04-04',
+              endTime: '2022-04-05',
+            },
+            {
+              title: "完成Todo模块的开发",
+              createTime: '2022-04-04',
+              endTime: '2022-04-05',
+            },
+
           ]
         },
         {
@@ -116,29 +147,46 @@ export default {
   }
   .todo-tab {
     text-align: center;
-    display: grid;
+    display: flex;
     justify-content: space-around;
     grid-template-columns: repeat(3, 33.33%);
+    padding: 1%;
     height: 10%;
+    width: 90%;
+    margin: 0 auto;
     line-height: 2.5rem;
   }
   .todo-tab div {
-    background: #ccffcc;
+    flex: 1;
   }
   .active {
     background: #95f695 !important;
-    box-shadow: 0.01rem 0.01rem 0.7rem rgba(45, 45, 45, 0.56);
+    box-shadow: 1px 1px 7px rgba(45, 45, 45, 0.26);
+    border-radius: 0.5rem !important;
   }
   .todo-list {
+    padding: 2%;
     width: 97%;
-    margin: 2% auto 0 auto;
-    height: 88%;
+    overflow: scroll;
+    margin: 0 auto;
+    height: 83%;
     display: flex;
     flex-wrap: wrap;
-    flex-flow: wrap;
+    justify-content: space-between;
+    justify-items: center;
+    text-align: center;
+    flex-direction: row;
+  }
+  .todo-list::-webkit-scrollbar {
+    display: none;
   }
   .todo-item {
-    width: 20%;
-    height: 2rem;
+    width: 32%;
+    height: 3rem;
+    color: white;
+    background-image: linear-gradient(to right, rgba(22, 129, 175, 0.92), rgba(31, 105, 136, 0.62));
+    border-radius: 0.3rem;
+    margin-bottom: 0.7rem;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.33);
   }
 </style>

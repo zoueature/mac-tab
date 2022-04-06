@@ -7,9 +7,13 @@
       v-model="showModal"
       :name="modalName"
   >
-    <div class="modal-title">
-      <div class="close" @click="close"></div>
-      <div class="max" @click="max"></div>
+    <div class="modal-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
+      <div class="close" @click="close">
+        <img v-if="showIconTrigger" src="../../../assets/icon/close.png" alt="">
+      </div>
+      <div class="max" @click="max">
+        <img v-if="showIconTrigger" src="../../../assets/icon/enlarge.png" alt="">
+      </div>
     </div>
     <div class="modal-detail">
       <slot></slot>
@@ -41,6 +45,7 @@ export default {
       width: defaultWidth,
       height: defaultHeight,
       backgroundColor: 'rgba(255, 255, 255, 1)',
+      showIconTrigger: false,
     }
   },
   methods: {
@@ -52,6 +57,12 @@ export default {
     max() {
       this.width = '100%'
       this.height = '100%'
+    },
+    showIcon() {
+      this.showIconTrigger = true
+    },
+    hiddenIcon() {
+      this.showIconTrigger = false
     }
   }
 }
@@ -67,8 +78,8 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  max-height: 90%;
-  max-width: 80%;
+  /*max-height: 90%;*/
+  /*max-width: 80%;*/
   border-radius: 0.52rem;
   width: v-bind(width);
   height: v-bind(height);
@@ -87,27 +98,32 @@ export default {
   margin-left: 0.7rem;
 }
 .close, .max {
-  width: 0.8rem;
-  height: 0.8rem;
+  width: 16px;
+  height: 16px;
   background: #ab0000;
   border-radius: 100%;
   overflow: hidden;
   margin-top: 0.5rem;
   margin-left: 0.3rem;
+  position: relative;
 }
 .max {
   background: #42b983;
+}
+.modal-title img {
+  position: absolute;
+  width: 43%;
+  height: 43%;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 .modal-detail {
   width: 100%;
   height: 95%;
   position: relative;
-}
-</style>
-
-<style scoped>
-.dark-mode div::v-deep .modal-content {
-  border-color: #2d3748;
-  background-color: #1a202c;
+  overflow: hidden;
 }
 </style>

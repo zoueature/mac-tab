@@ -6,6 +6,7 @@
       </div>
       <div v-else-if="component.component === 'todo'">
         <Todo/>
+
       </div>
     </div>
   </div>

@@ -15,7 +15,6 @@
         <div id="apps-container">
           <Apps size="80" rows="4" columns="13"/>
         </div>
-        <CustomModal></CustomModal>
       </div>
     </div>
     <div id="dock-container">
