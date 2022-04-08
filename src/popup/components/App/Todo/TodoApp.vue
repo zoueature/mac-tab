@@ -4,23 +4,34 @@
       <div class="todo-app">
         <div class="todo-tab">
           <div class="todo-static">
-            <div class="static-tab"></div>
-            <div class="static-tab"></div>
-            <div class="static-tab"></div>
-            <div class="static-tab"></div>
+            <div class="static-tab" v-for="(stc, index) in statics" :key="index">
+              <div class="static-name">
+                <div class="static-icon">
+                  <img :src="stc.icon" :alt="stc.name">
+                  <span>{{stc.name}}</span>
+                </div>
+              </div>
+              <div class="static-num">
+                <div>{{stc.num}}</div>
+              </div>
+            </div>
           </div>
           <div class="todo-category-list">
             <div class="category-list">
-              <div class="category-item" v-for="(category, index) in todoCategories" :key="index" :style="index === 2 ? 'background: blue;' : ''">
+              <div :class="'category-item' + (index === 2 ? ' active' : '')" v-for="(category, index) in todoCategories" :key="index">
                 <div class="category-icon">
-                  <img src="../../../../assets/icon/fire.png" alt="">
+                  <img src="../../../../assets/icon/list.png" alt="">
                 </div>
                 <el-icon><close /></el-icon>
                 <div class="category-name">第一个五年计划</div>
               </div>
             </div>
           </div>
-          <div class="opt-button">ds</div>
+          <div class="opt-button">
+            <div class="add-icon">
+              <img src="../../../../assets/icon/plus_blue.png" alt="">
+            </div>
+          </div>
         </div>
         <div class="todo-list">
           <div v-for="(todoItem, index) in todoList[activeTab].list"
@@ -147,6 +158,28 @@ export default {
           list: []
         }
       ],
+      statics: [
+        {
+          icon: "../../../../assets/icon/today.png",
+          name: "今日",
+          num: 0,
+        },
+        {
+          icon: "../../../../assets/icon/today.png",
+          name: "今日",
+          num: 0,
+        },
+        {
+          icon: "../../../../assets/icon/today.png",
+          name: "今日",
+          num: 0,
+        },
+        {
+          icon: "../../../../assets/icon/today.png",
+          name: "今日",
+          num: 0,
+        }
+      ],
     }
   }
 }
@@ -165,10 +198,13 @@ export default {
     height: 100%;
     width: 100%;
   }
+  .todo-tab img {
+    width: 100%;
+    height: 100%;
+  }
   .todo-static {
     width: 95%;
-    height: 37%;
-    max-height: 160px;
+    height: 30%;
     margin:  0 auto;
     display: grid;
     grid-template-rows: repeat(2, 50%);
@@ -179,19 +215,40 @@ export default {
   .static-tab {
     width: 90%;
     height: 90%;
-    background: #a2a2a2;
+    background: rgba(197, 196, 196, 0.66);
     border-radius: 0.7rem;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.34);
+    display: flex;
+  }
+  .static-name {
+    flex: 1;
+  }
+  .static-icon {
+    width: 25px;
+    height: 25px;
+    flex: 1;
+    margin: 10% auto 0 auto;
+    color: white;
+    font-size: 10px;
+  }
+  .static-num {
+    flex: 1;
+  }
+  .static-num div {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 25%;
   }
   .todo-category-list {
     width: 100%;
-    height: 63%;
-    margin: 7px auto 0 auto;
+    height: 60%;
+    overflow: hidden;
+    margin: 0 auto;
   }
   .category-list {
-    max-height: 90%;
+    max-height: 100%;
     overflow: scroll;
-    padding-bottom: 43px;
   }
   .category-item {
     height: 34px;
@@ -202,9 +259,7 @@ export default {
     width: 16px;
     height: 16px;
     margin-top: 8px;
-    margin-left: 7px;
-    background: blue;
-    border-radius: 100%;
+    margin-left: 11px;
     overflow: hidden;
   }
   .category-icon img {
@@ -215,21 +270,20 @@ export default {
     float: left;
     line-height: 34px;
     font-size: 12px;
-    margin-left: 2px;
-    color: rgba(0, 0, 0, 0.71);
+    color: rgba(49, 49, 49, 0.87);
   }
   .opt-button {
-    position: absolute;
-    background: blue;
     width: 100%;
-    height: 34px;
-    bottom: 0;
-    z-index: 999999;
+    height: 10%;
+  }
+  .add-icon {
+    width: 16px;
+    height: 16px;
+    margin-top: 16px;
+    margin-left: 7px;
   }
   .active {
-    background: #95f695 !important;
-    box-shadow: 1px 1px 7px rgba(45, 45, 45, 0.26);
-    border-radius: 0.5rem !important;
+    background: rgba(62, 206, 239, 0.84) !important;
   }
   .todo-list {
     flex: 7;

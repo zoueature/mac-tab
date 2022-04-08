@@ -11,7 +11,7 @@
       <div class="close" @click="close">
         <img v-if="showIconTrigger" src="../../../assets/icon/close.png" alt="">
       </div>
-      <div class="max" @click="max">
+      <div class="max" @click="max" v-if="showMaxIcon">
         <img v-if="showIconTrigger" src="../../../assets/icon/enlarge.png" alt="">
       </div>
     </div>
@@ -30,12 +30,16 @@ export default {
   inheritAttrs: false,
   props:[
     "name",
-    "background"
+    "background",
+    "showMax",
   ],
   created() {
     this.modalName = this.name
     if (this.background !== undefined) {
       this.backgroundColor = this.background
+    }
+    if (this.showMax !== undefined) {
+      this.showMaxIcon = true
     }
   },
   data() {
@@ -46,6 +50,7 @@ export default {
       height: defaultHeight,
       backgroundColor: 'rgba(255, 255, 255, 1)',
       showIconTrigger: false,
+      showMaxIcon: false,
     }
   },
   methods: {
