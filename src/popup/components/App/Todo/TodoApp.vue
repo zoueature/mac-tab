@@ -287,28 +287,23 @@ export default {
   }
   .todo-list {
     flex: 7;
-    padding: 2%;
-    width: 97%;
+    width: 100%;
+    height: 100%;
     overflow: scroll;
     margin: 0 auto;
-    height: 83%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    justify-items: center;
-    text-align: center;
-    flex-direction: row;
   }
   div::-webkit-scrollbar {
     display: none;
   }
   .todo-item {
-    width: 32%;
-    height: 3rem;
+    width: 95%;
+    height: 37px;
     color: white;
-    background-image: linear-gradient(to right, rgba(22, 129, 175, 0.92), rgba(31, 105, 136, 0.62));
-    border-radius: 0.3rem;
-    margin-bottom: 0.7rem;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.33);
+    font-size: 12px;
+    background-image: linear-gradient(to right, rgba(22, 129, 175, 0.68), rgba(31, 105, 136, 0.46));
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.33);
+    text-align: left;
+    border-radius: 1px;
+    margin: 3px auto 4px auto;
   }
 </style>

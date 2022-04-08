@@ -102,7 +102,7 @@ export default {
 }
 .modal-title {
   width: 100%;
-  height: 10%;
+  height: 7%;
   display: flex;
 }
 .modal-title div:first-child {
