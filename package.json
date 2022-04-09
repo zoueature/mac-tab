@@ -18,7 +18,8 @@
     "html-webpack-plugin": "^5.5.0",
     "vue": "^3.2.13",
     "vue-final-modal": "^3.4.3",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

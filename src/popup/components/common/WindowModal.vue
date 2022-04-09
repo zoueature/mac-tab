@@ -6,6 +6,7 @@
       overlay-class="overlay-class"
       v-model="showModal"
       :name="modalName"
+      @closed="closed"
   >
     <div class="modal-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
       <div class="close" @click="close">

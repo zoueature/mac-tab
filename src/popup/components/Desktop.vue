@@ -1,5 +1,15 @@
 <template>
   <div id="desktop-background">
+    <App></App>
+    <p>
+      <!--使用 router-link 组件进行导航 -->
+      <!--通过传递 `to` 来指定链接 -->
+      <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
+      <router-link to="/todo">Go to Home</router-link>
+    </p>
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
     <div class="blank-container">
       <div class="notify-container">
         <NewClock class="new-clock"/>
@@ -20,7 +30,7 @@
     <div id="dock-container">
       <Dock/>
     </div>
-    <div id="app">
+    <div id="app" v-if="showApp">
       <TodoApp></TodoApp>
     </div>
   </div>
@@ -38,6 +48,7 @@ import Components from "@/popup/components/Components/Components";
 import ComponentsCom from "@/popup/components/Components/Components";
 import CustomModal from "@/popup/components/common/WindowModal";
 import TodoApp from "@/popup/components/App/Todo/TodoApp"
+import App from "./App/App"
 
 /* eslint-disable */
 export default {
@@ -56,15 +67,23 @@ export default {
     Components,
     CustomModal,
     TodoApp,
+    App,
   },
   methods: {
     showMenu(e) {
       console.log(123, e)
     }
   },
+  computed: {
+    showApp() {
+      return this.$store.getters.showApp
+    }
+  },
   mounted() {
+
   },
   created() {
+    console.log(this.$store)
     // chrome.runtime.onMessage.addListener(
     //     function(request, sender, sendResponse) {
     //       console.log(request)

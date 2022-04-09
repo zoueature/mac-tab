@@ -31,7 +31,7 @@ export default {
     },
     openDetail() {
       this.$vfm.show('todo', {})
-      this.showModal = true
+      this.$store.commit('openApp')
     },
     cancel() {
       console.log(123)
