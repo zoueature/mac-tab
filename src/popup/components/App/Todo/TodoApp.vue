@@ -47,20 +47,20 @@
       <div class="todo-list">
         <div class="todo-list-title-container">
           <div class="todo-title">全部</div>
-          <div class="add-todo-icon" @click="createTodo(categoryId)">
+          <div class="add-todo-icon" @click="createTodo(activeTab)">
             <img src="../../../../assets/icon/plus_blue.png" alt="">
           </div>
         </div>
         <transition-group  name="list">
           <div class="todo-item"
-               v-for="(todoItem) in todoList(activeTab)"
+               v-for="(todoItem, index) in todoList(activeTab)"
                :key="todoItem"
                @mouseenter="showTodoOp(todoItem.id)"
                @mouseleave="hideTodoOp"
           >
             <p>{{todoItem.title}}</p>
             <div class="todo-opt" v-if="opTodoID === todoItem.id">
-              <div class="opt">
+              <div class="opt" @click="done(todoItem, index)">
                 <img src="../../../../assets/icon/done_fill.png" alt="done">
               </div>
               <div class="opt">
@@ -114,7 +114,7 @@ export default {
         },
       ],
       allTodoList: {
-        1000000000000: [
+        "1000000000000": [
           {
             id: 1111,
             title: "完成TODO模块的开发",
@@ -215,6 +215,10 @@ export default {
         id: new Date().getTime(),
         title:'完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发',
       })
+    },
+    done(todo, index) {
+      this.allTodoList[this.activeTab].splice(index, 1)
+      this.allTodoList[this.activeTab].push(todo)
     }
   },
   mounted() {
@@ -339,7 +343,7 @@ export default {
   .todo-list {
     flex: 7;
     width: 100%;
-    height: 100%;
+    height: 97%;
     overflow: scroll;
     margin: 0 auto;
   }
@@ -350,8 +354,7 @@ export default {
     width: 95%;
     height: 37px;
     color: white;
-    font-size: 12px;
-    background-image: linear-gradient(to right, rgba(22, 129, 175, 0.68), rgba(31, 105, 136, 0.31));
+    background-image: linear-gradient(to right, rgba(62, 206, 239, 0.87), rgba(62, 206, 239, 0.34));
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.33);
     text-align: left;
     border-radius: 1px;
@@ -363,6 +366,7 @@ export default {
     max-width: 70%;
     overflow: hidden;
     margin-left: 16px;
+    font-size: 13px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
@@ -408,7 +412,7 @@ export default {
   .list-leave-active {
     transition: all 500ms ease;
   }
-  .list-enter-from {
+  .list-enter-from, .list-leave-to{
     opacity: 0;
     transform: translateX(70px);
   }
