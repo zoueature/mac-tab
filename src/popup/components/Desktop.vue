@@ -1,15 +1,5 @@
 <template>
   <div id="desktop-background">
-    <App></App>
-    <p>
-      <!--使用 router-link 组件进行导航 -->
-      <!--通过传递 `to` 来指定链接 -->
-      <!--`<router-link>` 将呈现一个带有正确 `href` 属性的 `<a>` 标签-->
-      <router-link to="/todo">Go to Home</router-link>
-    </p>
-    <!-- 路由出口 -->
-    <!-- 路由匹配到的组件将渲染在这里 -->
-    <router-view></router-view>
     <div class="blank-container">
       <div class="notify-container">
         <NewClock class="new-clock"/>
@@ -30,9 +20,9 @@
     <div id="dock-container">
       <Dock/>
     </div>
-    <div id="app" v-if="showApp">
-      <TodoApp></TodoApp>
-    </div>
+    <transition name="app">
+      <App id="app" v-if="showApp"></App>
+    </transition>
   </div>
 </template>
 
@@ -168,7 +158,13 @@ export default {
     width: 100%;
     height: 10%;
   }
-  #app {
-    position: absolute;
+  .app-enter-active,
+  .app-leave-active {
+    transition: all 500ms ease;
+  }
+  .app-enter-from,
+  .app-leave-to {
+    transform: scale(0);
+    opacity: 0;
   }
 </style>

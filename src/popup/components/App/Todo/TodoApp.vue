@@ -1,80 +1,83 @@
 <template>
-  <div>
-    <WindowModal name="todo">
-      <div class="todo-app">
-        <div class="todo-tab">
-          <div class="todo-static">
-            <div :class="'static-tab' + (activeTab === stc.id ? ' active' : '')"
-                 v-for="(stc, index) in statics" :key="index"
-                 @click="selectTab(stc.id)"
-            >
-              <div class="static-name">
-                <div class="static-icon">
-                  <img :src="stc.icon" :alt="stc.name">
-                  <span>{{stc.name}}</span>
-                </div>
-              </div>
-              <div class="static-num">
-                <div>{{stc.num}}</div>
+    <div class="todo-app">
+      <div class="todo-tab">
+        <div class="todo-static">
+          <div :class="'static-tab' + (activeTab === stc.id ? ' active' : '')"
+               v-for="(stc, index) in statics" :key="index"
+               @click="selectTab(stc.id)"
+          >
+            <div class="static-name">
+              <div class="static-icon">
+                <img :src="stc.icon" :alt="stc.name">
+                <span>{{stc.name}}</span>
               </div>
             </div>
-          </div>
-          <div class="todo-category-list">
-            <div class="category-list" ref="cateList">
-              <div v-for="(category, index) in todoCategories" :key="category.id"
-                  :class="'category-item' + (activeTab === category.id ? ' active' : '')"
-                   @click="selectTab(category.id)"
-                   @dblclick="modifyID = category.id"
-              >
-                <div class="category-icon">
-                  <img :src="category.icon" alt="">
-                </div>
-                <div class="category-name">
-                  <div v-if="category.id !== modifyID">
-                    {{category.name}}
-                  </div>
-                  <div v-else>
-                    <input v-model="category.name" @keyup.enter="saveCategory(index, category)">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="opt-button">
-            <div class="add-icon" @click="createCategory">
-              <img src="../../../../assets/icon/plus_blue.png" alt="">
+            <div class="static-num">
+              <div>{{stc.num}}</div>
             </div>
           </div>
         </div>
-        <div class="todo-list">
-          <div class="todo-list-title-container">
-            <div class="todo-title">全部</div>
-            <div class="add-todo-icon" @click="todoList(activeTab).unshift({id: 123, title:'dadad'})">
-              <img src="../../../../assets/icon/plus_blue.png" alt="">
+        <div class="todo-category-list">
+          <div class="category-list" ref="cateList">
+            <div v-for="(category, index) in todoCategories" :key="category.id"
+                :class="'category-item' + (activeTab === category.id ? ' active' : '')"
+                 @click="selectTab(category.id)"
+                 @dblclick="modifyID = category.id"
+            >
+              <div class="category-icon">
+                <img :src="category.icon" alt="">
+              </div>
+              <div class="category-name">
+                <div v-if="category.id !== modifyID">
+                  {{category.name}}
+                </div>
+                <div v-else>
+                  <input class="input-cate" v-model="category.name" @keyup.enter="saveCategory(index, category)">
+                </div>
+              </div>
             </div>
           </div>
-          <transition-group  name="list">
-            <div class="todo-item"
-                 v-for="(todoItem) in todoList(activeTab)"
-                 :key="todoItem">
-              {{todoItem.title}}
-            </div>
-          </transition-group>
+        </div>
+        <div class="opt-button">
+          <div class="add-icon" @click="createCategory(selectTab)">
+            <img src="../../../../assets/icon/plus_blue.png" alt="">
+          </div>
         </div>
       </div>
-    </WindowModal>
-  </div>
+      <div class="todo-list">
+        <div class="todo-list-title-container">
+          <div class="todo-title">全部</div>
+          <div class="add-todo-icon" @click="createTodo(categoryId)">
+            <img src="../../../../assets/icon/plus_blue.png" alt="">
+          </div>
+        </div>
+        <transition-group  name="list">
+          <div class="todo-item"
+               v-for="(todoItem) in todoList(activeTab)"
+               :key="todoItem"
+               @mouseenter="showTodoOp(todoItem.id)"
+               @mouseleave="hideTodoOp"
+          >
+            <p>{{todoItem.title}}</p>
+            <div class="todo-opt" v-if="opTodoID === todoItem.id">
+              <div class="opt">
+                <img src="../../../../assets/icon/done_fill.png" alt="done">
+              </div>
+              <div class="opt">
+                <img src="../../../../assets/icon/delete.png" alt="done">
+              </div>
+            </div>
+          </div>
+        </transition-group>
+      </div>
+    </div>
 </template>
 
 <script>
 
-import WindowModal from "@/popup/components/common/WindowModal";
-import gsap from 'gsap'
-
 export default {
   name: "TodoApp",
   components: {
-    WindowModal,
   },
   data() {
     return {
@@ -82,6 +85,7 @@ export default {
       newCateName: "",
       activeTab: 0,
       modifyID: -1,
+      opTodoID: 0,
       todoCategories: [
         {
           id: 1,
@@ -112,8 +116,21 @@ export default {
       allTodoList: {
         1000000000000: [
           {
+            id: 1111,
             title: "完成TODO模块的开发",
-          }
+          },
+          {
+            id: 2222,
+            title: "完成TODO模块的开发",
+          },
+          {
+            id: 3333,
+            title: "完成TODO模块的开发",
+          },
+          {
+            id: 4444,
+            title: "完成TODO模块的开发",
+          },
         ]
       },
       statics: [
@@ -142,6 +159,7 @@ export default {
           num: 23,
         }
       ],
+
     }
   },
   computed: {
@@ -153,6 +171,7 @@ export default {
     }
   },
   methods: {
+    // createCategory 创建分类
     createCategory() {
       console.log(123)
       let newCategory = {
@@ -164,6 +183,7 @@ export default {
       this.selectTab(newCategory.id)
       this.selectModifyCate(newCategory.id)
     },
+    // selectTab 左边tab选择
     selectTab(id) {
       if (id !== this.modifyID) {
         this.modifyID = -1
@@ -172,28 +192,28 @@ export default {
         this.activeTab = id
       }
     },
+    // selectModifyCate 开启修改界面
     selectModifyCate(id) {
       this.modifyID = id
     },
+    // saveCategory 保存修改的分类信息
     saveCategory(index, category) {
       // todo 持久化数据
       this.selectModifyCate(-1)
       this.todoCategories[index] = category
     },
-    enter(el, done) {
-      console.log('enter')
-      gsap.from(el, {
-        scale: 0,
-        x: 400,
-        onComplete: done
-      })
+    // showTodoOp 展示todo操作按钮
+    showTodoOp(todoID) {
+      this.opTodoID = todoID
     },
-    leave(el, done) {
-      console.log('leave')
-      gsap.to(el, {
-        scale: 0,
-        x: 200,
-        onComplete: done
+    // hideTodoOp 隐藏todo操作按钮
+    hideTodoOp() {
+      this.opTodoID = 0
+    },
+    createTodo(categoryId) {
+      this.allTodoList[categoryId].unshift({
+        id: new Date().getTime(),
+        title:'完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发',
       })
     }
   },
@@ -260,7 +280,7 @@ export default {
   }
   .todo-category-list {
     width: 100%;
-    height: 60%;
+    height: 59%;
     overflow: hidden;
     margin: 10px auto 0 auto;
   }
@@ -299,15 +319,20 @@ export default {
   .add-icon {
     width: 14px;
     height: 14px;
-    margin-top: 6px;
-    margin-left: 7px;
+  }
+  .input-cate {
+    border: none;
+    outline: none;
+    height: 80%;
+    width: 90%;
+    font-size: 12px;
+    color: #505050;
   }
   .active {
     background: rgba(62, 206, 239, 0.84) !important;
     color: white !important;
   }
   .active .category-icon {
-    border-radius: 100%;
     overflow: hidden;
     background: #0da861;
   }
@@ -331,6 +356,32 @@ export default {
     text-align: left;
     border-radius: 1px;
     margin: 3px auto 4px auto;
+    line-height: 37px;
+    position: relative;
+  }
+  .todo-item p {
+    max-width: 70%;
+    overflow: hidden;
+    margin-left: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .todo-opt {
+    position: absolute;
+    height: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2%;
+    display: flex;
+  }
+  .opt {
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+  }
+  .opt img {
+    width: 100%;
+    height: 100%;
   }
   .todo-list-title-container {
     width: 100%;
@@ -355,10 +406,9 @@ export default {
   }
   .list-enter-active,
   .list-leave-active {
-    transition: all 1s ease;
+    transition: all 500ms ease;
   }
-  .list-enter-from,
-  .list-leave-to {
+  .list-enter-from {
     opacity: 0;
     transform: translateX(70px);
   }

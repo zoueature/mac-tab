@@ -30,6 +30,7 @@ export default {
       this.todos[index].done = true
     },
     openDetail() {
+      this.$router.push("/todo")
       this.$vfm.show('todo', {})
       this.$store.commit('openApp')
     },
