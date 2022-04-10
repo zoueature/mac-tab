@@ -46,25 +46,25 @@
       </div>
       <div class="todo-list">
         <div class="todo-list-title-container">
-          <div class="todo-title">全部</div>
+          <div class="todo-title">{{todoList(activeTab).name}}</div>
           <div class="add-todo-icon" @click="createTodo(activeTab)">
             <img src="../../../../assets/icon/plus_blue.png" alt="">
           </div>
         </div>
         <transition-group  name="list">
           <div class="todo-item"
-               v-for="(todoItem, index) in todoList(activeTab)"
+               v-for="(todoItem, index) in todoList(activeTab).list"
                :key="todoItem"
                @mouseenter="showTodoOp(todoItem.id)"
                @mouseleave="hideTodoOp"
           >
-            <p>{{todoItem.title}}</p>
+            <p><input type="text" v-model="todoItem.title" :disabled="!todoItem.newCreate" @focusout="todoItem.newCreate = false" autofocus></p>
             <div class="todo-opt" v-if="opTodoID === todoItem.id">
               <div class="opt" @click="done(todoItem, index)">
                 <img src="../../../../assets/icon/done_fill.png" alt="done">
               </div>
-              <div class="opt">
-                <img src="../../../../assets/icon/delete.png" alt="done">
+              <div class="opt" @click="deleteTodo(index)">
+                <img src="../../../../assets/icon/delete.png" alt="delete">
               </div>
             </div>
           </div>
@@ -81,9 +81,8 @@ export default {
   },
   data() {
     return {
-      test: false,
       newCateName: "",
-      activeTab: 0,
+      activeTab: 1000000000000,
       modifyID: -1,
       opTodoID: 0,
       todoCategories: [
@@ -114,24 +113,33 @@ export default {
         },
       ],
       allTodoList: {
-        "1000000000000": [
-          {
-            id: 1111,
-            title: "完成TODO模块的开发",
-          },
-          {
-            id: 2222,
-            title: "完成TODO模块的开发",
-          },
-          {
-            id: 3333,
-            title: "完成TODO模块的开发",
-          },
-          {
-            id: 4444,
-            title: "完成TODO模块的开发",
-          },
-        ]
+        "1000000000000": {
+          id: 1,
+          name: "第一个五年计划",
+          icon: "../../../../assets/icon/list.png",
+          list: [
+            {
+              id: 1,
+              title: '完成TODO模块的开发',
+              newCreate: false,
+            },
+            {
+              id: 2,
+              title: '完成TODO模块的开发',
+              newCreate: false,
+            },
+            {
+              id: 3,
+              title: '完成TODO模块的开发',
+              newCreate: false,
+            },
+            {
+              id: 4,
+              title: '完成TODO模块的开发',
+              newCreate: false,
+            },
+          ]
+        }
       },
       statics: [
         {
@@ -166,7 +174,7 @@ export default {
     todoList() {
       let that = this
       return function (id) {
-        return that.allTodoList[id] ?? []
+        return that.allTodoList[id]?? []
       }
     }
   },
@@ -211,14 +219,18 @@ export default {
       this.opTodoID = 0
     },
     createTodo(categoryId) {
-      this.allTodoList[categoryId].unshift({
+      this.allTodoList[categoryId].list.unshift({
         id: new Date().getTime(),
-        title:'完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发完成TODO模块的开发',
+        title:'',
+        newCreate: true,
       })
     },
     done(todo, index) {
-      this.allTodoList[this.activeTab].splice(index, 1)
-      this.allTodoList[this.activeTab].push(todo)
+      this.allTodoList[this.activeTab].list.splice(index, 1)
+      this.allTodoList[this.activeTab].list.push(todo)
+    },
+    deleteTodo(index) {
+      this.allTodoList[this.activeTab].list.splice(index, 1)
     }
   },
   mounted() {
@@ -357,18 +369,29 @@ export default {
     background-image: linear-gradient(to right, rgba(62, 206, 239, 0.87), rgba(62, 206, 239, 0.34));
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.33);
     text-align: left;
-    border-radius: 1px;
+    border-radius: 2px;
     margin: 3px auto 4px auto;
     line-height: 37px;
     position: relative;
   }
   .todo-item p {
     max-width: 70%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     margin-left: 16px;
-    font-size: 13px;
+    /*font-size: 13px;*/
+    /*white-space: nowrap;*/
+    /*text-overflow: ellipsis;*/
+  }
+  .todo-item p input {
+    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 13px;
   }
   .todo-opt {
     position: absolute;
@@ -395,7 +418,7 @@ export default {
     color: #0C1021;
     font-size: 25px;
     font-weight: bold;
-    margin-left: 25px;
+    margin-left: 12px;
   }
   .add-todo-icon {
     width: 16px;
