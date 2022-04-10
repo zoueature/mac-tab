@@ -67,6 +67,9 @@ export default {
   computed: {
     showApp() {
       return this.$store.getters.showApp
+    },
+    wallpaper() {
+      return 'url(' + this.$store.getters.wallpaper + ')'
     }
   },
   mounted() {
@@ -104,7 +107,7 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background-image: url("../../assets/images/wrapper/default.jpg");
+    background-image: v-bind(wallpaper);
     background-size: 100% 100%;
   }
   .new-clock {

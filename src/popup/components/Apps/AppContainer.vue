@@ -6,6 +6,7 @@
         :icon="app.icon"
         :name="app.name"
         :link="app.link"
+        :click="app.click"
     />
     <Folder v-else-if="app.type === 'folder' "
             :folder="app"

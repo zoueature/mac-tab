@@ -9,7 +9,9 @@
           <img v-if="showIconTrigger" src="../../../assets/icon/enlarge.png" alt="">
         </div>
       </div>
-      <router-view></router-view>
+      <div class="app-content">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -60,6 +62,10 @@ export default {
     width: 100%;
     height: 25px;
     display: flex;
+  }
+  .app-content {
+    width: 100%;
+    height: 95%;
   }
   .close, .max {
     width: 14px;
