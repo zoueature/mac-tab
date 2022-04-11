@@ -1,15 +1,8 @@
 <template>
-  <div>
     <div  class="component" :style="'height: ' + component.height + 'px'">
-      <div v-if="component.component === 'friday'">
-        <Friday/>
-      </div>
-      <div v-else-if="component.component === 'todo'">
-        <Todo/>
-
-      </div>
+      <Friday v-if="component.component === 'friday'"/>
+      <Todo v-else-if="component.component === 'todo'"/>
     </div>
-  </div>
 </template>
 
 <script>
@@ -31,7 +24,7 @@ export default {
 
 <style scoped>
   .component {
-    width: 100%;
+    /*width: 100%;*/
     margin: 0 auto;
     border-radius: 16px;
     position: relative;

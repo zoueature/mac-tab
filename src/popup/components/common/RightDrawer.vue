@@ -1,7 +1,7 @@
 <template>
-  <transition name="rightDrawer" >
+  <transition name="rightDrawer">
     <div class="drawer-container" v-if="showDrawer" @click="closeDrawer">
-      <div class="drawer">
+      <div class="drawer" @click.stop="">
         <router-view name="drawer"></router-view>
       </div>
     </div>

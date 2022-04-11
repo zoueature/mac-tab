@@ -138,7 +138,9 @@ export default {
     margin-left: 16px;
     margin-top: 10px;
   }
-
+  .news:hover {
+    cursor: pointer;
+  }
   #apps-container {
     margin: 50px auto 0 auto;
   }
