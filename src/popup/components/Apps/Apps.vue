@@ -136,6 +136,30 @@ export default {
           name: "超级搜索",
           icon: "../../../assets/images/app/searcher.png",
           click: this.openApp('searcher')
+        },
+        {
+          id: 27,
+          type: 'app',
+          size: 70,
+          name: "翻译",
+          icon: "../../../assets/images/app/translate.png",
+          click: this.openApp('translate')
+        },
+        {
+          id: 28,
+          type: 'app',
+          size: 70,
+          name: "JSON格式化",
+          icon: "../../../assets/images/app/json.png",
+          click: this.openApp('json')
+        },
+        {
+          id: 29,
+          type: 'app',
+          size: 70,
+          name: "热门短视频",
+          icon: "../../../assets/images/app/short_video.png",
+          click: this.openApp('video')
         }
       ]
     }
