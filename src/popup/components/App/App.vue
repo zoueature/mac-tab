@@ -1,5 +1,6 @@
 <template>
-  <div id="app" @click="closeApp">
+  <transition name="app" >
+  <div id="app" @click="closeApp" v-if="showApp">
     <div class="app-container" @click.stop="">
       <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
         <div class="close" @click="closeApp">
@@ -14,6 +15,7 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -29,6 +31,11 @@ export default {
     closeApp() {
       this.$store.commit('closeApp')
     }
+  },
+  computed: {
+    showApp() {
+      return this.$store.getters.showApp
+    },
   },
   data() {
     return {
@@ -87,5 +94,14 @@ export default {
     right: 0;
     top: 0;
     bottom: 0;
+  }
+  .app-enter-active,
+  .app-leave-active {
+    transition: all 400ms ease;
+  }
+  .app-enter-from,
+  .app-leave-to {
+    transform: scale(0);
+    opacity: 0;
   }
 </style>

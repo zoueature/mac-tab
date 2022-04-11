@@ -21,9 +21,7 @@
       <Dock/>
     </div>
     <button @click="showDrawer = !showDrawer">dadadad</button>
-    <transition name="app">
-      <App id="app" v-if="showApp"></App>
-    </transition>
+    <App id="app"></App>
     <transition name="rightDrawer" >
       <div class="drawer" v-if="showDrawer"></div>
     </transition>
@@ -75,9 +73,6 @@ export default {
     },
   },
   computed: {
-    showApp() {
-      return this.$store.getters.showApp
-    },
     wallpaper() {
       return 'url(' + this.$store.getters.wallpaper + ')'
     }
@@ -156,15 +151,6 @@ export default {
   #dock-container {
     width: 100%;
     height: 10%;
-  }
-  .app-enter-active,
-  .app-leave-active {
-    transition: all 500ms ease;
-  }
-  .app-enter-from,
-  .app-leave-to {
-    transform: scale(0);
-    opacity: 0;
   }
   .rightDrawer-enter-active,
   .rightDrawer-leave-active {
