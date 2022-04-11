@@ -59,7 +59,7 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
-    background: rgba(27, 139, 128, 0.3);
+    background: rgba(255, 153, 51, 0.25);
   }
   .friday-title {
     height: 18%;

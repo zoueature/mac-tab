@@ -158,7 +158,7 @@ export default {
       let that = this
       return function () {
         that.$store.commit('openApp')
-        that.$router.push(app)
+        that.$router.replace(app)
       }
     },
     start(ev) {

@@ -8,7 +8,7 @@
       <div class="application-container" @click.right.prevent="showMenu">
         <div id="search-container">
           <Search/>
-          <div class="news">
+          <div class="news" @click="openDrawer">
             <img src="../../assets/icon/hot.png" alt="news">
           </div>
         </div>
@@ -20,11 +20,8 @@
     <div id="dock-container">
       <Dock/>
     </div>
-    <button @click="showDrawer = !showDrawer">dadadad</button>
-    <App id="app"></App>
-    <transition name="rightDrawer" >
-      <div class="drawer" v-if="showDrawer"></div>
-    </transition>
+    <App></App>
+    <RightDrawer></RightDrawer>
   </div>
 </template>
 
@@ -41,6 +38,7 @@ import ComponentsCom from "@/popup/components/Components/Components";
 import CustomModal from "@/popup/components/common/WindowModal";
 import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
+import RightDrawer from "@/popup/components/common/RightDrawer";
 
 /* eslint-disable */
 export default {
@@ -60,16 +58,16 @@ export default {
     CustomModal,
     TodoApp,
     App,
+    RightDrawer,
   },
   methods: {
     showMenu(e) {
       console.log(123, e)
     },
     openDrawer() {
-      this.showDrawer = true
-    },
-    closeDrawer() {
-      this.showDrawer = false
+      console.log(123, this.$store.getters.showDrawer)
+      this.$router.replace('news')
+      this.$store.commit('openDrawer')
     },
   },
   computed: {
@@ -84,10 +82,7 @@ export default {
   },
   data() {
     return {
-      dialogState: false,
       showMenu: false,
-      showModal: false,
-      showDrawer: false,
     }
   }
 }
@@ -151,22 +146,5 @@ export default {
   #dock-container {
     width: 100%;
     height: 10%;
-  }
-  .rightDrawer-enter-active,
-  .rightDrawer-leave-active {
-    transition: all 500ms ease;
-  }
-  .rightDrawer-enter-from,
-  .rightDrawer-leave-to {
-    transform: translateX(430px);
-    opacity: 0;
-  }
-  .drawer {
-    width: 430px;
-    height: 100%;
-    background: blue;
-    position: fixed;
-    top: 0;
-    right: 0;
   }
 </style>
