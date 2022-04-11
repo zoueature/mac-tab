@@ -79,7 +79,7 @@ export default {
     height: v-bind(iconSize);
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 14px;
   }
   .title-container {
     margin-top: 3px;
