@@ -5,15 +5,20 @@ import AppStore from "@/popup/components/App/AppStore/AppStore";
 import Note from "@/popup/components/App/Note/Note";
 import NewsDrawer from "@/popup/components/App/News/NewsDrawer";
 import JsonFormatter from "@/popup/components/App/JsonFormatter/JsonFormatter";
+import Translate from "@/popup/components/App/Translate/Translate";
 
 const routes = [
+    // ----------- app -------------
     { name: 'todo', path: '/todo', components: {app: TodoApp}, },
     { name: 'wallpaper',path: '/wallpaper', components: {app: Wallpaper},},
     { name: 'calculator',path: '/calculator', components: {app: Calculator}, },
     { name: 'appstore',path: '/appstore', components: {app: AppStore}, },
     { name: 'note',path: '/note', components: {app: Note}, },
-    { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
     { name: 'json', path: '/json', components: {app: JsonFormatter}, },
+    { name: 'translate', path: '/translate', components: {app: Translate}, },
+
+    // ---------- drawer ------------
+    { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
 ]
 
 export default routes
