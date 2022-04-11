@@ -7,7 +7,7 @@
       </div>
       <div class="news-content">
         <div class="news-title">
-          {{news.title.substring(0, 30)}}
+          {{news.title}}
         </div>
         <div class="news-desc">
           {{desc(news.desc)}}
@@ -190,10 +190,12 @@ export default {
     height: 100%;
   }
   .news-title {
+    width: 100%;
     font-size: 15px;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: rgba(12, 16, 33, 0.84);
+    overflow: hidden;
   }
   .news-desc {
     width: 100%;
