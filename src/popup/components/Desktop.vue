@@ -7,10 +7,10 @@
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
         <div id="search-container">
-          <div class="news">
-            <img src="../../assets/icon/fire.png" alt="news">
-          </div>
           <Search/>
+          <div class="news">
+            <img src="../../assets/icon/hot.png" alt="news">
+          </div>
         </div>
         <div id="apps-container">
           <Apps size="80" rows="4" columns="13"/>
@@ -117,7 +117,7 @@ export default {
   }
   .blank-container {
     width: 100%;
-    height: 90%;
+    height: 88%;
     display: flex;
     overflow: hidden;
   }
@@ -147,10 +147,10 @@ export default {
     display: flex;
   }
   .news {
-    width: 43px;
-    height: 43px;
-    margin-right: 16px;
-    margin-top: 5px;
+    width: 34px;
+    height: 34px;
+    margin-left: 16px;
+    margin-top: 10px;
   }
 
   #apps-container {

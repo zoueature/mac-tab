@@ -46,7 +46,7 @@
       </div>
       <div class="todo-list">
         <div class="todo-list-title-container">
-          <div class="todo-title">{{todoList(activeTab).name}}</div>
+          <div class="todo-title">{{todoList(activeTab).name?? "还没创建TODO哦"}}</div>
           <div class="add-todo-icon" @click="createTodo(activeTab)">
             <img src="../../../../assets/icon/plus_blue.png" alt="">
           </div>
@@ -58,7 +58,12 @@
                @mouseenter="showTodoOp(todoItem.id)"
                @mouseleave="hideTodoOp"
           >
-            <p><input type="text" v-model="todoItem.title" :disabled="!todoItem.newCreate" @focusout="todoItem.newCreate = false" autofocus></p>
+            <p>
+              <input type="text" v-model="todoItem.title"
+                     placeholder="创建新TODO"
+                      :disabled="!todoItem.newCreate"
+                      @focusout="todoItem.newCreate = false" autofocus>
+            </p>
             <div class="todo-opt" v-if="opTodoID === todoItem.id">
               <div class="opt" @click="done(todoItem, index)">
                 <img src="../../../../assets/icon/done_fill.png" alt="done">

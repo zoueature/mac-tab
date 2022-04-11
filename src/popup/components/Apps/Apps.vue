@@ -89,7 +89,14 @@ export default {
             {id: 23, type: 'app', size: 70, name:"蘑菇街", icon:"../../../assets/images/app/mogujie.png", link: "https://www.mogujie.com/"},
             {id: 24, type: 'app', size: 70, name:"京东", icon:"../../../assets/images/app/jd.png", link: "https://www.jd.com/"},
           ]},
-        {id: 10, type: 'app', size: 70, name: "历史记录", icon:"../../../assets/icon/deadline.png", link:"chrome://history/"},
+        {
+          id: 10,
+          type: 'app',
+          size: 70,
+          name: "历史记录",
+          icon:"../../../assets/images/app/history.png",
+          link:"chrome://history/"
+        },
         {
           id: 22,
           type: 'app',
@@ -97,6 +104,30 @@ export default {
           name: "切壁纸",
           icon: "../../../assets/images/app/wallpaper.png",
           click: this.openApp('wallpaper')
+        },
+        {
+          id: 23,
+          type: 'app',
+          size: 70,
+          name: "计算器",
+          icon: "../../../assets/images/app/calculator.png",
+          click: this.openApp('calculator')
+        },
+        {
+          id: 24,
+          type: 'app',
+          size: 70,
+          name: "AppStore",
+          icon: "../../../assets/images/app/appstore.png",
+          click: this.openApp('appstore')
+        },
+        {
+          id: 25,
+          type: 'app',
+          size: 70,
+          name: "备忘录",
+          icon: "../../../assets/images/app/note.png",
+          click: this.openApp('note')
         }
       ]
     }
@@ -119,7 +150,7 @@ export default {
       let that = this
       return function () {
         that.$store.commit('openApp')
-        that.$router.push("/" + app)
+        that.$router.push(app)
       }
     },
     start(ev) {

@@ -28,20 +28,13 @@ export default {
   data() {
     return {
       scaleIndex: -2,
-      size: 70,
+      size: 66,
       docks: [
         {id: 1, type: 'app', scale: true, name:"网易云音乐", icon:"../../../assets/images/app/netease.png", link: "https://music.163.com/"},
         {id: 2, type: 'app', scale: true, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
         {id: 3, type: 'app', scale: true, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
         {id: 4, type: 'app', scale: true, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
         {id: 5, type: 'app', scale: true, name:"优酷", icon:"../../../assets/images/app/youku.png", link: "https://www.youku.com/"},
-        {id: 6, type: 'app', scale: true, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
-        {id: 7, type: 'app', scale: true, name:"即刻", icon:"../../../assets/images/app/jike.png", link: "https://web.okjike.com/"},
-        {id: 8, type: 'app', scale: true, name:"微博", icon:"../../../assets/images/app/weibo.png", link: "https://www.weibo.com/"},
-        {id: 9, type: 'app', scale: true, name:"Facebook", icon:"../../../assets/images/app/facebook.png", link: "https://www.facebook.com/"},
-        {id: 10, type: 'app', scale: true, name:"Youtube", icon:"../../../assets/images/app/youtube.png", link: "https://www.youtube.com/"},
-        {id: 11, type: 'app', scale: true, name:"Twitter", icon:"../../../assets/images/app/twitter.png", link: "https://www.twitter.com/"},
-        {id: 12, type: 'app', scale: true, name:"京东", icon:"../../../assets/images/app/jd.png", link: "https://www.jd.com/"},
         {id: 6, type: 'app', scale: true, name:"Github", icon:"../../../assets/images/app/github.png", link: "https://github.com/"},
         {id: 7, type: 'app', scale: true, name:"即刻", icon:"../../../assets/images/app/jike.png", link: "https://web.okjike.com/"},
         {id: 8, type: 'app', scale: true, name:"微博", icon:"../../../assets/images/app/weibo.png", link: "https://www.weibo.com/"},
@@ -61,7 +54,7 @@ export default {
       return size
     },
     containerLength() {
-      return (this.docks.length + 1 ) * this.size  + 'px'
+      return (this.docks.length + 2 ) * this.size  + 'px'
     },
     dockItemSize() {
       return (this.size + 10) + 'px'
@@ -96,21 +89,24 @@ export default {
 
 <style scoped>
   @keyframes enlargeBig {
+    from {
+      transform: scale(1);
+    }
     to {
-      transform: scale(1.6);
+      transform: scale(1.5);
     }
   }
   @keyframes enlargeLittle {
     to {
-      transform: scale(1.3);
+      transform: scale(1.2);
     }
   }
   .enlarge {
-    animation: enlargeBig 300ms;
+    animation: enlargeBig 100ms;
     /*transform: scale(1.6);*/
   }
   .enlarge-little {
-    animation: enlargeLittle 200ms;
+    /*animation: enlargeLittle 300ms;*/
     /*transform: scale(1.3);*/
   }
   .container, .bg {
