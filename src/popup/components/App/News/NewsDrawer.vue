@@ -196,6 +196,8 @@ export default {
     white-space: nowrap;
     color: rgba(12, 16, 33, 0.84);
     overflow: hidden;
+    font-weight: bolder;
+    margin-bottom: 10px;
   }
   .news-desc {
     width: 100%;

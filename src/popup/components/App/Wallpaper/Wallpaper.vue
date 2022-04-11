@@ -27,7 +27,14 @@ export default {
       this.hoverIndex = -1
     },
     setWallpaper(src) {
-      this.$store.commit('setWallpaper', src)
+      let img = new Image()
+      img.src = src
+      let that = this
+      // todo 加loading
+      img.onload = function () {
+        console.log(123)
+        that.$store.commit('setWallpaper', src)
+      }
     }
   },
   data() {
