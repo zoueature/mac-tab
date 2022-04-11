@@ -128,6 +128,14 @@ export default {
           name: "备忘录",
           icon: "../../../assets/images/app/note.png",
           click: this.openApp('note')
+        },
+        {
+          id: 26,
+          type: 'app',
+          size: 70,
+          name: "超级搜索",
+          icon: "../../../assets/images/app/searcher.png",
+          click: this.openApp('searcher')
         }
       ]
     }
