@@ -4,6 +4,7 @@ export default createStore({
     state: {
         showApp: false,
         showDrawer: false,
+        showLoading: false,
         wallpaper: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
     },
     getters: {
@@ -15,6 +16,9 @@ export default createStore({
         },
         showDrawer(state) {
            return state.showDrawer
+        },
+        showLoading(state) {
+            return state.showLoading
         }
     },
     mutations: {
@@ -29,6 +33,12 @@ export default createStore({
         },
         closeDrawer(state) {
             state.showDrawer = false
+        },
+        openLoading(state) {
+            state.showLoading = true
+        },
+        closeLoading(state) {
+            state.showLoading = false
         },
         setWallpaper(state, wallpaper) {
             state.wallpaper = wallpaper

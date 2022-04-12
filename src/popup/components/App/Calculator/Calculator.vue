@@ -4,7 +4,7 @@
       123
     </div>
     <div class="keyboard">
-      <img src="../../../../assets/icon/loading.gif" alt="" style="width: 100%; height:40px;">
+      <img src="../../../../assets/icon/loading.gif" alt="" style="width: 60px; height:60px;">
     </div>
   </div>
 </template>

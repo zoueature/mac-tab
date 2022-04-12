@@ -22,6 +22,7 @@
     </div>
     <App></App>
     <RightDrawer></RightDrawer>
+    <Loading></Loading>
   </div>
 </template>
 
@@ -39,6 +40,7 @@ import CustomModal from "@/popup/components/common/WindowModal";
 import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
+import Loading from "@/popup/components/common/Loading";
 
 /* eslint-disable */
 export default {
@@ -59,6 +61,7 @@ export default {
     TodoApp,
     App,
     RightDrawer,
+    Loading,
   },
   methods: {
     showMenu(e) {

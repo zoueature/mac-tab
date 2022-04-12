@@ -30,9 +30,9 @@ export default {
       let img = new Image()
       img.src = src
       let that = this
-      // todo 加loading
+      this.$store.commit('openLoading')
       img.onload = function () {
-        console.log(123)
+        that.$store.commit('closeLoading')
         that.$store.commit('setWallpaper', src)
       }
     }
