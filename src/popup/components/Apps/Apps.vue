@@ -1,6 +1,6 @@
 <template>
   <div class="apps">
-      <Draggable :list="apps"
+      <Draggable :list="userApps"
                  item-key="id"
                  :options="option"
                  tag="transition-group"
@@ -175,6 +175,14 @@ export default {
     },
     containerWidth() {
       return (this.appSize * this.columNum) + 'px'
+    },
+    userApps() {
+      let list =  this.$store.getters.userApps
+      let that = this
+      list.forEach((v, i) => {
+        list[i].click = that.openApp(v.app)
+      })
+      return list
     }
   },
   methods: {

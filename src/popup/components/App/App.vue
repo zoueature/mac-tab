@@ -59,7 +59,8 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-    padding: 10px 10px 10px 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
@@ -68,6 +69,7 @@ export default {
   .app-title {
     width: 100%;
     height: 25px;
+    margin-left: 7px;
     display: flex;
   }
   .app-content {

@@ -30,10 +30,10 @@ export default {
   },
   computed: {
     handler() {
-      if (this.clickHandler !== null && this.clickHandler !== undefined) {
-        return this.clickHandler
+      if (this.link !== null && this.link !== undefined && this.link !== "") {
+        return this.goto
       }
-      return this.goto
+      return this.clickHandler
     }
   },
   methods: {
