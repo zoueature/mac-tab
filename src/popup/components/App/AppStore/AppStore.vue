@@ -149,7 +149,7 @@ export default {
     margin-left: 16px;
     line-height: 37px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     color: rgba(0,0,0,0.77);
   }
   .app-list {

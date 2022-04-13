@@ -64,6 +64,15 @@ const apps = [
         categoryId: 4,
         desc: "抖音短视频WEB版",
     },
+    {
+        id: 31,
+        name: "代办事项",
+        icon: "../../../../assets/images/app/todo.png",
+        app: 'todo',
+        link: '',
+        categoryId: 5,
+        desc: "待办事项",
+    },
 ]
 const appCategory = [
     {
@@ -90,6 +99,11 @@ const appCategory = [
         id: 4,
         icon: '../../../../assets/icon/appstore/rocket.png',
         name: '娱乐',
+    },
+    {
+        id: 6,
+        icon: '../../../../assets/icon/appstore/component.png',
+        name: '小组件',
     },
 ]
 
