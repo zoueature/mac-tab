@@ -175,6 +175,9 @@ export default {
     width: 40px;
     height: 40px;
     float: left;
+    border-radius: 7px;
+    overflow: hidden;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
   }
   .app-name {
     font-size: 14px;
