@@ -14,13 +14,15 @@
               </div>
             </div>
             <div class="static-num">
-              <div>{{todayNum}}</div>
+              <div v-if="stc.id === 1000000000000">{{todayNum}}</div>
+              <div v-else-if="stc.id === 1000000000002">{{doneNum}}</div>
+              <div v-else-if="stc.id === 1000000000003">{{allNum}}</div>
             </div>
           </div>
         </div>
         <div class="todo-category-list">
           <div class="category-list" ref="cateList">
-            <div v-for="(category, index) in todoCategories" :key="category.id"
+            <div v-for="(category) in todoCategories" :key="category.id"
                 :class="'category-item' + (activeTab === category.id ? ' active' : '')"
                  @click="selectTab(category.id)"
                  @dblclick="modifyID = category.id"
@@ -33,7 +35,11 @@
                   {{category.name}}
                 </div>
                 <div v-else>
-                  <input class="input-cate" v-model="category.name" @keyup.enter="saveCategory(index, category)">
+                  <input class="input-cate"
+                         v-model="category.name"
+                         @keyup.enter="saveCategory(category)"
+                         @focusout="saveCategory(category)"
+                  >
                 </div>
               </div>
             </div>
@@ -66,8 +72,8 @@
                      placeholder="创建新TODO"
                      autofocus
                      :style="'font-size:15px; font-weight: bold;'"
-                    @focusout="createTodoId = 0"
-                     @keyup.enter="createTodoId = 0"
+                     @focusout="saveTodo(todoItem)"
+                     @keyup.enter="saveTodo(todoItem)"
                      ref="inputTodo"
               >
             </p>
@@ -78,7 +84,7 @@
               {{todoItem.title}}
             </p>
             <transition name="optbutton">
-              <div class="todo-opt" v-if="opTodoID === todoItem.id">
+              <div class="todo-opt" v-if="(opTodoID === todoItem.id && createTodoId !== todoItem.id)">
                 <div class="opt" @click="done(todoItem)">
                   <img src="../../../../assets/icon/done_fill.png" alt="done">
                 </div>
@@ -120,10 +126,7 @@ export default {
   components: {
   },
   created() {
-    let that = this
-    this.$nextTick(function (){
-      that.$refs.inputTodo.focus()
-    })
+    this.$store.commit('initTodo')
   },
   data() {
     return {
@@ -141,6 +144,12 @@ export default {
     },
     todayNum() {
       return this.$store.getters.todayTodoNum
+    },
+    doneNum() {
+      return this.$store.getters.doneTodoNum
+    },
+    allNum() {
+      return this.$store.getters.allTodoNum
     },
     todoCategories() {
       return this.$store.getters.todoCategories
@@ -171,7 +180,7 @@ export default {
       this.modifyID = id
     },
     // saveCategory 保存修改的分类信息
-    saveCategory(index, category) {
+    saveCategory(category) {
       // todo 持久化数据
       this.selectModifyCate(-1)
       this.$store.commit('saveTodoCategory', category)
@@ -200,6 +209,10 @@ export default {
     },
     deleteTodo(todo) {
       this.$store.commit('removeTodo', todo)
+    },
+    saveTodo(todo) {
+      this.createTodoId = 0
+      this.$store.commit('saveTodo', todo)
     }
   },
   mounted() {

@@ -5,4 +5,5 @@ export default {
 
     // todo
     userTodoList: "user_todo_list",
+    userTodoCategories: "user_todo_categories",
 }

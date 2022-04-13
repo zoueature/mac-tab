@@ -34,23 +34,44 @@ export default {
         if (len === 0) {
             return result
         }
-        console.log(state.latestTodo.length)
         for (let i = len -1; i >=0; i--) {
             result.push(state.latestTodo[i])
         }
-        console.log(result)
         return result
     },
+    // todayTodoNum 今日创建的数量
     todayTodoNum(state) {
         let num = 0
         let now = new Date()
-        new Date()
-        for (let v in state.userTodos) {
-            if (v.createTime <= now) {
-                num ++
-            }
+        for (let k in state.userTodos) {
+            state.userTodos[k].list.forEach((todo) => {
+                if (todo.createTime <= now.getTime()) {
+                    num ++
+                }
+            })
         }
-        console.log(num)
+        return num
+    },
+    // 完成的Todo数量
+    doneTodoNum(state) {
+        let num = 0
+        for (let k in state.userTodos) {
+            state.userTodos[k].list.forEach((todo) => {
+                if (todo.done) {
+                    num ++
+                }
+            })
+        }
+        return num
+    },
+    // 完成的Todo数量
+    allTodoNum(state) {
+        let num = 0
+        for (let k in state.userTodos) {
+            state.userTodos[k].list.forEach(() => {
+                num ++
+            })
+        }
         return num
     },
     todoCategories(state) {
