@@ -102,7 +102,7 @@ export default {
   }
   .app-category {
     flex: 3;
-    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);
+    /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
   }
   .search {
@@ -125,7 +125,8 @@ export default {
     margin-top: 7px;
   }
   .active {
-    background: rgba(37, 132, 209, 0.57);
+    /*background: rgba(37, 132, 209, 0.57);*/
+    background: white;
   }
   .category {
     width: 80%;

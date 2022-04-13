@@ -41,35 +41,13 @@ export default {
   created() {
     this.$vfm.show('todo', {})
   },
+  computed: {
+    todos() {
+      return this.$store.getters.latestTodo
+    }
+  },
   data() {
     return {
-      todos: [
-        {
-          id: 1,
-          title: "完成TODO模块的开发",
-          done: false,
-        },
-        {
-          id: 2,
-          title: "完成GP账号的注册",
-          done: true,
-        },
-        {
-          id: 2,
-          title: "完成GP账号的注册",
-          done: true,
-        },
-        {
-          id: 2,
-          title: "完成GP账号的注册",
-          done: true,
-        },
-        {
-          id: 2,
-          title: "完成GP账号的注册",
-          done: true,
-        }
-      ],
       showModal: false,
     }
   },

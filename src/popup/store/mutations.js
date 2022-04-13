@@ -39,4 +39,72 @@ export default {
     initUserApps(state, apps) {
         state.userApps = apps
     },
+
+    // ---------- todo -----------------
+    // todo {id: '', title: '', createTime: Date(), categoryId: 0, categoryName: ''}
+    addTodo(state, todo) {
+        let categoryId = todo.categoryId
+        let td = {
+            id: todo.id,
+            title: todo.title,
+            categoryId: categoryId,
+            done: false,
+            createTime: todo.createTime,
+        }
+        if (state.userTodos[categoryId] === undefined) {
+            let tmp = {
+                id: categoryId,
+                list: [td]
+            }
+            state.todoCategory.forEach((v) => {
+                if (v.id === tmp.id) {
+                    tmp.name = v.name
+                }
+            })
+            state.userTodos[categoryId] = tmp
+        } else {
+            state.userTodos[categoryId].list.unshift(td)
+        }
+        state.latestTodo.push(td)
+    },
+    removeTodo(state, todo) {
+        console.log(state.userTodos, todo)
+        state.userTodos[todo.categoryId].list.forEach((v, i) => {
+            if (v.id === todo.id) {
+                state.userTodos[todo.categoryId].list.splice(i, 1)
+            }
+        })
+        state.latestTodo.forEach((v, i) => {
+            if (v.id === todo.id) {
+                state.latestTodo.splice(i, 1)
+            }
+        })
+    },
+    doneTodo(state, todo) {
+        state.userTodos[todo.categoryId].list.forEach((v, i) => {
+            if (v.id === todo.id) {
+                state.userTodos[todo.categoryId].list.splice(i, 1)
+                v.done = true
+                state.userTodos[todo.categoryId].list.push(v)
+            }
+        })
+    },
+    addTodoCategory(state, category) {
+        state.todoCategory.unshift(category)
+        if (state.userTodos[category.id] === undefined) {
+            state.userTodos[category.id] = {
+                id: category.id,
+                name: category.name,
+                list: []
+            }
+        }
+    },
+    saveTodoCategory(state, category) {
+        state.todoCategory.forEach((v, i) => {
+            if (v.id === category.id) {
+                state.todoCategory[i] = category
+            }
+        })
+        state.userTodos[category.id].name = category.name
+    }
 }

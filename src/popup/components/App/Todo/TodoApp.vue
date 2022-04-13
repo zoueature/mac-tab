@@ -5,6 +5,7 @@
           <div :class="'static-tab' + (activeTab === stc.id ? ' active' : '')"
                v-for="(stc, index) in statics" :key="index"
                @click="selectTab(stc.id)"
+               :style="stc.id === 1000000000000 ? 'grid-column: span 2; width: 95%': ''"
           >
             <div class="static-name">
               <div class="static-icon">
@@ -13,7 +14,7 @@
               </div>
             </div>
             <div class="static-num">
-              <div>{{stc.num}}</div>
+              <div>{{todayNum}}</div>
             </div>
           </div>
         </div>
@@ -25,7 +26,7 @@
                  @dblclick="modifyID = category.id"
             >
               <div class="category-icon">
-                <img :src="category.icon" alt="">
+                <img src="../../../../assets/icon/list.png" alt="">
               </div>
               <div class="category-name">
                 <div v-if="category.id !== modifyID">
@@ -46,30 +47,42 @@
       </div>
       <div class="todo-list">
         <div class="todo-list-title-container">
-          <div class="todo-title">{{todoList(activeTab).name?? "还没创建TODO哦"}}</div>
-          <div class="add-todo-icon" @click="createTodo(activeTab)">
+          <div class="todo-title">{{todoList.name?? "还没创建TODO哦"}}</div>
+          <div class="add-todo-icon" @click="createTodo()" v-if="activeTab !== 1000000000000 && activeTab !== 1000000000002 && activeTab !== 1000000000003">
             <img src="../../../../assets/icon/plus_blue.png" alt="">
           </div>
         </div>
         <transition-group  name="list">
           <div class="todo-item"
-               v-for="(todoItem, index) in todoList(activeTab).list"
+               v-for="(todoItem) in todoList.list ?? []"
                :key="todoItem"
                @mouseenter="showTodoOp(todoItem.id)"
                @mouseleave="hideTodoOp"
           >
-            <p>
-              <input type="text" v-model="todoItem.title"
+            <p v-if="createTodoId === todoItem.id">
+              <input type="text"
+                     class="input-todo"
+                     v-model="todoItem.title"
                      placeholder="创建新TODO"
-                      :disabled="!todoItem.newCreate"
-                      @focusout="todoItem.newCreate = false" autofocus>
+                     autofocus
+                     :style="'font-size:15px; font-weight: bold;'"
+                    @focusout="createTodoId = 0"
+                     @keyup.enter="createTodoId = 0"
+                     ref="inputTodo"
+              >
+            </p>
+            <p v-else
+               :style="todoItem.done ? 'text-decoration: line-through;' :''"
+               style="font-size: 14px;"
+            >
+              {{todoItem.title}}
             </p>
             <transition name="optbutton">
               <div class="todo-opt" v-if="opTodoID === todoItem.id">
-                <div class="opt" @click="done(todoItem, index)">
+                <div class="opt" @click="done(todoItem)">
                   <img src="../../../../assets/icon/done_fill.png" alt="done">
                 </div>
-                <div class="opt" @click="deleteTodo(index)">
+                <div class="opt" @click="deleteTodo(todoItem)">
                   <img src="../../../../assets/icon/delete.png" alt="delete">
                 </div>
               </div>
@@ -82,9 +95,35 @@
 
 <script>
 
+const staticTab = [
+  {
+    id: 1000000000000,
+    icon: "../../../../assets/icon/today.png",
+    name: "今日",
+  },
+  {
+    id: 1000000000002,
+    icon: "../../../../assets/icon/radio-done.png",
+    name: "完成",
+    num: 3,
+  },
+  {
+    id: 1000000000003,
+    icon: "../../../../assets/icon/all.png",
+    name: "全部",
+    num: 23,
+  }
+]
+
 export default {
   name: "TodoApp",
   components: {
+  },
+  created() {
+    let that = this
+    this.$nextTick(function (){
+      that.$refs.inputTodo.focus()
+    })
   },
   data() {
     return {
@@ -92,109 +131,29 @@ export default {
       activeTab: 1000000000000,
       modifyID: -1,
       opTodoID: 0,
-      todoCategories: [
-        {
-          id: 1,
-          name: "第一个五年计划",
-          icon: "../../../../assets/icon/list.png",
-        },
-        {
-          id: 2,
-          name: "第一个五年计划",
-          icon: "../../../../assets/icon/list.png",
-        },
-        {
-          id: 3,
-          name: "第一个五年计划",
-          icon: "../../../../assets/icon/list.png",
-        },
-        {
-          id: 4,
-          name: "第一个五年计划",
-          icon: "../../../../assets/icon/list.png",
-        },
-        {
-          id: 5,
-          name: "第一个五年计划",
-          icon: "../../../../assets/icon/list.png",
-        },
-      ],
-      allTodoList: {
-        "1000000000000": {
-          id: 1,
-          name: "第一个五年计划",
-          icon: "../../../../assets/icon/list.png",
-          list: [
-            {
-              id: 1,
-              title: '完成TODO模块的开发',
-              newCreate: false,
-            },
-            {
-              id: 2,
-              title: '完成TODO模块的开发',
-              newCreate: false,
-            },
-            {
-              id: 3,
-              title: '完成TODO模块的开发',
-              newCreate: false,
-            },
-            {
-              id: 4,
-              title: '完成TODO模块的开发',
-              newCreate: false,
-            },
-          ]
-        }
-      },
-      statics: [
-        {
-          id: 1000000000000,
-          icon: "../../../../assets/icon/today.png",
-          name: "今日",
-          num: 1,
-        },
-        {
-          id: 1000000000001,
-          icon: "../../../../assets/icon/deadline.png",
-          name: "Deadline",
-          num: 23,
-        },
-        {
-          id: 1000000000002,
-          icon: "../../../../assets/icon/radio-done.png",
-          name: "完成",
-          num: 3,
-        },
-        {
-          id: 1000000000003,
-          icon: "../../../../assets/icon/all.png",
-          name: "全部",
-          num: 23,
-        }
-      ],
-
+      statics: staticTab,
+      createTodoId: 0,
     }
   },
   computed: {
     todoList() {
-      let that = this
-      return function (id) {
-        return that.allTodoList[id]?? []
-      }
+      return this.$store.getters.userTodoList(this.activeTab)
+    },
+    todayNum() {
+      return this.$store.getters.todayTodoNum
+    },
+    todoCategories() {
+      return this.$store.getters.todoCategories
     }
   },
   methods: {
     // createCategory 创建分类
     createCategory() {
-      console.log(123)
       let newCategory = {
         id: (new Date()).getTime(),
         name: "新分类",
-        icon: "../../../../assets/icon/list.png",
       }
-      this.todoCategories.unshift(newCategory)
+      this.$store.commit('addTodoCategory', newCategory)
       this.selectTab(newCategory.id)
       this.selectModifyCate(newCategory.id)
     },
@@ -215,7 +174,7 @@ export default {
     saveCategory(index, category) {
       // todo 持久化数据
       this.selectModifyCate(-1)
-      this.todoCategories[index] = category
+      this.$store.commit('saveTodoCategory', category)
     },
     // showTodoOp 展示todo操作按钮
     showTodoOp(todoID) {
@@ -225,19 +184,22 @@ export default {
     hideTodoOp() {
       this.opTodoID = 0
     },
-    createTodo(categoryId) {
-      this.allTodoList[categoryId].list.unshift({
+    createTodo() {
+      let todo = {
         id: new Date().getTime(),
         title:'',
         newCreate: true,
-      })
+        categoryId: this.activeTab,
+        createTime: new Date().getTime(),
+      }
+      this.createTodoId = todo.id
+      this.$store.commit('addTodo', todo)
     },
-    done(todo, index) {
-      this.allTodoList[this.activeTab].list.splice(index, 1)
-      this.allTodoList[this.activeTab].list.push(todo)
+    done(todo) {
+      this.$store.commit('doneTodo', todo)
     },
-    deleteTodo(index) {
-      this.allTodoList[this.activeTab].list.splice(index, 1)
+    deleteTodo(todo) {
+      this.$store.commit('removeTodo', todo)
     }
   },
   mounted() {
@@ -269,7 +231,8 @@ export default {
     display: grid;
     grid-template-rows: repeat(2, 50%);
     grid-template-columns: repeat(2, 50%);
-    justify-items: center;
+    /*justify-items: center;*/
+    justify-content: start;
     align-items: center;
   }
   .static-tab {
@@ -342,6 +305,7 @@ export default {
   .add-icon {
     width: 14px;
     height: 14px;
+    margin-left: 16px;
   }
   .input-cate {
     border: none;
@@ -398,7 +362,7 @@ export default {
     border: none;
     outline: none;
     color: white;
-    font-size: 13px;
+    font-size: 14px;
   }
   .todo-opt {
     top: 0;
@@ -446,9 +410,13 @@ export default {
   .list-leave-active {
     transition: all 500ms ease;
   }
-  .list-enter-from, .list-leave-to{
+  .list-enter-from {
     opacity: 0;
     transform: translateX(70px);
+  }
+  .list-leave-to{
+    opacity: 0;
+    transform: translateY(70px);
   }
   .optbutton-enter-active,
   .optbutton-leave-active {
