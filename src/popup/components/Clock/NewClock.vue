@@ -40,6 +40,7 @@ const weekMap = [
 export default {
   name: "NewClock",
   created() {
+    this.refreshTime()
     setInterval(this.refreshTime, 1000)
   },
   computed: {
@@ -95,7 +96,7 @@ export default {
     border-radius: 100%;
     #background: rgba(231, 218, 218, 0.88);
     box-shadow: 3px 4px 16px rgba(31, 31, 31, 0.35);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(7px);
   }
   .test {
     transform-origin: left;

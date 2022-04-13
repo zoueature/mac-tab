@@ -64,14 +64,16 @@
                       :disabled="!todoItem.newCreate"
                       @focusout="todoItem.newCreate = false" autofocus>
             </p>
-            <div class="todo-opt" v-if="opTodoID === todoItem.id">
-              <div class="opt" @click="done(todoItem, index)">
-                <img src="../../../../assets/icon/done_fill.png" alt="done">
+            <transition name="optbutton">
+              <div class="todo-opt" v-if="opTodoID === todoItem.id">
+                <div class="opt" @click="done(todoItem, index)">
+                  <img src="../../../../assets/icon/done_fill.png" alt="done">
+                </div>
+                <div class="opt" @click="deleteTodo(index)">
+                  <img src="../../../../assets/icon/delete.png" alt="delete">
+                </div>
               </div>
-              <div class="opt" @click="deleteTodo(index)">
-                <img src="../../../../assets/icon/delete.png" alt="delete">
-              </div>
-            </div>
+            </transition>
           </div>
         </transition-group>
       </div>
@@ -399,14 +401,18 @@ export default {
     font-size: 13px;
   }
   .todo-opt {
+    top: 0;
     position: absolute;
-    height: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 2%;
+    float: right;
+    height: 100%;
+    right: 0;
+    padding-right: 2%;
+    padding-left: 2%;
     display: flex;
+    background: rgba(9, 9, 9, 0.34);
   }
   .opt {
+    margin-top: 6px;
     width: 20px;
     height: 20px;
     margin-left: 5px;
@@ -444,7 +450,11 @@ export default {
     opacity: 0;
     transform: translateX(70px);
   }
-  .list-move {
-    transform: translateY(70px);
+  .optbutton-enter-active,
+  .optbutton-leave-active {
+    transition: all 200ms ease;
+  }
+  .optbutton-enter-from, .optbutton-leave-to{
+    transform: translateX(100px);
   }
 </style>
