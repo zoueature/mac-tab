@@ -95,13 +95,13 @@ export default {
     border-radius: 100%;
     #background: rgba(231, 218, 218, 0.88);
     box-shadow: 3px 4px 16px rgba(31, 31, 31, 0.35);
+    backdrop-filter: blur(2px);
   }
   .test {
     transform-origin: left;
     position: absolute;
     width: 50%;
     height: 3px;
-    #background: green;
     margin: auto;
     left: 50%;
     right: 0;
@@ -109,16 +109,16 @@ export default {
     bottom: 0;
   }
   .test div {
-    width: 10%;
+    width: 2%;
     height: 100%;
     position: absolute;
     right: 5%;
     border-radius: 100%;
-    background: #42b983;
+    background: #00c3ff;
   }
   .pointer {
     width: 50%;
-    height: 10px;
+    height: 7px;
     position: absolute;
     margin: auto;
     left: 50%;
@@ -130,7 +130,8 @@ export default {
   .pointer div {
     width: 20%;
     height: 100%;
-    border-radius: 100%;
+    /*border-radius: 100%;*/
+    border-radius: 0 50% 50% 0;
     position: absolute;
     right: 0;
     animation: ss 3s linear;
@@ -138,7 +139,7 @@ export default {
   @keyframes ss {
     from {
       opacity: 1;
-      background: #42b983;
+      background: #008cff;
     }
     to {
       opacity: 0;

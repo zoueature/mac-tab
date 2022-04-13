@@ -16,14 +16,6 @@ const apps = [
         desc: "科学计算器",
     },
     {
-        id: 24,
-        name: "AppStore",
-        icon: "../../../../assets/images/app/appstore.png",
-        app: 'appstore',
-        categoryId: 5,
-        desc: "应用商店",
-    },
-    {
         id: 25,
         name: "备忘录",
         icon: "../../../../assets/images/app/note.png",
