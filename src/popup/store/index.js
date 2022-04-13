@@ -111,6 +111,13 @@ export default createStore({
         },
         userApps(state) {
            return state.userApps
+        },
+        installedAppID(state) {
+            let result = {}
+            state.userApps.forEach((v) => {
+                result[v.id] = true
+            })
+            return result
         }
     },
     mutations: mutations,

@@ -29,6 +29,7 @@
 
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
+import keys from "@/popup/store/keys";
 
 const appsStorageKeyName = "applications"
 
@@ -73,101 +74,19 @@ export default {
         animation: 1000,
         ghostClass: "ghostClass",
         tag: "transition"
-      },
-      apps: [
-        {id: 20, type: 'folder', size: 70, name:"娱乐", apps: [
-            {id: 1, type: 'app', size: 70, name:"新浪微博", icon:"../../../assets/images/app/sina.png", link: "https://weibo.com/"},
-            {id: 2, type: 'app', size: 70, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
-            {id: 3, type: 'app', size: 70, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
-            {id: 4, type: 'app', size: 70, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
-            {id: 2, type: 'app', size: 70, name:"Tiktok", icon:"../../../assets/images/app/tiktok.png", link: "https://www.tiktok.com/"},
-            {id: 3, type: 'app', size: 70, name:"爱奇艺", icon:"../../../assets/images/app/iqiyi.png", link: "https://www.iqiyi.com/"},
-            {id: 4, type: 'app', size: 70, name:"腾讯视频", icon:"../../../assets/images/app/txvideo.png", link: "https://v.qq.com/"},
-          ]},
-        {id: 21, type: 'folder', size: 70, name:"购物", apps: [
-            {id: 22, type: 'app', size: 70, name:"淘宝", icon:"../../../assets/images/app/taobao.png", link: "https://www.taobao.com/"},
-            {id: 23, type: 'app', size: 70, name:"蘑菇街", icon:"../../../assets/images/app/mogujie.png", link: "https://www.mogujie.com/"},
-            {id: 24, type: 'app', size: 70, name:"京东", icon:"../../../assets/images/app/jd.png", link: "https://www.jd.com/"},
-          ]},
-        {
-          id: 10,
-          type: 'app',
-          size: 70,
-          name: "历史记录",
-          icon:"../../../assets/images/app/history.png",
-          link:"chrome://history/"
-        },
-        {
-          id: 22,
-          type: 'app',
-          size: 70,
-          name: "切壁纸",
-          icon: "../../../assets/images/app/wallpaper.png",
-          click: this.openApp('wallpaper')
-        },
-        {
-          id: 23,
-          type: 'app',
-          size: 70,
-          name: "计算器",
-          icon: "../../../assets/images/app/calculator.png",
-          click: this.openApp('calculator')
-        },
-        {
-          id: 24,
-          type: 'app',
-          size: 70,
-          name: "AppStore",
-          icon: "../../../assets/images/app/appstore.png",
-          click: this.openApp('appstore')
-        },
-        {
-          id: 25,
-          type: 'app',
-          size: 70,
-          name: "备忘录",
-          icon: "../../../assets/images/app/note.png",
-          click: this.openApp('note')
-        },
-        {
-          id: 26,
-          type: 'app',
-          size: 70,
-          name: "超级搜索",
-          icon: "../../../assets/images/app/searcher.png",
-          click: this.openApp('searcher')
-        },
-        {
-          id: 27,
-          type: 'app',
-          size: 70,
-          name: "翻译",
-          icon: "../../../assets/images/app/translate.png",
-          click: this.openApp('translate')
-        },
-        {
-          id: 28,
-          type: 'app',
-          size: 70,
-          name: "JSON格式化",
-          icon: "../../../assets/images/app/json.png",
-          click: this.openApp('json')
-        },
-        {
-          id: 29,
-          type: 'app',
-          size: 70,
-          name: "热门短视频",
-          icon: "../../../assets/images/app/short_video.png",
-          click: this.openApp('video')
-        }
-      ]
+      }
     }
   },
   created() {
     this.appSize = this.size
     this.rowsNum = this.rows
     this.columNum = this.columns
+    let localUserApps = localStorage.getItem(keys.userApp)
+    let userApps = []
+    if (localUserApps !== "" && localUserApps !== null) {
+      userApps = JSON.parse(localUserApps)
+      this.$store.commit('initUserApps', userApps)
+    }
   },
   computed: {
     containerHeight() {

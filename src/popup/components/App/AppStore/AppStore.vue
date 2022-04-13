@@ -29,8 +29,11 @@
           <br/>
           <span class="app-desc">{{app.desc.substring(0, 14)}}</span>
         </div>
-        <div class="app-installer" @click="install(app)">
+        <div class="app-installer" @click="install(app)" v-if="!app.installed">
           <img src="../../../../assets/icon/download.png" alt="" style="width: 100%; height: 100%">
+        </div>
+        <div class="app-installer" @click="remove(app)" v-else>
+          <img src="../../../../assets/icon/delete.png" alt="" style="width: 100%; height: 100%">
         </div>
       </div>
     </div>
@@ -55,16 +58,28 @@ export default {
         size: 70,
         name: app.name,
         icon: app.icon,
-        app: app.app,
+        app:  app.app,
+        link: app.link,
       },)
+    },
+    remove(app) {
+      this.$store.commit('removeApp', app)
     }
   },
   computed: {
     selectedApp() {
+      let that = this
       return function (categoryId) {
-        console.log(categoryId)
-        console.log(this.apps[categoryId])
-        return this.apps[categoryId].list
+        let installed = that.$store.getters.installedAppID
+        let list = that.apps[categoryId].list
+        list.forEach((v, index) => {
+          list[index].installed = false
+          let isInstalled = installed[v.id]
+          if (isInstalled === true) {
+            list[index].installed = true
+          }
+        })
+        return list
       }
     }
   },
@@ -110,7 +125,7 @@ export default {
     margin-top: 7px;
   }
   .active {
-    background: #e52d2d;
+    background: rgba(37, 132, 209, 0.57);
   }
   .category {
     width: 80%;
@@ -151,13 +166,14 @@ export default {
     width: 46%;
     margin-left: 2%;
     margin-right: 2%;
-    height: 40px;
+    height: 52px;
     margin-top: 16px;
-    display: flex;
+    overflow: hidden;
   }
   .app-icon {
     width: 40px;
     height: 40px;
+    float: left;
   }
   .app-name {
     font-size: 14px;
@@ -167,6 +183,7 @@ export default {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    float: left;
   }
   .app-desc {
     margin-top: 2px;
