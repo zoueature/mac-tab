@@ -1,8 +1,12 @@
 <template>
   <div class="news-drawer-container">
-    <div class="news-item" v-for="(news, index) in newsList" :key="index">
+    <div class="news-item"
+         v-for="(news, index) in newsList"
+         :key="index"
+         @click="gotoDetail(news.detail)"
+    >
       <div class="news-img">
-        <div class="news-seq">{{index + 1}}</div>
+        <div class="news-seq" :style="'background:' + 'rgba(255, '+(10 * index)+', '+ (5 * index) +')'">{{index + 1}}</div>
         <img :src="news.img" alt="">
       </div>
       <div class="news-content">
@@ -24,10 +28,15 @@ export default {
     desc() {
       return function (desc) {
         if (desc.length > 30) {
-          return desc.substring(0, 30) + "... 查看更多>>"
+          return desc.substring(0, 37)
         }
         return desc.substring(0, 30)
       }
+    }
+  },
+  methods: {
+    gotoDetail(detailURL) {
+      window.open(detailURL, '_blank');
     }
   },
   data() {
@@ -37,37 +46,37 @@ export default {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/cff817033087bf233ce7fb1c2499a2f7?x-bce-process=image/resize,m_fill,w_256,h_170",
           title: '解读加快建设全国统一大市场',
           desc: '4月11日，民航局召开发布会，辟谣“东航飞机失事锁定副驾驶”等传言。 民航局表示，东航事故目前还在调查中，还不能给事故原因和性质下结论',
-          detail: '',
+          detail: 'https://www.baidu.com',
         },
         {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/ba41b58bbdf78b7b632d7e15c5b2c65a?x-bce-process=image/resize,m_fill,w_256,h_170",
           title: '官方辟谣东航飞机失事与副驾有关',
           desc: '4月11日，民航局召开发布会，辟谣“东航飞机失事锁定副驾驶”等传言。 民航局表示，东航事故目前还在调查中，还不能给事故原因和性质下结论。',
-          detail: '',
+          detail: 'https://www.baidu.com',
         },
         {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/ded947880cd01c60707c7110100822fe?x-bce-process=image/resize,m_fill,w_256,h_170",
           title: '上海社区书记辞职 居民万字留言挽留',
           desc: '疫情期间，上海一位社区书记连续多天满负荷工作且遭遇误解甚至谩骂。4月7日，他在社区平台发文辞职。居民看到后，留下万字留言恳切挽留。',
-          detail: '',
+          detail: 'https://www.baidu.com',
         },
         {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/c1927f237753294bda029377bea6ca65?x-bce-process=image/resize,m_fill,w_256,h_170",
           title: '安全生产十五条措施热',
           desc: '日前，国务院安委会发布了进一步强化安全生产责任落实、坚决防范遏制重特大事故的十五条措施，切实保障劳动者生命安全，提升企业安全水平。',
-          detail: '',
+          detail: 'https://www.baidu.com',
         },
         {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/9bedda7b57d8863aaf425c59e9f6b3e8?x-bce-process=image/resize,m_fill,w_256,h_170",
           title: '英女王谈感染新冠感受：筋疲力尽',
           desc: '当地时间2月20日英国女王确诊感染新冠病毒后。近日，英女王与伦敦皇家医院进行视频连线，称自己在感染新冠后感到“非常疲惫且筋疲力竭”。',
-          detail: '',
+          detail: 'https://www.baidu.com',
         },
         {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/05732ab9777f7b8428493758c0f36775?x-bce-process=image/resize,m_fill,w_256,h_170",
           title: '事故后部分空勤人员现应激心理反应',
           desc: '11日，民航局举行新闻发布会，中国民航局航空安全办公室副主任吴世杰表示，“3.21”事故发生后，部分年轻空勤人员出现应激心理反应，情绪较低落。',
-          detail: '',
+          detail: 'https://www.baidu.com',
         },
         {
           img: "https://fyb-1.cdn.bcebos.com/hotboard_img/95c6f1434e2e317f532cad48524e9984?x-bce-process=image/resize,m_fill,w_256,h_170",
@@ -160,6 +169,7 @@ export default {
     width: 95%;
     height: 88px;
     margin: 0 auto;
+    cursor: pointer;
   }
   .news-img {
     width: 110px;
@@ -172,7 +182,7 @@ export default {
   .news-seq {
     width: 30px;
     height: 16px;
-    background: red;
+    background: rgba(255, 0, 0, 0.93);
     position: absolute;
     font-size: 12px;
     top: 0;

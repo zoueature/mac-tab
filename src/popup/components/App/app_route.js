@@ -6,6 +6,7 @@ import Note from "@/popup/components/App/Note/Note";
 import NewsDrawer from "@/popup/components/App/News/NewsDrawer";
 import JsonFormatter from "@/popup/components/App/JsonFormatter/JsonFormatter";
 import Translate from "@/popup/components/App/Translate/Translate";
+import ShortVideo from "@/popup/components/App/ShortVideo/ShortVideo";
 
 const routes = [
     // ----------- app -------------
@@ -16,6 +17,7 @@ const routes = [
     { name: 'note',path: '/note', components: {app: Note}, },
     { name: 'json', path: '/json', components: {app: JsonFormatter}, },
     { name: 'translate', path: '/translate', components: {app: Translate}, },
+    { name: 'video', path: '/video', components: {app: ShortVideo}, },
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
