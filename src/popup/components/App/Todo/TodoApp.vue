@@ -101,20 +101,23 @@
 
 <script>
 
+const todayId = 1000000000000
+const doneID = 1000000000002
+const allID = 1000000000003
 const staticTab = [
   {
-    id: 1000000000000,
+    id: todayId,
     icon: "../../../../assets/icon/today.png",
     name: "今日",
   },
   {
-    id: 1000000000002,
+    id: doneID,
     icon: "../../../../assets/icon/radio-done.png",
     name: "完成",
     num: 3,
   },
   {
-    id: 1000000000003,
+    id: allID,
     icon: "../../../../assets/icon/all.png",
     name: "全部",
     num: 23,
@@ -131,7 +134,7 @@ export default {
   data() {
     return {
       newCateName: "",
-      activeTab: 1000000000000,
+      activeTab: todayId,
       modifyID: -1,
       opTodoID: 0,
       statics: staticTab,
@@ -140,7 +143,27 @@ export default {
   },
   computed: {
     todoList() {
-      return this.$store.getters.userTodoList(this.activeTab)
+      if (this.activeTab === todayId) {
+        return {
+          id: todayId,
+          name: "今日",
+          list:  this.$store.getters.todayTodoList
+        }
+      } else if (this.activeTab === doneID) {
+        return {
+          id: doneID,
+          name: "完成",
+          list:  this.$store.getters.doneTodoList
+        }
+      } else if (this.activeTab === allID) {
+        return {
+          id: allID,
+          name: "全部",
+          list:  this.$store.getters.allTodoList
+        }
+      } else {
+        return this.$store.getters.userTodoList(this.activeTab)
+      }
     },
     todayNum() {
       return this.$store.getters.todayTodoNum

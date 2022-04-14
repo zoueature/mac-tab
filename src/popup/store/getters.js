@@ -52,6 +52,18 @@ export default {
         }
         return num
     },
+    todayTodoList(state) {
+        let list = []
+        let now = new Date()
+        for (let k in state.userTodos) {
+            state.userTodos[k].list.forEach((todo) => {
+                if (todo.createTime <= now.getTime()) {
+                    list.push(todo)
+                }
+            })
+        }
+        return list
+    },
     // 完成的Todo数量
     doneTodoNum(state) {
         let num = 0
@@ -64,6 +76,17 @@ export default {
         }
         return num
     },
+    doneTodoList(state) {
+        let list = []
+        for (let k in state.userTodos) {
+            state.userTodos[k].list.forEach((todo) => {
+                if (todo.done) {
+                    list.push(todo)
+                }
+            })
+        }
+        return list
+    },
     // 完成的Todo数量
     allTodoNum(state) {
         let num = 0
@@ -73,6 +96,15 @@ export default {
             })
         }
         return num
+    },
+    allTodoList(state) {
+        let list = []
+        for (let k in state.userTodos) {
+            state.userTodos[k].list.forEach((todo) => {
+                list.push(todo)
+            })
+        }
+        return list
     },
     todoCategories(state) {
         return state.todoCategory
