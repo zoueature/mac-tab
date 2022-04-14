@@ -59,6 +59,12 @@ export default {
 
 
     // ---------- todo -----------------
+    initLatestTodo(state) {
+        let localLatestTodoStr = localStorage.getItem(keys.latestTodoList)
+        if (localLatestTodoStr !== "" && localLatestTodoStr !== null) {
+            state.latestTodo = JSON.parse(localLatestTodoStr)
+        }
+    },
     initTodo(state) {
         let cateStr = localStorage.getItem(keys.userTodoCategories)
         if (cateStr !== null && cateStr !== "") {
@@ -94,8 +100,9 @@ export default {
         } else {
             state.userTodos[categoryId].list.unshift(td)
         }
-        state.latestTodo.push(td)
+        state.latestTodo.unshift(td)
         localStorage.setItem(keys.userTodoList, JSON.stringify(state.userTodos))
+        localStorage.setItem(keys.latestTodoList, JSON.stringify(state.latestTodo))
     },
     // saveTodo 保存TODO信息
     saveTodo(state, todo) {
@@ -110,6 +117,7 @@ export default {
             }
         })
         localStorage.setItem(keys.userTodoList, JSON.stringify(state.userTodos))
+        localStorage.setItem(keys.latestTodoList, JSON.stringify(state.latestTodo))
     },
     // removeTodo 删除TODO
     removeTodo(state, todo) {
@@ -124,6 +132,7 @@ export default {
             }
         })
         localStorage.setItem(keys.userTodoList, JSON.stringify(state.userTodos))
+        localStorage.setItem(keys.latestTodoList, JSON.stringify(state.latestTodo))
     },
     // doneTodo 修改todo为完成
     doneTodo(state, todo) {
@@ -135,6 +144,12 @@ export default {
             }
         })
         localStorage.setItem(keys.userTodoList, JSON.stringify(state.userTodos))
+        state.latestTodo.forEach((v, i) => {
+            state.latestTodo.splice(i, 1)
+            v.done = true
+            state.latestTodo.push(v)
+        })
+        localStorage.setItem(keys.latestTodoList, JSON.stringify(state.latestTodo))
     },
     // addTodoCategory 创建TODO分类
     addTodoCategory(state, category) {

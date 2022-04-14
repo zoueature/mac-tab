@@ -8,5 +8,6 @@ export default {
 
     // todo
     userTodoList: "user_todo_list",
+    latestTodoList: "user_todo_latest",
     userTodoCategories: "user_todo_categories",
 }

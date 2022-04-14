@@ -2,8 +2,8 @@
   <div>
     <div class="todo-container" ref="todo" @click="openDetail">
       <div class="todo-title">今日待办</div>
-      <div class="todo-item" v-for="(todo, index) in todos" :key="index">
-        <div class="done" @click.stop="done(index)" v-if="!todo.done">
+      <div class="todo-item" v-for="(todo) in todos" :key="todo.id">
+        <div class="done" @click.stop="done(todo)" v-if="!todo.done">
           <img src="../../../../assets/icon/done.png" alt="done">
         </div>
         <div :class="'todo-name ' + (todo.done ? 'done-word': '')" >
@@ -26,8 +26,8 @@ export default {
      // CustomModal,
   },
   methods: {
-    done(index) {
-      this.todos[index].done = true
+    done(todo) {
+      this.$store.commit('doneTodo', todo)
     },
     openDetail() {
       this.$router.replace("todo")
@@ -39,7 +39,7 @@ export default {
     }
   },
   created() {
-    this.$vfm.show('todo', {})
+    this.$store.commit('initLatestTodo')
   },
   computed: {
     todos() {
