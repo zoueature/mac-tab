@@ -21,6 +21,9 @@ export default {
         })
         return result
     },
+    showEngineList(state) {
+        return state.showSearchEngine
+    },
 
     // ---------- TODO ---------
     userTodoList(state) {

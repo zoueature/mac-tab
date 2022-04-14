@@ -78,7 +78,7 @@
               >
             </p>
             <p v-else
-               :style="todoItem.done ? 'text-decoration: line-through;' :''"
+               :style="todoItem.done ? 'text-decoration: line-through; color: rgba(0,0,0,0.25);' :''"
                style="font-size: 14px;"
             >
               {{todoItem.title}}

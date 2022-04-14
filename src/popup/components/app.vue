@@ -1,5 +1,5 @@
 <template>
-  <Desktop msg="Welcome to Your Vue.js App"/>
+  <Desktop msg="Welcome to Your Vue.js App" @click="hiddenModal"/>
 </template>
 
 <script>
@@ -11,6 +11,11 @@ export default {
     Desktop
   },
   mounted() {
+  },
+  methods: {
+    hiddenModal() {
+      this.$store.commit('toggleSearchEngin', false)
+    }
   }
 }
 </script>

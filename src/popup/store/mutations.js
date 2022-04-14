@@ -27,6 +27,9 @@ export default {
     initCommonConfig(state, config) {
         state.config = config
     },
+    toggleSearchEngin(state, show) {
+        state.showSearchEngine = show
+    },
 
 
     //----------- app ---------------

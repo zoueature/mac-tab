@@ -1,9 +1,17 @@
 <template>
   <div class="search-item">
     <div class="engine-selector">
-      <div class="eng-show">
-        <img :src="engine.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="engine.name">
+      <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
+        <div class="eng-icon">
+          <img :src="engine.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="engine.name">
+        </div>
+        <div class="more-icon" :style="expand ? 'transform: rotate(90deg)': ''">
+          <img src="../../../assets/icon/down.png" style="width: 100%; height: 100%">
+        </div>
       </div>
+      <transition name="englist">
+        <div class="eng-list" v-if="expand"></div>
+      </transition>
     </div>
     <div class="input-item">
       <input placeholder="输入搜索内容" v-model="keyword" class="search-input" @keyup.enter="search(keyword)">
@@ -23,6 +31,9 @@ export default {
     },
     halfSize() {
       return Math.ceil(this.size / 2) + "px"
+    },
+    expand() {
+      return this.$store.getters.showEngineList
     }
   },
   data() {
@@ -80,8 +91,37 @@ export default {
     flex: 1;
   }
   .eng-show {
+    width: v-bind(heightSize);
+    height: v-bind(heightSize);
+    display: flex;
+    justify-content: space-around;
+  }
+  .eng-icon {
+    margin-top: 50%;
+    margin-left: 10%;
+    transform: translateY(-50%);
     width: v-bind(halfSize);
     height: v-bind(halfSize);
-    margin: v-bind(centerTop) auto 0 auto;
+  }
+  .more-icon {
+    margin-top: 50%;
+    width: 5px;
+    height: 15px;
+    transform: translateY(-50%);
+  }
+  .eng-list {
+    width: 100px;
+    height: 200px;
+    background: #42b983;
+    position: absolute;
+    /*z-index: 1000;*/
+  }
+  .englist-enter-active,
+  .englist-leave-active {
+    transition: all 500ms ease;
+  }
+  .englist-enter-from,
+  .englist-leave-to {
+    height: 0;
   }
 </style>
