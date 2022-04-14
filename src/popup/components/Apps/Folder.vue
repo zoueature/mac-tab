@@ -145,6 +145,10 @@ export default {
     padding: 15px;
     color: white;
     font-size: 25px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -16%;
   }
   .folder {
     width: v-bind(folderContainerWidth);
