@@ -3,21 +3,20 @@ export default {
     showDrawer: false,
     showLoading: false,
     wallpaper: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
+
+    // --------- app -----------
     userApps: [
         {
-            id: 21, type: 'folder', size: 70, name:"购物", apps: [
-                {id: 22, type: 'app', size: 70, name:"淘宝", icon:"../../../assets/images/app/taobao.png", link: "https://www.taobao.com/"},
-                {id: 23, type: 'app', size: 70, name:"蘑菇街", icon:"../../../assets/images/app/mogujie.png", link: "https://www.mogujie.com/"},
-                {id: 24, type: 'app', size: 70, name:"京东", icon:"../../../assets/images/app/jd.png", link: "https://www.jd.com/"},
+            id: new Date().getTime(), type: 'folder', size: 70, name:"系统工具", apps: [
+                {
+                    id: 10,
+                    type: 'app',
+                    size: 70,
+                    name: "历史记录",
+                    icon:"../../../assets/images/app/history.png",
+                    link:"chrome://history/"
+                },
             ]
-        },
-        {
-            id: 10,
-            type: 'app',
-            size: 70,
-            name: "历史记录",
-            icon:"../../../assets/images/app/history.png",
-            link:"chrome://history/"
         },
         {
             id: 22,
@@ -84,6 +83,7 @@ export default {
             app: 'video',
         }
     ],
+    installedAppID: {}, // {123: true}
 
     // todo
     userTodos: {}, // {1: {name: '', count: '', list: []}},

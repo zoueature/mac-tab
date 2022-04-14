@@ -128,10 +128,8 @@ export default {
         this.dragOptions.disabled = true
         this.apps.splice(dragged.index, 1)
         this.apps[ev.relatedContext.index].apps.push(dragged.element)
-        console.log(123)
       }
       this.dragOptions.disabled = false
-      console.log(dragged)
     }
   },
 }

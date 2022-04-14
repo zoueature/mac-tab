@@ -22,6 +22,7 @@ export default {
     width: 100%;
     height: 100%;
     backdrop-filter: blur(1px);
+    z-index: 1000000;
   }
   .loading-container img {
     width: 80px;

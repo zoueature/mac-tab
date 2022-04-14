@@ -41,7 +41,6 @@ export default {
         this.inputStr = stringifyJson(jsonObj)
         this.errMsg = ''
       } catch (e) {
-        console.log(e.toString())
         this.errMsg = e.toString()
       }
     },

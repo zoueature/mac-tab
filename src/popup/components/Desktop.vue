@@ -22,7 +22,7 @@
     </div>
     <App></App>
     <RightDrawer></RightDrawer>
-    <Loading></Loading>
+<!--    <Loading></Loading>-->
   </div>
 </template>
 
@@ -68,7 +68,6 @@ export default {
       console.log(123, e)
     },
     openDrawer() {
-      console.log(123, this.$store.getters.showDrawer)
       this.$router.replace('news')
       this.$store.commit('openDrawer')
     },
@@ -85,7 +84,6 @@ export default {
   },
   data() {
     return {
-      showMenu: false,
     }
   }
 }

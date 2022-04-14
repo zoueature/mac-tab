@@ -25,7 +25,15 @@ export default {
 
     //----------- app ---------------
     addApp(state, app) {
-        state.userApps.push(app)
+        state.userApps.push({
+            id: app.id,
+            type: 'app',
+            size: 70,
+            name: app.name,
+            icon: app.icon,
+            app:  app.app,
+            link: app.link,
+        })
         localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     removeApp(state, app) {
@@ -94,7 +102,6 @@ export default {
     },
     // removeTodo 删除TODO
     removeTodo(state, todo) {
-        console.log(state.userTodos, todo)
         state.userTodos[todo.categoryId].list.forEach((v, i) => {
             if (v.id === todo.id) {
                 state.userTodos[todo.categoryId].list.splice(i, 1)

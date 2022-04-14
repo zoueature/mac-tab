@@ -11,7 +11,7 @@
       >
         <div class="category">
           <div class="category-icon">
-            <img :src="category.icon">
+            <img :src="category.icon" alt="">
           </div>
           <div class="category-name">
             {{category.name}}
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="app-list">
-      <div class="app-item" v-for="app in selectedApp(this.selectedCategory)" :key="app.id">
+      <div class="app-item" v-for="app in selectedApp" :key="app.id">
         <div class="app-icon">
           <img :src="app.icon" alt="" style="width: 100%; height: 100%">
         </div>
@@ -43,7 +43,6 @@
 <script>
 
 import apps from './apps'
-console.log(apps)
 
 export default {
   name: "AppStore",
@@ -52,15 +51,7 @@ export default {
       this.selectedCategory = categoryID
     },
     install(app) {
-      this.$store.commit('addApp', {
-        id: app.id,
-        type: 'app',
-        size: 70,
-        name: app.name,
-        icon: app.icon,
-        app:  app.app,
-        link: app.link,
-      },)
+      this.$store.commit('addApp', app)
       this.installedApp[app.id] = true
     },
     remove(app) {
@@ -70,19 +61,25 @@ export default {
   },
   computed: {
     selectedApp() {
-      let that = this
-      return function (categoryId) {
-        let list = that.apps[categoryId].list
-        let installed = that.installedApp
-        list.forEach((v, index) => {
-          list[index].installed = false
-          let isInstalled = installed[v.id]
-          if (isInstalled === true) {
-            list[index].installed = true
-          }
-        })
-        return list
-      }
+      let result = []
+      this.apps[this.selectedCategory].list.forEach((v) => {
+        v.installed = this.installedApp[v.id]
+        result.push(v)
+      })
+      return result
+      // let that = this
+      // return function (categoryId) {
+      //   let list = that.apps[categoryId].list
+      //   let installed = that.installedApp ?? {}
+      //   list.forEach((v, index) => {
+      //     list[index].installed = false
+      //     let isInstalled = installed[v.id] ?? false
+      //     if (isInstalled === true) {
+      //       list[index].installed = true
+      //     }
+      //   })
+      //   return list
+      // }
     }
   },
   data() {

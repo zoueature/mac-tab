@@ -46,7 +46,6 @@ export default {
         return
       }
       window.location.href="https://www.google.com/search?q=" + keyword
-      console.log(keyword)
     }
   },
   created() {

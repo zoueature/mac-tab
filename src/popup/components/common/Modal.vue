@@ -34,7 +34,6 @@ export default {
   created() {
     this.widthPx = this.width + "px"
     this.heightPx = this.height + 'px'
-    console.log(this.widthPx, this.heightPx)
   },
   data() {
     return {

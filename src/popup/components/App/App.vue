@@ -11,6 +11,7 @@
           </div>
         </div>
         <div class="app-content">
+          <Loading></Loading>
           <router-view name="app"></router-view>
         </div>
       </div>
@@ -19,8 +20,13 @@
 </template>
 
 <script>
+
+import Loading from "@/popup/components/common/Loading";
 export default {
   name: "App",
+  components: {
+    Loading,
+  },
   methods: {
     showIcon() {
       this.showIconTrigger = true
@@ -30,6 +36,7 @@ export default {
     },
     closeApp() {
       this.$store.commit('closeApp')
+      this.$store.commit('closeLoading')
     }
   },
   computed: {
@@ -75,6 +82,7 @@ export default {
   .app-content {
     width: 100%;
     height: 95%;
+    position: relative;
   }
   .close, .max {
     width: 14px;
