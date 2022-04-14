@@ -1,4 +1,7 @@
 export default {
+    // ----------- desktop --------------
+    config: "desktop_config",
+    // ----------- app ------------------
     userApp: "user_installed_apps",
 
 

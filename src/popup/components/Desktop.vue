@@ -41,6 +41,7 @@ import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
 import Loading from "@/popup/components/common/Loading";
+import keys from "@/popup/store/keys";
 
 /* eslint-disable */
 export default {
@@ -81,6 +82,12 @@ export default {
 
   },
   created() {
+    let configStr = localStorage.getItem(keys.config)
+    let config = {}
+    if (configStr !== "" && configStr !== null) {
+      config = JSON.parse(configStr)
+      this.$store.commit('initCommonConfig', config)
+    }
   },
   data() {
     return {

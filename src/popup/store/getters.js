@@ -3,7 +3,7 @@ export default {
         return state.showApp
     },
     wallpaper(state) {
-        return state.wallpaper
+        return state.config.wallpaper
     },
     showDrawer(state) {
         return state.showDrawer

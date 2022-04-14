@@ -1,6 +1,7 @@
 import keys from "@/popup/store/keys";
 
 export default {
+    // ----------------- common ---------------------
     openApp(state) {
         state.showApp = true
     },
@@ -20,8 +21,13 @@ export default {
         state.showLoading = false
     },
     setWallpaper(state, wallpaper) {
-        state.wallpaper = wallpaper
+        state.config.wallpaper = wallpaper
+        localStorage.setItem(keys.config, JSON.stringify(state.config))
     },
+    initCommonConfig(state, config) {
+        state.config = config
+    },
+
 
     //----------- app ---------------
     addApp(state, app) {
@@ -47,6 +53,11 @@ export default {
     initUserApps(state, apps) {
         state.userApps = apps
     },
+
+
+
+
+
     // ---------- todo -----------------
     initTodo(state) {
         let cateStr = localStorage.getItem(keys.userTodoCategories)
