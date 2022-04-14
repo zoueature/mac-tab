@@ -61,17 +61,19 @@ export default {
         app:  app.app,
         link: app.link,
       },)
+      this.installedApp[app.id] = true
     },
     remove(app) {
       this.$store.commit('removeApp', app)
+      this.installedApp[app.id] = false
     }
   },
   computed: {
     selectedApp() {
       let that = this
       return function (categoryId) {
-        let installed = that.$store.getters.installedAppID
         let list = that.apps[categoryId].list
+        let installed = that.installedApp
         list.forEach((v, index) => {
           list[index].installed = false
           let isInstalled = installed[v.id]
@@ -88,6 +90,7 @@ export default {
       selectedCategory: 5,
       categoryList: apps.category,
       apps: apps.apps,
+      installedApp: this.$store.getters.installedAppID,
     }
   }
 }
