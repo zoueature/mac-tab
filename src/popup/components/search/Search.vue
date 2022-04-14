@@ -10,7 +10,18 @@
         </div>
       </div>
       <transition name="englist">
-        <div class="eng-list" v-if="expand"></div>
+        <div class="eng-list" v-if="expand">
+          <div v-for="eng in searchEngine" :key="eng.id">
+            <div class="eng-item" v-if="eng.id !== engine.id" @click="selectEng(eng)">
+              <div class="eng-img">
+                <img :src="eng.icon" :alt="eng.name">
+              </div>
+              <div class="eng-name">
+                {{eng.name}}
+              </div>
+            </div>
+          </div>
+        </div>
       </transition>
     </div>
     <div class="input-item">
@@ -34,6 +45,9 @@ export default {
     },
     expand() {
       return this.$store.getters.showEngineList
+    },
+    listHeight() {
+      return Math.ceil(40 * (this.searchEngine-1)) + 'px'
     }
   },
   data() {
@@ -47,6 +61,18 @@ export default {
           name: "Google",
           icon: "../../../assets/icon/google.png",
           link: "https://www.google.com/search?q="
+        },
+        {
+          id: 2,
+          name: "百度",
+          icon: "../../../assets/icon/baidu.png",
+          link: "https://www.baidu.com/s?wd="
+        },
+        {
+          id: 3,
+          name: "必应",
+          icon: "../../../assets/icon/bing.png",
+          link: "https://www.bing.com/search?q="
         }
       ]
     }
@@ -56,7 +82,10 @@ export default {
       if (keyword === "") {
         return
       }
-      window.location.href="https://www.google.com/search?q=" + keyword
+      window.location.href=this.engine.link + keyword
+    },
+    selectEng(eng) {
+      this.engine = eng
     }
   },
   created() {
@@ -110,18 +139,43 @@ export default {
     transform: translateY(-50%);
   }
   .eng-list {
-    width: 100px;
-    height: 200px;
-    background: #42b983;
+    width: 160px;
+    height: v-bind(listHeight);
+    background: white;
+    border-radius: 7px;
     position: absolute;
+    box-shadow: 1px 7px 7px rgba(0, 0, 0, 0.34);
+    padding-bottom: 25px;
     /*z-index: 1000;*/
   }
   .englist-enter-active,
   .englist-leave-active {
-    transition: all 500ms ease;
+    transition: all 200ms ease;
   }
   .englist-enter-from,
   .englist-leave-to {
     height: 0;
+    opacity: 0;
+  }
+  .eng-item {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+  }
+  .eng-item div {
+    float: left;
+  }
+  .eng-img {
+    width: 26px;
+    height: 26px;
+    margin-left: 9px;
+    margin-right: 10px;
+  }
+  .eng-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #42b983;
+    font-weight: bold;
+    line-height: 26px;
   }
 </style>
