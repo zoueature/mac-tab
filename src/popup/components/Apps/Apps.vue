@@ -11,12 +11,10 @@
                 }"
                  ghostClass="ghost"
                  chosenClass="chosen"
-                 group="apps"
                  @start="start"
                  @end="end"
                  @move="move"
-                 :move="move"
-                 v-bind="dragOptions"
+                 group="apps"
                  class="app">
         <template #item="{ element }"  >
           <AppContainer :app="element"/>
@@ -57,7 +55,7 @@ export default {
       inFolder: false,
       dragOptions: {
         animation: 200,
-        group: "app",
+        group: {name: "apps", put: true},
         disabled: false,
         ghostClass: "ghost"
       },

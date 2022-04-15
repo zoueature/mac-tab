@@ -1,16 +1,27 @@
 <template>
   <div class="container">
     <div style="flex: 1"></div>
-    <DockItem v-for="(dock, index) in docks" :key="dock.id"
-              :size="dockSize"
-              :color="dock.color"
-              :icon="dock.icon"
-              :name="dock.name"
-              :link="dock.link"
-              :hover="true"
-              :class="dockItemClass(index)"
-              @mouseenter="enlarge(index)" @mouseleave="recover"
-    />
+    <Draggable :list="docks"
+               item-key="id"
+               :options="option"
+               class="container"
+               @start="start"
+               @end="end"
+               @add="add"
+               @clone="clone"
+               group="apps"
+    >
+      <template #item="{ element }"  >
+        <DockItem :size="dockSize"
+                  :icon="element.icon"
+                  :name="element.name"
+                  :link="element.link"
+                  :hover="true"
+                  :class="dockItemClass(element.id)"
+                  @mouseenter="enlarge(element.id)" @mouseleave="recover"
+        />
+      </template>
+    </Draggable>
     <div style="flex: 1"></div>
     <div class="bg"></div>
   </div>
@@ -19,15 +30,26 @@
 <script>
 
 import DockItem from "@/popup/components/Apps/AppItem";
+import Draggable from "vuedraggable";
 
 export default {
   name: "dock-com",
   components: {
-    DockItem
+    DockItem,
+    Draggable,
   },
   data() {
     return {
+      option: {
+        group: {name: "apps", put: true, pull: true},
+        sort: true,
+        delay: 1000,
+        animation: 1000,
+        ghostClass: "ghostClass",
+        tag: "transition"
+      },
       scaleIndex: -2,
+      inMove: false,
       size: 66,
       docks: [
         {id: 1, type: 'app', scale: true, name:"网易云音乐", icon:"../../../assets/images/app/netease.png", link: "https://music.163.com/"},
@@ -63,13 +85,14 @@ export default {
       let that = this
       return function (index) {
         let cls = 'dock-item'
-        if (that.scaleIndex === index) {
-          cls += ' enlarge'
+        if (!that.inMove) {
+          if (that.scaleIndex === index) {
+            cls += ' enlarge'
+          }
+          if (Math.abs(that.scaleIndex - index) === 1) {
+            cls += ' enlarge-little'
+          }
         }
-        if (Math.abs(that.scaleIndex - index) === 1) {
-          cls += ' enlarge-little'
-        }
-        console.log(that.scaleIndex, cls)
         return cls
       }
     }
@@ -83,6 +106,26 @@ export default {
       this.scaleIndex = -2
       this.$forceUpdate()
     },
+    add(e) {
+      console.log('add')
+      console.log(e)
+
+    },
+    start(e) {
+      this.inMove = true
+      console.log('start')
+      this.scaleIndex = -2
+      console.log(e)
+    },
+    end(e) {
+      console.log('end', e)
+      this.inMove = false
+      this.recover()
+    },
+    clone(e) {
+      console.log('clone')
+      console.log(e)
+    }
   }
 }
 </script>
@@ -102,7 +145,7 @@ export default {
     }
   }
   .enlarge {
-    animation: enlargeBig 100ms;
+    animation: enlargeBig 200ms;
     /*transform: scale(1.6);*/
   }
   .enlarge-little {

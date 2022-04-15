@@ -35,11 +35,11 @@
             overlay-class="overlay-class"
             :transition="{
                'enter-active-class': 'transition duration-200 ease-in-out transform',
-        'enter-from-class': 'opacity-0',
-        'enter-to-class': 'opacity-100',
-        'leave-active-class': 'transition duration-200 ease-in-out transform',
-        'leave-to-class': 'translate-y-full',
-        'leave-from-class': 'translate-y-0'
+                'enter-from-class': 'opacity-0',
+                'enter-to-class': 'opacity-100',
+                'leave-active-class': 'transition duration-200 ease-in-out transform',
+                'leave-to-class': 'translate-y-full',
+                'leave-from-class': 'translate-y-0'
             }"
         >
           <div class="folder-content">
@@ -92,7 +92,10 @@ export default {
       folderContainerSize: '',
       folderContainerWidth: '',
       option: {
-        group: "app",
+        group: {
+          name: "apps",
+          pull: true,
+        },
         sort: true,
         delay: 1000,
         animation: 1000,
@@ -139,7 +142,7 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
-
+    backdrop-filter: blur(10px);
   }
   .folder-name {
     padding: 15px;
@@ -149,6 +152,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     top: -16%;
+    font-weight: bold;
   }
   .folder {
     width: v-bind(folderContainerWidth);
@@ -160,12 +164,13 @@ export default {
     justify-items: center;
     align-items: center;
     border-radius: 16px;
-    box-shadow: 2px 2px 20px white;
+    box-shadow: 2px 2px 25px white;
   }
   ::v-deep .overlay-class {
     /*background: rgba(72, 71, 71, 0.42) !important;*/
     /*filter: blur(10px);*/
-    backdrop-filter: blur(7px);
+    backdrop-filter: blur(3px);
+    background: rgba(16, 16, 16, 0.55) !important;
   }
   ::v-deep .opacity-0 {
     opacity: 0;
