@@ -10,6 +10,12 @@
                @add="add"
                @clone="clone"
                group="apps"
+               tag="transition-group"
+               :component-data="{
+                  tag: 'ul',
+                  type: 'transition-group',
+                  name: 'apps'
+                }"
     >
       <template #item="{ element }"  >
         <DockItem :size="dockSize"
@@ -171,5 +177,12 @@ export default {
     z-index: -1;
     filter: blur(10px);
     border: 1px solid #ccffcc;
+  }
+
+  .apps-enter-active {
+    transition: all 500ms ease;
+  }
+  .apps-enter-from {
+    transform: scale(0);
   }
 </style>

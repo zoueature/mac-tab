@@ -7,7 +7,7 @@
                  :component-data="{
                   tag: 'ul',
                   type: 'transition-group',
-                  name: !drag ? 'flip-list' : null
+                  name: 'apps'
                 }"
                  ghostClass="ghost"
                  chosenClass="chosen"
@@ -59,7 +59,6 @@ export default {
         disabled: false,
         ghostClass: "ghost"
       },
-      drag: false,
       disabled: false,
       appSize: 0,
       rowsNum: 0,
@@ -162,4 +161,10 @@ export default {
   /*transform: scale(0.3);*/
 }
 
+.apps-enter-active {
+  transition: all 500ms ease;
+}
+.apps-enter-from {
+  transform: scale(0);
+}
 </style>
