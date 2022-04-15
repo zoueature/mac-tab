@@ -150,7 +150,9 @@ export default {
     cursor: pointer;
   }
   #apps-container {
-    margin: 50px auto 0 auto;
+    width: 99%;
+    height: 60%;
+    margin: 5% auto 0 auto;
   }
 
   #dock-container {

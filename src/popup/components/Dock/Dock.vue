@@ -12,7 +12,7 @@
                group="apps"
                tag="transition-group"
                :component-data="{
-                  tag: 'ul',
+                  tag: 'div',
                   type: 'transition-group',
                   name: 'apps'
                 }"

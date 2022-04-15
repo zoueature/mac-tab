@@ -1,26 +1,40 @@
 <template>
-  <div class="apps">
-      <Draggable :list="userApps"
-                 item-key="id"
-                 :options="option"
-                 tag="transition-group"
-                 :component-data="{
-                  tag: 'ul',
-                  type: 'transition-group',
-                  name: 'apps'
-                }"
-                 ghostClass="ghost"
-                 chosenClass="chosen"
-                 @start="start"
-                 @end="end"
-                 @move="move"
-                 group="apps"
-                 class="app">
-        <template #item="{ element }"  >
-          <AppContainer :app="element"/>
-        </template>
-      </Draggable>
-    </div>
+  <div @touchstart="touchstart">
+      <swiper :pagination="{
+        dynamicBullets: true,
+      }"
+          :modules="modules"
+          class="apps"
+              @activeIndexChange="changePage"
+      >
+        <swiper-slide v-for="(pageApps, index) in userApps"
+                      :key="index">
+            <Draggable
+                                   :list="pageApps"
+                                   item-key="id"
+                                   :options="option"
+                                   tag="transition-group"
+                                   :component-data="{
+              tag: 'div',
+              type: 'transition-group',
+              name: 'apps'
+            }"
+                                   ghostClass="ghost"
+                                   chosenClass="chosen"
+                                   @start="start"
+                                   @end="end"
+                                   @move="move"
+                                   group="apps"
+                                   class="app"
+                                   @add="add"
+          >
+            <template #item="{ element }"  >
+              <AppContainer :app="element"/>
+            </template>
+        </Draggable>
+        </swiper-slide>
+      </swiper>
+  </div>
 </template>
 
 <script>
@@ -28,6 +42,11 @@
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
 import keys from "@/popup/store/keys";
+import { Swiper, SwiperSlide } from "swiper/vue";
+import "swiper/css";
+import "swiper/css/pagination";
+// import "./style.css";
+import { Pagination } from "swiper";
 
 const appsStorageKeyName = "applications"
 
@@ -36,6 +55,13 @@ export default {
   components: {
     Draggable,
     AppContainer,
+    Swiper,
+    SwiperSlide,
+  },
+  setup() {
+    return {
+      modules: [Pagination],
+    };
   },
   props: [
     "size",
@@ -71,7 +97,8 @@ export default {
         animation: 1000,
         ghostClass: "ghostClass",
         tag: "transition"
-      }
+      },
+      activeIndex: 0,
     }
   },
   created() {
@@ -95,13 +122,25 @@ export default {
     userApps() {
       let list =  this.$store.getters.userApps
       let that = this
+      let result = []
+      let page = []
       list.forEach((v, i) => {
-        list[i].click = that.openApp(v.app)
+        v.click = that.openApp(v.app)
+          page.push(v)
+        if (i === list.length-1 || (i % 30 === 0 && i !== 0)) {
+          result.push(page)
+          page = []
+        }
       })
-      return list
+      return result
     }
   },
   methods: {
+    touchstart(e) {
+      event.preventDefault()
+      console.log(123)
+      console.log(e)
+    },
     openApp(app) {
       let that = this
       return function () {
@@ -127,6 +166,23 @@ export default {
         this.apps[ev.relatedContext.index].apps.push(dragged.element)
       }
       this.dragOptions.disabled = false
+    },
+    changePage(e) {
+      this.activeIndex = e.realIndex
+      console.log(e.realIndex)
+    },
+    add(e, index) {
+      console.log(index)
+      let app = e.item._underlying_vm_
+      this.$store.commit('addApp', {
+        id: app.id,
+        type: app.type,
+        name: app.name,
+        icon: app.icon,
+        link: app.link,
+        app: app.app,
+      })
+      console.log(app)
     }
   },
 }
@@ -137,18 +193,22 @@ export default {
   /*width: v-bind(containerWidth);*/
   /*height: v-bind(containerHeight);*/
   margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }
 .ghostClass {
   transform: scale(2) !important;
 }
-
 .app{
+  width: 100%;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(auto-fill, 100px);
+  grid-template-rows: repeat(4, 100px);
   grid-auto-flow: dense;
   justify-items: center;
-  /*align-items: center;*/
+  justify-content: center;
+  align-items: center;
 }
 
 .ghost {
