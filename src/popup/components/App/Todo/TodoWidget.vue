@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="todo-container" ref="todo" @click="openDetail">
-      <div class="todo-title">今日待办</div>
+      <div class="todo-title">待办事项</div>
       <div class="todo-item" v-for="(todo) in todos" :key="todo.id">
         <div class="done" @click.stop="done(todo)" v-if="!todo.done">
           <img src="../../../../assets/icon/done.png" alt="done">

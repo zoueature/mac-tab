@@ -56,6 +56,7 @@ export default {
     width: v-bind(itemSize);
     height: v-bind(itemSize);
     /*animation: shake 500ms infinite linear alternate;*/
+    user-select: none;
   }
   @keyframes shake {
     from {

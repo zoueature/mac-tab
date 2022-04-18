@@ -1,24 +1,23 @@
 <template>
-  <div>
+  <div class="apps">
       <swiper :pagination="{
         dynamicBullets: true,
       }"
           :modules="modules"
-          :class="'apps' + (drag ? 'swiper-no-swiping' : '')"
           @activeIndexChange="changePage"
-          :allowTouchMove="true"
           :allowSlideNext="true"
-          :observer="true"
-          :mousewheelControl="true"
-          :touchStartPreventDefault="false"
-          :observeParents="true"
-          :threshold="70"
-              @swiper="onSwiper"
+          @swiper="onSwiper"
+          @touchMove="touchMove"
+          :allowTouchMove="false"
+          @touchStart="touchStart"
+          @touchEnd="touchEnd"
+          @wheel="scroll"
+          class="apps"
       >
         <swiper-slide v-for="(pageApps, index) in userApps"
                       :no-swiping="true"
                       :key="index"
-                      :class="(drag ? 'swiper-no-swiping' : '')"
+
         >
             <Draggable
                                    :list="pageApps"
@@ -32,7 +31,7 @@
             }"
                                    ghostClass="ghost"
                                    chosenClass="chosen"
-                                   @start="start"
+                                   @start="swiper.disable()"
                                    @end="end"
                                    @move="move"
                                    group="apps"
@@ -40,7 +39,7 @@
                                    @add="add"
           >
             <template #item="{ element }">
-              <AppContainer :app="element" @click.stop="" :class="(drag ? 'swiper-no-swiping' : '')"/>
+              <AppContainer :app="element" @click.stop=""  @mousedown.stop=""/>
             </template>
         </Draggable>
         </swiper-slide>
@@ -53,7 +52,7 @@
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
 import keys from "@/popup/store/keys";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/vue";
+import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 // import "./style.css";
@@ -70,11 +69,8 @@ export default {
     SwiperSlide,
   },
   setup() {
-    let swiper = useSwiper()
-    console.log(swiper)
     return {
       modules: [Pagination],
-      swiper,
     };
   },
   props: [
@@ -92,13 +88,18 @@ export default {
   },
   data() {
     return {
+      moveOffset: {
+        x: 0,
+        y: 0
+      },
       inFolder: false,
       dragOptions: {
         animation: 200,
         group: {name: "apps", put: true},
-        disabled: false,
+        disabled: true,
         ghostClass: "ghost"
       },
+      wheelCount: 0,
       drag: false,
       disabled: false,
       appSize: 0,
@@ -142,7 +143,7 @@ export default {
       list.forEach((v, i) => {
         v.click = that.openApp(v.app)
           page.push(v)
-        if (i === list.length-1 || (i % 30 === 0 && i !== 0)) {
+        if (i === list.length-1 || (i % 25 === 0 && i !== 0)) {
           result.push(page)
           page = []
         }
@@ -152,7 +153,38 @@ export default {
   },
   methods: {
     onSwiper(swiper) {
+      swiper.setGrabCursor()
       this.swiper = swiper
+    },
+    touchStart(s, e) {
+      this.moveOffset.x = e.layerX
+      this.moveOffset.y = e.layerY
+      console.log('touch start', this.moveOffset)
+      console.log(s, e)
+    },
+    touchEnd(s, e) {
+      console.log('touch end')
+      let diff = e.layerX - this.moveOffset.x
+      if (diff < -70) {
+        this.swiper.slideNext()
+      } else if (diff > 70) {
+        this.swiper.slidePrev()
+      }
+      console.log(s, e)
+    },
+    scroll( e) {
+      e.preventDefault()
+      this.wheelCount ++
+      console.log(this.wheelCount)
+      if (this.wheelCount > 40) {
+        if (e.wheelDeltaX < -10) {
+          this.swiper.slideNext()
+          console.log("next")
+        } else if (e.wheelDeltaX > 10) {
+          this.swiper.slidePrev()
+        }
+        this.wheelCount = 0
+      }
     },
     openApp(app) {
       let that = this
@@ -162,16 +194,16 @@ export default {
       }
     },
     start(ev) {
-      console.log(ev)
-      console.log(useSwiper())
+      ev.toString()
       this.drag = true
       this.swiper.disable()
+      console.log(this.swiper)
     },
     end(ev) {
-      console.log('end', ev)
-      this.drag = false
+      ev.toString()
       localStorage.setItem(appsStorageKeyName, JSON.stringify(this.apps))
       this.swiper.enable()
+      this.drag = false
     },
     move(ev) {
       let dragged = ev.draggedContext
@@ -211,6 +243,7 @@ export default {
   margin: 0 auto;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 .ghostClass {
   transform: scale(2) !important;
@@ -220,7 +253,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(4, 100px);
+  grid-template-rows: repeat(2, 120px);
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;

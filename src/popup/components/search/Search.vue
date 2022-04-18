@@ -127,15 +127,16 @@ export default {
   }
   .eng-icon {
     margin-top: 50%;
-    margin-left: 10%;
+    margin-left: 15%;
     transform: translateY(-50%);
     width: v-bind(halfSize);
     height: v-bind(halfSize);
   }
   .more-icon {
-    margin-top: 50%;
+    margin-top: 43%;
+    margin-left: 16%;
     width: 5px;
-    height: 15px;
+    height: 10px;
     transform: translateY(-50%);
   }
   .eng-list {
@@ -146,6 +147,8 @@ export default {
     position: absolute;
     box-shadow: 1px 7px 7px rgba(0, 0, 0, 0.34);
     padding-bottom: 25px;
+    z-index: 1000000;
+    cursor: pointer;
     /*z-index: 1000;*/
   }
   .englist-enter-active,

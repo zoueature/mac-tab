@@ -25,43 +25,24 @@
             </div>
           </template>
         </Draggable>
-      <div v-if="showFolder">
-        <vue-final-modal
-            v-bind="$attrs"
-            v-model="showFolder"
-            classes="modal-container"
-            content-class="modal-content"
-            :esc-to-close="true"
-            overlay-class="overlay-class"
-            :transition="{
-               'enter-active-class': 'transition duration-200 ease-in-out transform',
-                'enter-from-class': 'opacity-0',
-                'enter-to-class': 'opacity-100',
-                'leave-active-class': 'transition duration-200 ease-in-out transform',
-                'leave-to-class': 'translate-y-full',
-                'leave-from-class': 'translate-y-0'
-            }"
-        >
-          <div class="folder-content">
-            <div class="folder-name">{{folder.name}}</div>
-            <Draggable :list="folder.apps"
-                       item-key="id"
-                       :options="option"
-                       class="folder">
-              <template #item="{ element }"  >
-                <AppItem
-                         :name="element.name"
-                         :size="element.size"
-                         :icon="element.icon"
-                         :link="element.link"
-                >
-                </AppItem>
-              </template>
-            </Draggable>
-          </div>
-        </vue-final-modal>
-      </div>
     </AppItem>
+    <div v-if="showFolder" class="folder-content">
+        <div class="folder-name">{{folder.name}}</div>
+        <Draggable :list="folder.apps"
+                   item-key="id"
+                   :options="option"
+                   class="folder">
+          <template #item="{ element }"  >
+            <AppItem
+                :name="element.name"
+                :size="element.size"
+                :icon="element.icon"
+                :link="element.link"
+            >
+            </AppItem>
+          </template>
+        </Draggable>
+    </div>
   </div>
 </template>
 
@@ -138,6 +119,8 @@ export default {
   }
   .folder-content {
     position: absolute;
+    width: 100%;
+    height: 100%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -165,17 +148,5 @@ export default {
     align-items: center;
     border-radius: 16px;
     box-shadow: 2px 2px 25px white;
-  }
-  ::v-deep .overlay-class {
-    /*background: rgba(72, 71, 71, 0.42) !important;*/
-    /*filter: blur(10px);*/
-    backdrop-filter: blur(3px);
-    background: rgba(16, 16, 16, 0.55) !important;
-  }
-  ::v-deep .opacity-0 {
-    opacity: 0;
-  }
-  ::v-deep .opacity-100 {
-    opacity: 100;
   }
 </style>

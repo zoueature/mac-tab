@@ -442,8 +442,7 @@ export default {
     width: 100%;
     height: 100%;
   }
-  .list-enter-active,
-  .list-leave-active {
+  .list-enter-active {
     transition: all 500ms ease;
   }
   .list-enter-from {
