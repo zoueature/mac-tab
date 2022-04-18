@@ -1,14 +1,25 @@
 <template>
-  <div @touchstart="touchstart">
+  <div>
       <swiper :pagination="{
         dynamicBullets: true,
       }"
           :modules="modules"
-          class="apps"
-              @activeIndexChange="changePage"
+          :class="'apps' + (drag ? 'swiper-no-swiping' : '')"
+          @activeIndexChange="changePage"
+          :allowTouchMove="true"
+          :allowSlideNext="true"
+          :observer="true"
+          :mousewheelControl="true"
+          :touchStartPreventDefault="false"
+          :observeParents="true"
+          :threshold="70"
+              @swiper="onSwiper"
       >
         <swiper-slide v-for="(pageApps, index) in userApps"
-                      :key="index">
+                      :no-swiping="true"
+                      :key="index"
+                      :class="(drag ? 'swiper-no-swiping' : '')"
+        >
             <Draggable
                                    :list="pageApps"
                                    item-key="id"
@@ -28,8 +39,8 @@
                                    class="app"
                                    @add="add"
           >
-            <template #item="{ element }"  >
-              <AppContainer :app="element"/>
+            <template #item="{ element }">
+              <AppContainer :app="element" @click.stop="" :class="(drag ? 'swiper-no-swiping' : '')"/>
             </template>
         </Draggable>
         </swiper-slide>
@@ -42,7 +53,7 @@
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
 import keys from "@/popup/store/keys";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 // import "./style.css";
@@ -59,8 +70,11 @@ export default {
     SwiperSlide,
   },
   setup() {
+    let swiper = useSwiper()
+    console.log(swiper)
     return {
       modules: [Pagination],
+      swiper,
     };
   },
   props: [
@@ -85,6 +99,7 @@ export default {
         disabled: false,
         ghostClass: "ghost"
       },
+      drag: false,
       disabled: false,
       appSize: 0,
       rowsNum: 0,
@@ -136,10 +151,8 @@ export default {
     }
   },
   methods: {
-    touchstart(e) {
-      event.preventDefault()
-      console.log(123)
-      console.log(e)
+    onSwiper(swiper) {
+      this.swiper = swiper
     },
     openApp(app) {
       let that = this
@@ -149,13 +162,16 @@ export default {
       }
     },
     start(ev) {
-      console.log('start', ev)
+      console.log(ev)
+      console.log(useSwiper())
       this.drag = true
+      this.swiper.disable()
     },
     end(ev) {
       console.log('end', ev)
       this.drag = false
       localStorage.setItem(appsStorageKeyName, JSON.stringify(this.apps))
+      this.swiper.enable()
     },
     move(ev) {
       let dragged = ev.draggedContext
@@ -208,7 +224,7 @@ export default {
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
-  align-items: center;
+  /*align-items: center;*/
 }
 
 .ghost {

@@ -103,6 +103,7 @@ export default {
     position: fixed;
     background-image: v-bind(wallpaper);
     background-size: 100% 100%;
+    /*background: rgb(0,0,0,0.1);*/
   }
   .new-clock {
     width: 160px;
