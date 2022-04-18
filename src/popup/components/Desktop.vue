@@ -22,7 +22,9 @@
     </div>
     <App></App>
     <RightDrawer></RightDrawer>
-<!--    <Loading></Loading>-->
+    <div class="setting" @click="openSetting">
+      <img src="../../assets/icon/setting.png" alt="setting" style="width: 100%; height: 100%">
+    </div>
   </div>
 </template>
 
@@ -72,6 +74,10 @@ export default {
       this.$router.replace('news')
       this.$store.commit('openDrawer')
     },
+    openSetting() {
+      this.$router.replace('setting')
+      this.$store.commit('openDrawer')
+    }
   },
   computed: {
     wallpaper() {
@@ -159,5 +165,24 @@ export default {
   #dock-container {
     width: 100%;
     height: 10%;
+  }
+  .setting {
+    width: 25px;
+    height: 25px;
+    position: fixed;
+    right: 25px;
+    top: 16px;
+    cursor: pointer;
+  }
+  .setting:hover {
+    animation: rotate 10s linear ;
+  }
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(3600deg);
+    }
   }
 </style>

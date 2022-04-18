@@ -99,7 +99,6 @@ export default {
         disabled: true,
         ghostClass: "ghost"
       },
-      wheelCount: 0,
       drag: false,
       disabled: false,
       appSize: 0,
@@ -115,6 +114,10 @@ export default {
         tag: "transition"
       },
       activeIndex: 0,
+      wheelCount: 0,
+      wheelStartTime: 0,
+      wheelIndex: 0,
+      wheelScroll: false,
     }
   },
   created() {
@@ -174,17 +177,34 @@ export default {
     },
     scroll( e) {
       e.preventDefault()
-      this.wheelCount ++
-      console.log(this.wheelCount)
-      if (this.wheelCount > 40) {
-        if (e.wheelDeltaX < -10) {
-          this.swiper.slideNext()
-          console.log("next")
-        } else if (e.wheelDeltaX > 10) {
-          this.swiper.slidePrev()
-        }
-        this.wheelCount = 0
+      e.stopPropagation()
+      // let now = new Date().getTime()
+      // if (this.wheelCount > 30 && (now - this.wheelStartTime > 500)) {
+      //   if (e.wheelDeltaX < -1) {
+      //     this.swiper.slideNext()
+      //   } else if (e.wheelDeltaX > 1) {
+      //     this.swiper.slidePrev()
+      //   }
+      //   this.wheelStartTime = now
+      //   this.wheelCount = 0
+      // }
+      this.wheelScroll = true
+      this.wheelIndex ++
+      if (this.wheelIndex > 100000000) {
+        this.wheelIndex = 0
       }
+      let wheelIndex = this.wheelIndex
+      console.log(wheelIndex)
+      setTimeout(
+          () => {
+            if (this.wheelIndex === wheelIndex) {
+              if (this.wheelScroll) {
+                e.wheelDeltaX > 0 ? this.swiper.slidePrev() : this.swiper.slideNext()
+              }
+              this.wheelScroll = false
+            }
+          }, 70
+      )
     },
     openApp(app) {
       let that = this

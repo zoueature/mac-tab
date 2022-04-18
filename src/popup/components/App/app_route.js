@@ -7,6 +7,7 @@ import NewsDrawer from "@/popup/components/App/News/NewsDrawer";
 import JsonFormatter from "@/popup/components/App/JsonFormatter/JsonFormatter";
 import Translate from "@/popup/components/App/Translate/Translate";
 import ShortVideo from "@/popup/components/App/ShortVideo/ShortVideo";
+import Setting from "@/popup/components/App/Setting/Setting";
 
 const routes = [
     // ----------- app -------------
@@ -21,6 +22,7 @@ const routes = [
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
+    { name: 'SETTING', path: '/SETTING', components: {drawer: Setting}, },
 ]
 
 export default routes
