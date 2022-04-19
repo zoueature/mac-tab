@@ -15,6 +15,7 @@ export default {
   methods: {
     hiddenModal() {
       this.$store.commit('toggleSearchEngin', false)
+      this.$store.commit('closeFolder')
     }
   }
 }

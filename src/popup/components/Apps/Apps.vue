@@ -32,12 +32,13 @@
                                    ghostClass="ghostClass"
                                    chosenClass="chosenClass"
                                    @start="drag = true"
-                                   @end="drag = false"
+                                   @end="end"
                                    :move="move"
                                    group="apps"
                                    class="app"
                                    @add="add"
                                    :sort="true"
+                                   id="apps"
           >
             <template #item="{ element }">
               <AppContainer :app="element"/>
@@ -60,6 +61,7 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper";
 
 const appsStorageKeyName = "applications"
+let hoverFolder = {}
 
 export default {
   name: "AppCom",
@@ -211,13 +213,36 @@ export default {
       localStorage.setItem(appsStorageKeyName, JSON.stringify(this.apps))
       this.swiper.enable()
       this.drag = false
+      hoverFolder = {}
     },
     move(ev) {
       // let dragged = ev.draggedContext
-      let related = ev?.relatedContext?.element?.type?? '';
-      if (related === 'folder') {
-        // this.apps.splice(dragged.index, 1)
-        // this.apps[ev.relatedContext.index].apps.push(dragged.element)
+      let related = ev?.relatedContext?.element?? {};
+      // if (ev.related.className==='empty-drag') {
+      //   console.log(ev)
+      //   if (hoverFolder['empty-drag'] === undefined) {
+      //     hoverFolder = {}
+      //     hoverFolder['empty-drag'] = 1
+      //   } else {
+      //     console.log(hoverFolder['empty-drag'])
+      //     hoverFolder['empty-drag'] ++
+      //     if (hoverFolder['empty-drag'] > 160){
+      //       this.$store.commit('closeFolder')
+      //     }
+      //   }
+      //   return false
+      // }
+      if (related.type === 'folder') {
+        console.log(hoverFolder[related.id])
+        if (hoverFolder[related.id] === undefined) {
+          hoverFolder = {}
+          hoverFolder[related.id] = 1
+        } else {
+          hoverFolder[related.id] ++
+          if (hoverFolder[related.id] > 160){
+            this.$store.commit('openFolder')
+          }
+        }
         return false
       }
     },
