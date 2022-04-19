@@ -31,7 +31,6 @@ export default {
     },
     openDetail() {
       this.$router.replace("todo")
-      this.$vfm.show('todo', {})
       this.$store.commit('openApp')
     },
     cancel() {

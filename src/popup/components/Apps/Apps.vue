@@ -13,6 +13,7 @@
           @touchEnd="touchEnd"
           @wheel="scroll"
           class="apps"
+
       >
         <swiper-slide v-for="(pageApps, index) in userApps"
                       :no-swiping="true"
@@ -22,7 +23,6 @@
             <Draggable
                                    :list="pageApps"
                                    item-key="id"
-                                   :options="option"
                                    tag="transition-group"
                                    :component-data="{
               tag: 'div',
@@ -31,15 +31,15 @@
             }"
                                    ghostClass="ghost"
                                    chosenClass="chosen"
-                                   @start="swiper.disable()"
                                    @end="end"
                                    @move="move"
                                    group="apps"
                                    class="app"
                                    @add="add"
+                                   :sort="false"
           >
             <template #item="{ element }">
-              <AppContainer :app="element" @click.stop=""  @mousedown.stop=""/>
+              <AppContainer :app="element"/>
             </template>
         </Draggable>
         </swiper-slide>
@@ -93,26 +93,12 @@ export default {
         y: 0
       },
       inFolder: false,
-      dragOptions: {
-        animation: 200,
-        group: {name: "apps", put: true},
-        disabled: true,
-        ghostClass: "ghost"
-      },
       drag: false,
       disabled: false,
       appSize: 0,
       rowsNum: 0,
       columNum: 0,
       list1: [],
-      option: {
-        group: "app",
-        sort: false,
-        delay: 1000,
-        animation: 1000,
-        ghostClass: "ghostClass",
-        tag: "transition"
-      },
       activeIndex: 0,
       wheelCount: 0,
       wheelStartTime: 0,
@@ -156,7 +142,6 @@ export default {
   },
   methods: {
     onSwiper(swiper) {
-      swiper.setGrabCursor()
       this.swiper = swiper
     },
     touchStart(s, e) {
@@ -188,6 +173,7 @@ export default {
       //   this.wheelStartTime = now
       //   this.wheelCount = 0
       // }
+      // todo 滚轮翻页优化
       this.wheelScroll = true
       this.wheelIndex ++
       if (this.wheelIndex > 100000000) {
@@ -228,6 +214,7 @@ export default {
     move(ev) {
       let dragged = ev.draggedContext
       let related = ev?.relatedContext?.element?.type?? '';
+      console.log(ev)
       if (related === 'folder') {
         this.dragOptions.disabled = true
         this.apps.splice(dragged.index, 1)
@@ -237,7 +224,6 @@ export default {
     },
     changePage(e) {
       this.activeIndex = e.realIndex
-      console.log(e.realIndex)
     },
     add(e, index) {
       console.log(index)

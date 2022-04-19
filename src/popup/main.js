@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import App from './components/app'
-import vfmPlugin from 'vue-final-modal'
 import store from './store'
 import {createRouter, createWebHashHistory} from "vue-router";
 import routers from "./components/App/app_route"
@@ -14,5 +13,4 @@ const router = createRouter({
 const app = createApp(App)
 app.use(store)
 app.use(router)
-app.use(vfmPlugin)
 app.mount('#app')

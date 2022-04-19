@@ -38,7 +38,6 @@ import Todo from "@/popup/components/App/Todo/TodoWidget";
 import Friday from "@/popup/components/Widgets/Friday";
 import Components from "@/popup/components/Components/Components";
 import ComponentsCom from "@/popup/components/Components/Components";
-import CustomModal from "@/popup/components/common/WindowModal";
 import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
@@ -60,7 +59,6 @@ export default {
     Todo,
     Friday,
     Components,
-    CustomModal,
     TodoApp,
     App,
     RightDrawer,

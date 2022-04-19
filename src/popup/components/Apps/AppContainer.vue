@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     gridStyle() {
-      if (this.appInfo.type === '') {
+      if (this.appInfo.type === 'component') {
         return "grid-row: span 2; grid-column: span 2;"
       }
       return ''

@@ -1,47 +1,37 @@
 <template>
-  <div>
+  <div class="folder-app">
     <AppItem
         :size="folder.size"
         :name="folder.name"
         :iconBorder=" true"
         :click="openFolder"
     >
-        <Draggable :list="folder.apps.slice(0, 4)"
-                   item-key="id"
-                   :options="option"
-                   :clone="clone"
-                   @change="log"
-                   tag="transition-group"
-                   :component-data="{
-                      tag: 'div',
-                      type: 'transition-group',
-                      name:  'flip-list'
-                  }"
-                   group="apps"
-                   class="folder-icon">
-          <template #item="{ element }"  >
-            <div class="app-icon">
-              <img :src="element.icon" style="width: 100%; height: 100%" :alt="element.name">
-            </div>
-          </template>
-        </Draggable>
+      <div class="folder-icon">
+        <div class="app-icon" v-for="element in folder.apps.slice(0, 4)" :key="element.id">
+          <img :src="element.icon" style="width: 100%; height: 100%" :alt="element.name">
+        </div>
+      </div>
     </AppItem>
-    <div v-if="showFolder" class="folder-content">
-        <div class="folder-name">{{folder.name}}</div>
-        <Draggable :list="folder.apps"
-                   item-key="id"
-                   :options="option"
-                   class="folder">
-          <template #item="{ element }"  >
-            <AppItem
-                :name="element.name"
-                :size="element.size"
-                :icon="element.icon"
-                :link="element.link"
-            >
-            </AppItem>
-          </template>
-        </Draggable>
+    <div v-if="showFolder" class="folder-content" @click="showFolder=false">
+        <div class="folder-apps">
+          <p class="folder-name">{{folder.name}}</p>
+          <Draggable :list="folder.apps"
+                     item-key="id"
+                     :options="option"
+                     class="folder"
+                     group="apps"
+          >
+            <template #item="{ element }"  >
+              <AppItem
+                  :name="element.name"
+                  :size="element.size"
+                  :icon="element.icon"
+                  :link="element.link"
+              >
+              </AppItem>
+            </template>
+          </Draggable>
+        </div>
     </div>
   </div>
 </template>
@@ -64,8 +54,8 @@ export default {
       "folder"
   ],
   created() {
-    this.folderContainerSize = Math.ceil(this.folder.size * 5.5) + 'px'
-    this.folderContainerWidth = Math.ceil(this.folder.size * 5.5 * 2) + 'px'
+    this.folderContainerSize = Math.ceil(this.folder.size * 3.5) + 'px'
+    this.folderContainerWidth = Math.ceil(this.folder.size * 3.5 * 2) + 'px'
   },
   data() {
     return {
@@ -115,34 +105,42 @@ export default {
     width: 75%;
     height: 75%;
     border-radius: 3px;
-    overflow: hidden;
+    /*overflow: hidden;*/
   }
   .folder-content {
     position: absolute;
     width: 100%;
     height: 100%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     z-index: 1;
+    top:0;
+    left: 0;
+  }
+  .folder-apps {
+    width: v-bind(folderContainerWidth);
+    height: v-bind(folderContainerSize);
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     backdrop-filter: blur(10px);
   }
   .folder-name {
-    padding: 15px;
     color: white;
-    font-size: 25px;
+    font-size: 20px;
     position: absolute;
+    top: -25%;
     left: 50%;
     transform: translateX(-50%);
-    top: -16%;
     font-weight: bold;
   }
   .folder {
-    width: v-bind(folderContainerWidth);
-    height: v-bind(folderContainerSize);
+    width: 100%;
+    height: 100%;
     display: grid;
-    grid-template-rows: repeat(4, 25%);
-    grid-template-columns: repeat(8, 12.5%);
+    grid-template-rows: repeat(2, 50%);
+    grid-template-columns: repeat(5, 20%);
     justify-content: space-around;
     justify-items: center;
     align-items: center;
