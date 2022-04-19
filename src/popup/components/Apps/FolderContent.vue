@@ -163,15 +163,4 @@ export default {
   .no-move {
     transition: transform 0s;
   }
-  .empty-drag {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-  }
-  .empty {
-    width: 100%;
-    height: 100%;
-    background: red;
-  }
 </style>
