@@ -37,14 +37,12 @@ export default {
         state.userApps.push({
             id: app.id,
             type: 'app',
-            size: 70,
             name: app.name,
             icon: app.icon,
             app:  app.app,
             link: app.link,
         })
-        this.fsyncApp(state)
-        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     removeApp(state, app) {
         state.userApps.forEach((v, i) => {
@@ -52,8 +50,8 @@ export default {
                 state.userApps.splice(i, 1)
             }
         })
-        this.fsyncApp(state)
-        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        //this.fsyncApp(state)
+        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     initUserApps(state, apps) {
         state.userApps = apps

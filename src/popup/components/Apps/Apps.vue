@@ -253,7 +253,6 @@ export default {
         link: app.link,
         app: app.app,
       })
-      console.log(app)
     }
   },
 }

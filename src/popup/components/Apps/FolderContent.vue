@@ -16,6 +16,7 @@
             @end="end"
             :move="move"
             group="apps"
+            @add="add"
             class="app"
             :sort="true"
             id="folder"
@@ -71,6 +72,9 @@ export default {
     },
     end() {
       this.drag = false
+    },
+    add() {
+      this.$store.commit('fsyncApp')
     }
   },
   computed: {
@@ -85,32 +89,6 @@ export default {
   data() {
     return {
       drag: false,
-      apps: [
-        {
-          id: 24,
-          type: 'app',
-          size: 70,
-          name: "AppStore",
-          icon: "../../../assets/images/app/appstore.png",
-          app: 'appstore',
-        },
-        {
-          id: 25,
-          type: 'app',
-          size: 70,
-          name: "备忘录",
-          icon: "../../../assets/images/app/note.png",
-          app: 'note',
-        },
-        {
-          id: 26,
-          type: 'app',
-          size: 70,
-          name: "超级搜索",
-          icon: "../../../assets/images/app/searcher.png",
-          app: 'searcher',
-        },
-      ]
     }
   }
 }
