@@ -5,8 +5,8 @@
                item-key="id"
                :options="option"
                class="container"
-               @start="start"
-               @end="end"
+               @start="drag = true"
+               @end="drag = false"
                @add="add"
                @clone="clone"
                group="apps"
@@ -14,7 +14,7 @@
                :component-data="{
                   tag: 'div',
                   type: 'transition-group',
-                  name: 'apps'
+                  name: !drag ? 'apps' : null,
                 }"
     >
       <template #item="{ element }"  >
@@ -46,6 +46,7 @@ export default {
   },
   data() {
     return {
+      drag: false,
       option: {
         group: {name: "apps", put: true, pull: true},
         sort: true,
@@ -120,18 +121,14 @@ export default {
     start(e) {
       this.inMove = true
       console.log('start')
-      this.scaleIndex = -2
+      this.recover()
       console.log(e)
     },
     end(e) {
       console.log('end', e)
-      this.inMove = false
       this.recover()
+      this.inMove = false
     },
-    clone(e) {
-      console.log('clone')
-      console.log(e)
-    }
   }
 }
 </script>

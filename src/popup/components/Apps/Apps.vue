@@ -27,16 +27,17 @@
                                    :component-data="{
               tag: 'div',
               type: 'transition-group',
-              name: 'apps'
+              name: !drag ? 'apps' : 'apps-drag'
             }"
-                                   ghostClass="ghost"
-                                   chosenClass="chosen"
-                                   @end="end"
-                                   @move="move"
+                                   ghostClass="ghostClass"
+                                   chosenClass="chosenClass"
+                                   @start="drag = true"
+                                   @end="drag = false"
+                                   :move="move"
                                    group="apps"
                                    class="app"
                                    @add="add"
-                                   :sort="false"
+                                   :sort="true"
           >
             <template #item="{ element }">
               <AppContainer :app="element"/>
@@ -212,15 +213,13 @@ export default {
       this.drag = false
     },
     move(ev) {
-      let dragged = ev.draggedContext
+      // let dragged = ev.draggedContext
       let related = ev?.relatedContext?.element?.type?? '';
-      console.log(ev)
       if (related === 'folder') {
-        this.dragOptions.disabled = true
-        this.apps.splice(dragged.index, 1)
-        this.apps[ev.relatedContext.index].apps.push(dragged.element)
+        // this.apps.splice(dragged.index, 1)
+        // this.apps[ev.relatedContext.index].apps.push(dragged.element)
+        return false
       }
-      this.dragOptions.disabled = false
     },
     changePage(e) {
       this.activeIndex = e.realIndex
@@ -252,7 +251,11 @@ export default {
   position: relative;
 }
 .ghostClass {
-  transform: scale(2) !important;
+  opacity: 0.5;
+}
+.chosenClass {
+  /*cursor: move;*/
+  /*transform: scale(0.3);*/
 }
 .app{
   width: 100%;
@@ -263,17 +266,7 @@ export default {
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
-  /*align-items: center;*/
-}
-
-.ghost {
-  opacity: 0.5;
-  transform: scale(1.1);
-}
-
-.chosen {
-  /*cursor: move;*/
-  /*transform: scale(0.3);*/
+  align-items: center;
 }
 
 .apps-enter-active {
@@ -282,4 +275,14 @@ export default {
 .apps-enter-from {
   transform: scale(0);
 }
+.apps-move {
+  transition: transform 0.5s;
+}
+.apps-drag-move {
+  transition: transform 0.1s;
+}
+.no-move {
+  transition: transform 0s;
+}
+
 </style>
