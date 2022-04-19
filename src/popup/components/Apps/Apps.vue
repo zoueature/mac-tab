@@ -1,5 +1,6 @@
 <template>
   <div class="apps">
+      <FolderContent ></FolderContent>
       <swiper :pagination="{
         dynamicBullets: true,
       }"
@@ -7,7 +8,6 @@
           @activeIndexChange="changePage"
           :allowSlideNext="true"
           @swiper="onSwiper"
-          @touchMove="touchMove"
           :allowTouchMove="false"
           @touchStart="touchStart"
           @touchEnd="touchEnd"
@@ -51,16 +51,16 @@
 
 <script>
 
+import "swiper/css";
+import "swiper/css/pagination";
+
+import { Pagination } from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
 import keys from "@/popup/store/keys";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/pagination";
-// import "./style.css";
-import { Pagination } from "swiper";
+import FolderContent from "@/popup/components/Apps/FolderContent";
 
-const appsStorageKeyName = "applications"
 let hoverFolder = {}
 
 export default {
@@ -70,6 +70,7 @@ export default {
     AppContainer,
     Swiper,
     SwiperSlide,
+    FolderContent,
   },
   setup() {
     return {
@@ -82,15 +83,16 @@ export default {
     'columns'
   ],
   beforeCreate() {
-    let apps = localStorage.getItem(appsStorageKeyName)
-    if (apps !== "" && apps !== null) {
-      this.apps = JSON.parse(apps)
-    } else {
-      this.apps = []
+    let localUserApps = localStorage.getItem(keys.userApp)
+    let userApps = []
+    if (localUserApps !== "" && localUserApps !== null) {
+      userApps = JSON.parse(localUserApps)
+      this.$store.commit('initUserApps', userApps)
     }
   },
   data() {
     return {
+      apps: [],
       moveOffset: {
         x: 0,
         y: 0
@@ -113,12 +115,6 @@ export default {
     this.appSize = this.size
     this.rowsNum = this.rows
     this.columNum = this.columns
-    let localUserApps = localStorage.getItem(keys.userApp)
-    let userApps = []
-    if (localUserApps !== "" && localUserApps !== null) {
-      userApps = JSON.parse(localUserApps)
-      this.$store.commit('initUserApps', userApps)
-    }
   },
   computed: {
     containerHeight() {
@@ -140,6 +136,7 @@ export default {
           page = []
         }
       })
+      console.log(result)
       return result
     }
   },
@@ -150,8 +147,6 @@ export default {
     touchStart(s, e) {
       this.moveOffset.x = e.layerX
       this.moveOffset.y = e.layerY
-      console.log('touch start', this.moveOffset)
-      console.log(s, e)
     },
     touchEnd(s, e) {
       console.log('touch end')
@@ -161,7 +156,6 @@ export default {
       } else if (diff > 70) {
         this.swiper.slidePrev()
       }
-      console.log(s, e)
     },
     scroll( e) {
       e.preventDefault()
@@ -206,13 +200,12 @@ export default {
       ev.toString()
       this.drag = true
       this.swiper.disable()
-      console.log(this.swiper)
     },
     end(ev) {
       ev.toString()
-      localStorage.setItem(appsStorageKeyName, JSON.stringify(this.apps))
       this.swiper.enable()
       this.drag = false
+      this.$store.commit('fsyncApp')
       hoverFolder = {}
     },
     move(ev) {
@@ -240,7 +233,7 @@ export default {
         } else {
           hoverFolder[related.id] ++
           if (hoverFolder[related.id] > 160){
-            this.$store.commit('openFolder')
+            this.$store.commit('openFolder', related)
           }
         }
         return false

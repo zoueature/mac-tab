@@ -2,7 +2,7 @@
   <transition name="folder" v-show="showFolder">
       <div class="folder-container" @click.stop="" >
         <Draggable
-            :list="apps"
+            :list="folder.apps"
             item-key="id"
             tag="transition-group"
             :component-data="{
@@ -31,7 +31,6 @@
           </template>
         </Draggable>
       </div>
-<!--    </div>-->
   </transition>
 </template>
 
@@ -48,6 +47,8 @@ export default {
     AppItem,
     Draggable,
   },
+  props: [
+  ],
   methods: {
     closeFolder() {
       this.$store.commit('closeFolder')
@@ -76,6 +77,10 @@ export default {
     showFolder() {
       return this.$store.getters.showFolder
     },
+    folder() {
+      console.log(this.$store.getters.activeFolder)
+      return this.$store.getters.activeFolder
+    }
   },
   data() {
     return {
@@ -126,6 +131,7 @@ export default {
     border-radius: 10px;
     backdrop-filter: blur(10px);
     box-shadow: 1px 1px 10px white;
+    background: rgba(0, 0, 0, 0.07);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -137,6 +143,7 @@ export default {
   .app {
     width: 100%;
     height: 100%;
+    backdrop-filter: blur(10px);
     display: grid;
     grid-template-columns: repeat(auto-fill, 100px);
     grid-template-rows: repeat(3, 120px);

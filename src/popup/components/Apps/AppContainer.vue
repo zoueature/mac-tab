@@ -10,7 +10,7 @@
     />
     <Folder v-else-if="app.type === 'folder' "
             :folder="app"
-            @click.stop="openFolder"
+            @click.stop="openFolder(app)"
     ></Folder>
   </div>
 </template>
@@ -46,8 +46,8 @@ export default {
     }
   },
   methods: {
-    openFolder(e) {
-      this.$store.commit('openFolder', e.clientX, e.clientY)
+    openFolder(app) {
+      this.$store.commit('openFolder', app)
     }
   }
 }

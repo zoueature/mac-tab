@@ -22,7 +22,6 @@
     </div>
     <App></App>
     <RightDrawer></RightDrawer>
-    <FolderContent></FolderContent>
     <div class="setting" @click="openSetting">
       <img src="../../assets/icon/setting.png" alt="setting" style="width: 100%; height: 100%">
     </div>

@@ -14,6 +14,8 @@ export default {
     // --------- app -----------
     userApps: initApps,
     installedAppID: {}, // {123: true}
+    activeFolder: {}, // 当前打开的文件夹信息
+    fmtApps: [],
 
     // todo
     userTodos: {}, // {1: {name: '', count: '', list: []}},

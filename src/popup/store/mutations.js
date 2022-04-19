@@ -20,14 +20,6 @@ export default {
     closeLoading(state) {
         state.showLoading = false
     },
-    openFolder(state, x, y) {
-        state.showFolder = true
-        state.folderStartPtr.x = x
-        state.folderStartPtr.y = y
-    },
-    closeFolder(state) {
-        state.showFolder = false
-    },
     setWallpaper(state, wallpaper) {
         state.config.wallpaper = wallpaper
         localStorage.setItem(keys.config, JSON.stringify(state.config))
@@ -51,7 +43,8 @@ export default {
             app:  app.app,
             link: app.link,
         })
-        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        this.fsyncApp(state)
+        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     removeApp(state, app) {
         state.userApps.forEach((v, i) => {
@@ -59,12 +52,25 @@ export default {
                 state.userApps.splice(i, 1)
             }
         })
-        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        this.fsyncApp(state)
+        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     initUserApps(state, apps) {
         state.userApps = apps
     },
-
+    openFolder(state, folder, x, y) {
+        state.showFolder = true
+        state.folderStartPtr.x = x
+        state.folderStartPtr.y = y
+        state.activeFolder = folder
+    },
+    closeFolder(state) {
+        state.showFolder = false
+    },
+    fsyncApp(state) {
+        console.log(state.userApps)
+        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+    },
 
 
 

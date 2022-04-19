@@ -14,6 +14,12 @@ export default {
     showFolder(state) {
         return state.showFolder
     },
+    folderStart(state) {
+        return state.folderStartPtr
+    },
+    activeFolder(state) {
+        return state.activeFolder
+    },
     userApps(state) {
         return state.userApps
     },
