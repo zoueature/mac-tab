@@ -20,6 +20,14 @@ export default {
     closeLoading(state) {
         state.showLoading = false
     },
+    openFolder(state, x, y) {
+        state.showFolder = true
+        state.folderStartPtr.x = x
+        state.folderStartPtr.y = y
+    },
+    closeFolder(state) {
+        state.showFolder = false
+    },
     setWallpaper(state, wallpaper) {
         state.config.wallpaper = wallpaper
         localStorage.setItem(keys.config, JSON.stringify(state.config))

@@ -22,6 +22,7 @@
     </div>
     <App></App>
     <RightDrawer></RightDrawer>
+    <FolderContent></FolderContent>
     <div class="setting" @click="openSetting">
       <img src="../../assets/icon/setting.png" alt="setting" style="width: 100%; height: 100%">
     </div>
@@ -43,6 +44,7 @@ import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
 import Loading from "@/popup/components/common/Loading";
 import keys from "@/popup/store/keys";
+import FolderContent from "@/popup/components/Apps/FolderContent";
 
 /* eslint-disable */
 export default {
@@ -63,6 +65,7 @@ export default {
     App,
     RightDrawer,
     Loading,
+    FolderContent,
   },
   methods: {
     showMenu(e) {

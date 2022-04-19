@@ -1,5 +1,5 @@
 <template>
-  <div id="dock-item" @click="handler()">
+  <div id="dock-item" @click="handler">
       <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
         <div v-if="icon !== '' && icon !== undefined ">
           <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>

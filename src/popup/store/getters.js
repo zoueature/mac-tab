@@ -11,6 +11,9 @@ export default {
     showLoading(state) {
         return state.showLoading
     },
+    showFolder(state) {
+        return state.showFolder
+    },
     userApps(state) {
         return state.userApps
     },

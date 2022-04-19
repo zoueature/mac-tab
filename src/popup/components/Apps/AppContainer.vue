@@ -10,15 +10,14 @@
     />
     <Folder v-else-if="app.type === 'folder' "
             :folder="app"
-    />
-    <Todo v-else/>
+            @click.stop="openFolder"
+    ></Folder>
   </div>
 </template>
 
 <script>
 
 import DockItem from "@/popup/components/Apps/AppItem";
-import Todo from "@/popup/components/App/Todo/TodoWidget";
 import Folder from "@/popup/components/Apps/Folder";
 
 export default {
@@ -28,7 +27,6 @@ export default {
   ],
   components: {
     AppItem: DockItem,
-    Todo,
     Folder,
   },
   created() {
@@ -45,6 +43,11 @@ export default {
   data() {
     return {
       appInfo: '',
+    }
+  },
+  methods: {
+    openFolder(e) {
+      this.$store.commit('openFolder', e.clientX, e.clientY)
     }
   }
 }
