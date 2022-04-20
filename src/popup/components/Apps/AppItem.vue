@@ -30,6 +30,7 @@ export default {
   },
   computed: {
     handler() {
+      console.log(this.link, this.clickHandler)
       if (this.link !== null && this.link !== undefined && this.link !== "") {
         return this.goto
       }

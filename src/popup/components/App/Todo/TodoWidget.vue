@@ -109,16 +109,6 @@ export default {
     left: 3%;
     transform: translate(0, -50%);
   }
-  ::v-deep .modal-content {
-    width: 200px;
-    height: 100px;
-    background: white;
-  }
-  ::v-deep .modal-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-  }
   .todo-op {
     width: 200px;
     height: 200px;

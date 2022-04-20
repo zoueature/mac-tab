@@ -21,6 +21,7 @@
                   :icon="element.icon"
                   :name="element.name"
                   :link="element.link"
+                  :click="element.click"
                   :hover="true"
                   :class="dockItemClass(element.id)"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
@@ -63,7 +64,13 @@ export default {
   },
   computed: {
     docks() {
-      return this.$store.getters.dockApps
+      let apps = this.$store.getters.dockApps
+      let that = this
+      apps.forEach((app) => {
+        console.log(app)
+        app.click = that.openApp(app.app)
+      })
+      return apps
     },
     dockSize() {
       let size =  this.size
@@ -102,6 +109,13 @@ export default {
     }
   },
   methods: {
+    openApp(app) {
+      let that = this
+      return function () {
+        that.$store.commit('openApp')
+        that.$router.replace(app)
+      }
+    },
     enlarge(index) {
       this.scaleIndex = index
       this.$forceUpdate()
