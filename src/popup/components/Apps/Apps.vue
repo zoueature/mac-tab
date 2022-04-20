@@ -57,7 +57,6 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
-import keys from "@/popup/store/keys";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 
@@ -83,12 +82,7 @@ export default {
     'columns'
   ],
   beforeCreate() {
-    let localUserApps = localStorage.getItem(keys.userApp)
-    let userApps = []
-    if (localUserApps !== "" && localUserApps !== null) {
-      userApps = JSON.parse(localUserApps)
-      this.$store.commit('initUserApps', userApps)
-    }
+    this.$store.commit('initUserApps')
   },
   data() {
     return {
@@ -124,20 +118,21 @@ export default {
       return (this.appSize * this.columNum) + 'px'
     },
     userApps() {
-      let list =  this.$store.getters.userApps
-      let that = this
-      let result = []
-      let page = []
-      list.forEach((v, i) => {
-        v.click = that.openApp(v.app)
-          page.push(v)
-        if (i === list.length-1 || (i % 25 === 0 && i !== 0)) {
-          result.push(page)
-          page = []
-        }
-      })
-      console.log(result)
-      return result
+      return this.$store.getters.pageApps
+      // let list =  this.$store.getters.userApps
+      // let that = this
+      // let result = []
+      // let page = []
+      // list.forEach((v, i) => {
+      //   v.click = that.openApp(v.app)
+      //     page.push(v)
+      //   if (i === list.length-1 || (i % 25 === 0 && i !== 0)) {
+      //     result.push(page)
+      //     page = []
+      //   }
+      // })
+      // console.log(result)
+      // return result
     }
   },
   methods: {

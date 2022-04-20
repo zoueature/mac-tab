@@ -53,8 +53,24 @@ export default {
         //this.fsyncApp(state)
         localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
-    initUserApps(state, apps) {
-        state.userApps = apps
+    initUserApps(state) {
+        let localUserApps = localStorage.getItem(keys.userApp)
+        let userApps = []
+        if (localUserApps !== "" && localUserApps !== null) {
+            userApps = JSON.parse(localUserApps)
+            state.userApps = userApps
+        }
+        let i = 0
+        let appLen = state.userApps.length
+        let appNumPerPage = 16
+        /* eslint-disable */
+        while (true) {
+            if (i >= appLen) {
+                break
+            }
+            state.fmtApps.push(state.userApps.slice(i, appNumPerPage-1))
+            i += appNumPerPage
+        }
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true
@@ -66,6 +82,13 @@ export default {
         state.showFolder = false
     },
     fsyncApp(state) {
+        let allApp = []
+        state.fmtApps.forEach((v) => {
+            v.forEach((app) => {
+                allApp.push(app)
+            })
+        })
+        state.userApps = allApp
         console.log(state.userApps)
         localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },

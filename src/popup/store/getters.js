@@ -20,6 +20,8 @@ export default {
     activeFolder(state) {
         return state.activeFolder
     },
+
+    // ------------------- APPS ------------------------
     userApps(state) {
         return state.userApps
     },
@@ -30,6 +32,11 @@ export default {
         })
         return result
     },
+    pageApps(state) {
+        return state.fmtApps
+    },
+
+    // --------------------- Desktop ----------------------
     showEngineList(state) {
         return state.showSearchEngine
     },
