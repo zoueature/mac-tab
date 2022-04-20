@@ -89,15 +89,16 @@ export default {
         }
         let i = 0
         let appLen = state.userApps.length
-        let appNumPerPage = 16
+        let appNumPerPage = config.appNumPerPage
         /* eslint-disable */
         while (true) {
             if (i >= appLen) {
                 break
             }
-            state.fmtApps.push(state.userApps.slice(i, appNumPerPage-1))
+            state.fmtApps.push(state.userApps.slice(i, i + appNumPerPage))
             i += appNumPerPage
         }
+        console.log(state.fmtApps)
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true

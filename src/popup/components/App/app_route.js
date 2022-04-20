@@ -8,6 +8,7 @@ import JsonFormatter from "@/popup/components/App/JsonFormatter/JsonFormatter";
 import Translate from "@/popup/components/App/Translate/Translate";
 import ShortVideo from "@/popup/components/App/ShortVideo/ShortVideo";
 import Setting from "@/popup/components/App/Setting/Setting";
+import Weather from "@/popup/components/App/Weather/Weather";
 
 const routes = [
     // ----------- app -------------
@@ -19,6 +20,7 @@ const routes = [
     { name: 'json', path: '/json', components: {app: JsonFormatter}, },
     { name: 'translate', path: '/translate', components: {app: Translate}, },
     { name: 'video', path: '/video', components: {app: ShortVideo}, },
+    { name: 'weather', path: '/weather', components: {app: Weather}, },
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },

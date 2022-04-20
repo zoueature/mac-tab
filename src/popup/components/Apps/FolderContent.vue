@@ -76,14 +76,26 @@ export default {
     },
     add() {
       this.$store.commit('fsyncApp')
-    }
+    },
+    openApp(app) {
+      let that = this
+      return function () {
+        that.$store.commit('openApp')
+        that.$router.replace(app)
+      }
+    },
   },
   computed: {
     showFolder() {
       return this.$store.getters.showFolder
     },
     folder() {
-      console.log(this.$store.getters.activeFolder)
+      let that = this
+      let folder = this.$store.getters.activeFolder
+      folder.apps?.forEach((app) => {
+        app.click = that.openApp(app.app)
+      })
+
       return this.$store.getters.activeFolder
     }
   },
@@ -134,7 +146,7 @@ export default {
   }
   .folder-enter-active,
   .folder-leave-active {
-    transition: all 500ms ease;
+    transition: all 200ms ease;
   }
   .folder-enter-from,
   .folder-leave-to {

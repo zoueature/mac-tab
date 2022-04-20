@@ -1,3 +1,3 @@
 export default {
-    appNumPerPage: 16,
+    appNumPerPage: 30, // 每页含有的app数
 }

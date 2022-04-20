@@ -1,20 +1,29 @@
 export default [
     {
-        id: new Date().getTime(), type: 'folder', size: 70, name:"系统工具", apps: [
+        id: 1, type: 'folder', size: 70, name:"系统工具", apps: [
             {
-                id: 10,
+                id: 2,
                 type: 'app',
                 size: 70,
                 name: "历史记录",
                 icon:"../../../assets/images/app/history.png",
-                link:"chrome://history/"
+                link:"chrome://history/",
+                app: "history"
+            },
+            {
+                id: 3,
+                type: 'app',
+                size: 70,
+                name: "插件管理",
+                icon:"../../../assets/images/app/extension.png",
+                link:"chrome://history/",
+                app: "extension"
             },
         ]
     },
     {
         id: 22,
         type: 'app',
-        size: 70,
         name: "切壁纸",
         icon: "../../../assets/images/app/wallpaper.png",
         app: 'wallpaper',
@@ -74,5 +83,12 @@ export default [
         name: "热门短视频",
         icon: "../../../assets/images/app/short_video.png",
         app: 'video',
+    },
+    {
+        id: 30,
+        type: 'app',
+        name: "天气",
+        icon: "../../../assets/images/app/weather.png",
+        app: 'weather',
     },
 ]
