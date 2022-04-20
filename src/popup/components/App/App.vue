@@ -108,7 +108,7 @@ export default {
   }
   .app-enter-active,
   .app-leave-active {
-    transition: all 400ms ease;
+    transition: all 250ms ease;
   }
   .app-enter-from,
   .app-leave-to {
