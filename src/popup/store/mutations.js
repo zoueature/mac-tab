@@ -37,6 +37,10 @@ export default {
         common.updateConfig(state, 'appSize', size)
         // state.config.appSize = size
     },
+    updateAppColumnNum(state, num) {
+        common.updateConfig(state, 'appColumnNum', num)
+        // state.config.appSize = size
+    },
     setWallpaper(state, wallpaper) {
         common.updateConfig(state, 'wallpaper', wallpaper)
         // state.config.wallpaper = wallpaper

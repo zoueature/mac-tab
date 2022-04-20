@@ -24,6 +24,9 @@ export default {
     appSize(state) {
       return state.config.appSize
     },
+    appColumnNum(state) {
+        return state.config.appColumnNum
+    },
 
     // ------------------- APPS ------------------------
     userApps(state) {

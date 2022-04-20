@@ -126,20 +126,6 @@ export default {
         })
       })
       return list
-      // let list =  this.$store.getters.userApps
-      // let that = this
-      // let result = []
-      // let page = []
-      // list.forEach((v, i) => {
-      //   v.click = that.openApp(v.app)
-      //     page.push(v)
-      //   if (i === list.length-1 || (i % 25 === 0 && i !== 0)) {
-      //     result.push(page)
-      //     page = []
-      //   }
-      // })
-      // console.log(result)
-      // return result
     }
   },
   methods: {
@@ -211,22 +197,7 @@ export default {
       hoverFolder = {}
     },
     move(ev) {
-      // let dragged = ev.draggedContext
       let related = ev?.relatedContext?.element?? {};
-      // if (ev.related.className==='empty-drag') {
-      //   console.log(ev)
-      //   if (hoverFolder['empty-drag'] === undefined) {
-      //     hoverFolder = {}
-      //     hoverFolder['empty-drag'] = 1
-      //   } else {
-      //     console.log(hoverFolder['empty-drag'])
-      //     hoverFolder['empty-drag'] ++
-      //     if (hoverFolder['empty-drag'] > 160){
-      //       this.$store.commit('closeFolder')
-      //     }
-      //   }
-      //   return false
-      // }
       if (related.type === 'folder') {
         console.log(hoverFolder[related.id])
         if (hoverFolder[related.id] === undefined) {
@@ -246,15 +217,6 @@ export default {
     },
     add() {
       this.$store.commit('fsyncApp')
-      // let app = e.item._underlying_vm_
-      // this.$store.commit('addApp', {
-      //   id: app.id,
-      //   type: app.type,
-      //   name: app.name,
-      //   icon: app.icon,
-      //   link: app.link,
-      //   app: app.app,
-      // })
     }
   },
 }

@@ -5,6 +5,10 @@
       <p class="setting-title">APP大小</p>
       <el-slider v-model="appSize" class="slider" :min="50" :max="80" @input="appSizeChange"></el-slider>
     </div>
+    <div class="app-size-slider">
+      <p class="setting-title">每列APP个数</p>
+      <el-slider v-model="appColumnNum" class="slider" :min="7" :max="12" @input="appColumnNumChange"></el-slider>
+    </div>
   </div>
 </template>
 
@@ -16,11 +20,13 @@ export default {
   },
   created() {
     this.appSize = this.$store.getters.appSize
+    this.appColumnNum = this.$store.getters.appSize
   },
   data() {
     return {
       value: 0,
       appSize: 0,
+      appColumnNum: 0,
     }
   },
   computed: {
@@ -31,7 +37,9 @@ export default {
   methods: {
     appSizeChange(val) {
       this.$store.commit('updateAppSize', val)
-      console.log(this.$store.getters.appSize)
+    },
+    appColumnNumChange(val) {
+      this.$store.commit('updateAppColumnNum', val)
     }
   }
 }
@@ -66,6 +74,7 @@ export default {
     height: 10px;
   }
   .app-size-slider {
+    margin-top: 10px;
     width: 90%;
     height: 10px;
     text-align: left;
