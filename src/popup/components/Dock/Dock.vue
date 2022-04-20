@@ -79,12 +79,12 @@ export default {
       return size
     },
     containerLength() {
-      let moreApp = 2
+      let moreApp = 1.5
       let appNum = this.$store.getters.dockApps.length
       if (appNum === 0) {
         moreApp = 4
       }  else if (appNum < 4) {
-        moreApp = 0.5
+        moreApp = 0.8
       }
       return (this.$store.getters.dockApps.length + moreApp ) * this.size  + 'px'
     },
@@ -148,16 +148,16 @@ export default {
       transform: scale(1);
     }
     to {
-      transform: scale(1.5);
+      transform: scale(1.3);
     }
   }
   @keyframes enlargeLittle {
     to {
-      transform: scale(1.2);
+      /*transform: scale(1.2);*/
     }
   }
   .enlarge {
-    animation: enlargeBig 200ms;
+    animation: enlargeBig 100ms;
     /*transform: scale(1.6);*/
   }
   .enlarge-little {
