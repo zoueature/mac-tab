@@ -2,7 +2,7 @@
   <div :style="gridStyle">
     <AppItem
         v-if="app.type === 'app' "
-        :size="77"
+        :size="appSize"
         :icon="app.icon"
         :name="app.name"
         :link="app.link"
@@ -38,6 +38,9 @@ export default {
         return "grid-row: span 2; grid-column: span 2;"
       }
       return ''
+    },
+    appSize() {
+      return this.$store.getters.appSize
     }
   },
   data() {

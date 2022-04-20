@@ -20,6 +20,10 @@ export default {
     activeFolder(state) {
         return state.activeFolder
     },
+    // ------------------- CONFIG ----------------------
+    appSize(state) {
+      return state.config.appSize
+    },
 
     // ------------------- APPS ------------------------
     userApps(state) {

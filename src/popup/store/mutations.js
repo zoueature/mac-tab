@@ -22,15 +22,25 @@ export default {
     closeLoading(state) {
         state.showLoading = false
     },
-    setWallpaper(state, wallpaper) {
-        state.config.wallpaper = wallpaper
-        localStorage.setItem(keys.config, JSON.stringify(state.config))
-    },
     initCommonConfig(state, config) {
-        state.config = config
+        let configStr = localStorage.getItem(keys.config)
+        if (configStr !== "" && configStr !== null) {
+            config = JSON.parse(configStr)
+            state.config = config
+        }
     },
     toggleSearchEngin(state, show) {
         state.showSearchEngine = show
+    },
+    // ----------- config ---------------
+    updateAppSize(state, size) {
+        common.updateConfig(state, 'appSize', size)
+        // state.config.appSize = size
+    },
+    setWallpaper(state, wallpaper) {
+        common.updateConfig(state, 'wallpaper', wallpaper)
+        // state.config.wallpaper = wallpaper
+        // localStorage.setItem(keys.config, JSON.stringify(state.config))
     },
 
 

@@ -17,7 +17,7 @@
                 }"
     >
       <template #item="{ element }"  >
-        <DockItem :size="dockSize"
+        <AppItem :size="dockSize"
                   :icon="element.icon"
                   :name="element.name"
                   :link="element.link"
@@ -35,13 +35,13 @@
 
 <script>
 
-import DockItem from "@/popup/components/Apps/AppItem";
+import AppItem from "@/popup/components/Apps/AppItem";
 import Draggable from "vuedraggable";
 
 export default {
   name: "dock-com",
   components: {
-    DockItem,
+    AppItem,
     Draggable,
   },
   beforeCreate() {
@@ -67,7 +67,6 @@ export default {
       let apps = this.$store.getters.dockApps
       let that = this
       apps.forEach((app) => {
-        console.log(app)
         app.click = that.openApp(app.app)
       })
       return apps

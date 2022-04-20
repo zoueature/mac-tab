@@ -24,8 +24,6 @@ export default {
     "click"
   ],
   created() {
-    this.itemSize = this.size + 'px'
-    this.iconSize = Math.ceil(this.size * 0.8) + "px"
     this.clickHandler = this.click
   },
   computed: {
@@ -35,17 +33,23 @@ export default {
         return this.goto
       }
       return this.clickHandler
+    },
+    itemSize() {
+      let size = this.$store.getters.appSize
+      console.log(size)
+      return size + 'px'
+    },
+    iconSize() {
+      return Math.ceil(this.$store.getters.appSize * 0.8) + "px"
     }
   },
   methods: {
     goto() {
       window.location.href = this.link
-    }
+    },
   },
   data() {
     return {
-      itemSize: "",
-      iconSize: "",
       clickHandler: null,
     }
   }

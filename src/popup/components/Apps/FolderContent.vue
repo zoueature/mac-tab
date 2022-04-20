@@ -117,8 +117,8 @@ export default {
     top: 0;
   }
   .folder-container {
-    width: 50%;
-    height: 50%;
+    width: 70%;
+    height: 90%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     box-shadow: 1px 1px 10px white;

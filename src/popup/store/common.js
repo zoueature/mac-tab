@@ -11,4 +11,8 @@ export default {
         state.userApps = allApp
         localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
+    updateConfig(state, key, val) {
+        state.config[key] = val
+        localStorage.setItem(keys.config, JSON.stringify(state.config))
+    }
 }
