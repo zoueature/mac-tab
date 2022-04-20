@@ -72,6 +72,7 @@ export default {
     },
     end() {
       this.drag = false
+      this.$store.commit('fsyncApp')
     },
     add() {
       this.$store.commit('fsyncApp')

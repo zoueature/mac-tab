@@ -1,4 +1,6 @@
 import keys from "@/popup/store/keys";
+import config from "@/popup/store/config";
+import common from "@/popup/store/common";
 
 export default {
     // ----------------- common ---------------------
@@ -33,26 +35,51 @@ export default {
 
 
     //----------- app ---------------
+    // addApp 添加app到最近的一页
     addApp(state, app) {
-        state.userApps.push({
+        let fmtApp = {
             id: app.id,
             type: 'app',
             name: app.name,
             icon: app.icon,
             app:  app.app,
             link: app.link,
-        })
-        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        }
+        // state.userApps.push(app)
+        for (let i = 0; i < state.fmtApps.length; i ++) {
+            if (state.fmtApps[i].length < config.appNumPerPage) {
+                state.fmtApps[i].push(fmtApp)
+            }
+        }
+        common.fsyncApp(state)
     },
+    // removeApp 移除app
     removeApp(state, app) {
         state.userApps.forEach((v, i) => {
             if (v.id === app.id) {
                 state.userApps.splice(i, 1)
             }
         })
+        let succ = false
+        for (let i = 0; i < state.fmtApps.length; i ++) {
+          for (let j = 0; j < state.fmtApps[i].length; j ++) {
+              if (state.fmtApps[i][j].id === app.id) {
+                  state.fmtApps[i].splice(j, 1)
+                  succ = true
+                  break
+              }
+          }
+          if (succ) {
+              break
+          }
+        }
+        common.fsyncApp(state)
         //this.fsyncApp(state)
-        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
+    // initUserApps 初始化用户app
+    // 本地有数据时， 使用本地的localStorage的数据
+    // 本地没有数据时， 使用预定义的初始化数据
     initUserApps(state) {
         let localUserApps = localStorage.getItem(keys.userApp)
         let userApps = []
@@ -82,15 +109,19 @@ export default {
         state.showFolder = false
     },
     fsyncApp(state) {
-        let allApp = []
-        state.fmtApps.forEach((v) => {
-            v.forEach((app) => {
-                allApp.push(app)
-            })
-        })
-        state.userApps = allApp
-        console.log(state.userApps)
-        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+       common.fsyncApp(state)
+    },
+    initDockApps(state) {
+        let localDockApps = localStorage.getItem(keys.dockApps)
+        let dockApps = []
+        if (localDockApps !== "" && localDockApps !== null) {
+            dockApps = JSON.parse(localDockApps)
+            state.dockApps = dockApps
+        }
+    },
+    fsyncDockApps(state) {
+        console.log(state.dockApps)
+        localStorage.setItem(keys.dockApps, JSON.stringify(state.dockApps))
     },
 
 

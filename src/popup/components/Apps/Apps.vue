@@ -118,7 +118,14 @@ export default {
       return (this.appSize * this.columNum) + 'px'
     },
     userApps() {
-      return this.$store.getters.pageApps
+      let list =  this.$store.getters.pageApps
+      let that = this
+      list.forEach((page) => {
+        page.forEach((app) => {
+          app.click = that.openApp(app.app)
+        })
+      })
+      return list
       // let list =  this.$store.getters.userApps
       // let that = this
       // let result = []
@@ -237,17 +244,17 @@ export default {
     changePage(e) {
       this.activeIndex = e.realIndex
     },
-    add(e, index) {
-      console.log(index)
-      let app = e.item._underlying_vm_
-      this.$store.commit('addApp', {
-        id: app.id,
-        type: app.type,
-        name: app.name,
-        icon: app.icon,
-        link: app.link,
-        app: app.app,
-      })
+    add() {
+      this.$store.commit('fsyncApp')
+      // let app = e.item._underlying_vm_
+      // this.$store.commit('addApp', {
+      //   id: app.id,
+      //   type: app.type,
+      //   name: app.name,
+      //   icon: app.icon,
+      //   link: app.link,
+      //   app: app.app,
+      // })
     }
   },
 }

@@ -3,6 +3,7 @@ export default {
     config: "desktop_config",
     // ----------- app ------------------
     userApp: "user_installed_apps",
+    dockApps: "dock_apps",
 
 
 

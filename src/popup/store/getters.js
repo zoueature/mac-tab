@@ -35,6 +35,9 @@ export default {
     pageApps(state) {
         return state.fmtApps
     },
+    dockApps(state) {
+        return state.dockApps
+    },
 
     // --------------------- Desktop ----------------------
     showEngineList(state) {
