@@ -64,9 +64,6 @@ export default {
     up() {
       clearTimeout(timer)
     },
-    goto() {
-      window.location.href = this.appLink
-    },
     handler() {
       if (this.inOpt) {
         return
@@ -78,7 +75,8 @@ export default {
           200
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
-        return this.goto
+        window.location.href = this.appLink
+        return;
       }
 
       this.clickHandler()
@@ -86,7 +84,7 @@ export default {
   },
   data() {
     return {
-      clickHandler: null,
+      clickHandler: ()=>{},
       clickApp: false,
       appLink: "",
       inOpt: false,

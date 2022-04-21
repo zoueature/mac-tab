@@ -62,8 +62,8 @@ export default {
     z-index: 1000000000;
   }
   .app-container {
-    width: 50%;
-    height: 60%;
+    width: 60%;
+    height: 70%;
     position: absolute;
     left: 50%;
     top: 50%;

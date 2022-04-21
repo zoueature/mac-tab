@@ -42,6 +42,14 @@ export default {
       hoverIndex: -1,
       wallpapers: [
         {
+          thumb: "https://img1.baidu.com/it/u=1246012189,4067281488&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=337",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fwatermark%2F79c1ae4361c705735eff96725e5d06dad044732d.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653145325&t=0350366eefbb8e56cb191d813182a1eb"
+        },
+        {
+          thumb: "https://img1.baidu.com/it/u=1791424006,225103597&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-01-17%2F5a5f1136aa4c7.jpg%3Fdown&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653145202&t=89fd97c97e2cc227c5bf0f00ca12e4a7"
+        },
+        {
           thumb: "https://img1.baidu.com/it/u=3701747776,893088473&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
           url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fd.zdqx.com%2Fmeitui_20190717%2F006.jpg&refer=http%3A%2F%2Fd.zdqx.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653125712&t=f435db6a5885c48efc167a9f34c0b786"
         },
@@ -163,7 +171,7 @@ export default {
   .wallpaper-item {
     position: relative;
     width: 23.6%;
-    height: 100px;
+    height: 125px;
     margin-left: 0.7%;
     margin-right: 0.7%;
     margin-bottom: 10px;

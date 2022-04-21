@@ -38,17 +38,29 @@
       </div>
     </div>
     <div v-else class="app-list">
-      <div class="link-input">
-        <el-input v-model="diyApp.link" placeholder="Please input">
-          <template #prepend>
-            <el-select v-model="select" placeholder="Select" style="width: 110px">
-              <el-option label="Http" value="1" selected=""/>
-              <el-option label="Https" value="2" />
-            </el-select>
-          </template>
-        </el-input>
+      <div class="app-input">
+        <div>地址</div>
+        <input placeholder="http://" v-model="diyApp.link">
       </div>
-      <div></div>
+      <div class="app-input">
+        <div>名称</div>
+        <input placeholder="输入名称" v-model="diyApp.name">
+      </div>
+      <div class="select-app-icon">
+        <div class="app-icon-shower">
+          {{diyApp.name.slice(0,2)}}
+        </div>
+        <div class="app-icon-shower">
+          {{'在线图标'}}
+        </div>
+      </div>
+      <div class="select-icon-color">
+        <div class="color-shower" v-for="(color, index) in colors"
+             :key="index"
+             :style="'background: ' + color.color"
+        ></div>
+      </div>
+      <div class="submit-app">添加</div>
     </div>
   </div>
 </template>
@@ -56,6 +68,7 @@
 <script>
 
 import apps from './apps'
+import color from "@/popup/components/App/AppStore/color";
 
 const diyCategoryId = 7
 
@@ -82,31 +95,20 @@ export default {
         result.push(v)
       })
       return result
-      // let that = this
-      // return function (categoryId) {
-      //   let list = that.apps[categoryId].list
-      //   let installed = that.installedApp ?? {}
-      //   list.forEach((v, index) => {
-      //     list[index].installed = false
-      //     let isInstalled = installed[v.id] ?? false
-      //     if (isInstalled === true) {
-      //       list[index].installed = true
-      //     }
-      //   })
-      //   return list
-      // }
     }
   },
   data() {
     return {
-      selectedCategory: 5,
+      selectedCategory: diyCategoryId,
       categoryList: apps.category,
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
       diyApp: {
-        link: ''
-      }
+        link: '',
+        name: ''
+      },
+      colors: color,
     }
   }
 }
@@ -199,14 +201,18 @@ export default {
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
   }
   .app-name {
+    width: 60%;
     font-size: 14px;
     font-weight: bolder;
     margin-left: 16px;
+    float: left;
+    text-align: left;
+  }
+  .app-name span {
     text-align: left;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    float: left;
   }
   .app-desc {
     margin-top: 2px;
@@ -222,5 +228,66 @@ export default {
     margin-left: 16px;
     margin-top: 10px;
   }
+  .app-input {
+    width: 90%;
+    text-align: left;
+    margin: 0 auto;
+    font-size: 14px;
+    margin-bottom: 25px;
 
+  }
+  .app-input input {
+    margin-top: 10px;
+    border: none;
+    outline: none;
+    height: 25px;
+    width: 70%;
+    background: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    font-size: 15px;
+  }
+  .select-app-icon {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 25px;
+  }
+  .app-icon-shower {
+    width: 70px;
+    height: 70px;
+    background: rebeccapurple;
+    float: left;
+    margin-right: 10px;
+    color: white;
+    align-items: center;
+    text-align: center;
+    line-height: 70px;
+    font-size: 25px;
+    font-weight: bolder;
+    overflow: hidden;
+  }
+  .select-icon-color {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    height: 34px;
+    margin-top: 25px;
+    clear: both;
+    justify-content: space-between;
+  }
+  .color-shower {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+  }
+  .submit-app {
+    margin-top: 100px;
+    width: 34%;
+    height: 40px;
+    margin-left: 5%;
+    background: #42b983;
+    border-radius: 7px;
+    font-size: 15px;
+    line-height: 40px;
+    color: white;
+  }
 </style>

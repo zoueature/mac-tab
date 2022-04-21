@@ -139,6 +139,11 @@ const apps = [
 ]
 const appCategory = [
     {
+        id: 7,
+        icon: '../../../../assets/icon/appstore/website.png',
+        name: '自定义',
+    },
+    {
         id: 5,
         icon: '../../../../assets/icon/appstore/tools.png',
         name: '系统工具',
@@ -168,11 +173,6 @@ const appCategory = [
         icon: '../../../../assets/icon/appstore/component.png',
         name: '小组件',
     },
-    {
-        id: 7,
-        icon: '../../../../assets/icon/appstore/website.png',
-        name: '自定义',
-    }
 ]
 
 function formatApps() {
