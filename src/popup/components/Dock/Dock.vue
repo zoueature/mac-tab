@@ -18,6 +18,7 @@
     >
       <template #item="{ element }"  >
         <AppItem :size="dockSize"
+                 :id="element.id"
                   :icon="element.icon"
                   :name="element.name"
                   :link="element.link"

@@ -168,6 +168,11 @@ const appCategory = [
         icon: '../../../../assets/icon/appstore/component.png',
         name: '小组件',
     },
+    {
+        id: 7,
+        icon: '../../../../assets/icon/appstore/website.png',
+        name: '自定义',
+    }
 ]
 
 function formatApps() {

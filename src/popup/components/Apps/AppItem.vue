@@ -1,21 +1,28 @@
 <template>
-  <div id="dock-item" @click="handler" :class="dockItemClass">
-      <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
-        <div v-if="icon !== '' && icon !== undefined ">
-          <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
-        </div>
-        <slot v-else></slot>
+  <div id="dock-item" @click="handler" :class="dockItemClass" @mousedown="down" @mouseup="up">
+
+    <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
+      <div v-if="icon !== '' && icon !== undefined ">
+        <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
       </div>
-      <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
-        {{name}}
-      </div>
+      <slot v-else></slot>
+    </div>
+    <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
+      {{name}}
+    </div>
+    <div class="delete-icon" v-if="inOpt" @click.stop="removeApp">
+      <img src="../../../assets/icon/close.png" style="width: 50%; height: 50%">
+    </div>
   </div>
 </template>
 
 <script>
+let timer
+
 export default {
   name: "DockItem",
   props: [
+    "id",
     "size",
     "icon",
     "name",
@@ -26,6 +33,7 @@ export default {
   created() {
     this.clickHandler = this.click
     this.appLink = this.link
+    this.appId = this.id
   },
   computed: {
     dockItemClass() {
@@ -40,12 +48,30 @@ export default {
     }
   },
   methods: {
+    removeApp() {
+      this.$store.commit('removeApp', {id: this.appId})
+      this.inOpt = false
+    },
+    down() {
+      let that = this
+      timer = setTimeout(
+          () => {
+            that.inOpt = true
+          },
+          700
+      )
+    },
+    up() {
+      clearTimeout(timer)
+    },
     goto() {
       window.location.href = this.appLink
     },
     handler() {
+      if (this.inOpt) {
+        return
+      }
       this.clickApp = true
-
       let that = this
       setTimeout(
           () => that.clickApp = false,
@@ -63,6 +89,8 @@ export default {
       clickHandler: null,
       clickApp: false,
       appLink: "",
+      inOpt: false,
+      appId: 0,
     }
   }
 }
@@ -74,6 +102,7 @@ export default {
     height: v-bind(itemSize);
     /*animation: shake 500ms infinite linear alternate;*/
     user-select: none;
+    position: relative;
   }
   .click {
     transform: translate(4px, 4px);
@@ -110,5 +139,23 @@ export default {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .delete-icon {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: red;
+    border-radius: 100%;
+    overflow: hidden;
+  }
+  .delete-icon img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
   }
 </style>

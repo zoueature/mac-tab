@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="app-list">
+    <div class="app-list" v-if="diyCategoryId !== selectedCategory">
       <div class="app-item" v-for="app in selectedApp" :key="app.id">
         <div class="app-icon">
           <img :src="app.icon" alt="" style="width: 100%; height: 100%">
@@ -37,12 +37,27 @@
         </div>
       </div>
     </div>
+    <div v-else class="app-list">
+      <div class="link-input">
+        <el-input v-model="diyApp.link" placeholder="Please input">
+          <template #prepend>
+            <el-select v-model="select" placeholder="Select" style="width: 110px">
+              <el-option label="Http" value="1" selected=""/>
+              <el-option label="Https" value="2" />
+            </el-select>
+          </template>
+        </el-input>
+      </div>
+      <div></div>
+    </div>
   </div>
 </template>
 
 <script>
 
 import apps from './apps'
+
+const diyCategoryId = 7
 
 export default {
   name: "AppStore",
@@ -88,6 +103,10 @@ export default {
       categoryList: apps.category,
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
+      diyCategoryId: diyCategoryId,
+      diyApp: {
+        link: ''
+      }
     }
   }
 }

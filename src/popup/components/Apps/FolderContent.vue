@@ -31,6 +31,7 @@
         >
           <template #item="{ element }">
             <AppItem  :size="70"
+                      :id="element.id"
                       :icon="element.icon"
                       :name="element.name"
                       :link="element.link"

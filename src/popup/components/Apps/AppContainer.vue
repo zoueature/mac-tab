@@ -2,6 +2,7 @@
   <div :style="gridStyle">
     <AppItem
         v-if="app.type === 'app' "
+        :id="app.id"
         :size="appSize"
         :icon="app.icon"
         :name="app.name"
