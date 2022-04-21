@@ -43,7 +43,7 @@ export default {
   .app-icon {
     width: 70%;
     height: 70%;
-    border-radius: 3px;
-    /*overflow: hidden;*/
+    border-radius: 7px;
+    overflow: hidden;
   }
 </style>
