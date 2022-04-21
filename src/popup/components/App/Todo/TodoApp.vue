@@ -2,7 +2,7 @@
     <div class="todo-app">
       <div class="todo-tab">
         <div class="todo-static">
-          <div :class="'static-tab' + (activeTab === stc.id ? ' active' : '')"
+          <div :class="staticTabClass(stc.id)"
                v-for="(stc, index) in statics" :key="index"
                @click="selectTab(stc.id)"
                :style="stc.id === 1000000000000 ? 'grid-column: span 2; width: 95%': ''"
@@ -142,6 +142,22 @@ export default {
     }
   },
   computed: {
+    staticTabClass() {
+      let that = this
+      return function (id) {
+        let cls = "static-tab "
+        if (id === that.activeTab) {
+          let activeClass = 'active'
+          if (id === todayId) {
+            activeClass = "active-orange"
+          } else if (id === doneID) {
+            activeClass = "active-green"
+          }
+          cls += activeClass
+        }
+        return cls
+      }
+    },
     todoList() {
       if (this.activeTab === todayId) {
         return {
@@ -255,6 +271,7 @@ export default {
     flex: 3;
     height: 100%;
     width: 100%;
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
   }
   .todo-tab img {
     width: 100%;
@@ -270,11 +287,12 @@ export default {
     /*justify-items: center;*/
     justify-content: start;
     align-items: center;
+    cursor: pointer;
   }
   .static-tab {
     width: 90%;
     height: 90%;
-    background: rgba(197, 196, 196, 0.66);
+    background: rgba(162, 161, 161, 0.66);
     border-radius: 0.7rem;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.34);
     display: flex;
@@ -314,6 +332,8 @@ export default {
     height: 34px;
     display: flex;
     color: rgba(49, 49, 49, 0.87);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
   .category-icon {
     float: left;
@@ -355,9 +375,16 @@ export default {
     background: rgba(62, 206, 239, 0.84) !important;
     color: white !important;
   }
+  .active-orange {
+    background: rgba(188, 67, 15, 0.8);
+    color: white !important;
+  }
+  .active-green {
+    background: #76EA16CC;
+    color: white !important;
+  }
   .active .category-icon {
     overflow: hidden;
-    background: #0da861;
   }
   .todo-list {
     flex: 7;
@@ -426,7 +453,7 @@ export default {
   }
   .todo-title {
     text-align: left;
-    color: #0C1021;
+    color: rgba(25, 25, 25, 1);
     font-size: 25px;
     font-weight: bold;
     margin-left: 12px;

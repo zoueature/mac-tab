@@ -112,7 +112,7 @@ export default {
   }
   .blank-container {
     width: 100%;
-    height: 88%;
+    height: 85%;
     display: flex;
     overflow: hidden;
   }

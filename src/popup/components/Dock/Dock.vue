@@ -23,7 +23,7 @@
                   :link="element.link"
                   :click="element.click"
                   :hover="true"
-                  :class="dockItemClass(element.id)"
+                  class="dock-item"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
         />
       </template>
@@ -91,21 +91,6 @@ export default {
     dockItemSize() {
       return (this.size + 10) + 'px'
     },
-    dockItemClass() {
-      let that = this
-      return function (index) {
-        let cls = 'dock-item'
-        if (!that.drag) {
-          if (that.scaleIndex === index) {
-            cls += ' enlarge'
-          }
-          if (Math.abs(that.scaleIndex - index) === 1) {
-            cls += ' enlarge-little'
-          }
-        }
-        return cls
-      }
-    }
   },
   methods: {
     openApp(app) {
@@ -157,7 +142,7 @@ export default {
     }
   }
   .enlarge {
-    animation: enlargeBig 100ms;
+    /*animation: enlargeBig 100ms;*/
     /*transform: scale(1.6);*/
   }
   .enlarge-little {

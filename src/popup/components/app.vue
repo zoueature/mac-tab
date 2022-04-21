@@ -23,6 +23,7 @@ export default {
 
 <style>
 body {
+  user-select: none;
   margin: 0;
   padding: 0;
   overflow: hidden;

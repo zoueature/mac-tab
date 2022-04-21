@@ -1,5 +1,5 @@
 <template>
-  <div id="dock-item" @click="handler">
+  <div id="dock-item" @click="handler" :class="dockItemClass">
       <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
         <div v-if="icon !== '' && icon !== undefined ">
           <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
@@ -25,14 +25,11 @@ export default {
   ],
   created() {
     this.clickHandler = this.click
+    this.appLink = this.link
   },
   computed: {
-    handler() {
-      if (this.link !== null && this.link !== undefined && this.link !== "") {
-        return this.goto
-      }
-
-      return this.clickHandler
+    dockItemClass() {
+      return this.clickApp ? 'click' : null
     },
     itemSize() {
       let size = this.$store.getters.appSize
@@ -44,12 +41,28 @@ export default {
   },
   methods: {
     goto() {
-      window.location.href = this.link
+      window.location.href = this.appLink
+    },
+    handler() {
+      this.clickApp = true
+
+      let that = this
+      setTimeout(
+          () => that.clickApp = false,
+          200
+      )
+      if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
+        return this.goto
+      }
+
+      this.clickHandler()
     },
   },
   data() {
     return {
       clickHandler: null,
+      clickApp: false,
+      appLink: "",
     }
   }
 }
@@ -61,6 +74,9 @@ export default {
     height: v-bind(itemSize);
     /*animation: shake 500ms infinite linear alternate;*/
     user-select: none;
+  }
+  .click {
+    transform: translate(4px, 4px);
   }
   @keyframes shake {
     from {
