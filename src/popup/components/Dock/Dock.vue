@@ -13,7 +13,7 @@
                :component-data="{
                   tag: 'div',
                   type: 'transition-group',
-                  name: !drag ? 'apps' : null,
+                  name: !drag ? 'apps' : 'apps-drag'
                 }"
     >
       <template #item="{ element }"  >
@@ -149,7 +149,7 @@ export default {
     /*animation: enlargeLittle 300ms;*/
     /*transform: scale(1.3);*/
   }
-  .container, .bg {
+  .container {
     width: v-bind(containerLength);
     height: v-bind(dockItemSize);
     margin: 0 auto;
@@ -162,8 +162,10 @@ export default {
   .bg {
     width: v-bind(containerLength);
     height: v-bind(dockItemSize);
+    margin: 0 auto;
+    display: flex;
     position: absolute;
-    top: -20%;
+    top: -5%;
     background: rgba(215, 211, 211, 0.5);
     z-index: -1;
     filter: blur(10px);
@@ -175,5 +177,14 @@ export default {
   }
   .apps-enter-from {
     transform: scale(0);
+  }
+  .apps-move {
+    transition: transform 0.5s;
+  }
+  .apps-drag-move {
+    transition: transform 0.1s;
+  }
+  .no-move {
+    transition: transform 0s;
   }
 </style>
