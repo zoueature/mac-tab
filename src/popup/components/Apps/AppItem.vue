@@ -107,5 +107,8 @@ export default {
     font-size: 12px;
     color: white;
     #font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
