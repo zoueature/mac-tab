@@ -31,7 +31,7 @@
             }"
                                    ghostClass="ghostClass"
                                    chosenClass="chosenClass"
-                                   @start="drag = true"
+                                   @start="start"
                                    @end="end"
                                    :move="move"
                                    group="apps"
@@ -60,7 +60,18 @@ import AppContainer from "@/popup/components/Apps/AppContainer";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 
-let hoverFolder = {}
+let hoverApp = {}
+let createFolderTrigger = 0
+
+let startDragPosition = {
+  x: 0,
+  y: 0,
+}
+
+let moveOffset = {
+  x: 0,
+  y: 0,
+}
 
 export default {
   name: "AppCom",
@@ -86,18 +97,18 @@ export default {
   },
   data() {
     return {
-      apps: [],
-      moveOffset: {
-        x: 0,
-        y: 0
-      },
-      inFolder: false,
+      // apps: [],
+      // moveOffset: {
+      //   x: 0,
+      //   y: 0
+      // },
+      // inFolder: false,
       drag: false,
-      disabled: false,
-      appSize: 0,
-      rowsNum: 0,
-      columNum: 0,
-      list1: [],
+      // disabled: false,
+      // appSize: 0,
+      // rowsNum: 0,
+      // columNum: 0,
+      // list1: [],
       activeIndex: 0,
       wheelCount: 0,
       wheelStartTime: 0,
@@ -106,17 +117,11 @@ export default {
     }
   },
   created() {
-    this.appSize = this.size
-    this.rowsNum = this.rows
-    this.columNum = this.columns
+    // this.appSize = this.size
+    // this.rowsNum = this.rows
+    // this.columNum = this.columns
   },
   computed: {
-    containerHeight() {
-      return (this.appSize * this.rowsNum) + 'px'
-    },
-    containerWidth() {
-      return (this.appSize * this.columNum) + 'px'
-    },
     userApps() {
       let list =  this.$store.getters.pageApps
       let that = this
@@ -133,12 +138,11 @@ export default {
       this.swiper = swiper
     },
     touchStart(s, e) {
-      this.moveOffset.x = e.layerX
-      this.moveOffset.y = e.layerY
+      moveOffset.x = e.layerX
+      moveOffset.y = e.layerY
     },
     touchEnd(s, e) {
-      console.log('touch end')
-      let diff = e.layerX - this.moveOffset.x
+      let diff = e.layerX - moveOffset.x
       if (diff < -70) {
         this.swiper.slideNext()
       } else if (diff > 70) {
@@ -148,16 +152,6 @@ export default {
     scroll( e) {
       e.preventDefault()
       e.stopPropagation()
-      // let now = new Date().getTime()
-      // if (this.wheelCount > 30 && (now - this.wheelStartTime > 500)) {
-      //   if (e.wheelDeltaX < -1) {
-      //     this.swiper.slideNext()
-      //   } else if (e.wheelDeltaX > 1) {
-      //     this.swiper.slidePrev()
-      //   }
-      //   this.wheelStartTime = now
-      //   this.wheelCount = 0
-      // }
       // todo 滚轮翻页优化
       this.wheelScroll = true
       this.wheelIndex ++
@@ -185,32 +179,80 @@ export default {
       }
     },
     start(ev) {
-      ev.toString()
+      startDragPosition = {
+        x: ev.originalEvent.pageX,
+        y: ev.originalEvent.pageY,
+      }
+      hoverApp = {}
       this.drag = true
       this.swiper.disable()
     },
-    end(ev) {
-      ev.toString()
+    end() {
       this.swiper.enable()
       this.drag = false
       this.$store.commit('fsyncApp')
-      hoverFolder = {}
     },
+    /* eslint-disable */
+
     move(ev) {
       let related = ev?.relatedContext?.element?? {};
-      if (related.type === 'folder') {
-        console.log(hoverFolder[related.id])
-        if (hoverFolder[related.id] === undefined) {
-          hoverFolder = {}
-          hoverFolder[related.id] = 1
-        } else {
-          hoverFolder[related.id] ++
-          if (hoverFolder[related.id] > 160){
-            this.$store.commit('openFolder', related)
-          }
-        }
-        return false
+      let dragged = ev?.draggedContext?.element?? {};
+      if (dragged.type === 'folder') {
+        // 移动的是文件夹时， 允许自由换位
+        return true
       }
+      // hoverApp 计算器， 用于计算停留的时常
+      if (hoverApp[related.id] === undefined) {
+        hoverApp = {}
+        hoverApp[related.id] = 1
+      } else {
+        hoverApp[related.id] ++
+      }
+      let relatedAppRect = ev.relatedRect
+      let draggedAppRect = ev.draggedRect
+      let dragAppPosition = {
+        left: ev.originalEvent.clientX,
+        top: ev.originalEvent.clientY,
+      }
+      // 移动时， 鼠标的位置距离在app内的位置
+      let diffX = startDragPosition.x - draggedAppRect.left
+      let diffY = startDragPosition.y - draggedAppRect.top
+      // app之间的间隔距离
+      let appDiffX = Math.abs(relatedAppRect.left - draggedAppRect.left)
+      let appDiffY = Math.abs(relatedAppRect.top - draggedAppRect.top)
+      // 拖动的距离
+      let dragX = Math.abs(dragAppPosition.left - startDragPosition.x)
+      let dragY = Math.abs(dragAppPosition.top - startDragPosition.y)
+
+      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 10 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 10) {
+        createFolderTrigger ++
+        if (createFolderTrigger > 200) {
+          // 覆盖app时， 创建文件夹并打开
+          if (related.type === 'app') {
+            let app = {
+              id: related.id,
+              type: 'app',
+              name: related.name,
+              icon: related.icon,
+              link: related.link,
+              app: related.app,
+            }
+            related.id = new Date().getTime()
+            related.type = 'folder'
+            related.name = '文件夹'
+            related.apps = [app]
+          }
+          this.$store.commit('openFolder', related)
+          return true
+        }
+      } else {
+        createFolderTrigger = 0
+        if (dragX - appDiffX > 20 || dragY - appDiffY > 20) {
+          // 拖动的距离大于app的间隔距离时， 允许换位
+          return  true
+        }
+      }
+      return false
     },
     changePage(e) {
       this.activeIndex = e.realIndex
@@ -233,6 +275,7 @@ export default {
 }
 .ghostClass {
   opacity: 0.5;
+  /*transform: scale(0.1);*/
 }
 .chosenClass {
   /*cursor: move;*/

@@ -1,6 +1,14 @@
 <template>
   <transition name="folder" v-show="showFolder">
       <div class="folder-container" @click.stop="" >
+        <div class="folder-name" @click="triggerModify">
+          <input v-model="folder.name"
+                 :readonly="!modifyFolderName"
+                 @focusout="modifyFolder"
+                 @keyup.enter="modifyFolder"
+                 :style="modifyFolderName? 'background: rgba(139, 139, 139, 0.34)': null"
+          >
+        </div>
         <Draggable
             :list="folder.apps"
             item-key="id"
@@ -55,7 +63,6 @@ export default {
       this.$store.commit('closeFolder')
     },
     move(e) {
-      console.log(e.to.id)
       if (e.to.id==='apps') {
         // 拖到桌面
         displayDesktop = true
@@ -84,6 +91,13 @@ export default {
         that.$router.replace(app)
       }
     },
+    modifyFolder() {
+      this.modifyFolderName = false
+      this.$store.commit('fsyncApp')
+    },
+    triggerModify() {
+      this.modifyFolderName = !this.modifyFolderName
+    }
   },
   computed: {
     showFolder() {
@@ -102,6 +116,7 @@ export default {
   data() {
     return {
       drag: false,
+      modifyFolderName: false,
     }
   }
 }
@@ -160,5 +175,22 @@ export default {
   }
   .no-move {
     transition: transform 0s;
+  }
+  .folder-name {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -10%;
+  }
+  .folder-name input {
+    background: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    border: none;
+    outline: none;
+    width: 90%;
+    text-align: center;
+
   }
 </style>

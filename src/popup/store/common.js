@@ -9,7 +9,7 @@ export default {
             })
         })
         state.userApps = allApp
-        localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
+        localStorage.setItem(keys.userApp, JSON.stringify(allApp))
     },
     updateConfig(state, key, val) {
         state.config[key] = val

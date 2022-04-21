@@ -42,6 +42,26 @@ export default {
       hoverIndex: -1,
       wallpapers: [
         {
+          thumb: "https://img1.baidu.com/it/u=3701747776,893088473&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fd.zdqx.com%2Fmeitui_20190717%2F006.jpg&refer=http%3A%2F%2Fd.zdqx.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653125712&t=f435db6a5885c48efc167a9f34c0b786"
+        },
+        {
+          thumb: "https://img0.baidu.com/it/u=1707027638,949397941&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2020-06-04%2F5ed8a4d473b6d.jpg&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653125754&t=c407529b16cd49264268d849ad12d4a0"
+        },
+        {
+          thumb: "https://img0.baidu.com/it/u=920813101,2589189775&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fd95245a4c2144da52cf2fa875799180d8af9132d.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653125871&t=15e3943d9ce344de38f1b70f267c21ab",
+        },
+        {
+          thumb: "https://img0.baidu.com/it/u=1853780514,3985249021&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F64d271e74908e322992de7c57c3aa9ba9d93f4d7.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653125963&t=92b2a458ddffe5ea1534351370f4db06"
+        },
+        {
+          thumb: "https://img0.baidu.com/it/u=2219754784,149187514&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=313",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fup.enterdesk.com%2Fedpic_source%2F86%2Fca%2F14%2F86ca14a61b11132d7dcf1bce940369cc.jpg&refer=http%3A%2F%2Fup.enterdesk.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653126332&t=b0898c1aaa083f4c7bb14739de36223a"
+        },
+        {
           thumb: "https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8ZGVza3RvcCUyMHdhbGxwYXBlcnN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
           url: "https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3017&q=80"
         },
@@ -153,7 +173,8 @@ export default {
     height: 100%;
     position: absolute;
     top: 0;
-    backdrop-filter: blur(2px);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(1px);
   }
   .set-button {
     width: 34px;

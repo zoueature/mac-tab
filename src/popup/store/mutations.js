@@ -112,7 +112,6 @@ export default {
             state.fmtApps.push(state.userApps.slice(i, i + appNumPerPage))
             i += appNumPerPage
         }
-        console.log(state.fmtApps)
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true
@@ -135,7 +134,6 @@ export default {
         }
     },
     fsyncDockApps(state) {
-        console.log(state.dockApps)
         localStorage.setItem(keys.dockApps, JSON.stringify(state.dockApps))
     },
 
