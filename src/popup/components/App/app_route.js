@@ -9,6 +9,7 @@ import Translate from "@/popup/components/App/Translate/Translate";
 import ShortVideo from "@/popup/components/App/ShortVideo/ShortVideo";
 import Setting from "@/popup/components/App/Setting/Setting";
 import Weather from "@/popup/components/App/Weather/Weather";
+import History from "@/popup/components/App/History/History";
 
 const routes = [
     // ----------- app -------------
@@ -21,10 +22,11 @@ const routes = [
     { name: 'translate', path: '/translate', components: {app: Translate}, },
     { name: 'video', path: '/video', components: {app: ShortVideo}, },
     { name: 'weather', path: '/weather', components: {app: Weather}, },
+    { name: 'history', path: '/history', components: {app: History}, },
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
-    { name: 'SETTING', path: '/SETTING', components: {drawer: Setting}, },
+    { name: 'setting', path: '/setting', components: {drawer: Setting}, },
 ]
 
 export default routes

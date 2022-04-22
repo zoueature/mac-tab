@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YangDesktop",
-  "description": "焕然一新的新标签页",
+  "description": "焕然一新的新标签页, 像使用OS一样使用浏览器",
   "version": "1.0.0",
   "action": {
     "default_title": "YangDesktop",
@@ -15,12 +15,18 @@
     "contextMenus",
     "notifications",
     "bookmarks",
-    "history"
+    "history",
+    "alarms"
   ],
   "background": {
     "service_worker": "js/background.js"
-
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/content.js"]
+    }
+  ],
   "icons": {
     "16": "assets/images/logo.png",
     "48": "assets/images/logo.png",

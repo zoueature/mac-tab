@@ -7,7 +7,7 @@ export default [
                 size: 70,
                 name: "历史记录",
                 icon:"../../../assets/images/app/history.png",
-                link:"chrome://history/",
+                link:"",
                 app: "history"
             },
             {
