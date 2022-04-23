@@ -102,7 +102,10 @@ export default {
     height: 100%;
     position: fixed;
     background-image: v-bind(wallpaper);
-    background-size: 100% 100%;
+    /*background-size: auto 100%;*/
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
     /*background: rgb(0,0,0,0.1);*/
   }
   .new-clock {

@@ -1,24 +1,42 @@
 <template>
   <div class="wallpaper-app">
-    <div class="wallpaper-item"
-         v-for="(wallpaper, index) in wallpapers"
-         :key="wallpaper"
-         @mouseenter="hover(index)"
-         @mouseleave="leave"
-    >
-      <img :src="wallpaper.thumb" alt="wallpaper" style="width: 100%; height: 100%">
-      <div class="hover" v-if="index === hoverIndex">
-        <div class="set-button" @click="setWallpaper(wallpaper.url)">
-          <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%">
+    <div class="wallpaper-header">
+      <input placeholder="输入关键词" value="动漫">
+      <button @click="search">搜索</button>
+    </div>
+    <Scroller class="wrapper" @pullingUp="loadingData">
+      <div class="wallpaper-list">
+        <div class="wallpaper-item"
+             v-for="(wallpaper, index) in wallpapers"
+             :key="wallpaper"
+             @mouseenter="hover(index)"
+             @mouseleave="leave"
+             @scroll="wallpaperScroll"
+        >
+          <img :src="wallpaper.thumb" alt="wallpaper" style="width: 100%; height: 100%">
+          <div class="hover" v-if="index === hoverIndex">
+            <div class="set-button" @click="setWallpaper(wallpaper.url)">
+              <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%">
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </Scroller>
   </div>
 </template>
 
 <script>
+
+// import BS from "better-scroll"
+import Scroller from "@/popup/components/common/Scroller";
+
 export default {
   name: "WallpaperCom",
+  components: {
+    Scroller,
+  },
+  mounted() {
+  },
   methods: {
     hover(index) {
       this.hoverIndex = index
@@ -35,6 +53,47 @@ export default {
         that.$store.commit('closeLoading')
         that.$store.commit('setWallpaper', src)
       }
+    },
+    search() {
+      let that = this
+      this.$http.get("https://image.baidu.com/search/acjson?tn=resulttagjson&logid=10239998936165607799&ie=utf-8&fr=&word=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&ipn=r&fm=index&pos=history&queryWord=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&cl=2&lm=-1&oe=utf-8&adpicid=&st=-1&z=9&ic=0&hd=&latest=&copyright=&s=&se=&tab=&width=0&height=0&face=0&istype=2&qc=&nc=1&expermode=&nojc=&isAsync=true&pn=90&rn=70&gsm=5a&1650704573870=").then((res) => {
+        if (res.status === 200) {
+          let result = []
+          res.data.data.forEach((v) => {
+            let url = v.middleURL
+            if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
+              url = v.replaceUrl[0].ObjURL
+            }
+            if (v.thumbURL !== "" && url !== "") {
+              result.push({
+                thumb: v.thumbURL,
+                url: url
+              })
+            }
+          })
+          that.wallpapers = result
+        }
+      })
+    },
+    loadingData() {
+      console.log('loading')
+      let that = this
+      this.$http.get("https://image.baidu.com/search/acjson?tn=resulttagjson&logid=10239998936165607799&ie=utf-8&fr=&word=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&ipn=r&fm=index&pos=history&queryWord=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&cl=2&lm=-1&oe=utf-8&adpicid=&st=-1&z=9&ic=0&hd=&latest=&copyright=&s=&se=&tab=&width=0&height=0&face=0&istype=2&qc=&nc=1&expermode=&nojc=&isAsync=true&pn=90&rn=70&gsm=5a&1650704573870=").then((res) => {
+        if (res.status === 200) {
+          res.data.data.forEach((v) => {
+            let url = v.middleURL
+            if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
+              url = v.replaceUrl[0].ObjURL
+            }
+            if (v.thumbURL !== "" && url !== "") {
+              that.wallpapers.push({
+                thumb: v.thumbURL,
+                url: url
+              })
+            }
+          })
+        }
+      })
     }
   },
   data() {
@@ -178,18 +237,37 @@ export default {
   .wallpaper-app {
     width: 100%;
     height: 98%;
+    overflow: hidden;
+  }
+  .wallpaper-header {
+    width: 100%;
+    height: 100px;
+    background: #00c3ff;
+    position: fixed;
+    z-index: 10;
+  }
+  .wrapper {
+    margin-top: 110px;
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+  }
+  .wallpaper-list {
+    width: 100%;
+    /*height: 100%;*/
     display: flex;
     /*justify-content: space-between;*/
     justify-items: left;
     flex-wrap: wrap;
-    overflow: scroll;
+    padding-bottom: 10px;
+    /*overflow: hidden;*/
   }
   .wallpaper-item {
     position: relative;
-    width: 23.6%;
+    width: 23%;
     height: 125px;
-    margin-left: 0.7%;
-    margin-right: 0.7%;
+    margin-left: 1%;
+    margin-right: 1%;
     margin-bottom: 10px;
   }
   .hover {
