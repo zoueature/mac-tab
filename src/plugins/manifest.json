@@ -12,6 +12,7 @@
     "newtab": "popup.html"
   },
   "permissions": [
+    "<all_urls>",
     "contextMenus",
     "notifications",
     "bookmarks",

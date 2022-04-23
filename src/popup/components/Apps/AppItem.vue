@@ -130,6 +130,7 @@ export default {
     margin: 0 auto;
     overflow: hidden;
     border-radius: 14px;
+    backdrop-filter: blur(100px);
   }
   .title-container {
     margin-top: 3px;

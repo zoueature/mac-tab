@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+import api from './api'
+
 chrome.alarms.create("testAlarm", {periodInMinutes: 1})
 
 chrome.alarms.onAlarm.addListener(
@@ -8,14 +10,15 @@ chrome.alarms.onAlarm.addListener(
     }
 )
 
-chrome.history.search({text: ""}, (items) => {
-    console.log(items)
-})
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request, sender)
+    console.log(request)
+    switch (request.do) {
+        case "getHistory":
+            api.getHistory(sendResponse)
+            break
+        default:
+            console.log('undefined do')
+    }
+    return true
 })
-
-function getHistory() {
-
-}

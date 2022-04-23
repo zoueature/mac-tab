@@ -42,6 +42,22 @@ export default {
       hoverIndex: -1,
       wallpapers: [
         {
+          thumb: "https://img0.baidu.com/it/u=6741688,1120193805&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg9.51tietu.net%2Fpic%2F2019-091312%2Ften0xjueygrten0xjueygr.jpg&refer=http%3A%2F%2Fimg9.51tietu.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653283225&t=982dd7f9454a392cbaa336a6f8cec0d3"
+        },
+        {
+          thumb: "https://img1.baidu.com/it/u=262409196,3193006701&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2%2F583e99fbe5836.jpg%3Fdown&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653218303&t=ac4dc45a8b47c15d5164a2acecea4600"
+        },
+        {
+          thumb: "https://img0.baidu.com/it/u=1398182852,637093904&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg7.51tietu.net%2Fpic%2F2019-082317%2Fr5dy215xdn5r5dy215xdn5.jpg&refer=http%3A%2F%2Fimg7.51tietu.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653218329&t=7e5a2326c364ef5a6848cb68ff2245c1"
+        },
+        {
+          thumb: "https://img2.baidu.com/it/u=3868955562,4111205746&fm=253&fmt=auto&app=138&f=JPEG?w=976&h=500",
+          url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fp3.itc.cn%2Fimages01%2F20220225%2F41e8b303af31470cb845ad4d4d2c6f3a.jpeg&refer=http%3A%2F%2Fp3.itc.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653218438&t=1786a80aeee861d61e96d1ef31d6cd94"
+        },
+        {
           thumb: "https://img1.baidu.com/it/u=1246012189,4067281488&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=337",
           url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fwatermark%2F79c1ae4361c705735eff96725e5d06dad044732d.jpg&refer=http%3A%2F%2Fi0.hdslb.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1653145325&t=0350366eefbb8e56cb191d813182a1eb"
         },
