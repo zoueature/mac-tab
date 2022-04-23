@@ -31,7 +31,9 @@ export default {
     "click"
   ],
   created() {
-    this.clickHandler = this.click
+    if (typeof this.click === "function") {
+      this.clickHandler = this.click
+    }
     this.appLink = this.link
     this.appId = this.id
   },
@@ -84,7 +86,7 @@ export default {
   },
   data() {
     return {
-      clickHandler: ()=>{},
+      clickHandler: function (){},
       clickApp: false,
       appLink: "",
       inOpt: false,
@@ -128,6 +130,7 @@ export default {
     margin: 0 auto;
     overflow: hidden;
     border-radius: 14px;
+    backdrop-filter: blur(100px);
   }
   .title-container {
     margin-top: 3px;

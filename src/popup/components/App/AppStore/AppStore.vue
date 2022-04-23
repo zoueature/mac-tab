@@ -40,37 +40,55 @@
     <div v-else class="app-list">
       <div class="app-input">
         <div>地址</div>
-        <input placeholder="http://" v-model="diyApp.link">
+        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle">
       </div>
       <div class="app-input">
         <div>名称</div>
         <input placeholder="输入名称" v-model="diyApp.name">
       </div>
       <div class="select-app-icon">
-        <div class="app-icon-shower">
-          {{diyApp.name.slice(0,2)}}
+        <div class="app-icon-shower" :style="'background: ' + diyApp.wordIconColor">
+          {{diyApp.name.substring(0,2)}}
         </div>
         <div class="app-icon-shower">
-          {{'在线图标'}}
+         <img :src="diyApp.onlineIcon" style="width: 100%; height: 100%" v-if="diyApp.onlineIcon !== ''">
         </div>
       </div>
       <div class="select-icon-color">
         <div class="color-shower" v-for="(color, index) in colors"
              :key="index"
              :style="'background: ' + color.color"
+             @click="diyApp.wordIconColor = color.color"
         ></div>
       </div>
-      <div class="submit-app">添加</div>
+      <div class="submit-app" @click="addDiyApp">添加</div>
     </div>
   </div>
 </template>
 
 <script>
 
+function formatLink(link) {
+  let requestLink = link
+  if (requestLink.substring(0, 7) !== "http://" && requestLink.substring(0, 8) !== 'https://') {
+    requestLink = "http://" + requestLink
+  }
+  return requestLink
+}
+
 import apps from './apps'
 import color from "@/popup/components/App/AppStore/color";
+import utils from "@/utils/funcs"
 
 const diyCategoryId = 7
+
+const defaultDiyApp = {
+  link: '',
+  name: '',
+  wordIcon: '',
+  wordIconColor: color[0].color,
+  onlineIcon: '',
+}
 
 export default {
   name: "AppStore",
@@ -85,6 +103,33 @@ export default {
     remove(app) {
       this.$store.commit('removeApp', app)
       this.installedApp[app.id] = false
+    },
+    getWebsiteTitle() {
+      let that = this
+      if (this.diyApp.link !== "") {
+        let requestLink = this.diyApp.link
+        requestLink = formatLink(requestLink)
+        this.diyApp.onlineIcon = requestLink + "/favicon.ico"
+        this.$http.get(requestLink).then((res) => {
+          if (res.status === 200) {
+            let title = utils.getTitleFromHTML(res.data)
+            if (title !== "") {
+              that.diyApp.name = title
+            }
+          }
+        })
+      }
+    },
+    addDiyApp() {
+      let app = {
+        id: new Date().getDate(),
+        name: this.diyApp.name,
+        icon: this.diyApp.onlineIcon,
+        app: '',
+        link: formatLink(this.diyApp.link),
+      }
+      this.$store.commit('addApp', app)
+      this.diyApp = defaultDiyApp
     }
   },
   computed: {
@@ -104,10 +149,7 @@ export default {
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
-      diyApp: {
-        link: '',
-        name: ''
-      },
+      diyApp: defaultDiyApp,
       colors: color,
     }
   }
@@ -254,7 +296,6 @@ export default {
   .app-icon-shower {
     width: 70px;
     height: 70px;
-    background: rebeccapurple;
     float: left;
     margin-right: 10px;
     color: white;
@@ -270,7 +311,7 @@ export default {
     width: 90%;
     margin: 0 auto;
     height: 34px;
-    margin-top: 25px;
+    margin-top: 52px;
     clear: both;
     justify-content: space-between;
   }
@@ -280,7 +321,7 @@ export default {
     border-radius: 4px;
   }
   .submit-app {
-    margin-top: 100px;
+    margin-top: 70px;
     width: 34%;
     height: 40px;
     margin-left: 5%;

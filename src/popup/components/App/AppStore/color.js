@@ -1,36 +1,36 @@
 export default [
     {
-        color: 'red'
+        color: '#0033CC'
     },
     {
-        color: 'red'
+        color: '#009999'
     },
     {
-        color: 'red'
+        color: '#33CC99'
     },
     {
-        color: 'red'
+        color: '#6633CC'
     },
     {
-        color: 'red'
+        color: '#66CCCC'
     },
     {
-        color: 'red'
+        color: '#9933CC'
     },
     {
-        color: 'red'
+        color: '#CC3333'
     },
     {
-        color: 'red'
+        color: '#FF0066'
     },
     {
-        color: 'red'
+        color: '#FFFF00'
     },
     {
-        color: 'red'
+        color: '#222222'
     },
     {
-        color: 'red'
+        color: '#FF66CC'
     },
 
 ]
