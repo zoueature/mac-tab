@@ -9,6 +9,9 @@ import BS from "better-scroll";
 let scroll
 export default {
   name: "ScrollerCom",
+  props:[
+    "data"
+  ],
   mounted() {
     this.$nextTick(() => {
       scroll = new BS(this.$refs.wallpapers, {
@@ -24,20 +27,25 @@ export default {
         // 滚动到底部
         if (scroll.y <= (scroll.maxScrollY + 50)) {
           this.$emit('pullingUp')
-          scroll.refresh()
         }
       })
-
       // scroll.on('pullingUp', this.pullingUpHandler)
     })
   },
-  methods: {
-    pullingUpHandler() {
-      this.$emit('pullingUp')
-      scroll.finishPullUp()
-      scroll.refresh()
-      this.isPullUpLoad = false
+  watch: {
+    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
+    data() {
+      this.refresh()
+      setInterval(() => {
+        this.refresh()
+      }, 100)
     }
+  },
+  methods: {
+    refresh() {
+      // 代理better-scroll的refresh方法
+      scroll && scroll.refresh()
+    },
   }
 }
 </script>

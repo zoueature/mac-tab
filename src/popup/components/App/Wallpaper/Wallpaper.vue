@@ -4,7 +4,10 @@
       <input placeholder="输入关键词" value="动漫">
       <button @click="search">搜索</button>
     </div>
-    <Scroller class="wrapper" @pullingUp="loadingData">
+    <Scroller class="wrapper"
+              @pullingUp="loadingData"
+              :data="wallpapers"
+    >
       <div class="wallpaper-list">
         <div class="wallpaper-item"
              v-for="(wallpaper, index) in wallpapers"
@@ -76,7 +79,11 @@ export default {
       })
     },
     loadingData() {
-      console.log('loading')
+      if (this.inLoading) {
+        return
+      }
+      this.inLoading = true
+      this.$store.commit('openLoading')
       let that = this
       this.$http.get("https://image.baidu.com/search/acjson?tn=resulttagjson&logid=10239998936165607799&ie=utf-8&fr=&word=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&ipn=r&fm=index&pos=history&queryWord=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&cl=2&lm=-1&oe=utf-8&adpicid=&st=-1&z=9&ic=0&hd=&latest=&copyright=&s=&se=&tab=&width=0&height=0&face=0&istype=2&qc=&nc=1&expermode=&nojc=&isAsync=true&pn=90&rn=70&gsm=5a&1650704573870=").then((res) => {
         if (res.status === 200) {
@@ -93,6 +100,8 @@ export default {
             }
           })
         }
+        this.inLoading = false
+        this.$store.commit('closeLoading')
       })
     }
   },
@@ -224,7 +233,8 @@ export default {
           thumb: "https://images.unsplash.com/photo-1614200202465-edf2c6127983?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzJ8fGRlc2t0b3AlMjB3YWxscGFwZXJzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
           url: "https://images.unsplash.com/photo-1614200202465-edf2c6127983?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2832&q=80"
         },
-      ]
+      ],
+      inLoading: false,
     }
   }
 }
