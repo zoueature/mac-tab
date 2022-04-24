@@ -74,14 +74,14 @@ export default {
       let that = this
       setTimeout(
           () => that.clickApp = false,
-          200
+          100
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
         window.location.href = this.appLink
         return;
       }
-
       this.clickHandler()
+      this.$store.commit('closeFolder')
     },
   },
   data() {
@@ -105,7 +105,7 @@ export default {
     position: relative;
   }
   .click {
-    transform: translate(4px, 4px);
+    transform: translate(2px, 2px);
   }
   @keyframes shake {
     from {

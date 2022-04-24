@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request)
     switch (request.do) {
         case "getHistory":
-            api.getHistory(sendResponse)
+            api.getHistory(sendResponse, request.param)
             break
         default:
             console.log('undefined do')

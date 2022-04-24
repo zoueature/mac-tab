@@ -129,7 +129,13 @@ export default {
         link: formatLink(this.diyApp.link),
       }
       this.$store.commit('addApp', app)
-      this.diyApp = defaultDiyApp
+      this.diyApp = {
+        link: defaultDiyApp.link,
+        name: defaultDiyApp.name,
+        wordIcon: defaultDiyApp.wordIcon,
+        wordIconColor: defaultDiyApp.wordIconColor,
+        onlineIcon: defaultDiyApp.onlineIcon,
+      }
     }
   },
   computed: {
@@ -149,7 +155,13 @@ export default {
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
-      diyApp: defaultDiyApp,
+      diyApp: {
+        link: defaultDiyApp.link,
+        name: defaultDiyApp.name,
+        wordIcon: defaultDiyApp.wordIcon,
+        wordIconColor: defaultDiyApp.wordIconColor,
+        onlineIcon: defaultDiyApp.onlineIcon,
+      },
       colors: color,
     }
   }
