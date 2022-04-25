@@ -1,12 +1,16 @@
 <template>
   <div class="wallpaper-app">
     <div class="wallpaper-header">
-      <input placeholder="输入关键词" value="动漫">
-      <button @click="search">搜索</button>
+      <input placeholder="输入关键词"
+             v-model="keyword"
+             @submit="search(25)"
+             @keyup.enter="search(25)"
+             class="search-input"
+      >
     </div>
     <Scroller class="wrapper"
-              @pullingUp="loadingData"
               :data="wallpapers"
+              :get-data-handler="loadingData"
     >
       <div class="wallpaper-list">
         <div class="wallpaper-item"
@@ -14,7 +18,6 @@
              :key="wallpaper"
              @mouseenter="hover(index)"
              @mouseleave="leave"
-             @scroll="wallpaperScroll"
         >
           <img :src="wallpaper.thumb" alt="wallpaper" style="width: 100%; height: 100%">
           <div class="hover" v-if="index === hoverIndex">
@@ -30,7 +33,6 @@
 
 <script>
 
-// import BS from "better-scroll"
 import Scroller from "@/popup/components/common/Scroller";
 
 export default {
@@ -57,52 +59,72 @@ export default {
         that.$store.commit('setWallpaper', src)
       }
     },
-    search() {
-      let that = this
-      this.$http.get("https://image.baidu.com/search/acjson?tn=resulttagjson&logid=10239998936165607799&ie=utf-8&fr=&word=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&ipn=r&fm=index&pos=history&queryWord=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&cl=2&lm=-1&oe=utf-8&adpicid=&st=-1&z=9&ic=0&hd=&latest=&copyright=&s=&se=&tab=&width=0&height=0&face=0&istype=2&qc=&nc=1&expermode=&nojc=&isAsync=true&pn=90&rn=70&gsm=5a&1650704573870=").then((res) => {
-        if (res.status === 200) {
-          let result = []
-          res.data.data.forEach((v) => {
-            let url = v.middleURL
-            if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
-              url = v.replaceUrl[0].ObjURL
-            }
-            if (v.thumbURL !== "" && url !== "") {
-              result.push({
-                thumb: v.thumbURL,
-                url: url
-              })
-            }
-          })
-          that.wallpapers = result
-        }
-      })
+    async search(size) {
+      let newList = await this.getData(size)
+      this.wallpapers = newList
     },
-    loadingData() {
-      if (this.inLoading) {
-        return
-      }
-      this.inLoading = true
+    async loadingData() {
       this.$store.commit('openLoading')
-      let that = this
-      this.$http.get("https://image.baidu.com/search/acjson?tn=resulttagjson&logid=10239998936165607799&ie=utf-8&fr=&word=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&ipn=r&fm=index&pos=history&queryWord=%E7%BE%8E%E5%A5%B3%E5%A3%81%E7%BA%B8&cl=2&lm=-1&oe=utf-8&adpicid=&st=-1&z=9&ic=0&hd=&latest=&copyright=&s=&se=&tab=&width=0&height=0&face=0&istype=2&qc=&nc=1&expermode=&nojc=&isAsync=true&pn=90&rn=70&gsm=5a&1650704573870=").then((res) => {
-        if (res.status === 200) {
-          res.data.data.forEach((v) => {
-            let url = v.middleURL
-            if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
-              url = v.replaceUrl[0].ObjURL
-            }
-            if (v.thumbURL !== "" && url !== "") {
-              that.wallpapers.push({
-                thumb: v.thumbURL,
-                url: url
-              })
-            }
-          })
+      let newList = await this.getData(this.limit)
+      this.wallpapers.push(...newList)
+      this.$store.commit('closeLoading')
+    },
+    async getData(size) {
+      let list = []
+      let result = await this.$http.get("https://image.baidu.com/search/acjson", {
+        params: {
+          tn: "resulttagjson",
+          logid: "10239998936165607799",
+          ie: "utf-8",
+          fr: "",
+          word:  this.keyword + "壁纸",
+          ipn: "r",
+          fm: "index",
+          pos: "history",
+          queryWord: this.keyword,
+          cl: "2",
+          lm: "-1",
+          oe: "utf-8",
+          adpicid: "",
+          st: "-1",
+          z: "9",
+          ic: "0",
+          hd: "",
+          latest: "",
+          copyright: "",
+          s: "",
+          se: "",
+          tab: "",
+          width: screen.width,
+          height: screen.height,
+          face: "0",
+          istype: "2",
+          qc: "",
+          nc: "1",
+          expermode: "",
+          nojc: "",
+          isAsync: true,
+          pn: this.offset,
+          rn: size,
+          gsm: "5a",
         }
-        this.inLoading = false
-        this.$store.commit('closeLoading')
       })
+      if (result.status === 200) {
+        result.data.data.forEach((v) => {
+          let url = v.middleURL
+          if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
+            url = v.replaceUrl[0].ObjURL
+          }
+          if (typeof v.thumbURL=== "string" && v.thumbURL !== "" && typeof url === "string" && url !== "") {
+            list.push({
+              thumb: v.thumbURL,
+              url: url
+            })
+          }
+        })
+        this.offset += size
+      }
+      return list
     }
   },
   data() {
@@ -235,6 +257,9 @@ export default {
         },
       ],
       inLoading: false,
+      keyword: '',
+      offset: 0,
+      limit: 20,
     }
   }
 }
@@ -251,13 +276,9 @@ export default {
   }
   .wallpaper-header {
     width: 100%;
-    height: 100px;
-    background: #00c3ff;
-    position: fixed;
-    z-index: 10;
+    height: 70px;
   }
   .wrapper {
-    margin-top: 110px;
     width: 100%;
     height: 80%;
     overflow: hidden;
@@ -297,5 +318,17 @@ export default {
     right: 0;
     top: 0;
     bottom: 0;
+  }
+  .search-input {
+    display: block;
+    outline: none;
+    border: none;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.22);
+    height: 37px;
+    width: 50%;
+    padding-left: 16px;
+    margin-left: 16px;
+    margin-top: 16px;
+    border-radius: 7px;
   }
 </style>

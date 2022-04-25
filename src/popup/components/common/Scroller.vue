@@ -1,50 +1,54 @@
 <template>
-  <div class="wrapper" ref="wallpapers">
+  <div class="wrapper" ref="wrapper">
     <slot></slot>
   </div>
 </template>
 
 <script>
 import BS from "better-scroll";
-let scroll
+import Pullup from '@better-scroll/pull-up'
+// import MouseWheel from '@better-scroll/mouse-wheel'
+
+BS.use(Pullup)
+// BS.use(MouseWheel)
+
+
 export default {
   name: "ScrollerCom",
   props:[
-    "data"
+    "getDataHandler"
   ],
+
   mounted() {
-    this.$nextTick(() => {
-      scroll = new BS(this.$refs.wallpapers, {
-        zoom: true,
-        mouseWheel: {
-          speed: 0.001,
-          easeTime: 100,
-          dampingFactor: 0.03,
-        },
-        pullUpLoad: true
-      })
-      scroll.on('scrollEnd', () => {
-        // 滚动到底部
-        if (scroll.y <= (scroll.maxScrollY + 50)) {
-          this.$emit('pullingUp')
-        }
-      })
-      // scroll.on('pullingUp', this.pullingUpHandler)
-    })
+    this.initBscroll()
   },
-  watch: {
-    // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
-    data() {
-      this.refresh()
-      setInterval(() => {
-        this.refresh()
-      }, 100)
+  data() {
+    return {
+      isPullUpLoad: false,
     }
   },
   methods: {
-    refresh() {
-      // 代理better-scroll的refresh方法
-      scroll && scroll.refresh()
+    initBscroll() {
+      this.bscroll = new BS(this.$refs.wrapper, {
+        pullUpLoad: true,
+        mouseWheel: {
+          speed: 0.1,
+          easeTime: 300,
+          // dampingFactor: 0.03,
+          // discreteTime: 500,
+          //  throttleTime: 10,
+        },
+      })
+      this.bscroll.on('pullingUp', this.pullingUpHandler)
+    },
+    async pullingUpHandler() {
+      this.isPullUpLoad = true
+
+      await this.getDataHandler()
+
+      this.bscroll.finishPullUp()
+      this.bscroll.refresh()
+      this.isPullUpLoad = false
     },
   }
 }

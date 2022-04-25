@@ -22,6 +22,7 @@
 <script>
 
 import Loading from "@/popup/components/common/Loading";
+
 export default {
   name: "App",
   components: {
@@ -43,6 +44,14 @@ export default {
     showApp() {
       return this.$store.getters.showApp
     },
+    width() {
+      let paramWith = 60
+      console.log(this.$props)
+      if (typeof this.$route.params.width === "number" && this.$route.params.width > 0) {
+        paramWith = this.$route.params.width
+      }
+      return paramWith + "%"
+    }
   },
   data() {
     return {
@@ -62,7 +71,7 @@ export default {
     z-index: 1000000000;
   }
   .app-container {
-    width: 60%;
+    width: v-bind(width);
     height: 70%;
     position: absolute;
     left: 50%;
