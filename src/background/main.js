@@ -2,6 +2,8 @@
 
 import api from './api'
 
+console.log('background is running')
+
 chrome.alarms.create("testAlarm", {periodInMinutes: 1})
 
 chrome.alarms.onAlarm.addListener(
@@ -9,7 +11,6 @@ chrome.alarms.onAlarm.addListener(
         console.log(alarmInfo)
     }
 )
-
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request)

@@ -12,7 +12,6 @@
     "newtab": "popup.html"
   },
   "permissions": [
-    "<all_urls>",
     "contextMenus",
     "notifications",
     "bookmarks",
@@ -20,7 +19,8 @@
     "alarms"
   ],
   "background": {
-    "service_worker": "js/background.js"
+    "service_worker": "js/background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
