@@ -1,20 +1,28 @@
 <template>
   <div class="news-drawer-container">
-    <div class="news-item"
-         v-for="(news, index) in newsList"
-         :key="index"
-         @click="gotoDetail(news.detail)"
-    >
-      <div class="news-img">
-        <div class="news-seq" :style="'background:' + 'rgba(255, '+(7 * index)+', '+ (2 * index) +')'">{{index + 1}}</div>
-        <img :src="news.img" alt="">
+    <div class="header-container">
+      <div class="news-header">
+        <div class="news-tab"><span>百度热搜</span></div>
+        <div class="news-tab">知乎热榜</div>
       </div>
-      <div class="news-content">
-        <div class="news-title">
-          {{news.title}}
+    </div>
+    <div class="news">
+      <div class="news-item"
+           v-for="(news, index) in newsList"
+           :key="index"
+           @click="gotoDetail(news.detail)"
+      >
+        <div class="news-img">
+          <div class="news-seq" :style="'background:' + 'rgba(255, '+(7 * index)+', '+ (2 * index) +')'">{{index + 1}}</div>
+          <img :src="news.img" alt="">
         </div>
-        <div class="news-desc">
-          {{desc(news.desc)}}
+        <div class="news-content">
+          <div class="news-title">
+            {{news.title}}
+          </div>
+          <div class="news-desc">
+            {{desc(news.desc)}}
+          </div>
         </div>
       </div>
     </div>
@@ -54,6 +62,22 @@ export default {
         })
       }
     })
+    this.$http.get("https://www.zhihu.com/billboard").then(result => {
+      if (result.status === 200) {
+        let rexp = /<script id="js-initialData" type="text\/json">(.*?)<\/script>/
+        let content = rexp.exec(result.data)[1]
+        let data = JSON.parse(content)
+        data.initialState.topstory.hotList.forEach(v => {
+          console.log(v.target.imageArea.url)
+          this.newsList.push({
+            img: v.target.imageArea.url,
+            title: v.target.titleArea.text,
+            desc: v.target.excerptArea.text,
+            detail: v.target.link.url,
+          })
+        })
+      }
+    })
   },
   methods: {
     gotoDetail(detailURL) {
@@ -76,6 +100,7 @@ export default {
     overflow-x: hidden;
     box-shadow: -0.5px 0 16px white;
     background: rgb(243, 242, 242);
+    position: relative;
   }
   div::-webkit-scrollbar {
     display: none;
@@ -85,9 +110,11 @@ export default {
   }
   .news-item {
     width: 95%;
-    height: 97px;
+    height: 88px;
     margin: 0 auto;
     cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: 16px;
   }
   .news-img {
     width: 110px;
@@ -139,5 +166,27 @@ export default {
     -webkit-box-orient: vertical;
     white-space: pre-wrap;
     display: -webkit-box;
+  }
+  .header-container {
+    width: 100%;
+    height: 100px;
+    background: rebeccapurple;
+    overflow-x: scroll;
+  }
+  .news-header {
+    width:100%;
+    text-align: left;
+    height: 100px;
+    /*background: rebeccapurple;*/
+    position: fixed;
+    z-index: 10;
+    font-size: 25px;
+    color: white;
+  }
+  .news {
+    margin-top: 25px;
+  }
+  .news-tab {
+    color: blue;
   }
 </style>
