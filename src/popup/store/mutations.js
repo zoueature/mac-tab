@@ -58,6 +58,7 @@ export default {
             icon: app.icon,
             app:  app.app,
             link: app.link,
+            background: app.background,
         }
         // state.userApps.push(app)
         for (let i = 0; i < state.fmtApps.length; i ++) {

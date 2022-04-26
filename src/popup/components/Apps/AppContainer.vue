@@ -8,6 +8,8 @@
         :name="app.name"
         :link="app.link"
         :click="app.click"
+        :background="app.background"
+        :type="'app'"
     />
     <Folder v-else-if="app.type === 'folder' "
             :folder="app"

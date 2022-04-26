@@ -4,6 +4,7 @@
         :size="folder.size"
         :name="folder.name"
         :iconBorder=" true"
+        :type="'folder'"
     >
       <div class="folder-icon">
         <div class="app-icon" v-for="element in folder.apps.slice(0, 4)" :key="element.id">

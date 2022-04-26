@@ -24,6 +24,7 @@
                   :link="element.link"
                   :click="element.click"
                   :hover="true"
+                  :type="element.type"
                   class="dock-item"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
         />

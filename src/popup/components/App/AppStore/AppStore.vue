@@ -127,6 +127,7 @@ export default {
         icon: this.diyApp.onlineIcon,
         app: '',
         link: formatLink(this.diyApp.link),
+        background: this.diyApp.wordIconColor,
       }
       this.$store.commit('addApp', app)
       this.diyApp = {

@@ -2,8 +2,11 @@
   <div id="dock-item" @click="handler" :class="dockItemClass" @mousedown="down" @mouseup="up">
 
     <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
-      <div v-if="icon !== '' && icon !== undefined ">
-        <img :src="icon" :alt="name" style="width: 100%; height: 100%;"/>
+      <div v-if="type === 'app'" style="width: 100%; height: 100%;">
+        <img :src="icon" :alt="name" style="width: 100%; height: 100%;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
+        <div v-else class="icon-word-container" :style="'background: ' + (background !== undefined? background: 'blue') ">
+          {{name.substring(0, 3)}}
+        </div>
       </div>
       <slot v-else></slot>
     </div>
@@ -28,7 +31,9 @@ export default {
     "name",
     "link",
     "iconBorder",
-    "click"
+    "click",
+    "background",
+    "type"
   ],
   created() {
     if (typeof this.click === "function") {
@@ -91,6 +96,7 @@ export default {
       appLink: "",
       inOpt: false,
       appId: 0,
+      loadIconSucc: true,
     }
   }
 }
@@ -131,6 +137,14 @@ export default {
     overflow: hidden;
     border-radius: 14px;
     backdrop-filter: blur(100px);
+  }
+  .icon-word-container {
+    color: white;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 25px;
+    line-height: v-bind(iconSize);
   }
   .title-container {
     margin-top: 3px;
