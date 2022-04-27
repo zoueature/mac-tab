@@ -43,7 +43,6 @@ import ComponentsCom from "@/popup/components/Components/Components";
 import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
-import Loading from "@/popup/components/common/Loading";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 
 /* eslint-disable */
@@ -64,7 +63,7 @@ export default {
     TodoApp,
     App,
     RightDrawer,
-    Loading,
+    // Loading,
     FolderContent,
   },
   methods: {

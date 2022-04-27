@@ -176,7 +176,7 @@ export default {
   }
   .blur-slider {
     width: 100%;
-    height: 10px;
+    height: 16px;
   }
   .set-wallpaper {
     position: absolute;

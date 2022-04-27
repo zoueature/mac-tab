@@ -1,13 +1,14 @@
 <template>
   <div class="wallpaper-market-app">
     <div class="wallpaper-header">
-      <span @click="$router.back()">{{'<'}}</span>
+      <Back></Back>
       <input placeholder="输入关键词"
              v-model="keyword"
              @submit="search(50)"
              @keyup.enter="search(50)"
              class="search-input"
       >
+      <div class="collection"></div>
     </div>
     <div class="wallpaper-market">
       <div class="wallpaper-category">
@@ -24,6 +25,7 @@
                 :get-data-handler="loadingData"
       >
         <div class="wallpaper-list">
+          <Loading :show="showLoading"></Loading>
           <div class="wallpaper-item"
                v-for="(wallpaper, index) in wallpapers"
                :key="wallpaper"
@@ -47,11 +49,15 @@
 <script>
 import Scroller from "@/popup/components/common/Scroller";
 import data from "./wallpaper_list"
+import Back from "@/popup/components/common/Back";
+import Loading from "@/popup/components/common/Loading";
 
 export default {
   name: "WallpaperMarket",
   components:{
     Scroller,
+    Back,
+    Loading,
   },
   created() {
     console.log(123)
@@ -89,10 +95,10 @@ export default {
       }
     },
     async loadingData() {
-      this.$store.commit('openLoading')
+      this.showLoading = true
       let newList = await this.getData(this.limit)
       this.wallpapers.push(...newList)
-      this.$store.commit('closeLoading')
+      this.showLoading = false
     },
     async getData(size) {
       let list = []
@@ -178,10 +184,12 @@ export default {
     height: 100%;
   }
   .wallpaper-header {
-    width: 98%;
-    height: 16%;
-    margin: 0 auto;
+    width: 97%;
+    height: 10%;
+    margin: 4% auto 2% auto;
     text-align: left;
+    display: flex;
+    align-items: center;
   }
   .wallpaper-market {
     width: 100%;
@@ -263,7 +271,7 @@ export default {
     font-size: 12px;
   }
   .search-input {
-    /*display: block;*/
+    display: block;
     outline: none;
     border: none;
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.22);
@@ -271,7 +279,7 @@ export default {
     width: 37%;
     padding-left: 16px;
     margin-left: 16px;
-    margin-top: 16px;
+    /*margin-top: 16px;*/
     border-radius: 7px;
   }
 </style>
