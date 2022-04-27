@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
   .loading-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 100%;
     height: 100%;
@@ -25,8 +25,8 @@ export default {
     z-index: 1000000;
   }
   .loading-container img {
-    width: 80px;
-    height: 80px;
+    width: 52px;
+    height: 52px;
     position: absolute;
     top: 50%;
     left: 50%;

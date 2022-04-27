@@ -1,6 +1,6 @@
 <template>
   <transition name="app" >
-    <div id="app" @click="closeApp" v-if="showApp">
+    <div id="app" v-if="showApp">
       <div class="app-container" @click.stop="">
         <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
           <div class="close" @click="closeApp">
@@ -74,6 +74,7 @@ export default {
     top: 0;
     z-index: 1000000000;
     background: rgba(0, 0, 0, 0.52);
+    overflow: hidden;
   }
   .app-container {
     width: v-bind(width);
@@ -81,8 +82,9 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    overflow: hidden;
+    /*padding-top: 7px;*/
+    /*padding-bottom: 7px;*/
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
@@ -91,12 +93,15 @@ export default {
   .app-title {
     width: 100%;
     height: 25px;
-    margin-left: 7px;
+    left: 10px;
+    top: 10px;
     display: flex;
+    position: absolute;
+    z-index: 10000000000;
   }
   .app-content {
     width: 100%;
-    height: 95%;
+    height: 100%;
     position: relative;
   }
   .close, .max {

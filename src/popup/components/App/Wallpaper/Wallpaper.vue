@@ -27,11 +27,6 @@
                    v-model="coverBlur"
                    @input="changeCoverBlur"
                    :size="'small'"
-                   :marks="{
-                     0: '清晰',
-                     3: '模糊',
-                     8: '很模糊'
-                   }"
                    class="blur-slider">
         </el-slider>
       </div>
@@ -137,7 +132,7 @@ export default {
   }
   .config-set span {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     color: #5f5f5f;
     margin-top: 16px;
     margin-left: 16px;

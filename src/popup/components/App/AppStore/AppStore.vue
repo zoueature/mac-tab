@@ -177,32 +177,31 @@ export default {
     overflow: hidden;
   }
   .app-category {
-    flex: 3;
+    flex: 3.7;
+    padding-top: 3.4%;
     /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
   }
   .search {
     width: 100%;
-    height: 25px;
+    height: 34px;
     margin: 10px auto 10px auto;
   }
   .search input {
-    width: 80%;
+    width: 90%;
     padding-left: 5%;
     height: 100%;
     border: none;
     outline: none;
     border-radius: 5px;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.35);
+    font-size: 13px;
+    /*box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.35);*/
   }
   .category-item {
     width: 100%;
-    height: 37px;
+    height: 35px;
     margin-top: 7px;
-  }
-  .active {
-    /*background: rgba(37, 132, 209, 0.57);*/
-    background: white;
+    cursor: pointer;
   }
   .category {
     width: 80%;
@@ -214,8 +213,8 @@ export default {
   }
   .category-icon {
     margin-top: 5px;
-    width: 27px;
-    height: 27px;
+    width: 25px;
+    height: 25px;
   }
   .category-icon img {
     width: 100%;
@@ -223,13 +222,14 @@ export default {
   }
   .category-name {
     margin-left: 16px;
-    line-height: 37px;
-    font-weight: bold;
-    font-size: 15px;
+    line-height: 35px;
+    /*font-weight: bold;*/
+    font-size: 14px;
     color: rgba(0,0,0,0.77);
   }
   .app-list {
     flex: 9;
+    padding-top: 3.4%;
     display: flex;
     flex-wrap: wrap;
     justify-items: left;
@@ -282,6 +282,7 @@ export default {
     height: 20px;
     margin-left: 16px;
     margin-top: 10px;
+    cursor: pointer;
   }
   .app-input {
     width: 90%;
