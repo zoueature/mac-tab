@@ -1,6 +1,7 @@
 <template>
   <div class="folder-app">
     <AppItem
+        :id="folder.id"
         :size="folder.size"
         :name="folder.name"
         :iconBorder=" true"

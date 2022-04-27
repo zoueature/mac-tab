@@ -1,6 +1,5 @@
 <template>
-  <div id="dock-item" @click="handler" :class="dockItemClass" @mousedown="down" @mouseup="up">
-
+  <div id="dock-item" @click="handler" :class="dockItemClass" @click.right.stop="startEditApp">
     <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
       <div v-if="type === 'app'" style="width: 100%; height: 100%;">
         <img :src="icon" :alt="name" style="width: 100%; height: 100%;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
@@ -13,14 +12,13 @@
     <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
       {{name}}
     </div>
-    <div class="delete-icon" v-if="inOpt" @click.stop="removeApp">
+    <div class="delete-icon" v-if="inEditApp" @click.stop="removeApp">
       <img src="../../../assets/icon/close.png" style="width: 50%; height: 50%">
     </div>
   </div>
 </template>
 
 <script>
-let timer
 
 export default {
   name: "DockItem",
@@ -54,24 +52,21 @@ export default {
     },
     iconSize() {
       return Math.ceil(this.$store.getters.appSize * 0.8) + "px"
-    }
+    },
+    inEditApp() {
+      return this.$store.getters.inEditApp
+    },
   },
   methods: {
+    startEditApp(ev) {
+      ev.preventDefault()
+      this.$store.commit('startEditApp')
+      // this.inOpt = true
+    },
     removeApp() {
+      console.log(this.appId)
       this.$store.commit('removeApp', {id: this.appId})
       this.inOpt = false
-    },
-    down() {
-      let that = this
-      timer = setTimeout(
-          () => {
-            that.inOpt = true
-          },
-          700
-      )
-    },
-    up() {
-      clearTimeout(timer)
     },
     handler() {
       if (this.inOpt) {
@@ -106,7 +101,7 @@ export default {
       clickHandler: function (){},
       clickApp: false,
       appLink: "",
-      inOpt: false,
+      // inOpt: this.$store.getters.inEditApp,
       appId: 0,
       loadIconSucc: true,
     }
@@ -173,7 +168,7 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
-    background: red;
+    background: rgba(255, 0, 0, 0.88);
     border-radius: 100%;
     overflow: hidden;
   }
