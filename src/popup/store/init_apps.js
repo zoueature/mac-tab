@@ -27,6 +27,9 @@ export default [
         name: "切壁纸",
         icon: "../../../assets/images/app/wallpaper.png",
         app: 'wallpaper',
+        params: {
+            width: 40,
+        }
     },
     {
         id: 23,

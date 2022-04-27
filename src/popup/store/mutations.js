@@ -42,9 +42,20 @@ export default {
         // state.config.appSize = size
     },
     setWallpaper(state, wallpaper) {
+        if (typeof wallpaper === "string") {
+            let position = state.config.wallpaper.position
+            wallpaper = {
+                url: wallpaper,
+                position: position,
+                blur: state.config.wallpaper.blur,
+            }
+        }
         common.updateConfig(state, 'wallpaper', wallpaper)
-        // state.config.wallpaper = wallpaper
-        // localStorage.setItem(keys.config, JSON.stringify(state.config))
+    },
+    setCoverBlur(state, blur) {
+        common.updateConfigAndFsync(state,function () {
+            state.config.wallpaper.blur = blur
+        })
     },
 
 
@@ -58,6 +69,8 @@ export default {
             icon: app.icon,
             app:  app.app,
             link: app.link,
+            background: app.background,
+            params: app.params,
         }
         // state.userApps.push(app)
         for (let i = 0; i < state.fmtApps.length; i ++) {

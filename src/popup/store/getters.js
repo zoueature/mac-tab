@@ -2,9 +2,6 @@ export default {
     showApp(state) {
         return state.showApp
     },
-    wallpaper(state) {
-        return state.config.wallpaper
-    },
     showDrawer(state) {
         return state.showDrawer
     },
@@ -24,8 +21,14 @@ export default {
     appSize(state) {
       return state.config.appSize
     },
+    config(state) {
+        return state.config
+    },
     appColumnNum(state) {
         return state.config.appColumnNum
+    },
+    wallpaper(state) {
+        return state.config.wallpaper
     },
 
     // ------------------- APPS ------------------------

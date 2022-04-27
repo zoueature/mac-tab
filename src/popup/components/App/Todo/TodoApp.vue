@@ -53,9 +53,11 @@
       </div>
       <div class="todo-list">
         <div class="todo-list-title-container">
-          <div class="todo-title">{{todoList.name?? "还没创建TODO哦"}}</div>
-          <div class="add-todo-icon" @click="createTodo()" v-if="activeTab !== 1000000000000 && activeTab !== 1000000000002 && activeTab !== 1000000000003">
-            <img src="../../../../assets/icon/plus_blue.png" alt="">
+          <div class="todo-title">
+            {{todoList.name?? "还没创建TODO哦"}}
+            <span class="add-todo-icon" @click="createTodo" v-if="activeTab !== 1000000000000 && activeTab !== 1000000000002 && activeTab !== 1000000000003">
+              <img src="../../../../assets/icon/plus_blue.png" alt="">
+            </span>
           </div>
         </div>
         <transition-group  name="list">
@@ -269,8 +271,9 @@ export default {
   .todo-tab {
     max-width: 200px;
     flex: 3;
-    height: 100%;
+    height: 95%;
     width: 100%;
+    padding-top: 5%;
     border-right: 1px solid rgba(0, 0, 0, 0.07);
   }
   .todo-tab img {
@@ -389,7 +392,8 @@ export default {
   .todo-list {
     flex: 7;
     width: 100%;
-    height: 97%;
+    height: 95%;
+    padding-top: 2%;
     overflow: scroll;
     margin: 0 auto;
   }
@@ -462,7 +466,7 @@ export default {
     width: 16px;
     height: 16px;
     float: right;
-    margin-top: -37px;
+    /*margin-top: -25px;*/
     margin-right: 16px;
   }
   .add-todo-icon img {

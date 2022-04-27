@@ -14,5 +14,9 @@ export default {
     updateConfig(state, key, val) {
         state.config[key] = val
         localStorage.setItem(keys.config, JSON.stringify(state.config))
+    },
+    updateConfigAndFsync(state, doSomething) {
+        doSomething()
+        localStorage.setItem(keys.config, JSON.stringify(state.config))
     }
 }

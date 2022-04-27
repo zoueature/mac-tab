@@ -2,6 +2,8 @@
 
 import api from './api'
 
+console.log('background is running')
+
 chrome.alarms.create("testAlarm", {periodInMinutes: 1})
 
 chrome.alarms.onAlarm.addListener(
@@ -10,12 +12,11 @@ chrome.alarms.onAlarm.addListener(
     }
 )
 
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log(request)
     switch (request.do) {
         case "getHistory":
-            api.getHistory(sendResponse)
+            api.getHistory(sendResponse, request.param)
             break
         default:
             console.log('undefined do')

@@ -54,7 +54,8 @@ export default {
 <style scoped>
   .json-app {
     width: 100%;
-    height: 100%;
+    height: 95%;
+    margin-top: 5%;
   }
   .input-container {
     width: 98%;

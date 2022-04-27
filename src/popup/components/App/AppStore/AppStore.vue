@@ -127,9 +127,16 @@ export default {
         icon: this.diyApp.onlineIcon,
         app: '',
         link: formatLink(this.diyApp.link),
+        background: this.diyApp.wordIconColor,
       }
       this.$store.commit('addApp', app)
-      this.diyApp = defaultDiyApp
+      this.diyApp = {
+        link: defaultDiyApp.link,
+        name: defaultDiyApp.name,
+        wordIcon: defaultDiyApp.wordIcon,
+        wordIconColor: defaultDiyApp.wordIconColor,
+        onlineIcon: defaultDiyApp.onlineIcon,
+      }
     }
   },
   computed: {
@@ -149,7 +156,13 @@ export default {
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
-      diyApp: defaultDiyApp,
+      diyApp: {
+        link: defaultDiyApp.link,
+        name: defaultDiyApp.name,
+        wordIcon: defaultDiyApp.wordIcon,
+        wordIconColor: defaultDiyApp.wordIconColor,
+        onlineIcon: defaultDiyApp.onlineIcon,
+      },
       colors: color,
     }
   }
@@ -164,32 +177,31 @@ export default {
     overflow: hidden;
   }
   .app-category {
-    flex: 3;
+    flex: 3.7;
+    padding-top: 3.4%;
     /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
   }
   .search {
     width: 100%;
-    height: 25px;
+    height: 34px;
     margin: 10px auto 10px auto;
   }
   .search input {
-    width: 80%;
+    width: 88%;
     padding-left: 5%;
     height: 100%;
     border: none;
     outline: none;
     border-radius: 5px;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.35);
+    font-size: 13px;
+    /*box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.35);*/
   }
   .category-item {
     width: 100%;
-    height: 37px;
+    height: 35px;
     margin-top: 7px;
-  }
-  .active {
-    /*background: rgba(37, 132, 209, 0.57);*/
-    background: white;
+    cursor: pointer;
   }
   .category {
     width: 80%;
@@ -201,8 +213,8 @@ export default {
   }
   .category-icon {
     margin-top: 5px;
-    width: 27px;
-    height: 27px;
+    width: 25px;
+    height: 25px;
   }
   .category-icon img {
     width: 100%;
@@ -210,13 +222,15 @@ export default {
   }
   .category-name {
     margin-left: 16px;
-    line-height: 37px;
+    line-height: 35px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 14px;
     color: rgba(0,0,0,0.77);
+    white-space: nowrap;
   }
   .app-list {
     flex: 9;
+    padding-top: 3.4%;
     display: flex;
     flex-wrap: wrap;
     justify-items: left;
@@ -245,7 +259,7 @@ export default {
   .app-name {
     width: 60%;
     font-size: 14px;
-    font-weight: bolder;
+    /*font-weight: bolder;*/
     margin-left: 16px;
     float: left;
     text-align: left;
@@ -269,6 +283,7 @@ export default {
     height: 20px;
     margin-left: 16px;
     margin-top: 10px;
+    cursor: pointer;
   }
   .app-input {
     width: 90%;
@@ -305,6 +320,7 @@ export default {
     font-size: 25px;
     font-weight: bolder;
     overflow: hidden;
+    border-radius: 5px;
   }
   .select-icon-color {
     display: flex;
@@ -324,7 +340,7 @@ export default {
     margin-top: 70px;
     width: 34%;
     height: 40px;
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     background: #42b983;
     border-radius: 7px;
     font-size: 15px;

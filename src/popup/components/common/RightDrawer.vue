@@ -6,23 +6,6 @@
       </div>
     </div>
   </transition>
-<!--  <transition name="app" >-->
-<!--    <div id="app" @click="closeApp" v-if="showApp">-->
-<!--      <div class="app-container" @click.stop="">-->
-<!--        <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">-->
-<!--          <div class="close" @click="closeApp">-->
-<!--            <img v-if="showIconTrigger" src="../../../assets/icon/close.png" alt="">-->
-<!--          </div>-->
-<!--          <div class="max" @click="max" v-if="showMaxIcon">-->
-<!--            <img v-if="showIconTrigger" src="../../../assets/icon/enlarge.png" alt="">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="app-content">-->
-<!--          <router-view name="app"></router-view>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </transition>-->
 </template>
 
 <script>
@@ -69,7 +52,7 @@ export default {
   }
   .rightDrawer-enter-active,
   .rightDrawer-leave-active {
-    transition: all 500ms ease;
+    transition: all 250ms ease;
   }
   .rightDrawer-enter-from,
   .rightDrawer-leave-to {

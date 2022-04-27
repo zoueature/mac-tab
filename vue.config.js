@@ -9,6 +9,10 @@ const copyFiles = [
     to: `${path.resolve("dist")}/manifest.json`
   },
   {
+    from: path.resolve("src/assets/images/favicon.ico"),
+    to: `${path.resolve("dist")}/favicon.ico`
+  },
+  {
     from: path.resolve("src/assets"),
     to: path.resolve("dist/assets")
   },

@@ -1,6 +1,6 @@
 <template>
   <transition name="app" >
-    <div id="app" @click="closeApp" v-if="showApp">
+    <div id="app" v-if="showApp">
       <div class="app-container" @click.stop="">
         <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
           <div class="close" @click="closeApp">
@@ -22,6 +22,7 @@
 <script>
 
 import Loading from "@/popup/components/common/Loading";
+
 export default {
   name: "App",
   components: {
@@ -39,15 +40,33 @@ export default {
       this.$store.commit('closeLoading')
     }
   },
+  mounted() {
+    this.background = 'red'
+  },
   computed: {
     showApp() {
       return this.$store.getters.showApp
     },
+    width() {
+      let paramWith = 52
+      if (+this.$route.params.width > 0) {
+        paramWith = this.$route.params.width
+      }
+      return paramWith + "%"
+    },
+    height() {
+      let paramWith = 70
+      if (+this.$route.params.height > 0) {
+        paramWith = this.$route.params.height
+      }
+      return paramWith + "%"
+    }
   },
   data() {
     return {
       showIconTrigger: false,
       showMaxIcon: false,
+      background: ''
     }
   }
 }
@@ -60,29 +79,36 @@ export default {
     height: 100%;
     top: 0;
     z-index: 1000000000;
+    background: rgba(0, 0, 0, 0.52);
+    overflow: hidden;
+    min-width: 880px;
   }
   .app-container {
-    width: 60%;
-    height: 70%;
+    width: v-bind(width);
+    height: v-bind(height);
     position: absolute;
     left: 50%;
     top: 50%;
-    padding-top: 7px;
-    padding-bottom: 7px;
+    overflow: hidden;
+    /*padding-top: 7px;*/
+    /*padding-bottom: 7px;*/
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
-    background: white;
+    background: rgb(250, 250, 250);
   }
   .app-title {
-    width: 100%;
-    height: 25px;
-    margin-left: 7px;
+    /*width: 100%;*/
+    /*height: 25px;*/
+    left: 10px;
+    top: 10px;
     display: flex;
+    position: absolute;
+    z-index: 10000000000;
   }
   .app-content {
     width: 100%;
-    height: 95%;
+    height: 100%;
     position: relative;
   }
   .close, .max {
@@ -112,7 +138,7 @@ export default {
   }
   .app-enter-from,
   .app-leave-to {
-    transform: scale(0);
+    /*transform: scale(0);*/
     opacity: 0;
   }
 </style>
