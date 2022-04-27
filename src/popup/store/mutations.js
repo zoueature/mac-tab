@@ -3,7 +3,7 @@ import config from "@/popup/store/config";
 import common from "@/popup/store/common";
 
 export default {
-    // ----------------- common ---------------------
+    // ----------------- common runtime ---------------------
     openApp(state) {
         state.showApp = true
     },
@@ -22,6 +22,14 @@ export default {
     closeLoading(state) {
         state.showLoading = false
     },
+    startEditApp(state) {
+        state.editApp = true
+    },
+    closeEditApp(state) {
+        state.editApp = false
+    },
+
+
     initCommonConfig(state, config) {
         let configStr = localStorage.getItem(keys.config)
         if (configStr !== "" && configStr !== null) {

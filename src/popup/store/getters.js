@@ -1,4 +1,5 @@
 export default {
+    // ------------ runtime -------------------
     showApp(state) {
         return state.showApp
     },
@@ -17,6 +18,10 @@ export default {
     activeFolder(state) {
         return state.activeFolder
     },
+    inEditApp(state) {
+        return state.editApp
+    },
+
     // ------------------- CONFIG ----------------------
     appSize(state) {
       return state.config.appSize
