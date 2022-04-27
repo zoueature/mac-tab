@@ -70,6 +70,7 @@ export default {
             app:  app.app,
             link: app.link,
             background: app.background,
+            params: app.params,
         }
         // state.userApps.push(app)
         for (let i = 0; i < state.fmtApps.length; i ++) {

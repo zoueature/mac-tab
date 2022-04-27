@@ -6,6 +6,9 @@ const apps = [
         app: 'wallpaper',
         categoryId: 5,
         desc: "随意切换想要的背景",
+        params: {
+            width: 40,
+        }
     },
     {
         id: 23,

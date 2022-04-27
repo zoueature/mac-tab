@@ -188,7 +188,7 @@ export default {
     margin: 10px auto 10px auto;
   }
   .search input {
-    width: 90%;
+    width: 88%;
     padding-left: 5%;
     height: 100%;
     border: none;
@@ -223,9 +223,10 @@ export default {
   .category-name {
     margin-left: 16px;
     line-height: 35px;
-    /*font-weight: bold;*/
+    font-weight: bold;
     font-size: 14px;
     color: rgba(0,0,0,0.77);
+    white-space: nowrap;
   }
   .app-list {
     flex: 9;
@@ -258,7 +259,7 @@ export default {
   .app-name {
     width: 60%;
     font-size: 14px;
-    font-weight: bolder;
+    /*font-weight: bolder;*/
     margin-left: 16px;
     float: left;
     text-align: left;
@@ -319,6 +320,7 @@ export default {
     font-size: 25px;
     font-weight: bolder;
     overflow: hidden;
+    border-radius: 5px;
   }
   .select-icon-color {
     display: flex;
@@ -338,7 +340,7 @@ export default {
     margin-top: 70px;
     width: 34%;
     height: 40px;
-    margin-left: 5%;
+    /*margin-left: 5%;*/
     background: #42b983;
     border-radius: 7px;
     font-size: 15px;

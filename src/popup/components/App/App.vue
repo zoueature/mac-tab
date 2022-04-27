@@ -48,10 +48,16 @@ export default {
       return this.$store.getters.showApp
     },
     width() {
-      let paramWith = 60
-      console.log(this.$props)
-      if (typeof this.$route.params.width === "number" && this.$route.params.width > 0) {
+      let paramWith = 52
+      if (+this.$route.params.width > 0) {
         paramWith = this.$route.params.width
+      }
+      return paramWith + "%"
+    },
+    height() {
+      let paramWith = 70
+      if (+this.$route.params.height > 0) {
+        paramWith = this.$route.params.height
       }
       return paramWith + "%"
     }
@@ -75,10 +81,11 @@ export default {
     z-index: 1000000000;
     background: rgba(0, 0, 0, 0.52);
     overflow: hidden;
+    min-width: 880px;
   }
   .app-container {
     width: v-bind(width);
-    height: 70%;
+    height: v-bind(height);
     position: absolute;
     left: 50%;
     top: 50%;

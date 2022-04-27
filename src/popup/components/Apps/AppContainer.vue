@@ -8,6 +8,8 @@
         :name="app.name"
         :link="app.link"
         :click="app.click"
+        :app="app.app"
+        :params="app.params"
         :background="app.background"
         :type="'app'"
     />

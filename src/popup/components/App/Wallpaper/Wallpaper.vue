@@ -1,7 +1,7 @@
 <template>
   <div class="wallpaper-app">
     <div class="config-set">
-      <div class="wallpaper-shower" :style="showerStyle" @mouseenter="hoverWallpaper=true" @mouseleave="hoverWallpaper=false">
+      <div class="wallpaper-shower" @mouseenter="hoverWallpaper=true" @mouseleave="hoverWallpaper=false">
         <div v-if="!hoverWallpaper" class="cover" :style=" 'backdrop-filter: ' + backgroundBlur"></div>
         <div v-else class="cover" style="cursor: pointer">
           <div class="set-wallpaper" @click="$router.push({name: 'wallmarket'})">
@@ -86,8 +86,8 @@ export default {
       positions: [
         {
           id: 1,
-          size: "inherit",
-          position: "contain",
+          size: "bottom",
+          position: "cover",
           icon: require("@/assets/icon/inherit_contain.png")
         },
         {
@@ -125,7 +125,7 @@ export default {
     overflow: hidden;
   }
   .config-set {
-    width: 90%;
+    width: 430px;
     height: 400px;
     text-align: left;
     margin: 34px auto 0 auto;
@@ -134,28 +134,26 @@ export default {
     display: block;
     font-size: 13px;
     color: #5f5f5f;
-    margin-top: 16px;
-    margin-left: 16px;
+    margin-top: 34px;
   }
   .wallpaper-shower {
-    width: 430px;
+    width: 100%;
     height: 200px;
     background-image: v-bind(backgroundImg);
     background-repeat: no-repeat;
-    /*background-position: v-bind(size);*/
-    /*background-size: v-bind(position);*/
-    margin-left: 16px;
+    background-position: v-bind(size);
+    background-size: v-bind(position);
     box-shadow: 1px 1px 7px rgba(4, 4, 4, 0.16);
     position: relative;
     border-radius: 7px;
     overflow: hidden;
   }
   .position-shower {
-    width: 520px;
+    width: 100%;
     margin-top: 7px;
-    margin-left: 16px;
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
+    justify-items: center;
   }
   .position {
     margin-right: 16px;
@@ -169,8 +167,7 @@ export default {
   .cover-setting {
     width: 430px;
     height: 10px;
-    margin-left: 7px;
-    margin-top: 16px;
+    margin-top: 10px;
     font-size: 12px !important;
   }
   .cover {
@@ -180,7 +177,6 @@ export default {
   .blur-slider {
     width: 100%;
     height: 10px;
-    margin-left: 16px;
   }
   .set-wallpaper {
     position: absolute;

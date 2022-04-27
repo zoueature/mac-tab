@@ -33,7 +33,9 @@ export default {
     "iconBorder",
     "click",
     "background",
-    "type"
+    "type",
+    "app",
+    "params"
   ],
   created() {
     if (typeof this.click === "function") {
@@ -84,8 +86,18 @@ export default {
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
         window.location.href = this.appLink
         return;
+      } else if (typeof this.app === "string" && this.app !== "") {
+        console.log({
+          name: this.app,
+          params: this.params,
+        })
+        this.$router.replace({
+          name: this.app,
+          params: this.params,
+        })
+        this.$store.commit('openApp')
       }
-      this.clickHandler()
+      // this.clickHandler()
       this.$store.commit('closeFolder')
     },
   },
