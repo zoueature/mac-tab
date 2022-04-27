@@ -98,8 +98,8 @@ export default {
     background: rgb(250, 250, 250);
   }
   .app-title {
-    width: 100%;
-    height: 25px;
+    /*width: 100%;*/
+    /*height: 25px;*/
     left: 10px;
     top: 10px;
     display: flex;

@@ -97,18 +97,7 @@ export default {
   },
   data() {
     return {
-      // apps: [],
-      // moveOffset: {
-      //   x: 0,
-      //   y: 0
-      // },
-      // inFolder: false,
       drag: false,
-      // disabled: false,
-      // appSize: 0,
-      // rowsNum: 0,
-      // columNum: 0,
-      // list1: [],
       activeIndex: 0,
       wheelCount: 0,
       wheelStartTime: 0,
@@ -266,8 +255,6 @@ export default {
 
 <style  scoped>
 .apps{
-  /*width: v-bind(containerWidth);*/
-  /*height: v-bind(containerHeight);*/
   margin: 0 auto;
   width: 100%;
   height: 100%;
@@ -286,7 +273,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(2, 120px);
+  grid-template-rows: repeat(auto-fit, 120px);
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
