@@ -1,6 +1,9 @@
 <template>
   <div class="wrapper" ref="wrapper">
-    <slot></slot>
+    <div>
+      <slot></slot>
+      <el-skeleton :rows="2" animated :throttle="100" v-if="isPullUpLoad"></el-skeleton>
+    </div>
   </div>
 </template>
 

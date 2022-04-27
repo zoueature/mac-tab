@@ -1,5 +1,7 @@
 <template>
   <div id="desktop-background">
+    <div class="cover">
+    </div>
     <div class="blank-container">
       <div class="notify-container">
         <NewClock class="new-clock"/>
@@ -80,8 +82,17 @@ export default {
   },
   computed: {
     wallpaper() {
-      return 'url(' + this.$store.getters.wallpaper + ')'
-    }
+      return 'url(' + this.$store.getters.wallpaper.url + ')'
+    },
+    position() {
+      return this.$store.getters.wallpaper.position.position
+    },
+    size() {
+      return this.$store.getters.wallpaper.position.size
+    },
+    blur() {
+      return 'blur(' + this.$store.getters.wallpaper.blur + 'px' + ')'
+    },
   },
   mounted() {
 
@@ -98,15 +109,23 @@ export default {
 
 <style scoped>
   #desktop-background {
+    background: rgba(0, 0, 0, 0.25);
     width: 100%;
     height: 100%;
     position: fixed;
     background-image: v-bind(wallpaper);
     /*background-size: auto 100%;*/
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    background-position: v-bind(size);
+    background-size: v-bind(position);
     /*background: rgb(0,0,0,0.1);*/
+  }
+  .cover {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    backdrop-filter: v-bind(blur);
+    z-index: -100;
   }
   .new-clock {
     width: 160px;

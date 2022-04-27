@@ -10,11 +10,13 @@ import ShortVideo from "@/popup/components/App/ShortVideo/ShortVideo";
 import Setting from "@/popup/components/App/Setting/Setting";
 import Weather from "@/popup/components/App/Weather/Weather";
 import History from "@/popup/components/App/History/History";
+import WallpaperMarket from "@/popup/components/App/Wallpaper/WallpaperMarket";
 
 const routes = [
     // ----------- app -------------
     { name: 'todo', path: '/todo', components: {app: TodoApp}, },
     { name: 'wallpaper',path: '/wallpaper', components: {app: Wallpaper},},
+    { name: 'wallmarket', path: '/wallpaper-market', components: {app: WallpaperMarket},},
     { name: 'calculator',path: '/calculator', components: {app: Calculator}, },
     { name: 'appstore',path: '/appstore', components: {app: AppStore}, },
     { name: 'note',path: '/note', components: {app: Note}, },

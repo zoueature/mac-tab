@@ -40,6 +40,9 @@ export default {
       this.$store.commit('closeLoading')
     }
   },
+  mounted() {
+    this.background = 'red'
+  },
   computed: {
     showApp() {
       return this.$store.getters.showApp
@@ -57,6 +60,7 @@ export default {
     return {
       showIconTrigger: false,
       showMaxIcon: false,
+      background: ''
     }
   }
 }
@@ -69,6 +73,7 @@ export default {
     height: 100%;
     top: 0;
     z-index: 1000000000;
+    background: rgba(0, 0, 0, 0.52);
   }
   .app-container {
     width: v-bind(width);
@@ -81,7 +86,7 @@ export default {
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
-    background: white;
+    background: rgb(250, 250, 250);
   }
   .app-title {
     width: 100%;
@@ -121,7 +126,7 @@ export default {
   }
   .app-enter-from,
   .app-leave-to {
-    transform: scale(0);
+    /*transform: scale(0);*/
     opacity: 0;
   }
 </style>
