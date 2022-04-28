@@ -50,6 +50,9 @@ export default {
             }
             result[v.id] = true
         })
+        state.dockApps.forEach(v => {
+            result[v.id] = true
+        })
         return result
     },
     pageApps(state) {
