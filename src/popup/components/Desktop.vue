@@ -4,7 +4,7 @@
     </div>
     <div class="blank-container">
       <div class="notify-container">
-        <NewClock class="new-clock"/>
+<!--        <NewClock class="new-clock"/>-->
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">

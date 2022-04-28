@@ -81,7 +81,7 @@ export default {
         week: now.getDay(),
       }
       this.sec = this.nowTime.sec * 6 % 360 + 270
-      this.$forceUpdate()
+      // this.$forceUpdate()
     }
   }
 }
