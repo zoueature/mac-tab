@@ -38,6 +38,9 @@
           <div class="app-installer" @click="remove(app)" v-else>
             <img src="../../../../assets/icon/delete.png" alt="" style="width: 100%; height: 100%">
           </div>
+          <div class="app-installer preview" @click="preview(app)" v-if="app.link !== '' && app.link !== undefined">
+            <img src="../../../../assets/icon/preview.png" alt="" style="width: 80%; height: 80%; margin-left: 10%; margin-top: 10%;">
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +117,9 @@ export default {
       this.$store.commit('removeApp', app)
       this.installedApp[app.id] = false
     },
+    preview(app) {
+      window.open(app.link, '_blank');
+    },
     getWebsiteTitle() {
       let that = this
       if (this.diyApp.link !== "") {
@@ -132,13 +138,14 @@ export default {
     },
     addDiyApp() {
       let app = {
-        id: new Date().getDate(),
+        id: new Date().getTime(),
         name: this.diyApp.name,
         icon: this.diyApp.onlineIcon,
         app: '',
         link: formatLink(this.diyApp.link),
         background: this.diyApp.wordIconColor,
       }
+      console.log(app)
       this.$store.commit('addApp', app)
       this.diyApp = {
         link: defaultDiyApp.link,
@@ -314,11 +321,11 @@ export default {
   .app-installer {
     position: absolute;
     right: -30px;
-    top: -37px;
+    top: 0;
     width: 25px;
     height: 25px;
-    margin-left: 16px;
-    margin-top: 10px;
+    /*margin-left: 16px;*/
+    /*margin-top: 10px;*/
     cursor: pointer;
   }
   .app-input {
@@ -394,5 +401,11 @@ export default {
     text-align: left;
     font-size: 20px;
     margin-bottom: 25px;
+  }
+  .preview {
+    top: 50%;
+    background: #2da2df;
+    overflow: hidden;
+    border-radius: 100%;
   }
 </style>

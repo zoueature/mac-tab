@@ -113,12 +113,6 @@ export default {
   computed: {
     userApps() {
       let list =  this.$store.getters.pageApps
-      let that = this
-      list.forEach((page) => {
-        page.forEach((app) => {
-          app.click = that.openApp(app.app)
-        })
-      })
       return list
     }
   },
@@ -148,7 +142,6 @@ export default {
         this.wheelIndex = 0
       }
       let wheelIndex = this.wheelIndex
-      console.log(wheelIndex)
       setTimeout(
           () => {
             if (this.wheelIndex === wheelIndex) {
