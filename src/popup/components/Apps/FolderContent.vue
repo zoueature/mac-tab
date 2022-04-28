@@ -64,6 +64,10 @@ export default {
   ],
   methods: {
     closeFolder() {
+      if (this.modifyFolderName) {
+        this.modifyFolder()
+        return
+      }
       this.$store.commit('closeFolder')
     },
     move(e) {

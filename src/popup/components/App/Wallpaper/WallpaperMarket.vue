@@ -173,6 +173,7 @@ export default {
       limit: 34,
       cateList: data.categoryList,
       selectedCateId: data.categoryList[0].id,
+      showLoading: false
     }
   }
 }
