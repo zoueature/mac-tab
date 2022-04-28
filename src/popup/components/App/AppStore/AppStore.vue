@@ -35,8 +35,8 @@
           <div class="app-installer" @click="install(app)" v-if="!app.installed">
             <img src="../../../../assets/icon/download.png" alt="">
           </div>
-          <div class="app-installer" @click="remove(app)" v-else>
-            <img src="../../../../assets/icon/delete.png" alt="">
+          <div class="app-installer"  v-else>
+            <img src="../../../../assets/icon/gou_white.png" alt="">
           </div>
         </div>
       </div>
