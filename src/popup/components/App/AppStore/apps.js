@@ -133,7 +133,7 @@ const apps = [
     {
         id: 38,
         name: "IconFont",
-        icon: "https://img.alicdn.com/imgextra/i3/O1CN01Mn65HV1FfSEzR6DKv_!!6000000000514-55-tps-228-59.svg",
+        icon: "https://img.alicdn.com/imgextra/i4/O1CN01EYTRnJ297D6vehehJ_!!6000000008020-55-tps-64-64.svg",
         app: '',
         link: 'https://www.iconfont.cn/',
         categoryId: 1,
