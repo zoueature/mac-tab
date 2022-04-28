@@ -25,7 +25,7 @@
       </div>
       <div class="app-item"  v-for="app in selectedApp" :key="app.id">
         <div class="app-container">
-          <div class="app-icon">
+          <div class="app-icon" @click="preview(app)">
             <img :src="app.icon" alt="">
           </div>
           <div class="app-name">
@@ -33,13 +33,10 @@
           </div>
           <div class="app-desc">{{app.desc.substring(0, 14)}}</div>
           <div class="app-installer" @click="install(app)" v-if="!app.installed">
-            <img src="../../../../assets/icon/download.png" alt="" style="width: 100%; height: 100%">
+            <img src="../../../../assets/icon/download.png" alt="">
           </div>
           <div class="app-installer" @click="remove(app)" v-else>
-            <img src="../../../../assets/icon/delete.png" alt="" style="width: 100%; height: 100%">
-          </div>
-          <div class="app-installer preview" @click="preview(app)" v-if="app.link !== '' && app.link !== undefined">
-            <img src="../../../../assets/icon/preview.png" alt="" style="width: 80%; height: 80%; margin-left: 10%; margin-top: 10%;">
+            <img src="../../../../assets/icon/delete.png" alt="">
           </div>
         </div>
       </div>
@@ -118,6 +115,9 @@ export default {
       this.installedApp[app.id] = false
     },
     preview(app) {
+      if (app.link === '' || app.link === undefined || app.link === null) {
+        return
+      }
       window.open(app.link, '_blank');
     },
     getWebsiteTitle() {
@@ -276,8 +276,9 @@ export default {
     height: 61%;
     position: relative;
     background: white;
-    margin-top: 34px;
-    margin-left: 5%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 7px;
   }
   .app-icon {
@@ -291,13 +292,26 @@ export default {
     left: 16px;
     background: white;
   }
-  .app-icon img {
+  .app-installer {
+    position: absolute;
+    right: 7px;
+    bottom: -17px;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    background: white;
+    border-radius: 100%;
+  }
+  .app-icon img, .app-installer img {
     border-radius: 7px;
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
     width: 80%;
     height: 80%;
     margin-left: 10%;
     margin-top: 10%;
+  }
+  .app-installer img {
+    border-radius: 100%;
   }
   .app-name {
     width: 70%;
@@ -317,16 +331,6 @@ export default {
     font-size: 10px;
     color: rgba(12, 16, 33, 0.71);
     font-weight: normal;
-  }
-  .app-installer {
-    position: absolute;
-    right: -30px;
-    top: 0;
-    width: 25px;
-    height: 25px;
-    /*margin-left: 16px;*/
-    /*margin-top: 10px;*/
-    cursor: pointer;
   }
   .app-input {
     width: 90%;
