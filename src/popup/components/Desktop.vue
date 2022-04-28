@@ -3,8 +3,9 @@
     <div class="cover">
     </div>
     <div class="blank-container">
-      <div class="notify-container">
+      <div class="notify-container" v-if="width > 900">
 <!--        <NewClock class="new-clock"/>-->
+        <NumberClock class="clock"></NumberClock>
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
@@ -35,7 +36,7 @@
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
-import NewClock from "@/popup/components/Clock/NewClock";
+import NewClock from "@/popup/components/App/Clock/NewClock";
 import Todo from "@/popup/components/App/Todo/TodoWidget";
 import Friday from "@/popup/components/Widgets/Friday";
 import Components from "@/popup/components/Components/Components";
@@ -44,6 +45,7 @@ import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
 import FolderContent from "@/popup/components/Apps/FolderContent";
+import NumberClock from "@/popup/components/App/Clock/NumberClock";
 
 /* eslint-disable */
 export default {
@@ -65,6 +67,7 @@ export default {
     RightDrawer,
     // Loading,
     FolderContent,
+    NumberClock,
   },
   methods: {
     showMenu(e) {
@@ -94,13 +97,17 @@ export default {
     },
   },
   mounted() {
-
+    window.onresize = () => {
+      this.width = document.body.clientWidth
+    }
   },
   created() {
+    this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
   },
   data() {
     return {
+      width: 0,
     }
   }
 }
@@ -126,10 +133,9 @@ export default {
     backdrop-filter: v-bind(blur);
     z-index: -100;
   }
-  .new-clock {
-    width: 160px;
-    height: 160px;
-    margin: 7% auto 0 auto;
+  .clock {
+    margin-top: 16px;
+    margin-bottom: 25px;
   }
   .blank-container {
     width: 100%;

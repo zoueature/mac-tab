@@ -72,7 +72,7 @@ export default {
 <style scoped>
   .components {
     width: 80%;
-    height: 95%;
+    height: 80%;
     margin: 3% auto 0 auto;
     overflow: scroll;
     border-radius: 10px;
