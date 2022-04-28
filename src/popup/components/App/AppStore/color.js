@@ -21,10 +21,10 @@ export default [
         color: '#CC3333'
     },
     {
-        color: '#FF0066'
+        color: '#ba004d'
     },
     {
-        color: '#FFFF00'
+        color: '#8b6f0a'
     },
     {
         color: '#222222'

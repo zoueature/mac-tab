@@ -36,7 +36,7 @@
             <img src="../../../../assets/icon/download.png" alt="">
           </div>
           <div class="app-installer"  v-else>
-            <img src="../../../../assets/icon/gou_white.png" alt="">
+            <img src="../../../../assets/icon/gou_white_fill.png" alt="">
           </div>
         </div>
       </div>
@@ -54,11 +54,17 @@
         <input placeholder="输入名称" v-model="diyApp.name">
       </div>
       <div class="select-app-icon">
-        <div class="app-icon-shower" :style="'background: ' + diyApp.wordIconColor">
+        <div class="app-icon-shower" :style="'background: '  + diyApp.wordIconColor" @click="diyApp.iconType = 'word'">
           {{diyApp.name.substring(0,2)}}
+          <div class="selected" v-if="diyApp.iconType === 'word'">
+            <img src="../../../../assets/icon/gou_white_fill.png" alt="" style="width: 100%; height: 100%; margin: 0; padding: 0">
+          </div>
         </div>
-        <div class="app-icon-shower">
-         <img :src="diyApp.onlineIcon" style="width: 100%; height: 100%" v-if="diyApp.onlineIcon !== ''">
+        <div class="app-icon-shower" v-if="diyApp.onlineIcon !== ''" @click="diyApp.iconType = 'img'">
+         <img :src="diyApp.onlineIcon" style="width: 100%; height: 100%" >
+          <div class="selected" v-if="diyApp.iconType === 'img'">
+            <img src="../../../../assets/icon/gou_white_fill.png" alt="" style="width: 100%; height: 100%; margin: 0; padding: 0">
+          </div>
         </div>
       </div>
       <div class="select-icon-color">
@@ -66,7 +72,12 @@
              :key="index"
              :style="'background: ' + color.color"
              @click="diyApp.wordIconColor = color.color"
-        ></div>
+        >
+          <img src="../../../../assets/icon/gou_white.png"
+               style="width: 50%; height: 50%; margin-left: 10%; margin-top: 25%;"
+               alt=""
+               v-if="diyApp.wordIconColor === color.color">
+        </div>
       </div>
       <div class="opt-container">
         <div class="submit-app" @click="addDiyApp">添加</div>
@@ -144,6 +155,10 @@ export default {
         app: '',
         link: formatLink(this.diyApp.link),
         background: this.diyApp.wordIconColor,
+        iconType: this.diyApp.iconType
+      }
+      if (app.iconType === '') {
+        app.iconType = 'word'
       }
       console.log(app)
       this.$store.commit('addApp', app)
@@ -180,6 +195,7 @@ export default {
         wordIcon: defaultDiyApp.wordIcon,
         wordIconColor: defaultDiyApp.wordIconColor,
         onlineIcon: defaultDiyApp.onlineIcon,
+        iconType: '',
       },
       colors: color,
     }
@@ -368,6 +384,7 @@ export default {
     font-weight: bolder;
     overflow: hidden;
     border-radius: 5px;
+    position: relative;
   }
   .select-icon-color {
     display: flex;
@@ -411,5 +428,15 @@ export default {
     background: #2da2df;
     overflow: hidden;
     border-radius: 100%;
+  }
+  .selected {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    /*background: red;*/
+  }
+  .selected img {
+    display: block;
   }
 </style>
