@@ -8,7 +8,15 @@
              @keyup.enter="search(50)"
              class="search-input"
       >
-      <div class="collection"></div>
+      <div class="wallpaper-website active">
+        <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
+      </div>
+      <div class="wallpaper-website">
+        <img src="https://www.pexels.com/favicon.ico" alt="" class="website-icon">
+      </div>
+      <div class="wallpaper-website">
+        <img src="https://www.unsplash.com/favicon.ico" alt="" class="website-icon">
+      </div>
     </div>
     <div class="wallpaper-market">
       <div class="wallpaper-category">
@@ -282,5 +290,22 @@ export default {
     margin-left: 16px;
     /*margin-top: 16px;*/
     border-radius: 7px;
+  }
+  .wallpaper-website {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: space-around;
+    border-radius: 7px;
+    margin-left: 2%;
+    color: white;
+    background: rgba(0, 0, 0, 0.55);
+    height: 37px;
+    width: 70px;
+  }
+  .website-icon {
+    overflow: hidden;
+    width: 25px;
+    height: 25px;
   }
 </style>
