@@ -22,5 +22,5 @@ function joinContent (element) {
 function updateBackground() {
     const div = document.createElement('div')
     div.className = 'dark-cover'
-    document.body.appendChild(div)
+    // document.body.appendChild(div)
 }

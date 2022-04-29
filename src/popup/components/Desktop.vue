@@ -28,7 +28,7 @@
     <div class="setting" @click="openSetting">
       <img src="../../assets/icon/setting.png" alt="setting" style="width: 100%; height: 100%">
     </div>
-    <button class="dark-cover" @click="dark">
+    <button @click="dark">
       sdaldaldal
     </button>
   </div>
@@ -78,7 +78,7 @@ export default {
     dark() {
       // todo 黑暗模式
       let a = new Darkmode()
-      a.showWidget()
+      // a.showWidget()
       console.log(a)
     },
     showMenu(e) {
