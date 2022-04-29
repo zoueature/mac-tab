@@ -2,11 +2,11 @@
   <div class="setting-app">
     <div class="title">设置</div>
     <div class="app-size-slider">
-      <p class="setting-title">APP大小</p>
-      <el-slider v-model="appSize" class="slider" :min="50" :max="80" @input="appSizeChange"></el-slider>
+      <span class="setting-title">图标大小</span>
+      <el-slider v-model="appSize" class="slider" :min="50" :max="80" @input="appSizeChange" size="small" input-size="small"></el-slider>
     </div>
     <div class="app-size-slider">
-      <p class="setting-title">每列APP个数</p>
+      <p class="setting-title">图标排数</p>
       <el-slider v-model="appColumnNum" class="slider" :min="7" :max="12" @input="appColumnNumChange"></el-slider>
     </div>
   </div>
@@ -47,8 +47,8 @@ export default {
 
 <style scoped>
   .setting-app {
-    padding-left: 10%;
-    width: 90%;
+    padding-left: 5%;
+    width: 95%;
     height: 100%;
     backdrop-filter: blur(100px);
     background: #ececec;
@@ -65,19 +65,20 @@ export default {
   }
   .setting-title {
     color: rgba(0, 0, 0, 0.56);
-    font-weight: bold;
-    font-size: 14px;
+    font-weight: normal;
+    font-size: 12px;
   }
   .slider {
     margin: 0 auto;
-    width: 100%;
+    width: 70%;
     height: 10px;
   }
   .app-size-slider {
+    display: flex;
     margin-top: 10px;
     width: 90%;
-    height: 10px;
+    height: 25px;
     text-align: left;
-  ;
+    align-items: center;
   }
 </style>

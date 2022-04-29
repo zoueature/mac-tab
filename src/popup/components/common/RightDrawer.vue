@@ -36,7 +36,7 @@ export default {
   .drawer-container {
     width: 100%;
     height: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     right: 0;
     z-index: 1000000;
@@ -47,6 +47,7 @@ export default {
     position: absolute;
     right: 0;
     /*position: fixed;*/
+
     /*top: 0;*/
     /*right: 0;*/
   }

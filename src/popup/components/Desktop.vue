@@ -28,10 +28,15 @@
     <div class="setting" @click="openSetting">
       <img src="../../assets/icon/setting.png" alt="setting" style="width: 100%; height: 100%">
     </div>
+    <button class="dark-cover" @click="dark">
+      sdaldaldal
+    </button>
   </div>
 </template>
 
 <script>
+import Darkmode from 'darkmode-js';
+
 
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
@@ -70,6 +75,12 @@ export default {
     NumberClock,
   },
   methods: {
+    dark() {
+      // todo 黑暗模式
+      let a = new Darkmode()
+      a.showWidget()
+      console.log(a)
+    },
     showMenu(e) {
       console.log(123, e)
     },
