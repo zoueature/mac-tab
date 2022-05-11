@@ -158,6 +158,7 @@ export default {
     white-space: nowrap;
     line-height: 34px;
     border-right: 1px solid rgba(0, 0, 0, 0.07);
+    margin-top: 5%;
   }
   .history-list {
     flex: 8;
