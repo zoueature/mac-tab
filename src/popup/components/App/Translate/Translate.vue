@@ -1,6 +1,6 @@
 <template>
   <div class="translate-app">
-    <iframe height="100%" width="100%" src="https://fanyi.youdao.com/" ></iframe>
+    <iframe height="100%" width="100%" src="https://translate.google.cn/" ></iframe>
   </div>
 </template>
 

@@ -4,8 +4,13 @@ export default {
     fsyncApp(state) {
         let allApp = []
         state.fmtApps.forEach((v) => {
-            v.forEach((app) => {
-                allApp.push(app)
+            v.forEach((app, i) => {
+                if (app.type === 'folder' && app.apps.length === 0) {
+                    console.log(app)
+                    v.splice(i, 1)
+                } else {
+                    allApp.push(app)
+                }
             })
         })
         state.userApps = allApp

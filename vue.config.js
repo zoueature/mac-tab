@@ -63,11 +63,12 @@ module.exports = {
     }
   },
   chainWebpack: config => {
-    config
-        .plugin('html').use(HtmlWebpackPlugin)
+    config.plugin('html').use(HtmlWebpackPlugin)
         .tap(args => {
           args.title= ''
           return args
         })
+    config.output.filename('js/[name].js').end()
+    config.output.chunkFilename('js/[name].js').end()
   }
 }

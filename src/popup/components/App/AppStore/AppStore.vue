@@ -7,7 +7,7 @@
       <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
            v-for="category in categoryList"
            :key="category.id"
-           @click="selectCategory(category.id)"
+           @click="selectCategory(category)"
       >
         <div class="category">
           <div class="category-icon">
@@ -20,24 +20,31 @@
       </div>
     </div>
     <div class="app-list" v-if="diyCategoryId !== selectedCategory">
-      <div class="app-item" v-for="app in selectedApp" :key="app.id">
-        <div class="app-icon">
-          <img :src="app.icon" alt="" style="width: 100%; height: 100%">
-        </div>
-        <div class="app-name">
-          <span>{{app.name}}</span>
-          <br/>
-          <span class="app-desc">{{app.desc.substring(0, 14)}}</span>
-        </div>
-        <div class="app-installer" @click="install(app)" v-if="!app.installed">
-          <img src="../../../../assets/icon/download.png" alt="" style="width: 100%; height: 100%">
-        </div>
-        <div class="app-installer" @click="remove(app)" v-else>
-          <img src="../../../../assets/icon/delete.png" alt="" style="width: 100%; height: 100%">
+      <div class="title">
+        {{selectedCategoryObj.name}}
+      </div>
+      <div class="app-item"  v-for="app in selectedApp" :key="app.id">
+        <div class="app-container">
+          <div class="app-icon" @click="preview(app)">
+            <img :src="app.icon" alt="">
+          </div>
+          <div class="app-name">
+            <span>{{app.name}}</span>
+          </div>
+          <div class="app-desc">{{app.desc.substring(0, 14)}}</div>
+          <div class="app-installer" @click="install(app)" v-if="!app.installed">
+            <img src="../../../../assets/icon/download.png" alt="">
+          </div>
+          <div class="app-installer"  v-else>
+            <img src="../../../../assets/icon/gou_white_fill.png" alt="">
+          </div>
         </div>
       </div>
     </div>
     <div v-else class="app-list">
+      <div class="title">
+        自定义应用
+      </div>
       <div class="app-input">
         <div>地址</div>
         <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle">
@@ -47,11 +54,17 @@
         <input placeholder="输入名称" v-model="diyApp.name">
       </div>
       <div class="select-app-icon">
-        <div class="app-icon-shower" :style="'background: ' + diyApp.wordIconColor">
+        <div class="app-icon-shower" :style="'background: '  + diyApp.wordIconColor" @click="diyApp.iconType = 'word'">
           {{diyApp.name.substring(0,2)}}
+          <div class="selected" v-if="diyApp.iconType === 'word'">
+            <img src="../../../../assets/icon/gou_white_fill.png" alt="" style="width: 100%; height: 100%; margin: 0; padding: 0">
+          </div>
         </div>
-        <div class="app-icon-shower">
-         <img :src="diyApp.onlineIcon" style="width: 100%; height: 100%" v-if="diyApp.onlineIcon !== ''">
+        <div class="app-icon-shower" v-if="diyApp.onlineIcon !== ''" @click="diyApp.iconType = 'img'">
+         <img :src="diyApp.onlineIcon" style="width: 100%; height: 100%" >
+          <div class="selected" v-if="diyApp.iconType === 'img'">
+            <img src="../../../../assets/icon/gou_white_fill.png" alt="" style="width: 100%; height: 100%; margin: 0; padding: 0">
+          </div>
         </div>
       </div>
       <div class="select-icon-color">
@@ -59,9 +72,16 @@
              :key="index"
              :style="'background: ' + color.color"
              @click="diyApp.wordIconColor = color.color"
-        ></div>
+        >
+          <img src="../../../../assets/icon/gou_white.png"
+               style="width: 50%; height: 50%; margin-left: 10%; margin-top: 25%;"
+               alt=""
+               v-if="diyApp.wordIconColor === color.color">
+        </div>
       </div>
-      <div class="submit-app" @click="addDiyApp">添加</div>
+      <div class="opt-container">
+        <div class="submit-app" @click="addDiyApp">添加</div>
+      </div>
     </div>
   </div>
 </template>
@@ -93,8 +113,9 @@ const defaultDiyApp = {
 export default {
   name: "AppStore",
   methods: {
-    selectCategory(categoryID) {
-      this.selectedCategory = categoryID
+    selectCategory(category) {
+      this.selectedCategory = category.id
+      this.selectedCategoryObj = category
     },
     install(app) {
       this.$store.commit('addApp', app)
@@ -103,6 +124,12 @@ export default {
     remove(app) {
       this.$store.commit('removeApp', app)
       this.installedApp[app.id] = false
+    },
+    preview(app) {
+      if (app.link === '' || app.link === undefined || app.link === null) {
+        return
+      }
+      window.open(app.link, '_blank');
     },
     getWebsiteTitle() {
       let that = this
@@ -122,13 +149,18 @@ export default {
     },
     addDiyApp() {
       let app = {
-        id: new Date().getDate(),
+        id: new Date().getTime(),
         name: this.diyApp.name,
         icon: this.diyApp.onlineIcon,
         app: '',
         link: formatLink(this.diyApp.link),
         background: this.diyApp.wordIconColor,
+        iconType: this.diyApp.iconType
       }
+      if (app.iconType === '') {
+        app.iconType = 'word'
+      }
+      console.log(app)
       this.$store.commit('addApp', app)
       this.diyApp = {
         link: defaultDiyApp.link,
@@ -151,6 +183,7 @@ export default {
   },
   data() {
     return {
+      selectedCategoryObj: null,
       selectedCategory: diyCategoryId,
       categoryList: apps.category,
       apps: apps.apps,
@@ -162,6 +195,7 @@ export default {
         wordIcon: defaultDiyApp.wordIcon,
         wordIconColor: defaultDiyApp.wordIconColor,
         onlineIcon: defaultDiyApp.onlineIcon,
+        iconType: '',
       },
       colors: color,
     }
@@ -200,11 +234,11 @@ export default {
   .category-item {
     width: 100%;
     height: 35px;
-    margin-top: 7px;
+    margin-top: 5px;
     cursor: pointer;
   }
   .category {
-    width: 80%;
+    width: 90%;
     height: 100%;
     margin: 0 auto;
     display: flex;
@@ -221,10 +255,10 @@ export default {
     height: 100%;
   }
   .category-name {
-    margin-left: 16px;
+    margin-left: 7px;
     line-height: 35px;
-    font-weight: bold;
-    font-size: 14px;
+    /*font-weight: bold;*/
+    font-size: 13px;
     color: rgba(0,0,0,0.77);
     white-space: nowrap;
   }
@@ -240,50 +274,79 @@ export default {
     overflow-y: scroll;
   }
   .app-item {
+    width: 44%;
+    margin-left: 5%;
+    margin-right: 1%;
+    height: 125px;
+    margin-bottom: 16px;
+    /*overflow: hidden;*/
+    text-align: left;
+    background: rgb(240, 240, 240);
+    border-radius: 7px;
+  }
+  .app-container:last-child {
+    margin-bottom: 100px;
+  }
+  .app-container {
+    width: 80%;
+    height: 61%;
     position: relative;
-    width: 46%;
-    margin-left: 2%;
-    margin-right: 2%;
-    height: 52px;
-    margin-top: 16px;
-    overflow: hidden;
+    background: white;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 7px;
   }
   .app-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     float: left;
+    overflow: hidden;
+    position: absolute;
     border-radius: 7px;
-    overflow: hidden;
-    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
-  }
-  .app-name {
-    width: 60%;
-    font-size: 14px;
-    /*font-weight: bolder;*/
-    margin-left: 16px;
-    float: left;
-    text-align: left;
-  }
-  .app-name span {
-    text-align: left;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .app-desc {
-    margin-top: 2px;
-    font-size: 10px;
-    color: rgba(12, 16, 33, 0.71);
-    font-weight: normal;
+    top: -25px;
+    left: 16px;
+    background: white;
   }
   .app-installer {
     position: absolute;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    margin-left: 16px;
-    margin-top: 10px;
+    right: 7px;
+    bottom: -17px;
+    width: 34px;
+    height: 34px;
     cursor: pointer;
+    background: white;
+    border-radius: 100%;
+  }
+  .app-icon img, .app-installer img {
+    border-radius: 7px;
+    box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+    width: 80%;
+    height: 80%;
+    margin-left: 10%;
+    margin-top: 10%;
+  }
+  .app-installer img {
+    border-radius: 100%;
+  }
+  .app-name {
+    width: 70%;
+    font-size: 14px;
+    height: 25px;
+    /*font-weight: bolder;*/
+    margin-left: 80px;
+    margin-top: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /*float: left;*/
+  }
+  .app-desc {
+    margin-top: 10px;
+    margin-left: 22px;
+    font-size: 10px;
+    color: rgba(12, 16, 33, 0.71);
+    font-weight: normal;
   }
   .app-input {
     width: 90%;
@@ -306,7 +369,7 @@ export default {
   .select-app-icon {
     width: 90%;
     margin: 0 auto;
-    margin-top: 25px;
+    /*margin-top: 25px;*/
   }
   .app-icon-shower {
     width: 70px;
@@ -321,13 +384,14 @@ export default {
     font-weight: bolder;
     overflow: hidden;
     border-radius: 5px;
+    position: relative;
   }
   .select-icon-color {
     display: flex;
     width: 90%;
     margin: 0 auto;
     height: 34px;
-    margin-top: 52px;
+    margin-top: 25px;
     clear: both;
     justify-content: space-between;
   }
@@ -336,9 +400,13 @@ export default {
     height: 25px;
     border-radius: 4px;
   }
-  .submit-app {
+  .opt-container {
+    width: 90%;
+    margin: 0 auto;
     margin-top: 70px;
-    width: 34%;
+  }
+  .submit-app {
+    width: 25%;
     height: 40px;
     /*margin-left: 5%;*/
     background: #42b983;
@@ -346,5 +414,29 @@ export default {
     font-size: 15px;
     line-height: 40px;
     color: white;
+  }
+  .title {
+    width: 90%;
+    margin: 0 auto;
+    font-weight: bold;
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 25px;
+  }
+  .preview {
+    top: 50%;
+    background: #2da2df;
+    overflow: hidden;
+    border-radius: 100%;
+  }
+  .selected {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    /*background: red;*/
+  }
+  .selected img {
+    display: block;
   }
 </style>

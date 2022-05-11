@@ -1,5 +1,5 @@
 <template>
-  <transition name="app" >
+  <transition name="app">
     <div id="app" v-if="showApp">
       <div class="app-container" @click.stop="">
         <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
@@ -41,7 +41,15 @@ export default {
     }
   },
   mounted() {
-    this.background = 'red'
+    let that = this
+    this.$nextTick(() => {
+      document.addEventListener('keyup', function (e) {
+        if (e.code === 'Escape') {
+          that.$store.commit('closeApp')
+          that.$store.commit('closeLoading')
+        }
+      })
+    })
   },
   computed: {
     showApp() {
@@ -66,7 +74,6 @@ export default {
     return {
       showIconTrigger: false,
       showMaxIcon: false,
-      background: ''
     }
   }
 }

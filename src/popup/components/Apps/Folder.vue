@@ -9,7 +9,13 @@
     >
       <div class="folder-icon">
         <div class="app-icon" v-for="element in folder.apps.slice(0, 4)" :key="element.id">
-          <img :src="element.icon" style="width: 100%; height: 100%" :alt="element.name">
+          <img :src="element.icon" style="width: 100%; height: 100%"
+               :alt="element.name"
+               @error="element.loadIconSucc=false"
+               v-if="element.loadIconSucc !== false && element.icon !== '' && element.icon !== undefined">
+          <div v-else class="icon-word-container" :style="'background: ' + (element.background !== undefined? element.background: 'blue') ">
+            {{element.name.substring(0, 1)}}
+          </div>
         </div>
       </div>
     </AppItem>
@@ -27,6 +33,14 @@ export default {
   props: [
       "folder"
   ],
+  mounted() {
+    console.log(this.folder)
+  },
+  data() {
+    return {
+      loadIconSucc: true,
+    }
+  }
 }
 </script>
 
@@ -47,5 +61,13 @@ export default {
     height: 70%;
     border-radius: 7px;
     overflow: hidden;
+  }
+  .icon-word-container {
+    color: white;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 2px;
+    align-items: center;
   }
 </style>

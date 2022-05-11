@@ -1,9 +1,5 @@
 <template>
   <div class="content_page">
-    content_page
-    <div class="content_page_main">
-      content_page_main
-    </div>
   </div>
 </template>
 
@@ -14,5 +10,16 @@ export default {
 </script>
 
 <style>
-
+  .dark-cover {
+    pointer-events: none;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    background: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000000;
+    width: 100%;
+    height: 100%;
+  }
 </style>

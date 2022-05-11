@@ -43,6 +43,14 @@ export default {
     installedAppID(state) {
         let result = {}
         state.userApps.forEach((v) => {
+            if (v.type === 'folder') {
+                v.apps.forEach(a => {
+                    result[a.id] = true
+                })
+            }
+            result[v.id] = true
+        })
+        state.dockApps.forEach(v => {
             result[v.id] = true
         })
         return result

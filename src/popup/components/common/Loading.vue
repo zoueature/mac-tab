@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-container" v-if="showLoading">
+  <div class="loading-container" v-if="show">
     <img src="../../../assets/icon/loading.gif" alt="">
   </div>
 </template>
@@ -7,11 +7,9 @@
 <script>
 export default {
   name: "LoadingCom",
-  computed: {
-    showLoading() {
-      return this.$store.getters.showLoading
-    }
-  }
+  props: [
+      "show"
+  ]
 }
 </script>
 

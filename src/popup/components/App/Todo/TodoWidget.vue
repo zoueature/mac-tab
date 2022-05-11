@@ -60,7 +60,7 @@ export default {
     height: 100%;
     backdrop-filter: blur(7px);
     overflow: hidden;
-    background: rgba(39, 142, 225, 0.7);
+    background: rgba(39, 142, 225, 0.88);
     position: absolute;
   }
   .todo-item {
