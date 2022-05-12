@@ -54,7 +54,8 @@ module.exports = {
     output: {
       filename: "js/[name].js"
     },
-    plugins
+    plugins,
+    devtool: 'inline-source-map'
   },
   // 配置 content.css
   css: {
