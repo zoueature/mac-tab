@@ -25,6 +25,7 @@ const routes = [
     { name: 'video', path: '/video', components: {app: ShortVideo}, },
     { name: 'weather', path: '/weather', components: {app: Weather}, },
     { name: 'history', path: '/history', components: {app: History}, },
+    { name: 'index', path: '/', components: {app: History}, },
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
