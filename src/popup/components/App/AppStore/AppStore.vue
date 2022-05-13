@@ -2,7 +2,7 @@
   <div class="appstore-app">
     <div class="app-category">
       <div class="search">
-        <input placeholder="搜索">
+        <input placeholder="搜索" v-model="keyword" @keyup.enter="search">
       </div>
       <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
            v-for="category in categoryList"
@@ -88,6 +88,8 @@
 
 <script>
 
+import {ElNotification} from "element-plus";
+
 function formatLink(link) {
   let requestLink = link
   if (requestLink.substring(0, 7) !== "http://" && requestLink.substring(0, 8) !== 'https://') {
@@ -113,6 +115,21 @@ const defaultDiyApp = {
 export default {
   name: "AppStore",
   methods: {
+    async search() {
+      let result = await this.$http.get("http://127.0.0.1:9090/appstore/search?keyword=" + this.keyword)
+      if (result.status === 200) {
+        ElNotification({
+          title: '搜索失败',
+          message: result.statusText,
+          type: 'error',
+          position: 'top-left',
+          duration: 2000,
+        })
+        return
+      }
+      console.log(result.data)
+      this.keyword = ''
+    },
     selectCategory(category) {
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
@@ -198,6 +215,7 @@ export default {
         iconType: '',
       },
       colors: color,
+      keyword: '',
     }
   }
 }

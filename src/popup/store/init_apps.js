@@ -16,7 +16,7 @@ export default [
                 size: 70,
                 name: "插件管理",
                 icon:"../../../assets/images/app/extension.png",
-                link:"chrome://history/",
+                link:"",
                 app: "extension"
             },
         ]

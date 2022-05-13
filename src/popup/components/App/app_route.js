@@ -11,6 +11,7 @@ import Setting from "@/popup/components/App/Setting/Setting";
 import Weather from "@/popup/components/App/Weather/Weather";
 import History from "@/popup/components/App/History/History";
 import WallpaperMarket from "@/popup/components/App/Wallpaper/WallpaperMarket";
+import Extension from "@/popup/components/App/Extension/Extension";
 
 const routes = [
     // ----------- app -------------
@@ -26,6 +27,7 @@ const routes = [
     { name: 'weather', path: '/weather', components: {app: Weather}, },
     { name: 'history', path: '/history', components: {app: History}, },
     { name: 'index', path: '/', components: {app: History}, },
+    { name: 'extension', path: '/extension', components: {app: Extension}, },
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
