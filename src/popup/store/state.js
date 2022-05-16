@@ -21,6 +21,7 @@ export default {
         },
         appSize: 70,
         appColumnNum: 10,
+        showComponents: true,
     },
     showSearchEngine: false,
 

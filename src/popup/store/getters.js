@@ -35,6 +35,9 @@ export default {
     wallpaper(state) {
         return state.config.wallpaper
     },
+    showComponents(state) {
+        return state.config.showComponents
+    },
 
     // ------------------- APPS ------------------------
     userApps(state) {

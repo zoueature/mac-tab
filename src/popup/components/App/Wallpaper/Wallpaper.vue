@@ -125,7 +125,7 @@ export default {
     overflow: hidden;
   }
   .config-set {
-    width: 430px;
+    width: 80%;
     height: 400px;
     text-align: left;
     margin: 34px auto 0 auto;
@@ -138,7 +138,8 @@ export default {
   }
   .wallpaper-shower {
     width: 100%;
-    height: 200px;
+    /*height: 200px;*/
+    padding-top: 47%;
     background-image: v-bind(backgroundImg);
     background-repeat: no-repeat;
     background-position: v-bind(size);
@@ -165,7 +166,7 @@ export default {
     overflow: hidden;
   }
   .cover-setting {
-    width: 430px;
+    width: 100%;
     height: 10px;
     margin-top: 10px;
     font-size: 12px !important;

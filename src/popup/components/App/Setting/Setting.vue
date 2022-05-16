@@ -9,6 +9,10 @@
       <p class="setting-title">图标排数</p>
       <el-slider v-model="appColumnNum" class="slider" :min="7" :max="12" @input="appColumnNumChange"></el-slider>
     </div>
+    <div class="app-size-slider">
+      <p class="setting-title">开启小组件</p>
+      <el-switch v-model="$store.getters.showComponents" />
+    </div>
   </div>
 </template>
 
