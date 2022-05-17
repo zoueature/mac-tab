@@ -1,5 +1,5 @@
 import keys from "@/popup/store/keys";
-
+/* eslint-disable */
 export default {
     fsyncApp(state) {
         let allApp = []
@@ -15,13 +15,28 @@ export default {
         })
         state.userApps = allApp
         localStorage.setItem(keys.userApp, JSON.stringify(allApp))
+        let val = {}
+        val[keys.userApp] = allApp
+        chrome.storage.local.set(val, function() {
+            console.log('Value is set to ' + val);
+        });
     },
     updateConfig(state, key, val) {
         state.config[key] = val
         localStorage.setItem(keys.config, JSON.stringify(state.config))
+        let storageVal = {}
+        storageVal[keys.config] = state.config
+        chrome.storage.local.set(storageVal, function() {
+            console.log('Value is set to ' + val);
+        });
     },
     updateConfigAndFsync(state, doSomething) {
         doSomething()
         localStorage.setItem(keys.config, JSON.stringify(state.config))
+        let storageVal = {}
+        storageVal[keys.config] = state.config
+        chrome.storage.local.set(storageVal, function() {
+            console.log('Value is set to ' + val);
+        });
     }
 }
