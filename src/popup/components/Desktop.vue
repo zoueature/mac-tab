@@ -3,7 +3,7 @@
     <div class="cover">
     </div>
     <div class="blank-container">
-      <div class="notify-container" v-if="width > 900">
+      <div class="notify-container" v-if="width > 900 && showComponent">
 <!--        <NewClock class="new-clock"/>-->
         <NumberClock class="clock"></NumberClock>
         <ComponentsCom/>
@@ -91,6 +91,9 @@ export default {
     }
   },
   computed: {
+    showComponent() {
+      return this.$store.getters.showComponents
+    },
     wallpaper() {
       return 'url(' + this.$store.getters.wallpaper.url + ')'
     },

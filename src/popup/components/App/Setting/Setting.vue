@@ -1,17 +1,17 @@
 <template>
   <div class="setting-app">
     <div class="title">设置</div>
-    <div class="app-size-slider">
+    <div class="app-config-slider">
       <span class="setting-title">图标大小</span>
       <el-slider v-model="appSize" class="slider" :min="50" :max="80" @input="appSizeChange" size="small" input-size="small"></el-slider>
     </div>
-    <div class="app-size-slider">
+    <div class="app-config-slider">
       <p class="setting-title">图标排数</p>
       <el-slider v-model="appColumnNum" class="slider" :min="7" :max="12" @input="appColumnNumChange"></el-slider>
     </div>
-    <div class="app-size-slider">
+    <div class="app-config-switch">
       <p class="setting-title">开启小组件</p>
-      <el-switch v-model="$store.getters.showComponents" />
+      <el-switch v-model="showComponent" @change="toggleComponent"/>
     </div>
   </div>
 </template>
@@ -34,9 +34,9 @@ export default {
     }
   },
   computed: {
-    // appSize() {
-    //  return this.$store.getters.appSize
-    // }
+    showComponent() {
+      return this.$store.getters.showComponents
+    }
   },
   methods: {
     appSizeChange(val) {
@@ -44,6 +44,9 @@ export default {
     },
     appColumnNumChange(val) {
       this.$store.commit('updateAppColumnNum', val)
+    },
+    toggleComponent(val) {
+      this.$store.commit('setShowComponent', val)
     }
   }
 }
@@ -77,12 +80,22 @@ export default {
     width: 70%;
     height: 10px;
   }
-  .app-size-slider {
+  .app-config-slider {
     display: flex;
-    margin-top: 10px;
+    margin-top: 16px;
     width: 90%;
     height: 25px;
     text-align: left;
+    align-items: center;
+  }
+  .app-config-switch {
+    display: flex;
+    margin-top: 16px;
+    width: 50%;
+    height: 25px;
+    text-align: left;
+    justify-content: space-between;
+    align-content: center;
     align-items: center;
   }
 </style>

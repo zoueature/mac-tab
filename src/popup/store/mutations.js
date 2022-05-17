@@ -49,6 +49,10 @@ export default {
         common.updateConfig(state, 'appColumnNum', num)
         // state.config.appSize = size
     },
+    setShowComponent(state, num) {
+        common.updateConfig(state, 'showComponents', num)
+        // state.config.appSize = size
+    },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {
             let position = state.config.wallpaper.position

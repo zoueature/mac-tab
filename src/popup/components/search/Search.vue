@@ -1,5 +1,5 @@
 <template>
-  <div class="search-item">
+  <div class="search-item" @keydown.up="selectSuggestIndex--" @keydown.down="selectSuggestIndex++">
     <div class="engine-selector">
       <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
         <div class="eng-icon">
@@ -25,7 +25,20 @@
       </transition>
     </div>
     <div class="input-item">
-      <input placeholder="输入搜索内容" v-model="keyword" class="search-input" @keyup.enter="search(keyword)">
+      <input placeholder="输入搜索内容"
+             v-model="keyword"
+             class="search-input"
+             @keyup.enter="search(keyword)"
+             @change="suggest(keyword)"
+             @input="showInput(keyword)">
+      <div v-if="suggestList.length > 0" class="suggest-container">
+        <div v-for="(suggest, index) in suggestList" :key="suggest"
+             :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
+             @click="selectNSearch(suggest)"
+        >
+          {{suggest}}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -74,15 +87,43 @@ export default {
           icon: "../../../assets/icon/bing.png",
           link: "https://www.bing.com/search?q="
         }
-      ]
+      ],
+      suggestList: [],
+      selectSuggestIndex: -1,
+    }
+  },
+  watch: {
+    keyword(val) {
+      this.suggest(val)
     }
   },
   methods: {
+    showInput(e) {
+      console.log(123, e)
+    },
+    selectNSearch(keyword) {
+      this.search(keyword)
+    },
     search(keyword) {
       if (keyword === "") {
         return
       }
+      if (this.selectSuggestIndex >= 0 && this.selectSuggestIndex < this.suggestList.length) {
+        keyword = this.suggestList[this.selectSuggestIndex]
+      }
       window.location.href=this.engine.link + keyword
+      this.keyword = ""
+      this.suggestList = []
+    },
+    async suggest(keyword) {
+      let url = "https://www.baidu.com/sugrec?prod=pc&from=pc_web&wd="
+      let result = await this.$http.get(url + keyword)
+      if (result.status === 200) {
+        this.suggestList = []
+        result.data.g.forEach(v => {
+          this.suggestList.push(v.q)
+        })
+      }
     },
     selectEng(eng) {
       this.engine = eng
@@ -99,20 +140,25 @@ export default {
     width: 100%;
     height: v-bind(heightSize);
     border-radius: 10px;
-    overflow: hidden;
     display: flex;
     box-shadow: 5px 5px 15px rgba(9, 9, 9, 0.24);
   }
   .input-item {
+    position: relative;
+    height: 100%;
     flex: 10;
   }
   .search-input {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
     width: 100%;
     height: 100%;
     outline: none;
-    border: none;
-    font-size: 16px;
+    border: 0;
+    font-size: 14px;
     padding-left: 7px;
+    border-radius: 0 10px 10px 0;
   }
   .engine-selector {
     height: 100%;
@@ -180,5 +226,23 @@ export default {
     color: #42b983;
     font-weight: bold;
     line-height: 26px;
+  }
+  .suggest-container {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    background: white;
+    z-index: 1000000;
+    overflow-x: scroll;
+    text-align: left;
+  }
+  .suggest-item {
+    padding-left: 5%;
+    margin-top: 2px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.8);
   }
 </style>
