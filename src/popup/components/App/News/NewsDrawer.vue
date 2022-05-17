@@ -1,11 +1,11 @@
 <template>
   <div class="news-drawer-container">
-    <div class="header-container">
-      <div class="news-header">
-        <div class="news-tab"><span>百度热搜</span></div>
-        <div class="news-tab">知乎热榜</div>
-      </div>
-    </div>
+<!--    <div class="header-container">-->
+<!--      <div class="news-header">-->
+<!--        <div class="news-tab"><span>百度热搜</span></div>-->
+<!--        <div class="news-tab">知乎热榜</div>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="news">
       <div class="news-item"
            v-for="(news, index) in newsList"
