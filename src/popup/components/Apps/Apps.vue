@@ -280,7 +280,7 @@ export default {
   transform: scale(0);
 }
 .apps-move {
-  transition: transform 0.5s;
+  transition: transform 160ms;
 }
 .apps-drag-move {
   transition: transform 0.1s;

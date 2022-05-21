@@ -120,32 +120,31 @@ export default {
     // 本地有数据时， 使用本地的localStorage的数据
     // 本地没有数据时， 使用预定义的初始化数据
     async initUserApps(state) {
-        await chrome.storage.local.get(keys.userApp, function(result) {
-            if (result !== null) {
-                state.userApps = result["user_installed_apps"]
-            }
-            let i = 0
-            let appLen = state.userApps.length
-            let appNumPerPage = config.appNumPerPage
-            /* eslint-disable */
-            let fmtApp = []
-            while (true) {
-                if (i >= appLen) {
-                    break
-                }
-                fmtApp.push(state.userApps.slice(i, i + appNumPerPage))
-                i += appNumPerPage
-            }
-            state.fmtApps = fmtApp
-            console.log(state.fmtApps)
-        });
-        console.log(7777777777777777)
-        // let localUserApps = localStorage.getItem(keys.userApp)
-        // let userApps = []
-        // if (localUserApps !== "" && localUserApps !== null) {
-        //     userApps = JSON.parse(localUserApps)
-        //     state.userApps = userApps
-        // }
+        // await chrome.storage.local.get(keys.userApp, function(result) {
+        //     if (result !== null) {
+        //         state.userApps = result["user_installed_apps"]
+        //     }
+        //     let i = 0
+        //     let appLen = state.userApps.length
+        //     let appNumPerPage = config.appNumPerPage
+        //     /* eslint-disable */
+        //     let fmtApp = []
+        //     while (true) {
+        //         if (i >= appLen) {
+        //             break
+        //         }
+        //         fmtApp.push(state.userApps.slice(i, i + appNumPerPage))
+        //         i += appNumPerPage
+        //     }
+        //     state.fmtApps = fmtApp
+        //     console.log(state.fmtApps)
+        // });
+        let localUserApps = localStorage.getItem(keys.userApp)
+        let userApps = []
+        if (localUserApps !== "" && localUserApps !== null) {
+            userApps = JSON.parse(localUserApps)
+            state.userApps = userApps
+        }
         let i = 0
         let appLen = state.userApps.length
         let appNumPerPage = config.appNumPerPage
