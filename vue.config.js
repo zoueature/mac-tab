@@ -1,6 +1,9 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require("path");
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
 
 // 复制文件到指定目录
 const copyFiles = [
@@ -26,7 +29,13 @@ const copyFiles = [
 const plugins = [
   new CopyWebpackPlugin({
     patterns: copyFiles
-  })
+  }),
+  AutoImport({
+    resolvers: [ElementPlusResolver()],
+  }),
+  Components({
+    resolvers: [ElementPlusResolver()],
+  }),
 ];
 
 // 页面文件

@@ -18,9 +18,13 @@
 
 <script>
 
+import {ElSlider, ElSwitch} from "element-plus"
+
 export default {
   name: "SettingCom",
   components: {
+    ElSlider,
+    ElSwitch,
   },
   created() {
     this.appSize = this.$store.getters.appSize
