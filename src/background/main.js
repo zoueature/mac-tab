@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import api from './api'
+import keys from "@/popup/store/keys";
 
 console.log('background is running')
 
@@ -25,4 +26,32 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             console.log('undefined do')
     }
     return true
+})
+
+chrome.contextMenus.create(
+    {
+        id: "jpnpacmaeaiopacmphlndcahkgbepmgm-123131",
+        title: "添加到主页",
+        visible: true,
+    },
+    () => {
+        console.log("create menu done")
+    }
+)
+chrome.contextMenus.onClicked.addListener((ev) => {
+    console.log(ev)
+    chrome.storage.local.get([keys.userApp], function(result) {
+        console.log(result);
+        let installedApp = result[keys.userApp]
+        installedApp.push({
+            id: new Date().getTime(),
+            title: "测试一下",
+            link: "https://www.google.com/search?q=dsa",
+        })
+        let storageVal = {}
+        storageVal[keys.userApp] = installedApp
+        chrome.storage.local.set(storageVal, function(result) {
+            console.log("add app success")
+        })
+    });
 })

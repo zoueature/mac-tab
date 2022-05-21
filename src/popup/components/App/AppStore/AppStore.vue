@@ -153,7 +153,8 @@ export default {
       if (this.diyApp.link !== "") {
         let requestLink = this.diyApp.link
         requestLink = formatLink(requestLink)
-        this.diyApp.onlineIcon = requestLink + "/favicon.ico"
+        let url = new URL(requestLink)
+        this.diyApp.onlineIcon = url.origin + "/favicon.ico"
         this.$http.get(requestLink).then((res) => {
           if (res.status === 200) {
             let title = utils.getTitleFromHTML(res.data)

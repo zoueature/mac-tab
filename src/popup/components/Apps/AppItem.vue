@@ -51,7 +51,7 @@ export default {
       return size + 'px'
     },
     iconSize() {
-      return Math.ceil(this.$store.getters.appSize * 0.8) + "px"
+      return Math.ceil(this.$store.getters.appSize * 0.7) + "px"
     },
     inEditApp() {
       return this.$store.getters.inEditApp
@@ -142,7 +142,7 @@ export default {
     height: v-bind(iconSize);
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 14px;
+    border-radius: 7px;
     backdrop-filter: blur(250px);
   }
   .icon-word-container {

@@ -17,7 +17,8 @@
     "bookmarks",
     "history",
     "alarms",
-    "management"
+    "management",
+    "storage"
   ],
   "background": {
     "service_worker": "js/background.js",
