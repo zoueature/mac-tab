@@ -38,6 +38,9 @@ export default {
     showComponents(state) {
         return state.config.showComponents
     },
+    searchEngine(state) {
+        return state.config.searchEngine
+    },
 
     // ------------------- APPS ------------------------
     userApps(state) {

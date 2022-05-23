@@ -53,6 +53,10 @@ export default {
         common.updateConfig(state, 'showComponents', num)
         // state.config.appSize = size
     },
+    setSearchEngine(state, engine) {
+        common.updateConfig(state, 'searchEngine', engine)
+        // state.config.appSize = size
+    },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {
             let position = state.config.wallpaper.position

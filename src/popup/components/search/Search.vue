@@ -3,7 +3,7 @@
     <div class="engine-selector">
       <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
         <div class="eng-icon">
-          <img :src="engine.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="engine.name">
+          <img :src="currentEng.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="currentEng.name">
         </div>
         <div class="more-icon" :style="expand ? 'transform: rotate(90deg)': ''">
           <img src="../../../assets/icon/down.png" style="width: 100%; height: 100%">
@@ -11,8 +11,8 @@
       </div>
       <transition name="englist">
         <div class="eng-list" v-if="expand">
-          <div v-for="eng in searchEngine" :key="eng.id">
-            <div class="eng-item" v-if="eng.id !== engine.id" @click="selectEng(eng)">
+          <div v-for="eng in searchEngine" :key="eng.identify">
+            <div class="eng-item" v-if="eng.identify !== $store.getters.searchEngine" @click="selectEng(eng.identify)">
               <div class="eng-img">
                 <img :src="eng.icon" :alt="eng.name">
               </div>
@@ -61,6 +61,18 @@ export default {
     },
     listHeight() {
       return Math.ceil(40 * (this.searchEngine-1)) + 'px'
+    },
+    currentEng() {
+      let engine = this.searchEngine[0]
+      let configEngineIdentify = this.$store.getters.searchEngine
+      for (let i = 0; i < this.searchEngine.length; i ++) {
+        if (configEngineIdentify === this.searchEngine[i].identify) {
+          engine = this.searchEngine[i]
+          break
+        }
+      }
+      // this.engine = engine
+      return engine
     }
   },
   data() {
@@ -72,18 +84,21 @@ export default {
         {
           id: 1,
           name: "Google",
+          identify: "google",
           icon: "../../../assets/icon/google.png",
           link: "https://www.google.com/search?q="
         },
         {
           id: 2,
           name: "百度",
+          identify: "baidu",
           icon: "../../../assets/icon/baidu.png",
           link: "https://www.baidu.com/s?wd="
         },
         {
           id: 3,
           name: "必应",
+          identify: "bing",
           icon: "../../../assets/icon/bing.png",
           link: "https://www.bing.com/search?q="
         }
@@ -111,7 +126,7 @@ export default {
       if (this.selectSuggestIndex >= 0 && this.selectSuggestIndex < this.suggestList.length) {
         keyword = this.suggestList[this.selectSuggestIndex]
       }
-      window.location.href=this.engine.link + keyword
+      window.location.href=this.currentEng.link + keyword
       this.keyword = ""
       this.suggestList = []
     },
@@ -126,7 +141,7 @@ export default {
       }
     },
     selectEng(eng) {
-      this.engine = eng
+      this.$store.commit("setSearchEngine", eng)
     }
   },
   created() {
