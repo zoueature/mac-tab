@@ -33,8 +33,8 @@ export default {
         },
         {
           id: 1,
-          component: "friday",
-          height: 100,
+          component: "news",
+          height: 200,
         },
         {
           id: 1,
