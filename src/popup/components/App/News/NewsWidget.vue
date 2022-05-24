@@ -4,7 +4,7 @@
       热点事件
     </div>
     <div v-for="(news, index) in newsList.slice(0, 25)" :key="index" @click.stop="gotoNews(news.detail)">
-      <div class="news-item">{{(index+1) + ":   " + news.title}}</div>
+      <div class="news-item">{{(index+1 < 10 ? '0' + (index+1) : index+1) + ":   " + news.title}}</div>
     </div>
   </div>
 </template>
