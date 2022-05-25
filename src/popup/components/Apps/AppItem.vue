@@ -83,13 +83,10 @@ export default {
           100
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
-        window.location.href = this.appLink
+        window.open(this.appLink, '_blank')
+        // window.location.href = this.appLink
         return;
       } else if (typeof this.app === "string" && this.app !== "") {
-        console.log({
-          name: this.app,
-          params: this.params,
-        })
         this.$router.replace({
           name: this.app,
           params: this.params,
