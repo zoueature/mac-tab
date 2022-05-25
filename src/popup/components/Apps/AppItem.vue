@@ -148,7 +148,7 @@ export default {
     overflow: hidden;
     border-radius: 25%;
     /*backdrop-filter: blur(250px);*/
-    background: #e5e5e5;
+    background: #d5d5d5;
   }
   .icon-word-container {
     color: white;

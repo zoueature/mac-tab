@@ -83,6 +83,6 @@ export default {
     align-content: center;
   }
   .news-item:hover {
-    background: white;
+    background: rgba(255, 255, 255, 0.52);
   }
 </style>
