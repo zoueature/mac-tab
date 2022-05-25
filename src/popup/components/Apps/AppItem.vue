@@ -143,14 +143,15 @@ export default {
     margin: 0 auto;
     overflow: hidden;
     border-radius: 7px;
-    backdrop-filter: blur(250px);
+    /*backdrop-filter: blur(250px);*/
+    background: #e5e5e5;
   }
   .icon-word-container {
     color: white;
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
     line-height: v-bind(iconSize);
   }
   .title-container {

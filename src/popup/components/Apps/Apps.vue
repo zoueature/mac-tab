@@ -29,6 +29,7 @@
               type: 'transition-group',
               name: !drag ? 'apps' : 'apps-drag'
             }"
+                                   v-bind="dragOptions"
                                    ghostClass="ghostClass"
                                    chosenClass="chosenClass"
                                    @start="start"
@@ -103,6 +104,9 @@ export default {
       wheelStartTime: 0,
       wheelIndex: 0,
       wheelScroll: false,
+      dragOptions: {
+        animation: 200,
+      }
     }
   },
   created() {
@@ -273,20 +277,17 @@ export default {
   align-items: center;
 }
 
-.apps-enter-active {
-  transition: all 500ms ease;
-}
-.apps-enter-from {
-  transform: scale(0);
-}
-.apps-move {
-  transition: transform 160ms;
-}
-.apps-drag-move {
-  transition: transform 0.1s;
-}
-.no-move {
-  transition: transform 0s;
-}
+/*.apps-enter-active {*/
+/*  transition: all 500ms ease;*/
+/*}*/
+/*.apps-enter-from {*/
+/*  transform: scale(0);*/
+/*}*/
+/*.apps-move {*/
+/*  !*transition: transform 160ms;*!*/
+/*}*/
+/*.no-move {*/
+/*  transition: transform 100ms;*/
+/*}*/
 
 </style>
