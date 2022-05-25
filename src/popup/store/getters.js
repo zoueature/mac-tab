@@ -38,6 +38,9 @@ export default {
     showComponents(state) {
         return state.config.showComponents
     },
+    darkModel(state) {
+        return state.config.darkModel
+    },
     searchEngine(state) {
         return state.config.searchEngine
     },

@@ -22,6 +22,7 @@ export default {
         appSize: 70,
         appColumnNum: 10,
         showComponents: true,
+        darkModel: false,
         searchEngine: "google",
     },
     showSearchEngine: false,
