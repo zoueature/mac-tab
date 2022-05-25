@@ -53,7 +53,7 @@ export default {
   .news-widget {
     width: 100%;
     height: 100%;
-    background: #00a6ff;
+    background: #02aee3;
     overflow-y: scroll;
   }
   .widget-title {
@@ -64,17 +64,25 @@ export default {
     padding-top: 7px;
     padding-left: 7px;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.88);
+    /*color: rgba(255, 255, 255, 0.88);*/
+    color: white;
   }
   .news-item {
     text-align: left;
     width: 90%;
     padding-left: 5%;
     padding-right: 5%;
-    font-size: 14px;
+    font-size: 13px;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-top: 7px;
-    color: rgba(0, 0, 0, 0.7);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: rgba(0, 0, 0, 0.52);
+    display: flex;
+    align-items: center;
+    align-content: center;
+  }
+  .news-item:hover {
+    background: white;
   }
 </style>
