@@ -2,7 +2,7 @@
   <div id="dock-item" @click="handler" :class="dockItemClass" @click.right.stop="startEditApp">
     <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
       <div v-if="type === 'app'" style="width: 100%; height: 100%;">
-        <img :src="icon" :alt="name" style="width: 100%; height: 100%;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
+        <img :src="icon" :alt="name" style="width: 100%; height: 100%; object-fit: cover;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
         <div v-else class="icon-word-container" :style="'background: ' + (background !== undefined? background: 'blue') ">
           {{name.substring(0, 3)}}
         </div>
@@ -56,6 +56,10 @@ export default {
     inEditApp() {
       return this.$store.getters.inEditApp
     },
+    iconWordSize() {
+      let size = this.$store.getters.appSize
+      return Math.ceil(size / 4) - 1 + "px"
+    }
   },
   methods: {
     startEditApp(ev) {
@@ -142,7 +146,7 @@ export default {
     height: v-bind(iconSize);
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 7px;
+    border-radius: 25%;
     /*backdrop-filter: blur(250px);*/
     background: #e5e5e5;
   }
@@ -151,7 +155,7 @@ export default {
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size: 20px;
+    font-size: v-bind(iconWordSize);
     line-height: v-bind(iconSize);
   }
   .title-container {
