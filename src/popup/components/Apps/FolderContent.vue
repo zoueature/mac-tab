@@ -37,7 +37,6 @@
                       :link="element.link"
                       :type="element.type"
                       :app="element.app"
-                      :params="element.params"
                       :click="element.click">
 
             </AppItem>

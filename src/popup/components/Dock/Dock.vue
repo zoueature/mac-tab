@@ -27,7 +27,6 @@
                   :type="element.type"
                   class="dock-item"
                  :app="element.app"
-                 :params="element.params"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
         />
       </template>

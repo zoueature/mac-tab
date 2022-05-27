@@ -20,6 +20,8 @@
 
 <script>
 
+import app_config from "@/popup/components/App/app_config";
+
 export default {
   name: "DockItem",
   props: [
@@ -33,7 +35,6 @@ export default {
     "background",
     "type",
     "app",
-    "params"
   ],
   created() {
     if (typeof this.click === "function") {
@@ -87,9 +88,14 @@ export default {
         // window.location.href = this.appLink
         return;
       } else if (typeof this.app === "string" && this.app !== "") {
+        let routeParams = app_config.appSize[this.app]
+        console.log(app_config.appSize)
+        if (routeParams === undefined) {
+          routeParams = {}
+        }
         this.$router.replace({
           name: this.app,
-          params: this.params,
+          params: routeParams,
         })
         this.$store.commit('openApp')
       }
