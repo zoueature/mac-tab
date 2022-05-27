@@ -55,7 +55,7 @@ export default {
   .json-app {
     width: 100%;
     height: 95%;
-    margin-top: 5%;
+    margin-top: 34px;
   }
   .input-container {
     width: 98%;

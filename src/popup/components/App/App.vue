@@ -86,7 +86,7 @@ export default {
     height: 100%;
     top: 0;
     z-index: 1000000000;
-    background: rgba(0, 0, 0, 0.52);
+    background: rgba(0, 0, 0, 0.70);
     overflow: hidden;
     min-width: 880px;
   }

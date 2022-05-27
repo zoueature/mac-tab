@@ -45,6 +45,10 @@ let appName = {
 let appSize = {
     [WallPaper]: {
         width: 40,
+    },
+    [Json]: {
+        width: 80,
+        height: 97,
     }
 }
 
