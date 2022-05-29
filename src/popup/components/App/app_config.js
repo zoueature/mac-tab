@@ -12,6 +12,7 @@ import WeatherApp from "@/popup/components/App/Weather/Weather";
 import HistoryApp from "@/popup/components/App/History/History";
 import WallpaperMarket from "@/popup/components/App/Wallpaper/WallpaperMarket";
 import ExtensionApp from "@/popup/components/App/Extension/Extension";
+import SearchApp from "@/popup/components/App/Search/Search";
 
 const Todo = "todo"
 const WallPaper = "wallpaper"
@@ -25,6 +26,7 @@ const Video = "video"
 const Weather = "weather"
 const History = "history"
 const Extension = "extension"
+const Search = "searcher"
 
 
 let appName = {
@@ -54,19 +56,20 @@ let appSize = {
 
 const routes = [
     // ----------- app -------------
-    { name: 'todo', path: '/todo', components: {app: TodoApp}, },
-    { name: 'wallpaper',path: '/wallpaper', components: {app: Wallpaper},},
-    { name: 'wallmarket', path: '/wallpaper-market', components: {app: WallpaperMarket},},
-    { name: 'calculator',path: '/calculator', components: {app: CalculatorApp}, },
-    { name: 'appstore',path: '/appstore', components: {app: AppStoreApp}, },
-    { name: 'note',path: '/note', components: {app: NoteApp}, },
-    { name: 'json', path: '/json', components: {app: JsonFormatter}, },
-    { name: 'translate', path: '/translate', components: {app: TranslateApp}, },
-    { name: 'video', path: '/video', components: {app: ShortVideo}, },
-    { name: 'weather', path: '/weather', components: {app: WeatherApp}, },
-    { name: 'history', path: '/history', components: {app: HistoryApp}, },
+    { name: Todo, path: '/todo', components: {app: TodoApp}, },
+    { name: WallPaper,path: '/wallpaper', components: {app: Wallpaper},},
+    { name: WallMarket, path: '/wallpaper-market', components: {app: WallpaperMarket},},
+    { name: Calculator,path: '/calculator', components: {app: CalculatorApp}, },
+    { name: Appstore,path: '/appstore', components: {app: AppStoreApp}, },
+    { name: Note,path: '/note', components: {app: NoteApp}, },
+    { name: Json, path: '/json', components: {app: JsonFormatter}, },
+    { name: Translate, path: '/translate', components: {app: TranslateApp}, },
+    { name: Video, path: '/video', components: {app: ShortVideo}, },
+    { name: Weather, path: '/weather', components: {app: WeatherApp}, },
+    { name: History, path: '/history', components: {app: HistoryApp}, },
     { name: 'index', path: '/', components: {app: History}, },
-    { name: 'extension', path: '/extension', components: {app: ExtensionApp}, },
+    { name: Extension, path: '/extension', components: {app: ExtensionApp}, },
+    { name: Search, path: '/search', components: {app: SearchApp}, },
 
     // ---------- drawer ------------
     { name: 'news', path: '/news', components: {drawer: NewsDrawer}, },
