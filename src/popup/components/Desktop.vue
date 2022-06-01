@@ -49,6 +49,8 @@ import RightDrawer from "@/popup/components/common/RightDrawer";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import NumberClock from "@/popup/components/App/Clock/NumberClock";
 
+const darkmode = new Darkmode();
+
 /* eslint-disable */
 export default {
   name: 'desk-top',
@@ -115,6 +117,17 @@ export default {
   created() {
     this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
+  },
+  beforeCreate() {
+      this.$store.watch((state, getter) => {
+        return getter.darkModel
+      }, (val) => {
+        if (val) {
+          darkmode.showWidget()
+          console.log(darkmode.isActivated())
+          console.log(darkmode)
+        }
+      })
   },
   data() {
     return {
