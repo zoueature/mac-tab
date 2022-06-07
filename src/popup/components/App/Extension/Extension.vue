@@ -90,6 +90,7 @@ export default {
     width: 100%;
     height: 95%;
     margin-top: 5%;
+    overflow-y: scroll;
   }
   .extension-item {
     width: 90%;
@@ -104,6 +105,9 @@ export default {
     align-content: flex-start;
     border-radius: 2px;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.16);
+  }
+  .extension-item:last-child {
+    margin-bottom: 25px;
   }
   .extension-info {
     display: flex;
