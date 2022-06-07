@@ -122,8 +122,7 @@ export default {
     margin-left: 16px;
     border-radius: 100%;
     overflow: hidden;
-    background: rgba(0, 0, 255, 0.76);
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(193, 192, 192, 0.7);
   }
   .extension-name {
     margin-left: 16px;
