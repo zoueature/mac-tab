@@ -22,6 +22,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         case "getExtension":
             api.getExtension(sendResponse, request.param)
             break
+        case "enableExtension":
+            api.setExtensionEnableStatus(sendResponse, request.param.id, true)
+            break
+        case "disableExtension":
+            api.setExtensionEnableStatus(sendResponse, request.param.id, false)
+            break
         default:
             console.log('undefined do')
     }
