@@ -23,6 +23,20 @@ export default {
 </script>
 
 <style>
+
+/* todo 可配置化*/
+html {
+  transition: color 300ms, background-color 300ms;
+}
+
+html {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+img, .wallpaper-item{
+  filter: invert(1) hue-rotate(180deg);
+}
+
 body {
   user-select: none;
   margin: 0;
