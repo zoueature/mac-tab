@@ -6,7 +6,7 @@
   "action": {
     "default_title": "YangDesktop",
     "default_icon": "assets/images/logo.png",
-    "default_popup": "popup.html"
+    "default_popup": "menu.html"
   },
   "chrome_url_overrides": {
     "newtab": "popup.html"
