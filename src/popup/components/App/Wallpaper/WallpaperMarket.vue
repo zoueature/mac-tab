@@ -34,7 +34,7 @@
       >
         <div class="wallpaper-list">
           <Loading :show="showLoading"></Loading>
-          <div class="wallpaper-item"
+          <div class="wallpaper-item no-need-dark"
                v-for="(wallpaper, index) in wallpapers"
                :key="wallpaper"
                @mouseenter="hover(index)"

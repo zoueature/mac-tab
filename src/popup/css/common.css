@@ -1,3 +1,16 @@
 .active {
     background: #00c3ff !important;
 }
+
+.dark-mode {
+    filter: invert(1) hue-rotate(180deg) !important;
+    transition: color 300ms, background-color 300ms !important;
+}
+
+.dark-mode img {
+    filter: invert(1) hue-rotate(180deg) !important;;
+}
+
+.dark-mode .no-need-dark {
+    filter: invert(1) hue-rotate(180deg) !important;
+}

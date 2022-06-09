@@ -1,6 +1,6 @@
 <template>
-  <div id="desktop-background">
-    <div class="cover">
+  <div id="desktop-background" :class="desktopClass">
+    <div :class="coverClass">
     </div>
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent">
@@ -84,6 +84,22 @@ export default {
     }
   },
   computed: {
+    desktopClass() {
+      let isDark = this.$store.getters.darkModel
+      let cls = 'no-need-dark'
+      if (isDark) {
+        cls = "dark-mode " + cls
+      }
+      return cls
+    },
+    coverClass() {
+      let isDark = this.$store.getters.darkModel
+      let cls = 'cover'
+      if (isDark) {
+        cls += ' no-need-dark'
+      }
+      return cls
+    },
     showComponent() {
       return this.$store.getters.showComponents
     },
@@ -110,15 +126,15 @@ export default {
     this.$store.commit('initCommonConfig')
   },
   beforeCreate() {
-      this.$store.watch((state, getter) => {
-        return getter.darkModel
-      }, (val) => {
-        if (val) {
-          darkmode.showWidget()
-          console.log(darkmode.isActivated())
-          console.log(darkmode)
-        }
-      })
+      // this.$store.watch((state, getter) => {
+      //   return getter.darkModel
+      // }, (val) => {
+      //   if (val) {
+      //     darkmode.showWidget()
+      //     console.log(darkmode.isActivated())
+      //     console.log(darkmode)
+      //   }
+      // })
   },
   data() {
     return {
@@ -134,12 +150,6 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
-    background-image: v-bind(wallpaper);
-    /*background-size: auto 100%;*/
-    background-repeat: no-repeat;
-    background-position: v-bind(size);
-    background-size: v-bind(position);
-    /*background: rgb(0,0,0,0.1);*/
   }
   .cover {
     width: 100%;
@@ -147,6 +157,12 @@ export default {
     position: fixed;
     backdrop-filter: v-bind(blur);
     z-index: -100;
+    background-image: v-bind(wallpaper);
+    /*background-size: auto 100%;*/
+    background-repeat: no-repeat;
+    background-position: v-bind(size);
+    background-size: v-bind(position);
+    /*background: rgb(0,0,0,0.1);*/
   }
   .clock {
     margin-top: 16px;

@@ -1,7 +1,7 @@
 <template>
   <div class="wallpaper-app">
     <div class="config-set">
-      <div class="wallpaper-shower" @mouseenter="hoverWallpaper=true" @mouseleave="hoverWallpaper=false">
+      <div class="wallpaper-shower no-need-dark" @mouseenter="hoverWallpaper=true" @mouseleave="hoverWallpaper=false">
         <div v-if="!hoverWallpaper" class="cover" :style=" 'backdrop-filter: ' + backgroundBlur"></div>
         <div v-else class="cover" style="cursor: pointer">
           <div class="set-wallpaper" @click="$router.push({name: 'wallmarket'})">

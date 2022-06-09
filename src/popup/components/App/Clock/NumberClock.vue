@@ -65,7 +65,7 @@ export default {
     justify-content: center;
     font-size: 52px;
     font-weight: bolder;
-    color: white;
+    color: #222222;
   }
   .date-shower {
     position: absolute;
@@ -82,7 +82,7 @@ export default {
   }
   .date-shower {
     font-size: 16px;
-    color: white;
+    color: #222222;
     font-weight: bold;
   }
 </style>

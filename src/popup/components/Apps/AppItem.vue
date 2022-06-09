@@ -1,6 +1,6 @@
 <template>
   <div id="dock-item" @click="handler" :class="dockItemClass" @click.right.stop="startEditApp">
-    <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
+    <div class="icon-container" :style="iconBorder ? 'border: 1px solid rgba(255, 255, 255, 0.45);': '' ">
       <div v-if="type === 'app'" style="width: 100%; height: 100%;">
         <img :src="icon" :alt="name" style="width: 100%; height: 100%; object-fit: cover;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
         <div v-else class="icon-word-container" :style="'background: ' + (background !== undefined? background: 'blue') ">
@@ -139,10 +139,10 @@ export default {
     transform: scale(1.5);
   }
   .border {
-    border: 1px solid #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.45);
   }
   .white {
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.45);
   }
   .icon-container {
     width: v-bind(iconSize);
@@ -152,6 +152,7 @@ export default {
     border-radius: 25%;
     /*backdrop-filter: blur(250px);*/
     background: #d5d5d5;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
   }
   .icon-word-container {
     color: white;

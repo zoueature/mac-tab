@@ -9,16 +9,15 @@ function getHistory(sendResponse) {
     // return result
 }
 
-function getAllHistory(container, endTime) {
-    chrome.history.search({text: "", maxResults: 100, endTime: endTime}, (items) => {
-        console.log(items)
-        if (items.length === 0) {
-            return
-        }
-        endTime = items[items.length-1].lastVisitTime
+async function getAllHistory(container, endTime) {
+    let param = {text: "", maxResults: 1000000, startTime: 0, endTime: endTime}
+    console.log(param)
+    chrome.history.search(param, (items) => {
+        console.log(items[items.length - 1])
         container.push.apply(container, items)
-        getAllHistory(container, endTime)
+        // getAllHistory(container, items[items.length - 1].lastVisitTime)
     })
+    // console.log(1231231321)
 }
 
 function getExtension(sendResponse) {

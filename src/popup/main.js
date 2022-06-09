@@ -5,7 +5,7 @@ import {createRouter, createWebHashHistory} from "vue-router";
 import appCfg from "./components/App/app_config"
 // import ElementPlus from 'element-plus'
 // import 'element-plus/dist/index.css'
-// import './css/common.css'
+import './css/common.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
