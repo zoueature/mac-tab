@@ -1,0 +1,11 @@
+html {
+    filter: invert(1) hue-rotate(180deg) !important;
+    transition: color 300ms, background-color 300ms !important;
+}
+
+img {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
+video {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
