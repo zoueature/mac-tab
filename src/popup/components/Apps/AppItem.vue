@@ -152,7 +152,7 @@ export default {
     border-radius: 25%;
     /*backdrop-filter: blur(250px);*/
     background: #d5d5d5;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
+    /*box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);*/
   }
   .icon-word-container {
     color: black;
