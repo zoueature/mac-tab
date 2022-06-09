@@ -155,7 +155,7 @@ export default {
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);
   }
   .icon-word-container {
-    color: white;
+    color: black;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -165,7 +165,7 @@ export default {
   .title-container {
     margin-top: 3px;
     font-size: 12px;
-    color: white;
+    color: black;
     #font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
