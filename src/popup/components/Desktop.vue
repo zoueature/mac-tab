@@ -32,9 +32,6 @@
 </template>
 
 <script>
-import Darkmode from 'darkmode-js';
-
-
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
@@ -48,8 +45,6 @@ import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import NumberClock from "@/popup/components/App/Clock/NumberClock";
-
-const darkmode = new Darkmode();
 
 /* eslint-disable */
 export default {
@@ -75,10 +70,6 @@ export default {
   },
   methods: {
     dark() {
-      const darkmode =  new Darkmode();
-      darkmode.toggle();
-      darkmode.showWidget()
-      console.log(darkmode.isActivated()) // will return true
     },
     showMenu(e) {
       console.log(123, e)
