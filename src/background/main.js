@@ -2,6 +2,7 @@
 
 import api from './api'
 import keys from "@/popup/store/keys";
+import extension from "@/chrome/extension";
 
 console.log('background is running')
 
@@ -28,8 +29,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         case "disableExtension":
             api.setExtensionEnableStatus(sendResponse, request.param.id, false)
             break
+        case "getSelfExtension":
+            extension.getSelf(sendResponse)
+            break
         default:
-            console.log('undefined do')
+            console.log('undefined do ' + request.do)
     }
     return true
 })

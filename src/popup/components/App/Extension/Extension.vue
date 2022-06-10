@@ -10,7 +10,7 @@
           <span class="extension-desc">{{extension.description.substring(0, 37)}}</span>
         </div>
       </div>
-      <el-switch v-model="extension.enabled" @change="toggleEnable(extension)"/>
+      <el-switch v-model="extension.enabled" @change="toggleEnable(extension)" :disabled="selfID === extension.id"/>
     </div>
   </div>
 </template>
@@ -40,6 +40,7 @@ updateUrl: "https://clients2.google.com/service/update2/crx"
 version: "0.6.2"*/
 
 import {ElSwitch} from "element-plus";
+import runtime from "@/chrome/runtime";
 
 /* eslint-disable */
 
@@ -50,6 +51,10 @@ export default {
   },
   created() {
     let that = this
+    runtime.requestChromeApi("getSelfExtension", function (item) {
+      that.selfID = item.id
+      console.log(item)
+    })
     chrome.runtime.sendMessage({
       do: "getExtension",
       param: {start: this.startTime, end: this.endTime}
@@ -60,6 +65,7 @@ export default {
   },
   data() {
     return {
+      selfID: '',
       extensions: [
 
       ]
