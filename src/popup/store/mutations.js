@@ -100,6 +100,15 @@ export default {
         }
         common.fsyncApp(state)
     },
+    addAppToLocal(state, app) {
+        state.userApps.push(app)
+        for (let i = 0; i < state.fmtApps.length; i ++) {
+            if (state.fmtApps[i].length < config.appNumPerPage) {
+                state.fmtApps[i].push(app)
+            }
+        }
+
+    },
     // removeApp 移除app
     removeApp(state, app) {
         state.userApps.forEach((v, i) => {
@@ -150,11 +159,10 @@ export default {
         let localUserApps = localStorage.getItem(keys.userApp)
         // let userApps = []
         if (localUserApps !== "" && localUserApps !== null) {
-            console.log(JSON.stringify(userApps))
-            userApps = JSON.parse(localUserApps)
-            console.log(JSON.stringify(userApps))
+            localUserApps = JSON.parse(localUserApps)
             state.userApps = userApps
         }
+        console.log(state.userApps)
         //state.userApps = userApps
         let i = 0
         let appLen = state.userApps.length

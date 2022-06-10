@@ -60,6 +60,8 @@ import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
+import runtime from "@/chrome/runtime"
+import event from "@/chrome/event"
 
 let hoverApp = {}
 let createFolderTrigger = 0
@@ -95,7 +97,7 @@ export default {
   ],
   beforeCreate() {
     // this.$store.commit('initUserApps')
-    // this.$store.dispatch('initApp')
+    this.$store.dispatch('initApp')
   },
   data() {
     return {
@@ -114,9 +116,16 @@ export default {
     // this.appSize = this.size
     // this.rowsNum = this.rows
     // this.columNum = this.columns
+    let that = this
+    runtime.listenMessage((request, sender, sendResponse) => {
+      console.log(request, sender, sendResponse)
+      if (request.event === event.EVENT_ADD_APP_IN_WEBSITE) {
+        that.$store.dispatch('addAppToLocal', request.data)
+      }
+    })
   },
   mounted() {
-    this.$store.dispatch('initApp')
+    // this.$store.dispatch('initApp')
   },
   computed: {
     userApps() {

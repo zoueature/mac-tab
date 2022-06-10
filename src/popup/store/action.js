@@ -13,5 +13,8 @@ export default {
                 context.commit("initUserApps", userApps)
             }
         });
+    },
+    addAppToLocal(context, app) {
+        context.commit("addAppToLocal", app)
     }
 }

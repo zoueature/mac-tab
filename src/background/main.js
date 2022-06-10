@@ -3,6 +3,8 @@
 import api from './api'
 import keys from "@/popup/store/keys";
 import extension from "@/chrome/extension";
+import runtime from "@/chrome/runtime"
+import event from "@/chrome/event"
 
 console.log('background is running')
 
@@ -66,7 +68,9 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         let storageVal = {}
         storageVal[keys.userApp] = installedApp
         chrome.storage.local.set(storageVal, function(result) {
-            console.log("add app success")
+            runtime.sendMessage(event.EVENT_ADD_APP_IN_WEBSITE, app, function(response) {
+                console.log(response)
+            })
         })
     });
 })
