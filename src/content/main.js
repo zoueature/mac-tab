@@ -30,8 +30,8 @@ function updateBackground() {
             let html = document.getElementsByTagName('html')[0]
             html.style.filter = dark
             html.style.WebkitFilter = dark
-
-            console.log(html.style.filter)
+            let style = document.getElementsByTagName('style')[0]
+            style.textContent += "\nimg{filter: "+dark+"}"
             let img = document.querySelectorAll('img')
             for (let i = 0; i < img.length; i ++) {
                 img[i].style.filter = dark
