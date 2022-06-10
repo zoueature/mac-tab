@@ -127,7 +127,7 @@ export default {
     // initUserApps 初始化用户app
     // 本地有数据时， 使用本地的localStorage的数据
     // 本地没有数据时， 使用预定义的初始化数据
-    async initUserApps(state) {
+    initUserApps(state, userApps) {
         // await chrome.storage.local.get(keys.userApp, function(result) {
         //     if (result !== null) {
         //         state.userApps = result["user_installed_apps"]
@@ -148,11 +148,14 @@ export default {
         //     console.log(state.fmtApps)
         // });
         let localUserApps = localStorage.getItem(keys.userApp)
-        let userApps = []
+        // let userApps = []
         if (localUserApps !== "" && localUserApps !== null) {
+            console.log(JSON.stringify(userApps))
             userApps = JSON.parse(localUserApps)
+            console.log(JSON.stringify(userApps))
             state.userApps = userApps
         }
+        //state.userApps = userApps
         let i = 0
         let appLen = state.userApps.length
         let appNumPerPage = config.appNumPerPage
@@ -164,6 +167,7 @@ export default {
             state.fmtApps.push(state.userApps.slice(i, i + appNumPerPage))
             i += appNumPerPage
         }
+        console.log(state.fmtApps)
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true

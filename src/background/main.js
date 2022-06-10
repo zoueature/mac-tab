@@ -48,16 +48,21 @@ chrome.contextMenus.create(
         console.log("create menu done")
     }
 )
-chrome.contextMenus.onClicked.addListener((ev) => {
-    console.log(ev)
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    console.log(info, tab)
+    let app = {
+        app: "",
+        background: "#CC3333",
+        icon: tab.favIconUrl,
+        id: new Date().getTime(),
+        link: tab.url,
+        name: tab.title,
+        type: "app",
+    }
     chrome.storage.local.get([keys.userApp], function(result) {
-        console.log(result);
         let installedApp = result[keys.userApp]
-        installedApp.push({
-            id: new Date().getTime(),
-            title: "测试一下",
-            link: "https://www.google.com/search?q=dsa",
-        })
+        installedApp.push(app)
         let storageVal = {}
         storageVal[keys.userApp] = installedApp
         chrome.storage.local.set(storageVal, function(result) {

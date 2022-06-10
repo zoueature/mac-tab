@@ -94,7 +94,8 @@ export default {
     'columns'
   ],
   beforeCreate() {
-    this.$store.commit('initUserApps')
+    // this.$store.commit('initUserApps')
+    // this.$store.dispatch('initApp')
   },
   data() {
     return {
@@ -113,6 +114,9 @@ export default {
     // this.appSize = this.size
     // this.rowsNum = this.rows
     // this.columNum = this.columns
+  },
+  mounted() {
+    this.$store.dispatch('initApp')
   },
   computed: {
     userApps() {
