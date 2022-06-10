@@ -62,6 +62,7 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
+import utils from "@/popup/components/common/utils"
 
 let hoverApp = {}
 let createFolderTrigger = 0
@@ -121,6 +122,7 @@ export default {
       console.log(request, sender, sendResponse)
       if (request.event === event.EVENT_ADD_APP_IN_WEBSITE) {
         that.$store.dispatch('addAppToLocal', request.data)
+        utils.notify("AppStore", '"' + request.data.name + '"' + "    安装成功")
       }
     })
   },
