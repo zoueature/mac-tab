@@ -1,6 +1,6 @@
 <template>
-  <div class="clock">
-    <div class="time-shower">
+  <div class="clock no-need-dark">
+    <div class="time-shower ">
       {{time}}
       <span class="second-shower">{{second}}</span>
     </div>
@@ -65,7 +65,7 @@ export default {
     justify-content: center;
     font-size: 52px;
     font-weight: bolder;
-    color: #222222;
+    color: white;
   }
   .date-shower {
     position: absolute;
@@ -82,7 +82,7 @@ export default {
   }
   .date-shower {
     font-size: 16px;
-    color: #222222;
+    color: white;
     font-weight: bold;
   }
 </style>
