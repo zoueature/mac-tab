@@ -94,4 +94,14 @@ export default [
         icon: "../../../assets/images/app/weather.png",
         app: 'weather',
     },
+    {
+        id: 31,
+        type: 'app',
+        name: "壁纸市场",
+        icon: "../../../assets/images/app/wallpaper.png",
+        app: 'wallmarket',
+        params: {
+            width: 40,
+        }
+    },
 ]

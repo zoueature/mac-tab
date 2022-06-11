@@ -1,7 +1,7 @@
 <template>
   <div class="wallpaper-market-app">
     <div class="wallpaper-header">
-      <Back></Back>
+      <Back :height="20"></Back>
       <input placeholder="输入关键词"
              v-model="keyword"
              @submit="search(50)"
@@ -28,47 +28,45 @@
           {{category.name}}
         </div>
       </div>
-      <Scroller class="wrapper"
-                :data="wallpapers"
-                :get-data-handler="loadingData"
-      >
-        <div class="wallpaper-list">
-          <Loading :show="showLoading"></Loading>
-          <div class="wallpaper-item no-need-dark"
-               v-for="(wallpaper, index) in wallpapers"
-               :key="wallpaper"
-               @mouseenter="hover(index)"
-               @mouseleave="leave"
-               :style="'background-image: url(' + wallpaper.thumb + ')'"
-          >
-            <span class="copyright">{{wallpaper.copyright}}</span>
-            <div class="hover" v-if="index === hoverIndex">
-              <div class="set-button" @click="setWallpaper(wallpaper.url)">
-                <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
-              </div>
+      <ul v-infinite-scroll="loadingData" class="wallpaper-list">
+        <li class="wallpaper-item no-need-dark"
+             v-for="(wallpaper, index) in wallpapers"
+             :key="wallpaper"
+             @mouseenter="hover(index)"
+             @mouseleave="leave"
+             :style="'background-image: url(' + wallpaper.thumb + ')'"
+        >
+          <span class="copyright">{{wallpaper.copyright}}</span>
+          <div class="hover" v-if="index === hoverIndex">
+            <div class="set-button" @click="setWallpaper(wallpaper.url)">
+              <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
             </div>
           </div>
-        </div>
-      </Scroller>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import Scroller from "@/popup/components/common/Scroller";
 import data from "./wallpaper_list"
 import Back from "@/popup/components/common/Back";
-import Loading from "@/popup/components/common/Loading";
+// import Loading from "@/popup/components/common/Loading";
+
+
+const defaultActiveCateID = data.categoryList[0]
 
 export default {
   name: "WallpaperMarket",
   components:{
-    Scroller,
+    // Scroller,
     Back,
-    Loading,
+    // Loading,
+    // VInfiniteCcroll,
+    // ul,
   },
-  created() {
-    console.log(123)
+  mounted() {
+    this.selectCate(defaultActiveCateID)
   },
   methods: {
     async search() {
@@ -226,14 +224,9 @@ export default {
     font-size: 13px;
     color: white;
   }
-  .wrapper {
-    flex: 9;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-  }
   .wallpaper-list {
-    width: 100%;
+    /*width: 100%;*/
+    /*height: 300px;*/
     /*height: 100%;*/
     display: flex;
     /*justify-content: space-between;*/
@@ -241,6 +234,12 @@ export default {
     flex-wrap: wrap;
     padding-bottom: 10px;
     /*overflow: hidden;*/
+    align-content: flex-start;
+    list-style: none;
+    overflow-y: scroll;
+    flex: 11;
+    width: 50%;
+    height: 100%;
   }
   .wallpaper-item {
     position: relative;

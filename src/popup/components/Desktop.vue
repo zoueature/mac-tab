@@ -150,6 +150,12 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
+    background-image: v-bind(wallpaper);
+    /*background-size: auto 100%;*/
+    background-repeat: no-repeat;
+    background-position: v-bind(size);
+    background-size: v-bind(position);
+    /*background: rgb(0,0,0,0.1);*/
   }
   .cover {
     width: 100%;
@@ -157,11 +163,11 @@ export default {
     position: fixed;
     backdrop-filter: v-bind(blur);
     z-index: -100;
-    background-image: v-bind(wallpaper);
+    /*background-image: v-bind(wallpaper);*/
     /*background-size: auto 100%;*/
-    background-repeat: no-repeat;
+   /* background-repeat: no-repeat;
     background-position: v-bind(size);
-    background-size: v-bind(position);
+    background-size: v-bind(position);*/
     /*background: rgb(0,0,0,0.1);*/
   }
   .clock {
