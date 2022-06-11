@@ -101,7 +101,15 @@ export default {
           identify: "bing",
           icon: "../../../assets/icon/bing.png",
           link: "https://www.bing.com/search?q="
-        }
+        },
+        // https://www.so.com/s?q=cxz
+        {
+          id: 4,
+          name: "360搜索",
+          identify: "360",
+          icon: "https://s.ssl.qhimg.com/static/121a1737750aa53d.ico",
+          link: "https://www.so.com/s?q="
+        },
       ],
       suggestList: [],
       selectSuggestIndex: -1,
@@ -179,6 +187,7 @@ export default {
     height: 100%;
     background: white;
     flex: 1;
+    border-radius: 10px 0 0 10px;
   }
   .eng-show {
     width: v-bind(heightSize);
@@ -210,6 +219,7 @@ export default {
     padding-bottom: 25px;
     z-index: 1000000;
     cursor: pointer;
+    margin-top: 2px;
     /*z-index: 1000;*/
   }
   .englist-enter-active,
@@ -225,6 +235,9 @@ export default {
     width: 100%;
     height: 40px;
     margin-top: 10px;
+   /* display: flex;*/
+    justify-content: flex-start;
+    justify-items: start;
   }
   .eng-item div {
     float: left;
@@ -233,9 +246,11 @@ export default {
     width: 26px;
     height: 26px;
     margin-left: 9px;
-    margin-right: 10px;
+    margin-right: 16px;
   }
   .eng-name {
+    display: flex;
+    align-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #42b983;
