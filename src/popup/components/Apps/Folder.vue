@@ -2,13 +2,12 @@
   <div class="folder-app">
     <AppItem
         :id="folder.id"
-        :size="folder.size"
         :name="folder.name"
         :iconBorder=" true"
         :type="'folder'"
     >
       <div class="folder-icon">
-        <div class="app-icon" v-for="element in folder.apps.slice(0, 4)" :key="element.id">
+        <div class="app-icon" v-for="element in folder.apps" :key="element.id">
           <img :src="element.icon" style="width: 100%; height: 100%"
                :alt="element.name"
                @error="element.loadIconSucc=false"
