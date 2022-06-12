@@ -1,6 +1,6 @@
 <template>
   <div id="desktop-background" :class="desktopClass">
-    <div :class="coverClass">
+    <div class="no-need-dark cover">
     </div>
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent">
@@ -86,9 +86,9 @@ export default {
   computed: {
     desktopClass() {
       let isDark = this.$store.getters.darkModel
-      let cls = 'no-need-dark'
+      let cls = ''
       if (isDark) {
-        cls = "dark-mode " + cls
+        cls = "dark-mode "
       }
       return cls
     },
@@ -115,6 +115,13 @@ export default {
     blur() {
       return 'blur(' + this.$store.getters.wallpaper.blur + 'px' + ')'
     },
+    appContainerWidth() {
+      let widthPercent = 90
+      if (this.width < 900 || !this.showComponent) {
+        widthPercent = 80
+      }
+      return widthPercent + '%'
+    }
   },
   mounted() {
     window.onresize = () => {
@@ -204,18 +211,19 @@ export default {
     width: 70%;
     margin: 10% auto 0 auto;
     display: flex;
+    align-content: center;
+    align-items: center;
   }
   .news {
-    width: 34px;
-    height: 34px;
-    margin-left: 16px;
-    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+    margin-left: 25px;
   }
   .news:hover {
     cursor: pointer;
   }
   #apps-container {
-    width: 99%;
+    width: v-bind(appContainerWidth);
     height: 60%;
     margin: 5% auto 0 auto;
   }

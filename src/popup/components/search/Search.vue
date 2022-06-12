@@ -154,6 +154,14 @@ export default {
   },
   created() {
     this.engine = this.searchEngine[0]
+    let that = this
+    this.$nextTick(() => {
+      document.addEventListener('keyup', function (e) {
+        if (e.code === 'Escape') {
+          that.suggestList = []
+        }
+      })
+    })
   }
 }
 </script>
@@ -180,13 +188,13 @@ export default {
     outline: none;
     border: 0;
     font-size: 14px;
-    padding-left: 7px;
+    padding-left: 16px;
     border-radius: 0 10px 10px 0;
   }
   .engine-selector {
     height: 100%;
     background: white;
-    flex: 1;
+    /*flex: 1;*/
     border-radius: 10px 0 0 10px;
   }
   .eng-show {
@@ -262,9 +270,11 @@ export default {
     width: 100%;
     height: 300px;
     background: white;
+    margin-top: 2px;
     z-index: 1000000;
     overflow-x: scroll;
     text-align: left;
+    border-radius: 2px;
   }
   .suggest-item {
     padding-left: 5%;

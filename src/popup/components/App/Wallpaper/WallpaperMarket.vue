@@ -8,13 +8,13 @@
              @keyup.enter="search(50)"
              class="search-input"
       >
-      <div class="wallpaper-website active">
+      <div :class="originClass('baidu')" @click="selectOrigin('baidu')">
         <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
       </div>
-      <div class="wallpaper-website">
+      <div :class="originClass('pexels')" @click="selectOrigin('pexels')">
         <img src="https://www.pexels.com/favicon.ico" alt="" class="website-icon">
       </div>
-      <div class="wallpaper-website">
+      <div :class="originClass('unsplash')" @click="selectOrigin('unsplash')">
         <img src="https://www.unsplash.com/favicon.ico" alt="" class="website-icon">
       </div>
     </div>
@@ -68,6 +68,19 @@ export default {
   mounted() {
     this.selectCate(defaultActiveCateID)
   },
+  computed: {
+    originClass() {
+      let that = this
+      return function (origin) {
+        let cls = "wallpaper-website"
+        console.log(origin)
+        if (origin === that.origin) {
+          cls += " active"
+        }
+        return cls
+      }
+    }
+  },
   methods: {
     async search() {
       this.$store.commit('openLoading')
@@ -81,6 +94,10 @@ export default {
     },
     leave() {
       this.hoverIndex = -1
+    },
+    selectOrigin(origin) {
+      this.origin = origin
+      console.log(this.origin)
     },
     selectCate(category) {
       this.selectedCateId = category.id
@@ -102,9 +119,25 @@ export default {
     },
     async loadingData() {
       this.showLoading = true
-      let newList = await this.getData(this.limit)
+      let newList = []
+      if (this.origin === "baidu") {
+        newList = await this.getData(this.limit)
+      } else {
+        newList = await this.getWallpaper(this.origin)
+      }
       this.wallpapers.push(...newList)
       this.showLoading = false
+    },
+    async getWallpaper(origin) {
+      let result = await this.$http.get("http://127.0.0.1:9090/wallpaper/" + origin, {
+        params: {
+          keyword: this.keyword,
+          page:  1,
+          size: this.limit
+        }
+      })
+      console.log(result.data.data)
+      return result.data.data
     },
     async getData(size) {
       let list = []
@@ -170,6 +203,7 @@ export default {
   },
   data() {
     return {
+      origin: "baidu",
       hoverIndex: -1,
       wallpapers: [
       ],

@@ -1,7 +1,7 @@
 <template>
   <transition name="app">
-    <div id="app" v-if="showApp">
-      <div class="app-container" @click.stop="">
+    <div id="app" v-if="showApp" class="no-need-dark">
+      <div class="app-container no-need-dark" @click.stop="">
         <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
           <div class="close" @click="closeApp">
             <img v-if="showIconTrigger" src="../../../assets/icon/close.png" alt="">

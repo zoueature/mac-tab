@@ -61,6 +61,8 @@ export default {
     },
     toggleDarkModel(val) {
       this.$store.commit('setDarkModel', val)
+      // this.$store.commit('closeDrawer')
+      // window.location.reload()
     }
   }
 }
