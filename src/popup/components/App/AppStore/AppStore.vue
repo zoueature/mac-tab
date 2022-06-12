@@ -2,7 +2,7 @@
   <div class="appstore-app">
     <div class="app-category">
       <form class="search" @submit="search">
-        <input placeholder="搜索" v-model="keyword">
+        <input placeholder="输入关键词搜索" v-model="keyword">
       </form>
       <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
            v-for="category in categoryList"
@@ -254,8 +254,8 @@ export default {
   }
   .search {
     width: 100%;
-    height: 34px;
-    margin: 10px auto 10px auto;
+    height: 43px;
+    margin: 10px auto 25px auto;
   }
   .search input {
     width: 88%;
@@ -264,12 +264,12 @@ export default {
     border: none;
     outline: none;
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 14px;
     /*box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.35);*/
   }
   .category-item {
     width: 100%;
-    height: 35px;
+    height: 46px;
     margin-top: 5px;
     cursor: pointer;
   }
@@ -278,11 +278,10 @@ export default {
     height: 100%;
     margin: 0 auto;
     display: flex;
-    align-items: flex-start;
-    align-content: flex-start;
+    align-items: center;
+    align-content: center;
   }
   .category-icon {
-    margin-top: 5px;
     width: 25px;
     height: 25px;
   }
@@ -291,10 +290,9 @@ export default {
     height: 100%;
   }
   .category-name {
-    margin-left: 7px;
-    line-height: 35px;
+    margin-left: 14px;
     /*font-weight: bold;*/
-    font-size: 13px;
+    font-size: 14px;
     color: rgba(0,0,0,0.77);
     white-space: nowrap;
   }
@@ -389,7 +387,7 @@ export default {
     text-align: left;
     margin: 0 auto;
     font-size: 14px;
-    margin-bottom: 25px;
+    margin-bottom: 43px;
 
   }
   .app-input input {
@@ -427,7 +425,7 @@ export default {
     width: 90%;
     margin: 0 auto;
     height: 34px;
-    margin-top: 25px;
+    margin-top: 43px;
     clear: both;
     justify-content: space-between;
   }
