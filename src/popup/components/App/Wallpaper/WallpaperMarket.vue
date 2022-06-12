@@ -129,7 +129,7 @@ export default {
       this.showLoading = false
     },
     async getWallpaper(origin) {
-      let result = await this.$http.get("http://127.0.0.1:9090/wallpaper/" + origin, {
+      let result = await this.$http.get("/wallpaper/" + origin, {
         params: {
           keyword: this.keyword,
           page:  1,

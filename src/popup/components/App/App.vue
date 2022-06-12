@@ -1,7 +1,7 @@
 <template>
   <transition name="app">
-    <div id="app" v-if="showApp" class="no-need-dark">
-      <div class="app-container no-need-dark" @click.stop="">
+    <div id="app" v-if="showApp">
+      <div class="app-container" @click.stop="">
         <div class="app-title" @mouseenter="showIcon" @mouseleave="hiddenIcon">
           <div class="close" @click="closeApp">
             <img v-if="showIconTrigger" src="../../../assets/icon/close.png" alt="">
@@ -52,6 +52,13 @@ export default {
     })
   },
   computed: {
+    backgroundColor() {
+      let color = 'rgba(0, 0, 0, 0.70)'
+      if (this.$store.getters.darkModel) {
+          color = 'rgba(255, 255, 255, 0.70)'
+      }
+      return color
+    },
     showApp() {
       return this.$store.getters.showApp
     },
@@ -86,7 +93,7 @@ export default {
     height: 100%;
     top: 0;
     z-index: 1000000000;
-    background: rgba(0, 0, 0, 0.70);
+    background: v-bind(backgroundColor);
     overflow: hidden;
     min-width: 880px;
   }
@@ -102,7 +109,7 @@ export default {
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
-    background: rgb(250, 250, 250);
+    background: rgb(232, 232, 232);
   }
   .app-title {
     /*width: 100%;*/

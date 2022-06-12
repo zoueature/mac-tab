@@ -123,6 +123,7 @@ export default {
       if (request.event === event.EVENT_ADD_APP_IN_WEBSITE) {
         that.$store.dispatch('addAppToLocal', request.data)
         utils.notify("AppStore", '"' + request.data.name + '"' + "    安装成功")
+        that.$http.post('/admin/app/create', request.data)
       }
     })
   },

@@ -1,9 +1,9 @@
 <template>
   <div class="appstore-app">
     <div class="app-category">
-      <div class="search">
-        <input placeholder="搜索" v-model="keyword" @keyup.enter="search">
-      </div>
+      <form class="search" @submit="search">
+        <input placeholder="搜索" v-model="keyword">
+      </form>
       <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
            v-for="category in categoryList"
            :key="category.id"
@@ -14,14 +14,14 @@
             <img :src="category.icon" alt="">
           </div>
           <div class="category-name">
-            {{category.name}}
+            {{category?.name}}
           </div>
         </div>
       </div>
     </div>
     <div class="app-list" v-if="diyCategoryId !== selectedCategory">
       <div class="title">
-        {{selectedCategoryObj.name}}
+        {{selectedCategoryObj?.name}}
       </div>
       <div class="app-item"  v-for="app in selectedApp" :key="app.id">
         <div class="app-container">
@@ -112,12 +112,15 @@ const defaultDiyApp = {
   onlineIcon: '',
 }
 
+const searchCateIdentify = 'search'
+
 export default {
   name: "AppStore",
   methods: {
     async search() {
-      let result = await this.$http.get("http://127.0.0.1:9090/appstore/search?keyword=" + this.keyword)
-      if (result.status === 200) {
+      let that = this
+      let result = await this.$http.get("/app/search?keyword=" + this.keyword)
+      if (result.status !== 200) {
         ElNotification({
           title: '搜索失败',
           message: result.statusText,
@@ -127,8 +130,19 @@ export default {
         })
         return
       }
-      console.log(result.data)
-      this.keyword = ''
+      let apps = []
+      for (let key in result.data.data) {
+        let item = result.data.data[key]
+        apps.push({
+          id: item.id,
+          name: item.title,
+          icon: item.icon,
+          link: item.target,
+          desc: '', // todo fill it
+        })
+      }
+      that.apps[searchCateIdentify] = {list: apps}
+      that.selectedCategory = searchCateIdentify
     },
     selectCategory(category) {
       this.selectedCategory = category.id
@@ -192,10 +206,13 @@ export default {
   computed: {
     selectedApp() {
       let result = []
-      this.apps[this.selectedCategory].list.forEach((v) => {
-        v.installed = this.installedApp[v.id]
-        result.push(v)
-      })
+      for (let v in this.apps[this.selectedCategory].list) {
+        let item = this.apps[this.selectedCategory].list[v]
+        console.log(this.apps[this.selectedCategory].list)
+        item.installed = this.installedApp[item.id]
+        result.push(item)
+      }
+      console.log(result)
       return result
     }
   },
