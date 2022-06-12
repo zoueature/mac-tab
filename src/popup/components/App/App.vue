@@ -128,7 +128,7 @@ export default {
   .close, .max {
     width: 14px;
     height: 14px;
-    background: #ab0000;
+    background: rgb(255, 95, 92);
     border-radius: 100%;
     overflow: hidden;
     position: relative;
