@@ -9,6 +9,7 @@
           ref="apps"
           indicator-position="none"
           arrow="always"
+          :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
             <Draggable :list="pageApps"
