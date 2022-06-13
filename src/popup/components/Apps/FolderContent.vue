@@ -150,8 +150,8 @@ export default {
     width: 70%;
     height: 90%;
     border-radius: 10px;
-    backdrop-filter: blur(10px);
-    box-shadow: 1px 1px 10px white;
+    backdrop-filter: blur(25px);
+    box-shadow: 1px 1px 7px rgba(255, 255, 255, 0.16);
     background: rgba(0, 0, 0, 0.07);
     position: absolute;
     top: 0;
