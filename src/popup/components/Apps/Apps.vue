@@ -1,52 +1,42 @@
 <template>
   <div class="apps">
       <FolderContent ></FolderContent>
-      <swiper :pagination="{
-        dynamicBullets: true,
-      }"
-          :modules="modules"
-          @activeIndexChange="changePage"
-          :allowSlideNext="true"
-          @swiper="onSwiper"
-          :allowTouchMove="false"
-          @touchStart="touchStart"
-          @touchEnd="touchEnd"
+      <el-carousel
+          :autoplay="false"
+          @change="changePage"
           @wheel="scroll"
           class="apps"
-
+          ref="apps"
+          indicator-position="none"
+          arrow="always"
       >
-        <swiper-slide v-for="(pageApps, index) in userApps"
-                      :no-swiping="true"
-                      :key="index"
-
-        >
-            <Draggable
-                                   :list="pageApps"
-                                   item-key="id"
-                                   tag="transition-group"
-                                   :component-data="{
-              tag: 'div',
-              type: 'transition-group',
-              name: !drag ? 'apps' : 'apps-drag'
-            }"
-                                   v-bind="dragOptions"
-                                   ghostClass="ghostClass"
-                                   chosenClass="chosenClass"
-                                   @start="start"
-                                   @end="end"
-                                   :move="move"
-                                   group="apps"
-                                   class="app"
-                                   @add="add"
-                                   :sort="true"
-                                   id="apps"
+        <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
+            <Draggable :list="pageApps"
+                       item-key="id"
+                       tag="transition-group"
+                       :component-data="{
+                        tag: 'div',
+                        type: 'transition-group',
+                        name: !drag ? 'apps' : 'apps-drag'
+                      }"
+                       v-bind="dragOptions"
+                       ghostClass="ghostClass"
+                       chosenClass="chosenClass"
+                       @start="start"
+                       @end="end"
+                       :move="move"
+                       group="apps"
+                       class="app"
+                       @add="add"
+                       :sort="true"
+                       id="apps"
           >
             <template #item="{ element }">
               <AppContainer :app="element"/>
             </template>
         </Draggable>
-        </swiper-slide>
-      </swiper>
+        </el-carousel-item>
+      </el-carousel>
   </div>
 </template>
 
@@ -58,11 +48,12 @@ import "swiper/css/pagination";
 import { Pagination } from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
-import { Swiper, SwiperSlide } from "swiper/vue";
+// import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
 import utils from "@/popup/components/common/utils"
+import {ElCarousel, ElCarouselItem} from 'element-plus'
 
 let hoverApp = {}
 let createFolderTrigger = 0
@@ -72,19 +63,17 @@ let startDragPosition = {
   y: 0,
 }
 
-let moveOffset = {
-  x: 0,
-  y: 0,
-}
 
 export default {
   name: "AppCom",
   components: {
     Draggable,
     AppContainer,
-    Swiper,
-    SwiperSlide,
+    // Swiper,
+    // SwiperSlide,
     FolderContent,
+    ElCarousel,
+    ElCarouselItem,
   },
   setup() {
     return {
@@ -104,9 +93,6 @@ export default {
     return {
       drag: false,
       activeIndex: 0,
-      wheelCount: 0,
-      wheelStartTime: 0,
-      wheelIndex: 0,
       wheelScroll: false,
       dragOptions: {
         animation: 200,
@@ -114,9 +100,6 @@ export default {
     }
   },
   created() {
-    // this.appSize = this.size
-    // this.rowsNum = this.rows
-    // this.columNum = this.columns
     let that = this
     runtime.listenMessage((request, sender, sendResponse) => {
       console.log(request, sender, sendResponse)
@@ -128,6 +111,11 @@ export default {
     })
   },
   mounted() {
+    let that = this
+    setTimeout(function () {
+      console.log(that.$refs)
+      that.$refs.apps.setActiveItem(0)
+    }, 520)
     // this.$store.dispatch('initApp')
   },
   computed: {
@@ -137,41 +125,20 @@ export default {
     }
   },
   methods: {
-    onSwiper(swiper) {
-      this.swiper = swiper
-    },
-    touchStart(s, e) {
-      moveOffset.x = e.layerX
-      moveOffset.y = e.layerY
-    },
-    touchEnd(s, e) {
-      let diff = e.layerX - moveOffset.x
-      if (diff < -70) {
-        this.swiper.slideNext()
-      } else if (diff > 70) {
-        this.swiper.slidePrev()
-      }
-    },
     scroll( e) {
       e.preventDefault()
       e.stopPropagation()
-      // todo 滚轮翻页优化
-      this.wheelScroll = true
-      this.wheelIndex ++
-      if (this.wheelIndex > 100000000) {
-        this.wheelIndex = 0
+      console.log(e)
+      let that = this
+      let scrollVal = e.wheelDelta || e.detail
+      if (!that.timeOut)  {
+        that.timeOut = setTimeout(() => {
+          if (that.timeOut) {
+            scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
+          }
+          that.timeOut = false
+        }, 500)
       }
-      let wheelIndex = this.wheelIndex
-      setTimeout(
-          () => {
-            if (this.wheelIndex === wheelIndex) {
-              if (this.wheelScroll) {
-                e.wheelDeltaX > 0 ? this.swiper.slidePrev() : this.swiper.slideNext()
-              }
-              this.wheelScroll = false
-            }
-          }, 70
-      )
     },
     openApp(app) {
       let that = this
@@ -305,5 +272,10 @@ export default {
 /*.no-move {*/
 /*  transition: transform 100ms;*/
 /*}*/
-
+/*.el-carousel__arrow {*/
+/*  width: 52px !important;*/
+/*  height: 52px !important;*/
+/*  background: red;*/
+/*  */
+/*}*/
 </style>
