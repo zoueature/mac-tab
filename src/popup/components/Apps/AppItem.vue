@@ -9,7 +9,7 @@
       </div>
       <slot v-else></slot>
     </div>
-    <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
+    <div class="title-container no-need-dark" :style="'font-size: ' + (size/10) + 'px;'">
       {{name}}
     </div>
     <div class="delete-icon" v-if="inEditApp" @click.stop="removeApp">
@@ -165,7 +165,7 @@ export default {
   .title-container {
     margin-top: 3px;
     font-size: 12px;
-    color: black;
+    color: white;
     #font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
