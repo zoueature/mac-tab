@@ -60,6 +60,12 @@ export default {
     iconWordSize() {
       let size = this.$store.getters.appSize
       return Math.ceil(size / 4) - 1 + "px"
+    },
+    shake() {
+      if (!this.$store.getters.inEditApp) {
+        return ""
+      }
+      return 'shake 500ms infinite linear'
     }
   },
   methods: {
@@ -120,7 +126,7 @@ export default {
   #dock-item {
     width: v-bind(itemSize);
     height: v-bind(itemSize);
-    /*animation: shake 500ms infinite linear alternate;*/
+    animation: v-bind(shake);
     user-select: none;
     position: relative;
   }
@@ -177,7 +183,8 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
-    background: rgba(255, 0, 0, 0.88);
+    transform: translate(-25%, 0%);
+    background: rgb(255, 95, 92);
     border-radius: 100%;
     overflow: hidden;
   }

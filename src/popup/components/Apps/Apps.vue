@@ -3,6 +3,7 @@
       <FolderContent ></FolderContent>
       <el-carousel
           :autoplay="false"
+          :type="carouselType"
           @change="changePage"
           @wheel="scroll"
           class="apps"
@@ -123,6 +124,12 @@ export default {
     userApps() {
       let list =  this.$store.getters.pageApps
       return list
+    },
+    carouselType() {
+      if (this.drag) {
+        return 'card'
+      }
+      return ''
     }
   },
   methods: {
@@ -155,16 +162,15 @@ export default {
       }
       hoverApp = {}
       this.drag = true
-      this.swiper.disable()
     },
     end() {
-      this.swiper.enable()
       this.drag = false
       this.$store.commit('fsyncApp')
     },
     /* eslint-disable */
 
     move(ev) {
+      console.log(ev)
       let related = ev?.relatedContext?.element?? {};
       let dragged = ev?.draggedContext?.element?? {};
       if (dragged.type === 'folder') {
@@ -254,7 +260,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(auto-fit, 120px);
+  /*grid-template-rows: repeat(auto-fit, 120px);*/
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
