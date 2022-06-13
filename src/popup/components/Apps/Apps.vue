@@ -141,11 +141,14 @@ export default {
       let scrollVal = e.wheelDelta || e.detail
       if (!that.timeOut)  {
         that.timeOut = setTimeout(() => {
-          if (that.timeOut) {
+          // if (that.timeOut) {
             scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
-          }
-          that.timeOut = false
-        }, 500)
+          setTimeout(() => {
+            that.timeOut = false
+          }, 1000)
+          // }
+          // that.timeOut = false
+        }, 200)
       }
     },
     openApp(app) {
@@ -260,7 +263,7 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  /*grid-template-rows: repeat(auto-fit, 120px);*/
+  grid-template-rows: repeat(auto-fit, 100px);
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
