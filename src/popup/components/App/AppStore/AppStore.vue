@@ -31,7 +31,7 @@
           <div class="app-name">
             <span>{{app.name}}</span>
           </div>
-          <div class="app-desc">{{app.desc.substring(0, 14)}}</div>
+          <div class="app-desc">{{app.desc}}</div>
           <div class="app-installer" @click="install(app)" v-if="!app.installed">
             <img src="../../../../assets/icon/download.png" alt="">
           </div>
@@ -138,7 +138,7 @@ export default {
           name: item.title,
           icon: item.icon,
           link: item.target,
-          desc: '', // todo fill it
+          desc: item.desc,
         })
       }
       that.apps[searchCateIdentify] = {list: apps}
@@ -322,7 +322,7 @@ export default {
     margin-bottom: 100px;
   }
   .app-container {
-    width: 80%;
+    width: 90%;
     height: 61%;
     position: relative;
     background: white;
@@ -339,15 +339,14 @@ export default {
     position: absolute;
     border-radius: 7px;
     top: -25px;
-    left: 16px;
     background: white;
   }
   .app-installer {
     position: absolute;
-    right: 7px;
-    bottom: -17px;
-    width: 34px;
-    height: 34px;
+    right: 0px;
+    top: -25px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     background: white;
     border-radius: 100%;
@@ -364,23 +363,30 @@ export default {
     border-radius: 100%;
   }
   .app-name {
-    width: 70%;
+    width: 50%;
     font-size: 14px;
     height: 25px;
     /*font-weight: bolder;*/
-    margin-left: 80px;
+    margin-left: 64px;
     margin-top: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-weight: bold;
     /*float: left;*/
   }
   .app-desc {
+    width: 95%;
     margin-top: 10px;
-    margin-left: 22px;
+    margin-left: 5px;
     font-size: 10px;
-    color: rgba(12, 16, 33, 0.71);
+    color: rgba(12, 16, 33, 0.52);
     font-weight: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   .app-input {
     width: 90%;
