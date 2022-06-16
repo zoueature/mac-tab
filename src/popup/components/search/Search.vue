@@ -25,12 +25,13 @@
       </transition>
     </div>
     <div class="input-item">
-      <input placeholder="输入搜索内容"
-             v-model="keyword"
-             class="search-input"
-             @keyup.enter="search(keyword)"
-             @change="suggest(keyword)"
-             @input="showInput(keyword)">
+      <form action="" @submit="search" class="input-item">
+        <input placeholder="输入搜索内容"
+               v-model="keyword"
+               class="search-input"
+               @change="suggest(keyword)"
+               @input="showInput(keyword)">
+      </form>
       <div v-if="suggestList.length > 0" class="suggest-container">
         <div v-for="(suggest, index) in suggestList" :key="suggest"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
@@ -127,7 +128,10 @@ export default {
     selectNSearch(keyword) {
       this.search(keyword)
     },
-    search(keyword) {
+    search(e) {
+      console.log(e)
+      e.preventDefault()
+      let keyword = this.keyword
       if (keyword === "") {
         return
       }
@@ -277,7 +281,7 @@ export default {
     border-radius: 2px;
   }
   .suggest-item {
-    padding-left: 5%;
+    padding-left: 2%;
     margin-top: 2px;
     height: 30px;
     display: flex;

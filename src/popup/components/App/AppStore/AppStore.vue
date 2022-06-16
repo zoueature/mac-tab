@@ -117,7 +117,8 @@ const searchCateIdentify = 'search'
 export default {
   name: "AppStore",
   methods: {
-    async search() {
+    async search(e) {
+      e.preventDefault()
       let that = this
       let result = await this.$http.get("/app/search?keyword=" + this.keyword)
       if (result.status !== 200) {
