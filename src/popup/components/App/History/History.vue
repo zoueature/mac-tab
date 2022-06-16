@@ -74,13 +74,12 @@ export default {
         //   },
         let result = [
           {
-            date: "常用站点",
+            date: "最近常用站",
             list: [],
           }
         ]
         dateIndex = {
-
-          "常用站点": 0,
+          "最近常用站": 0,
         }
         response.forEach((v) => {
           let needSortMost = false
@@ -138,7 +137,7 @@ export default {
   data() {
     return {
       historyList: [],
-      selectedDate: '常用站点',
+      selectedDate: '最近常用站',
       startTime: 0,
       endTime: 0,
       // defaultImg: 'this.src="' + require('@/assets/images/logo.png') + '"',
@@ -157,14 +156,15 @@ export default {
     flex: 2;
     overflow: hidden;
     white-space: nowrap;
-    line-height: 34px;
-    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    /*border-right: 1px solid rgba(0, 0, 0, 0.07);*/
     margin-top: 5%;
+    overflow-y: scroll;
   }
   .history-list {
     flex: 8;
     overflow: hidden;
     overflow-y: scroll;
+    margin-top: 5%;
   }
   .history-list::-webkit-scrollbar {
     /*width: 2px;*/
@@ -178,8 +178,10 @@ export default {
     font-size: 15px;
     color: #282828;
     overflow: hidden;
-    height: 34px;
-    line-height: 34px;
+    height: 45px;
+    display: flex;
+    align-content: center;
+    align-items: center;
   }
   .history-item {
     display: flex;
@@ -192,8 +194,11 @@ export default {
     overflow: hidden;
     border-radius: 2px;
     flex: 0.5;
-    justify-content: center;
+    justify-content: flex-start;
     padding-left: 10px;
+    display: flex;
+    align-content: center;
+    align-items: center;
   }
   .history-icon img {
     width: 20px;
@@ -209,6 +214,9 @@ export default {
     font-size: 14px;
     font-weight: normal;
     text-align: left;
+    display: flex;
+    align-content: center;
+    align-items: center;
   }
   .history-time {
     flex: 1;

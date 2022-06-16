@@ -18,10 +18,10 @@ export default {
         let val = {}
         val[keys.userApp] = allApp
         chrome.storage.local.set(val, function() {
-            console.log(val);
+            // console.log(val);
         });
         chrome.storage.local.get([keys.userApp], function (res) {
-            console.log(res)
+            // console.log(res)
         });
     },
     updateConfig(state, key, val) {

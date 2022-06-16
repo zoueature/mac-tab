@@ -3,7 +3,6 @@
       <FolderContent ></FolderContent>
       <el-carousel
           :autoplay="false"
-          :type="carouselType"
           @change="changePage"
           @wheel="scroll"
           class="apps"
@@ -47,7 +46,7 @@
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Pagination } from "swiper";
+import {Pagination} from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
 // import { Swiper, SwiperSlide } from "swiper/vue";
@@ -111,6 +110,16 @@ export default {
         that.$http.post('/admin/app/create', request.data)
       }
     })
+    this.$store.watch((state, getter) => {
+      return getter.fmtApps
+    }, (val) => {
+      console.log(val)
+    })
+  },
+  watch: {
+    userApps(val) {
+      console.log(val)
+    }
   },
   mounted() {
     let that = this
@@ -122,8 +131,7 @@ export default {
   },
   computed: {
     userApps() {
-      let list =  this.$store.getters.pageApps
-      return list
+      return this.$store.getters.pageApps
     },
     carouselType() {
       if (this.drag) {

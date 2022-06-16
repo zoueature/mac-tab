@@ -192,7 +192,6 @@ export default {
       if (app.iconType === '') {
         app.iconType = 'word'
       }
-      console.log(app)
       this.$store.commit('addApp', app)
       this.diyApp = {
         link: defaultDiyApp.link,
@@ -208,11 +207,9 @@ export default {
       let result = []
       for (let v in this.apps[this.selectedCategory].list) {
         let item = this.apps[this.selectedCategory].list[v]
-        console.log(this.apps[this.selectedCategory].list)
         item.installed = this.installedApp[item.id]
         result.push(item)
       }
-      console.log(result)
       return result
     }
   },

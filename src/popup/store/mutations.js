@@ -92,11 +92,17 @@ export default {
             background: app.background,
             params: app.params,
         }
+        let success = false
         // state.userApps.push(app)
         for (let i = 0; i < state.fmtApps.length; i ++) {
             if (state.fmtApps[i].length < config.appNumPerPage) {
                 state.fmtApps[i].push(fmtApp)
+                break
             }
+        }
+        if (!success) {
+            // 所有页面都满了， 则新增页面
+            state.fmtApps.push([fmtApp])
         }
         common.fsyncApp(state)
     },
