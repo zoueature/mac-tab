@@ -16,7 +16,7 @@
           <img :src="history.icon" @error="setDefault(history)"/>
         </div>
         <div class="history-name">
-          {{history.title}}
+          {{history.title === "" ? history.url : history.title}}
         </div>
         <div class="history-time">
           {{history.time}}

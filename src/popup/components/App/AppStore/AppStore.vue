@@ -145,6 +145,30 @@ export default {
       that.apps[searchCateIdentify] = {list: apps}
       that.selectedCategory = searchCateIdentify
     },
+    async getAppCategoryList() {
+      let that = this
+      let result = await this.$http.get("/app/category")
+      if (result.status !== 200) {
+        ElNotification({
+          title: '获取app分类失败',
+          message: result.statusText,
+          type: 'error',
+          position: 'top-left',
+          duration: 2000,
+        })
+        return
+      }
+      let categoryList = []
+      for (let key in result.data.data) {
+        let item = result.data.data[key]
+        categoryList.push({
+          id: item.id,
+          name: item.title,
+          icon: item.icon,
+        })
+      }
+     that.categoryList = categoryList
+    },
     selectCategory(category) {
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
@@ -203,6 +227,9 @@ export default {
       }
     }
   },
+  created() {
+    this.getAppCategoryList()
+  },
   computed: {
     selectedApp() {
       let result = []
@@ -218,7 +245,7 @@ export default {
     return {
       selectedCategoryObj: null,
       selectedCategory: diyCategoryId,
-      categoryList: apps.category,
+      categoryList: [],
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,

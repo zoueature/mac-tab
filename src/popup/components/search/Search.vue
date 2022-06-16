@@ -28,9 +28,7 @@
       <form action="" @submit="search" class="input-item">
         <input placeholder="输入搜索内容"
                v-model="keyword"
-               class="search-input"
-               @change="suggest(keyword)"
-               @input="showInput(keyword)">
+               class="search-input">
       </form>
       <div v-if="suggestList.length > 0" class="suggest-container">
         <div v-for="(suggest, index) in suggestList" :key="suggest"
