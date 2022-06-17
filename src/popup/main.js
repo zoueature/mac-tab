@@ -22,7 +22,7 @@ app.use(router)
 
 let http = axios.create({
     // baseURL: "http://127.0.0.1:9090"
-    baseURL: "http://47.243.117.37"
+    baseURL: "http://api.crazyman.ml"
 })
 app.config.globalProperties.$http = http
 // app.use(VueAxios, axios)
