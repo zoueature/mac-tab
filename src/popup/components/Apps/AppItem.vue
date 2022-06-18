@@ -130,6 +130,10 @@ export default {
     user-select: none;
     position: relative;
   }
+  #dock-item:hover{
+    transform: scale(1.1);
+    transition: 200ms;
+  }
   .click {
     transform: translate(2px, 2px);
   }
