@@ -209,7 +209,7 @@ export default {
 
   #search-container {
     width: 70%;
-    margin: 10% auto 0 auto;
+    margin: 7% auto 0 auto;
     display: flex;
     align-content: center;
     align-items: center;
@@ -224,7 +224,7 @@ export default {
   }
   #apps-container {
     width: v-bind(appContainerWidth);
-    height: 60%;
+    height: 70%;
     margin: 5% auto 0 auto;
   }
 

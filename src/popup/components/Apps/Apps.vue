@@ -296,4 +296,7 @@ export default {
 /*  background: red;*/
 /*  */
 /*}*/
+.el-carousel >>> .el-carousel__container {
+  height: 100%;
+}
 </style>
