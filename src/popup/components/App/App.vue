@@ -52,6 +52,13 @@ export default {
     })
   },
   computed: {
+    backgroundColor() {
+      let color = 'rgba(0, 0, 0, 0.70)'
+      if (this.$store.getters.darkModel) {
+          color = 'rgba(255, 255, 255, 0.70)'
+      }
+      return color
+    },
     showApp() {
       return this.$store.getters.showApp
     },
@@ -86,7 +93,7 @@ export default {
     height: 100%;
     top: 0;
     z-index: 1000000000;
-    background: rgba(0, 0, 0, 0.52);
+    background: v-bind(backgroundColor);
     overflow: hidden;
     min-width: 880px;
   }
@@ -102,7 +109,7 @@ export default {
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
-    background: rgb(250, 250, 250);
+    background: rgb(232, 232, 232);
   }
   .app-title {
     /*width: 100%;*/
@@ -121,7 +128,7 @@ export default {
   .close, .max {
     width: 14px;
     height: 14px;
-    background: #ab0000;
+    background: rgb(255, 95, 92);
     border-radius: 100%;
     overflow: hidden;
     position: relative;

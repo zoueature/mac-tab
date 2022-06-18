@@ -3,7 +3,7 @@
     <div class="engine-selector">
       <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
         <div class="eng-icon">
-          <img :src="engine.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="engine.name">
+          <img :src="currentEng.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="currentEng.name">
         </div>
         <div class="more-icon" :style="expand ? 'transform: rotate(90deg)': ''">
           <img src="../../../assets/icon/down.png" style="width: 100%; height: 100%">
@@ -11,8 +11,8 @@
       </div>
       <transition name="englist">
         <div class="eng-list" v-if="expand">
-          <div v-for="eng in searchEngine" :key="eng.id">
-            <div class="eng-item" v-if="eng.id !== engine.id" @click="selectEng(eng)">
+          <div v-for="eng in searchEngine" :key="eng.identify">
+            <div class="eng-item" v-if="eng.identify !== $store.getters.searchEngine" @click="selectEng(eng.identify)">
               <div class="eng-img">
                 <img :src="eng.icon" :alt="eng.name">
               </div>
@@ -25,12 +25,11 @@
       </transition>
     </div>
     <div class="input-item">
-      <input placeholder="输入搜索内容"
-             v-model="keyword"
-             class="search-input"
-             @keyup.enter="search(keyword)"
-             @change="suggest(keyword)"
-             @input="showInput(keyword)">
+      <form action="" @submit="search" class="input-item">
+        <input placeholder="输入搜索内容"
+               v-model="keyword"
+               class="search-input">
+      </form>
       <div v-if="suggestList.length > 0" class="suggest-container">
         <div v-for="(suggest, index) in suggestList" :key="suggest"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
@@ -61,6 +60,18 @@ export default {
     },
     listHeight() {
       return Math.ceil(40 * (this.searchEngine-1)) + 'px'
+    },
+    currentEng() {
+      let engine = this.searchEngine[0]
+      let configEngineIdentify = this.$store.getters.searchEngine
+      for (let i = 0; i < this.searchEngine.length; i ++) {
+        if (configEngineIdentify === this.searchEngine[i].identify) {
+          engine = this.searchEngine[i]
+          break
+        }
+      }
+      // this.engine = engine
+      return engine
     }
   },
   data() {
@@ -72,21 +83,32 @@ export default {
         {
           id: 1,
           name: "Google",
+          identify: "google",
           icon: "../../../assets/icon/google.png",
           link: "https://www.google.com/search?q="
         },
         {
           id: 2,
           name: "百度",
+          identify: "baidu",
           icon: "../../../assets/icon/baidu.png",
           link: "https://www.baidu.com/s?wd="
         },
         {
           id: 3,
           name: "必应",
+          identify: "bing",
           icon: "../../../assets/icon/bing.png",
           link: "https://www.bing.com/search?q="
-        }
+        },
+        // https://www.so.com/s?q=cxz
+        {
+          id: 4,
+          name: "360搜索",
+          identify: "360",
+          icon: "https://s.ssl.qhimg.com/static/121a1737750aa53d.ico",
+          link: "https://www.so.com/s?q="
+        },
       ],
       suggestList: [],
       selectSuggestIndex: -1,
@@ -104,14 +126,17 @@ export default {
     selectNSearch(keyword) {
       this.search(keyword)
     },
-    search(keyword) {
+    search(e) {
+      console.log(e)
+      e.preventDefault()
+      let keyword = this.keyword
       if (keyword === "") {
         return
       }
       if (this.selectSuggestIndex >= 0 && this.selectSuggestIndex < this.suggestList.length) {
         keyword = this.suggestList[this.selectSuggestIndex]
       }
-      window.location.href=this.engine.link + keyword
+      window.location.href=this.currentEng.link + keyword
       this.keyword = ""
       this.suggestList = []
     },
@@ -126,11 +151,19 @@ export default {
       }
     },
     selectEng(eng) {
-      this.engine = eng
+      this.$store.commit("setSearchEngine", eng)
     }
   },
   created() {
     this.engine = this.searchEngine[0]
+    let that = this
+    this.$nextTick(() => {
+      document.addEventListener('keyup', function (e) {
+        if (e.code === 'Escape') {
+          that.suggestList = []
+        }
+      })
+    })
   }
 }
 </script>
@@ -157,13 +190,14 @@ export default {
     outline: none;
     border: 0;
     font-size: 14px;
-    padding-left: 7px;
+    padding-left: 16px;
     border-radius: 0 10px 10px 0;
   }
   .engine-selector {
     height: 100%;
     background: white;
-    flex: 1;
+    /*flex: 1;*/
+    border-radius: 10px 0 0 10px;
   }
   .eng-show {
     width: v-bind(heightSize);
@@ -195,6 +229,7 @@ export default {
     padding-bottom: 25px;
     z-index: 1000000;
     cursor: pointer;
+    margin-top: 2px;
     /*z-index: 1000;*/
   }
   .englist-enter-active,
@@ -210,6 +245,9 @@ export default {
     width: 100%;
     height: 40px;
     margin-top: 10px;
+   /* display: flex;*/
+    justify-content: flex-start;
+    justify-items: start;
   }
   .eng-item div {
     float: left;
@@ -218,9 +256,11 @@ export default {
     width: 26px;
     height: 26px;
     margin-left: 9px;
-    margin-right: 10px;
+    margin-right: 16px;
   }
   .eng-name {
+    display: flex;
+    align-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #42b983;
@@ -232,12 +272,14 @@ export default {
     width: 100%;
     height: 300px;
     background: white;
+    margin-top: 2px;
     z-index: 1000000;
     overflow-x: scroll;
     text-align: left;
+    border-radius: 2px;
   }
   .suggest-item {
-    padding-left: 5%;
+    padding-left: 2%;
     margin-top: 2px;
     height: 30px;
     display: flex;

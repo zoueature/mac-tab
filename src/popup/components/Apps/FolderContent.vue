@@ -37,7 +37,6 @@
                       :link="element.link"
                       :type="element.type"
                       :app="element.app"
-                      :params="element.params"
                       :click="element.click">
 
             </AppItem>
@@ -112,11 +111,19 @@ export default {
       return this.$store.getters.showFolder
     },
     folder() {
-      let that = this
-      let folder = this.$store.getters.activeFolder
-      folder.apps?.forEach((app) => {
-        app.click = that.openApp(app.app)
-      })
+      // let that = this
+      let folderInfo = this.$store.getters.activeFolder
+      console.log(folderInfo)
+      // folderInfo.apps.forEach((app) => {
+      //   app.click = that.openApp(app.app)
+      // })
+      if (typeof folderInfo.apps === "object") {
+        let apps = []
+        for (let key in folderInfo.apps) {
+          apps.push(folderInfo.apps[key])
+        }
+        folderInfo.apps = apps
+      }
 
       return this.$store.getters.activeFolder
     }
@@ -143,8 +150,8 @@ export default {
     width: 70%;
     height: 90%;
     border-radius: 10px;
-    backdrop-filter: blur(10px);
-    box-shadow: 1px 1px 10px white;
+    backdrop-filter: blur(25px);
+    box-shadow: 1px 1px 7px rgba(255, 255, 255, 0.16);
     background: rgba(0, 0, 0, 0.07);
     position: absolute;
     top: 0;

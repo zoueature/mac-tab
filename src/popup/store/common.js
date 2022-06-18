@@ -18,7 +18,10 @@ export default {
         let val = {}
         val[keys.userApp] = allApp
         chrome.storage.local.set(val, function() {
-            console.log('Value is set to ' + val);
+            // console.log(val);
+        });
+        chrome.storage.local.get([keys.userApp], function (res) {
+            // console.log(res)
         });
     },
     updateConfig(state, key, val) {
@@ -27,7 +30,6 @@ export default {
         let storageVal = {}
         storageVal[keys.config] = state.config
         chrome.storage.local.set(storageVal, function() {
-            console.log('Value is set to ' + val);
         });
     },
     updateConfigAndFsync(state, doSomething) {
@@ -36,7 +38,6 @@ export default {
         let storageVal = {}
         storageVal[keys.config] = state.config
         chrome.storage.local.set(storageVal, function() {
-            console.log('Value is set to ' + val);
         });
     }
 }

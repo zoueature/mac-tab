@@ -9,7 +9,6 @@
         :link="app.link"
         :click="app.click"
         :app="app.app"
-        :params="app.params"
         :background="app.background"
         :type="'app'"
     />
@@ -55,6 +54,7 @@ export default {
   },
   methods: {
     openFolder(app) {
+      console.log(app)
       this.$store.commit('openFolder', app)
     }
   }

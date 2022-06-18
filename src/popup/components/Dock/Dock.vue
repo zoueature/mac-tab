@@ -17,7 +17,8 @@
                 }"
     >
       <template #item="{ element }"  >
-        <AppItem :size="dockSize"
+        <AppContainer
+            :size="dockSize"
                  :id="element.id"
                   :icon="element.icon"
                   :name="element.name"
@@ -26,8 +27,7 @@
                   :hover="true"
                   :type="element.type"
                   class="dock-item"
-                 :app="element.app"
-                 :params="element.params"
+                 :app="element"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
         />
       </template>
@@ -39,14 +39,15 @@
 
 <script>
 
-import AppItem from "@/popup/components/Apps/AppItem";
+// import AppItem from "@/popup/components/Apps/AppItem";
+import AppContainer from "@/popup/components/Apps/AppContainer";
 import Draggable from "vuedraggable";
 
 export default {
   name: "dock-com",
   components: {
-    AppItem,
     Draggable,
+    AppContainer,
   },
   beforeCreate() {
     this.$store.commit('initDockApps')

@@ -1,15 +1,15 @@
 <template>
   <div id="dock-item" @click="handler" :class="dockItemClass" @click.right.stop="startEditApp">
-    <div class="icon-container" :style="iconBorder ? 'border: 1px solid white;': '' ">
+    <div class="icon-container" :style="iconBorder ? 'border: 1px solid rgba(255, 255, 255, 0.45);': '' ">
       <div v-if="type === 'app'" style="width: 100%; height: 100%;">
-        <img :src="icon" :alt="name" style="width: 100%; height: 100%;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
+        <img :src="icon" :alt="name" style="width: 100%; height: 100%; object-fit: cover;" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
         <div v-else class="icon-word-container" :style="'background: ' + (background !== undefined? background: 'blue') ">
           {{name.substring(0, 3)}}
         </div>
       </div>
       <slot v-else></slot>
     </div>
-    <div class="title-container" :style="'font-size: ' + (size/10) + 'px;'">
+    <div class="title-container no-need-dark" :style="'font-size: ' + (size/10) + 'px;'">
       {{name}}
     </div>
     <div class="delete-icon" v-if="inEditApp" @click.stop="removeApp">
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+
+import app_config from "@/popup/components/App/app_config";
 
 export default {
   name: "DockItem",
@@ -33,7 +35,6 @@ export default {
     "background",
     "type",
     "app",
-    "params"
   ],
   created() {
     if (typeof this.click === "function") {
@@ -56,6 +57,16 @@ export default {
     inEditApp() {
       return this.$store.getters.inEditApp
     },
+    iconWordSize() {
+      let size = this.$store.getters.appSize
+      return Math.ceil(size / 4) - 1 + "px"
+    },
+    shake() {
+      if (!this.$store.getters.inEditApp) {
+        return ""
+      }
+      return 'shake 500ms infinite linear'
+    }
   },
   methods: {
     startEditApp(ev) {
@@ -79,16 +90,18 @@ export default {
           100
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
-        window.location.href = this.appLink
+        window.open(this.appLink, '_blank')
+        // window.location.href = this.appLink
         return;
       } else if (typeof this.app === "string" && this.app !== "") {
-        console.log({
-          name: this.app,
-          params: this.params,
-        })
+        let routeParams = app_config.appSize[this.app]
+        console.log(app_config.appSize)
+        if (routeParams === undefined) {
+          routeParams = {}
+        }
         this.$router.replace({
           name: this.app,
-          params: this.params,
+          params: routeParams,
         })
         this.$store.commit('openApp')
       }
@@ -113,9 +126,13 @@ export default {
   #dock-item {
     width: v-bind(itemSize);
     height: v-bind(itemSize);
-    /*animation: shake 500ms infinite linear alternate;*/
+    animation: v-bind(shake);
     user-select: none;
     position: relative;
+  }
+  #dock-item:hover{
+    transform: scale(1.1);
+    transition: 200ms;
   }
   .click {
     transform: translate(2px, 2px);
@@ -132,25 +149,27 @@ export default {
     transform: scale(1.5);
   }
   .border {
-    border: 1px solid #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.45);
   }
   .white {
-    color: #FFFFFF;
+    color: rgba(255, 255, 255, 0.45);
   }
   .icon-container {
     width: v-bind(iconSize);
     height: v-bind(iconSize);
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 7px;
-    backdrop-filter: blur(250px);
+    border-radius: 25%;
+    /*backdrop-filter: blur(250px);*/
+    background: #d5d5d5;
+    /*box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);*/
   }
   .icon-word-container {
-    color: white;
+    color: black;
     width: 100%;
     height: 100%;
     text-align: center;
-    font-size: 25px;
+    font-size: v-bind(iconWordSize);
     line-height: v-bind(iconSize);
   }
   .title-container {
@@ -168,7 +187,8 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
-    background: rgba(255, 0, 0, 0.88);
+    transform: translate(-25%, 0%);
+    background: rgb(255, 95, 92);
     border-radius: 100%;
     overflow: hidden;
   }

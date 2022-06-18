@@ -1,51 +1,43 @@
 <template>
   <div class="apps">
       <FolderContent ></FolderContent>
-      <swiper :pagination="{
-        dynamicBullets: true,
-      }"
-          :modules="modules"
-          @activeIndexChange="changePage"
-          :allowSlideNext="true"
-          @swiper="onSwiper"
-          :allowTouchMove="false"
-          @touchStart="touchStart"
-          @touchEnd="touchEnd"
+      <el-carousel
+          :autoplay="false"
+          @change="changePage"
           @wheel="scroll"
           class="apps"
-
+          ref="apps"
+          indicator-position="none"
+          arrow="always"
+          :loop="false"
       >
-        <swiper-slide v-for="(pageApps, index) in userApps"
-                      :no-swiping="true"
-                      :key="index"
-
-        >
-            <Draggable
-                                   :list="pageApps"
-                                   item-key="id"
-                                   tag="transition-group"
-                                   :component-data="{
-              tag: 'div',
-              type: 'transition-group',
-              name: !drag ? 'apps' : 'apps-drag'
-            }"
-                                   ghostClass="ghostClass"
-                                   chosenClass="chosenClass"
-                                   @start="start"
-                                   @end="end"
-                                   :move="move"
-                                   group="apps"
-                                   class="app"
-                                   @add="add"
-                                   :sort="true"
-                                   id="apps"
+        <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
+            <Draggable :list="pageApps"
+                       item-key="id"
+                       tag="transition-group"
+                       :component-data="{
+                        tag: 'div',
+                        type: 'transition-group',
+                        name: !drag ? 'apps' : 'apps-drag'
+                      }"
+                       v-bind="dragOptions"
+                       ghostClass="ghostClass"
+                       chosenClass="chosenClass"
+                       @start="start"
+                       @end="end"
+                       :move="move"
+                       group="apps"
+                       class="app"
+                       @add="add"
+                       :sort="true"
+                       id="apps"
           >
             <template #item="{ element }">
               <AppContainer :app="element"/>
             </template>
         </Draggable>
-        </swiper-slide>
-      </swiper>
+        </el-carousel-item>
+      </el-carousel>
   </div>
 </template>
 
@@ -54,11 +46,15 @@
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { Pagination } from "swiper";
+import {Pagination} from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
-import { Swiper, SwiperSlide } from "swiper/vue";
+// import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
+import runtime from "@/chrome/runtime"
+import event from "@/chrome/event"
+import utils from "@/popup/components/common/utils"
+import {ElCarousel, ElCarouselItem} from 'element-plus'
 
 let hoverApp = {}
 let createFolderTrigger = 0
@@ -68,19 +64,17 @@ let startDragPosition = {
   y: 0,
 }
 
-let moveOffset = {
-  x: 0,
-  y: 0,
-}
 
 export default {
   name: "AppCom",
   components: {
     Draggable,
     AppContainer,
-    Swiper,
-    SwiperSlide,
+    // Swiper,
+    // SwiperSlide,
     FolderContent,
+    ElCarousel,
+    ElCarouselItem,
   },
   setup() {
     return {
@@ -93,65 +87,77 @@ export default {
     'columns'
   ],
   beforeCreate() {
-    this.$store.commit('initUserApps')
+    // this.$store.commit('initUserApps')
+    this.$store.dispatch('initApp')
   },
   data() {
     return {
       drag: false,
       activeIndex: 0,
-      wheelCount: 0,
-      wheelStartTime: 0,
-      wheelIndex: 0,
       wheelScroll: false,
+      dragOptions: {
+        animation: 200,
+      }
     }
   },
   created() {
-    // this.appSize = this.size
-    // this.rowsNum = this.rows
-    // this.columNum = this.columns
+    let that = this
+    runtime.listenMessage((request, sender, sendResponse) => {
+      console.log(request, sender, sendResponse)
+      if (request.event === event.EVENT_ADD_APP_IN_WEBSITE) {
+        that.$store.dispatch('addAppToLocal', request.data)
+        utils.notify("AppStore", '"' + request.data.name + '"' + "    安装成功")
+        that.$http.post('/admin/app/create', request.data)
+      }
+    })
+    this.$store.watch((state, getter) => {
+      return getter.fmtApps
+    }, (val) => {
+      console.log(val)
+    })
+  },
+  watch: {
+    userApps(val) {
+      console.log(val)
+    }
+  },
+  mounted() {
+    let that = this
+    setTimeout(function () {
+      console.log(that.$refs)
+      that.$refs.apps.setActiveItem(0)
+    }, 520)
+    // this.$store.dispatch('initApp')
   },
   computed: {
     userApps() {
-      let list =  this.$store.getters.pageApps
-      return list
+      return this.$store.getters.pageApps
+    },
+    carouselType() {
+      if (this.drag) {
+        return 'card'
+      }
+      return ''
     }
   },
   methods: {
-    onSwiper(swiper) {
-      this.swiper = swiper
-    },
-    touchStart(s, e) {
-      moveOffset.x = e.layerX
-      moveOffset.y = e.layerY
-    },
-    touchEnd(s, e) {
-      let diff = e.layerX - moveOffset.x
-      if (diff < -70) {
-        this.swiper.slideNext()
-      } else if (diff > 70) {
-        this.swiper.slidePrev()
-      }
-    },
     scroll( e) {
       e.preventDefault()
       e.stopPropagation()
-      // todo 滚轮翻页优化
-      this.wheelScroll = true
-      this.wheelIndex ++
-      if (this.wheelIndex > 100000000) {
-        this.wheelIndex = 0
+      console.log(e)
+      let that = this
+      let scrollVal = e.wheelDelta || e.detail
+      if (!that.timeOut)  {
+        that.timeOut = setTimeout(() => {
+          // if (that.timeOut) {
+            scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
+          setTimeout(() => {
+            that.timeOut = false
+          }, 1000)
+          // }
+          // that.timeOut = false
+        }, 200)
       }
-      let wheelIndex = this.wheelIndex
-      setTimeout(
-          () => {
-            if (this.wheelIndex === wheelIndex) {
-              if (this.wheelScroll) {
-                e.wheelDeltaX > 0 ? this.swiper.slidePrev() : this.swiper.slideNext()
-              }
-              this.wheelScroll = false
-            }
-          }, 70
-      )
     },
     openApp(app) {
       let that = this
@@ -167,16 +173,15 @@ export default {
       }
       hoverApp = {}
       this.drag = true
-      this.swiper.disable()
     },
     end() {
-      this.swiper.enable()
       this.drag = false
       this.$store.commit('fsyncApp')
     },
     /* eslint-disable */
 
     move(ev) {
+      console.log(ev)
       let related = ev?.relatedContext?.element?? {};
       let dragged = ev?.draggedContext?.element?? {};
       if (dragged.type === 'folder') {
@@ -266,27 +271,32 @@ export default {
   height: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(auto-fit, 120px);
+  grid-template-rows: repeat(auto-fit, 100px);
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
   align-items: center;
 }
 
-.apps-enter-active {
-  transition: all 500ms ease;
+/*.apps-enter-active {*/
+/*  transition: all 500ms ease;*/
+/*}*/
+/*.apps-enter-from {*/
+/*  transform: scale(0);*/
+/*}*/
+/*.apps-move {*/
+/*  !*transition: transform 160ms;*!*/
+/*}*/
+/*.no-move {*/
+/*  transition: transform 100ms;*/
+/*}*/
+/*.el-carousel__arrow {*/
+/*  width: 52px !important;*/
+/*  height: 52px !important;*/
+/*  background: red;*/
+/*  */
+/*}*/
+.el-carousel >>> .el-carousel__container {
+  height: 100%;
 }
-.apps-enter-from {
-  transform: scale(0);
-}
-.apps-move {
-  transition: transform 160ms;
-}
-.apps-drag-move {
-  transition: transform 0.1s;
-}
-.no-move {
-  transition: transform 0s;
-}
-
 </style>

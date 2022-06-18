@@ -15,7 +15,6 @@
     "better-scroll": "^2.4.2",
     "copy-webpack-plugin": "^10.2.4",
     "core-js": "^3.8.3",
-    "darkmode-js": "^1.5.7",
     "dateformat": "^5.0.3",
     "element-plus": "^2.1.10",
     "html-webpack-plugin": "^5.5.0",

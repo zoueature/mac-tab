@@ -1,14 +1,14 @@
 <template>
-  <Desktop msg="Welcome to Your Vue.js App" @click="hiddenModal"/>
+  <Menu msg="Welcome to Your Vue.js App" @click="hiddenModal"/>
 </template>
 
 <script>
-import Desktop from './Desktop.vue'
+import Menu from './Menu.vue'
 
 export default {
   name: 'App',
   components: {
-    Desktop
+    Menu
   },
   mounted() {
   },

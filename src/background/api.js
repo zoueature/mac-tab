@@ -2,9 +2,24 @@
 
 function getHistory(sendResponse) {
     console.log('get history')
-    chrome.history.search({text: "", maxResults: 2000}, (items) => {
-        sendResponse(items)
+    let endTime = 999999999999999
+    let result = []
+    getAllHistory(result, endTime).then(() => {
+        sendResponse(result)
     })
+}
+
+async function getAllHistory(container, endTime) {
+    let param = {text: "", maxResults: 1000000, startTime: 0, endTime: endTime}
+    console.log(param)
+    let result = []
+    result = await chrome.history.search(param)
+    console.log(result)
+    if (result.length > 0) {
+        container.push.apply(container, result)
+        let nextEndTime = result[result.length-1].lastVisitTime
+        // await getAllHistory(container, nextEndTime)
+    }
 }
 
 function getExtension(sendResponse) {
@@ -14,8 +29,14 @@ function getExtension(sendResponse) {
     })
 }
 
+function setExtensionEnableStatus(sendResponse, id, enabled) {
+    chrome.management.setEnabled(id, enabled, () => {
+        sendResponse("OK")
+    })
+}
 
 export default {
     getHistory,
     getExtension,
+    setExtensionEnableStatus,
 }

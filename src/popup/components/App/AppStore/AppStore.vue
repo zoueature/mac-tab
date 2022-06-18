@@ -1,9 +1,9 @@
 <template>
   <div class="appstore-app">
     <div class="app-category">
-      <div class="search">
-        <input placeholder="搜索" v-model="keyword" @keyup.enter="search">
-      </div>
+      <form class="search" @submit="search">
+        <input placeholder="输入关键词搜索" v-model="keyword">
+      </form>
       <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
            v-for="category in categoryList"
            :key="category.id"
@@ -14,14 +14,14 @@
             <img :src="category.icon" alt="">
           </div>
           <div class="category-name">
-            {{category.name}}
+            {{category?.name}}
           </div>
         </div>
       </div>
     </div>
     <div class="app-list" v-if="diyCategoryId !== selectedCategory">
       <div class="title">
-        {{selectedCategoryObj.name}}
+        {{selectedCategoryObj?.name}}
       </div>
       <div class="app-item"  v-for="app in selectedApp" :key="app.id">
         <div class="app-container">
@@ -31,7 +31,7 @@
           <div class="app-name">
             <span>{{app.name}}</span>
           </div>
-          <div class="app-desc">{{app.desc.substring(0, 14)}}</div>
+          <div class="app-desc">{{app.desc}}</div>
           <div class="app-installer" @click="install(app)" v-if="!app.installed">
             <img src="../../../../assets/icon/download.png" alt="">
           </div>
@@ -112,12 +112,16 @@ const defaultDiyApp = {
   onlineIcon: '',
 }
 
+const searchCateIdentify = 'search'
+
 export default {
   name: "AppStore",
   methods: {
-    async search() {
-      let result = await this.$http.get("http://127.0.0.1:9090/appstore/search?keyword=" + this.keyword)
-      if (result.status === 200) {
+    async search(e) {
+      e.preventDefault()
+      let that = this
+      let result = await this.$http.get("/app/search?keyword=" + this.keyword)
+      if (result.status !== 200) {
         ElNotification({
           title: '搜索失败',
           message: result.statusText,
@@ -127,8 +131,43 @@ export default {
         })
         return
       }
-      console.log(result.data)
-      this.keyword = ''
+      let apps = []
+      for (let key in result.data.data) {
+        let item = result.data.data[key]
+        apps.push({
+          id: item.id,
+          name: item.title,
+          icon: item.icon,
+          link: item.target,
+          desc: item.desc,
+        })
+      }
+      that.apps[searchCateIdentify] = {list: apps}
+      that.selectedCategory = searchCateIdentify
+    },
+    async getAppCategoryList() {
+      let that = this
+      let result = await this.$http.get("/app/category")
+      if (result.status !== 200) {
+        ElNotification({
+          title: '获取app分类失败',
+          message: result.statusText,
+          type: 'error',
+          position: 'top-left',
+          duration: 2000,
+        })
+        return
+      }
+      let categoryList = []
+      for (let key in result.data.data) {
+        let item = result.data.data[key]
+        categoryList.push({
+          id: item.id,
+          name: item.title,
+          icon: item.icon,
+        })
+      }
+     that.categoryList = categoryList
     },
     selectCategory(category) {
       this.selectedCategory = category.id
@@ -178,7 +217,6 @@ export default {
       if (app.iconType === '') {
         app.iconType = 'word'
       }
-      console.log(app)
       this.$store.commit('addApp', app)
       this.diyApp = {
         link: defaultDiyApp.link,
@@ -189,13 +227,17 @@ export default {
       }
     }
   },
+  created() {
+    this.getAppCategoryList()
+  },
   computed: {
     selectedApp() {
       let result = []
-      this.apps[this.selectedCategory].list.forEach((v) => {
-        v.installed = this.installedApp[v.id]
-        result.push(v)
-      })
+      for (let v in this.apps[this.selectedCategory].list) {
+        let item = this.apps[this.selectedCategory].list[v]
+        item.installed = this.installedApp[item.id]
+        result.push(item)
+      }
       return result
     }
   },
@@ -203,7 +245,7 @@ export default {
     return {
       selectedCategoryObj: null,
       selectedCategory: diyCategoryId,
-      categoryList: apps.category,
+      categoryList: [],
       apps: apps.apps,
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
@@ -237,8 +279,8 @@ export default {
   }
   .search {
     width: 100%;
-    height: 34px;
-    margin: 10px auto 10px auto;
+    height: 43px;
+    margin: 10px auto 25px auto;
   }
   .search input {
     width: 88%;
@@ -247,12 +289,12 @@ export default {
     border: none;
     outline: none;
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 14px;
     /*box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.35);*/
   }
   .category-item {
     width: 100%;
-    height: 35px;
+    height: 46px;
     margin-top: 5px;
     cursor: pointer;
   }
@@ -261,11 +303,10 @@ export default {
     height: 100%;
     margin: 0 auto;
     display: flex;
-    align-items: flex-start;
-    align-content: flex-start;
+    align-items: center;
+    align-content: center;
   }
   .category-icon {
-    margin-top: 5px;
     width: 25px;
     height: 25px;
   }
@@ -274,10 +315,9 @@ export default {
     height: 100%;
   }
   .category-name {
-    margin-left: 7px;
-    line-height: 35px;
+    margin-left: 14px;
     /*font-weight: bold;*/
-    font-size: 13px;
+    font-size: 14px;
     color: rgba(0,0,0,0.77);
     white-space: nowrap;
   }
@@ -307,7 +347,7 @@ export default {
     margin-bottom: 100px;
   }
   .app-container {
-    width: 80%;
+    width: 90%;
     height: 61%;
     position: relative;
     background: white;
@@ -324,15 +364,14 @@ export default {
     position: absolute;
     border-radius: 7px;
     top: -25px;
-    left: 16px;
     background: white;
   }
   .app-installer {
     position: absolute;
-    right: 7px;
-    bottom: -17px;
-    width: 34px;
-    height: 34px;
+    right: 0px;
+    top: -25px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     background: white;
     border-radius: 100%;
@@ -349,30 +388,37 @@ export default {
     border-radius: 100%;
   }
   .app-name {
-    width: 70%;
+    width: 50%;
     font-size: 14px;
     height: 25px;
     /*font-weight: bolder;*/
-    margin-left: 80px;
+    margin-left: 64px;
     margin-top: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-weight: bold;
     /*float: left;*/
   }
   .app-desc {
+    width: 95%;
     margin-top: 10px;
-    margin-left: 22px;
+    margin-left: 5px;
     font-size: 10px;
-    color: rgba(12, 16, 33, 0.71);
+    color: rgba(12, 16, 33, 0.52);
     font-weight: normal;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
   .app-input {
     width: 90%;
     text-align: left;
     margin: 0 auto;
     font-size: 14px;
-    margin-bottom: 25px;
+    margin-bottom: 43px;
 
   }
   .app-input input {
@@ -410,7 +456,7 @@ export default {
     width: 90%;
     margin: 0 auto;
     height: 34px;
-    margin-top: 25px;
+    margin-top: 43px;
     clear: both;
     justify-content: space-between;
   }

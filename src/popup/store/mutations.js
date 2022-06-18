@@ -53,6 +53,14 @@ export default {
         common.updateConfig(state, 'showComponents', num)
         // state.config.appSize = size
     },
+    setDarkModel(state, darkModel) {
+        common.updateConfig(state, 'darkModel', darkModel)
+        // state.config.appSize = size
+    },
+    setSearchEngine(state, engine) {
+        common.updateConfig(state, 'searchEngine', engine)
+        // state.config.appSize = size
+    },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {
             let position = state.config.wallpaper.position
@@ -84,13 +92,29 @@ export default {
             background: app.background,
             params: app.params,
         }
+        let success = false
         // state.userApps.push(app)
         for (let i = 0; i < state.fmtApps.length; i ++) {
             if (state.fmtApps[i].length < config.appNumPerPage) {
                 state.fmtApps[i].push(fmtApp)
+                success = true
+                break
             }
         }
+        if (!success) {
+            // 所有页面都满了， 则新增页面
+            state.fmtApps.push([fmtApp])
+        }
         common.fsyncApp(state)
+    },
+    addAppToLocal(state, app) {
+        state.userApps.push(app)
+        for (let i = 0; i < state.fmtApps.length; i ++) {
+            if (state.fmtApps[i].length < config.appNumPerPage) {
+                state.fmtApps[i].push(app)
+            }
+        }
+
     },
     // removeApp 移除app
     removeApp(state, app) {
@@ -119,7 +143,7 @@ export default {
     // initUserApps 初始化用户app
     // 本地有数据时， 使用本地的localStorage的数据
     // 本地没有数据时， 使用预定义的初始化数据
-    async initUserApps(state) {
+    initUserApps(state, userApps) {
         // await chrome.storage.local.get(keys.userApp, function(result) {
         //     if (result !== null) {
         //         state.userApps = result["user_installed_apps"]
@@ -140,11 +164,13 @@ export default {
         //     console.log(state.fmtApps)
         // });
         let localUserApps = localStorage.getItem(keys.userApp)
-        let userApps = []
+        // let userApps = []
         if (localUserApps !== "" && localUserApps !== null) {
-            userApps = JSON.parse(localUserApps)
+            localUserApps = JSON.parse(localUserApps)
             state.userApps = userApps
         }
+        console.log(state.userApps)
+        //state.userApps = userApps
         let i = 0
         let appLen = state.userApps.length
         let appNumPerPage = config.appNumPerPage
@@ -156,6 +182,7 @@ export default {
             state.fmtApps.push(state.userApps.slice(i, i + appNumPerPage))
             i += appNumPerPage
         }
+        console.log(state.fmtApps)
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true

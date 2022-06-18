@@ -38,6 +38,12 @@ export default {
     showComponents(state) {
         return state.config.showComponents
     },
+    darkModel(state) {
+        return state.config.darkModel
+    },
+    searchEngine(state) {
+        return state.config.searchEngine
+    },
 
     // ------------------- APPS ------------------------
     userApps(state) {
@@ -47,9 +53,9 @@ export default {
         let result = {}
         state.userApps.forEach((v) => {
             if (v.type === 'folder') {
-                v.apps.forEach(a => {
-                    result[a.id] = true
-                })
+                for (let app in v.apps) {
+                    result[app.id] = true
+                }
             }
             result[v.id] = true
         })

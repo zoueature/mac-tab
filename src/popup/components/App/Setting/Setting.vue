@@ -13,6 +13,10 @@
       <p class="setting-title">开启小组件</p>
       <el-switch v-model="showComponent" @change="toggleComponent"/>
     </div>
+    <div class="app-config-switch">
+      <p class="setting-title">黑暗模式</p>
+      <el-switch v-model="darkModel" @change="toggleDarkModel"/>
+    </div>
   </div>
 </template>
 
@@ -40,6 +44,9 @@ export default {
   computed: {
     showComponent() {
       return this.$store.getters.showComponents
+    },
+    darkModel() {
+      return this.$store.getters.darkModel
     }
   },
   methods: {
@@ -51,6 +58,11 @@ export default {
     },
     toggleComponent(val) {
       this.$store.commit('setShowComponent', val)
+    },
+    toggleDarkModel(val) {
+      this.$store.commit('setDarkModel', val)
+      // this.$store.commit('closeDrawer')
+      // window.location.reload()
     }
   }
 }
