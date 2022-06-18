@@ -97,6 +97,7 @@ export default {
         for (let i = 0; i < state.fmtApps.length; i ++) {
             if (state.fmtApps[i].length < config.appNumPerPage) {
                 state.fmtApps[i].push(fmtApp)
+                success = true
                 break
             }
         }
