@@ -4,6 +4,8 @@
 
 <script>
 import Desktop from './Desktop.vue'
+import api from './api/common'
+import utils from './common/utils'
 
 export default {
   name: 'App',
@@ -18,6 +20,13 @@ export default {
       this.$store.commit('closeFolder')
       this.$store.commit('closeEditApp')
     }
+  },
+  created() {
+    api.getAnnouncement((data) => {
+      data.forEach(announcement => {
+        utils.notify(announcement.title, announcement.content)
+      });
+    })
   }
 }
 </script>
