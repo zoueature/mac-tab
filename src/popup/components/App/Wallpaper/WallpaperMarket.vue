@@ -133,7 +133,7 @@ export default {
       this.showLoading = false
     },
     async getWallpaper(origin) {
-      let result = await this.$http.get("/wallpaper/" + origin, {
+      let result = await this.$http.get("/wallpaper/type/" + origin, {
         params: {
           keyword: this.keyword,
           page:  1,

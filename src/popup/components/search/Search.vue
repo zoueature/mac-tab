@@ -117,6 +117,11 @@ export default {
   watch: {
     keyword(val) {
       this.suggest(val)
+    },
+    suggest(val) {
+      if (val.length === 0) {
+        this.selectSuggestIndex = -1
+      }
     }
   },
   methods: {
