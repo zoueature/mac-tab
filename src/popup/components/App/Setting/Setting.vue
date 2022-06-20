@@ -3,7 +3,7 @@
     <div class="title">设置</div>
     <div class="app-config-slider">
       <span class="setting-title">图标大小</span>
-      <el-slider v-model="appSize" class="slider" :min="50" :max="80" @input="appSizeChange" size="small" input-size="small"></el-slider>
+      <el-slider v-model="appSize" class="slider" :min="50" :max="97" @input="appSizeChange" size="small" input-size="small"></el-slider>
     </div>
     <div class="app-config-slider">
       <p class="setting-title">图标排数</p>

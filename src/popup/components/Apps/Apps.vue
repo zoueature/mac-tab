@@ -126,7 +126,7 @@ export default {
     setTimeout(function () {
       console.log(that.$refs)
       that.$refs.apps.setActiveItem(0)
-    }, 520)
+    }, 250)
     // this.$store.dispatch('initApp')
   },
   computed: {
@@ -296,7 +296,7 @@ export default {
 /*  background: red;*/
 /*  */
 /*}*/
-.el-carousel >>> .el-carousel__container {
+:deep(.el-carousel__container) {
   height: 100%;
 }
 </style>
