@@ -24,6 +24,7 @@
       <Dock/>
     </div>
     <App></App>
+    <Loading></Loading>
     <RightDrawer></RightDrawer>
     <div class="setting" @click="openSetting">
       <img src="../../assets/icon/setting.png" alt="setting" style="width: 100%; height: 100%">
@@ -45,6 +46,7 @@ import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import NumberClock from "@/popup/components/App/Clock/NumberClock";
+import Loading from "@/popup/components/common/Loading"
 
 /* eslint-disable */
 export default {
@@ -64,7 +66,7 @@ export default {
     TodoApp,
     App,
     RightDrawer,
-    // Loading,
+    Loading,
     FolderContent,
     NumberClock,
   },

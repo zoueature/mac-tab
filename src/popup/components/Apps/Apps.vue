@@ -9,8 +9,8 @@
                  class="prev-button"
       >
         <template #item="{ element }">
-          <div>
-            上一页 {{element.id}}
+          <div :id="element.id">
+            <img src="../../../assets/icon/back.png">
           </div>
         </template>
       </Draggable>
@@ -22,8 +22,8 @@
                  class="next-button"
       >
         <template #item="{ element }">
-          <div>
-            下一页 {{element.id}}
+          <div :id="element.id">
+            <img src="../../../assets/icon/go.png">
           </div>
         </template>
       </Draggable>
@@ -350,19 +350,34 @@ export default {
 .prev-button {
   width: 70px;
   height: 250px;
-  background: blue;
   position: absolute;
   left: -70px;
   top: 50%;
   transform: translate(0, -50%);
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  backdrop: filter(7px);
+}
+.prev-button img, .next-button img {
+  width: 25px;
+  height: 70px;
 }
 .next-button {
   width: 70px;
   height: 250px;
-  background: green;
   position: absolute;
   right: -70px;
   top: 50%;
   transform: translate(0, -50%);
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  backdrop: filter(70px);
 }
+
 </style>
