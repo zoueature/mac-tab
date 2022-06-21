@@ -6,7 +6,7 @@ function notify(title, msg, duration = 2000) {
       title: title,
       message: msg,
       dangerouslyUseHTMLString: true,
-      position: 'top-left',
+      // position: 'top-left',
       duration: duration
     })	
 }

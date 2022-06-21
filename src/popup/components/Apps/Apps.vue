@@ -1,6 +1,32 @@
 <template>
   <div class="apps">
       <FolderContent ></FolderContent>
+      <Draggable :list="[{id: 'prev'}]"
+                 v-bind="dragOptions"
+                 item-key="id"
+                 group="apps"
+                 :sort="true"
+                 class="prev-button"
+      >
+        <template #item="{ element }">
+          <div>
+            上一页 {{element.id}}
+          </div>
+        </template>
+      </Draggable>
+      <Draggable :list="[{id: 'next'}]"
+                 item-key="id"
+                 v-bind="dragOptions"
+                 group="apps"
+                 :sort="true"
+                 class="next-button"
+      >
+        <template #item="{ element }">
+          <div>
+            下一页 {{element.id}}
+          </div>
+        </template>
+      </Draggable>
       <el-carousel
           :autoplay="false"
           @change="changePage"
@@ -58,13 +84,14 @@ import {ElCarousel, ElCarouselItem} from 'element-plus'
 
 let hoverApp = {}
 let createFolderTrigger = 0
+let prevTrigger = 0
+let nextTrigger = 0
 
 let startDragPosition = {
   x: 0,
   y: 0,
 }
-
-
+/* eslint-disable */
 export default {
   name: "AppCom",
   components: {
@@ -124,10 +151,10 @@ export default {
   mounted() {
     let that = this
     setTimeout(function () {
-      console.log(that.$refs)
+      console.log(1111111)
       that.$refs.apps.setActiveItem(0)
     }, 250)
-    // this.$store.dispatch('initApp')
+    console.log(this.$refs.valueOf().apps)
   },
   computed: {
     userApps() {
@@ -178,12 +205,32 @@ export default {
       this.drag = false
       this.$store.commit('fsyncApp')
     },
-    /* eslint-disable */
-
     move(ev) {
       console.log(ev)
       let related = ev?.relatedContext?.element?? {};
       let dragged = ev?.draggedContext?.element?? {};
+      if (related.id === 'prev') {
+        // 上一页按钮
+        // 翻页
+        prevTrigger ++
+        if (prevTrigger > 200) {
+          prevTrigger = 0
+          this.$refs.apps.prev()
+        }
+        return false
+      }
+      prevTrigger = 0
+      if (related.id === 'next') {
+        // 下一页按钮
+        // 翻页
+        nextTrigger ++
+        if (nextTrigger > 200) {
+          nextTrigger  = 0
+          this.$refs.apps.next()
+        }
+        return false
+      }
+      nextTrigger  = 0
       if (dragged.type === 'folder') {
         // 移动的是文件夹时， 允许自由换位
         return true
@@ -212,9 +259,10 @@ export default {
       let dragY = Math.abs(dragAppPosition.top - startDragPosition.y)
 
       if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 10 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 10) {
+        // 覆盖住某个app
         createFolderTrigger ++
         if (createFolderTrigger > 200) {
-          // 覆盖app时， 创建文件夹并打开
+          // 覆盖app的时间达到阈值时， 创建文件夹并打开
           if (related.type === 'app') {
             let app = {
               id: related.id,
@@ -298,5 +346,23 @@ export default {
 /*}*/
 :deep(.el-carousel__container) {
   height: 100%;
+}
+.prev-button {
+  width: 70px;
+  height: 250px;
+  background: blue;
+  position: absolute;
+  left: -70px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.next-button {
+  width: 70px;
+  height: 250px;
+  background: green;
+  position: absolute;
+  right: -70px;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 </style>
