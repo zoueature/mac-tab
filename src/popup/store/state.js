@@ -29,10 +29,10 @@ export default {
     showSearchEngine: false,
 
     // --------- app -----------
-    userApps: initApps,
+    // userApps: initApps,
     installedAppID: {}, // {123: true}
     activeFolder: {}, // 当前打开的文件夹信息
-    fmtApps: [],
+    fmtApps: [initApps],
     dockApps: initDock,
 
     // todo

@@ -153,14 +153,15 @@ export default {
   mounted() {
     let that = this
     setTimeout(function () {
-      console.log(1111111)
-      that.$refs.apps.setActiveItem(0)
+      that.$refs.apps.setActiveItem(this.activeIndex)
     }, 250)
-    console.log(this.$refs.valueOf().apps)
   },
   computed: {
     userApps() {
       return this.$store.getters.pageApps
+    },
+    appPageNum(){
+      return this.$store.getters.pageApps.length
     },
     carouselType() {
       if (this.drag) {
@@ -170,7 +171,10 @@ export default {
     }
   },
   methods: {
-    scroll( e) {
+    changePage(newPageIndex) {
+      this.activeIndex = newPageIndex
+    },
+    scroll(e) {
       e.preventDefault()
       e.stopPropagation()
       console.log(e)
@@ -188,13 +192,6 @@ export default {
         }, 200)
       }
     },
-    openApp(app) {
-      let that = this
-      return function () {
-        that.$store.commit('openApp')
-        that.$router.replace(app)
-      }
-    },
     start(ev) {
       startDragPosition = {
         x: ev.originalEvent.pageX,
@@ -208,7 +205,7 @@ export default {
       this.$store.commit('fsyncApp')
     },
     move(ev) {
-      console.log(ev)
+      // console.log(ev)
       let related = ev?.relatedContext?.element?? {};
       let dragged = ev?.draggedContext?.element?? {};
       if (related.id === 'prev') {
@@ -217,6 +214,10 @@ export default {
         prevTrigger ++
         if (prevTrigger > 200) {
           prevTrigger = 0
+          if (this.activeIndex === 0) {
+            // 第一页, 前面没有则增加一页
+            this.$store.commit('addNewPage', -1)
+          }
           this.$refs.apps.prev()
         }
         return false
@@ -226,8 +227,12 @@ export default {
         // 下一页按钮
         // 翻页
         nextTrigger ++
-        if (nextTrigger > 200) {
+        if (nextTrigger > 160) {
           nextTrigger  = 0
+          if (this.activeIndex === this.appPageNum - 1) {
+            // 第一页, 前面没有则增加一页
+            this.$store.commit('addNewPage', 1)
+          }
           this.$refs.apps.next()
         }
         return false
@@ -290,9 +295,6 @@ export default {
         }
       }
       return false
-    },
-    changePage(e) {
-      this.activeIndex = e.realIndex
     },
     add() {
       this.$store.commit('fsyncApp')
