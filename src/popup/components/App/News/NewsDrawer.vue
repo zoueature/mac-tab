@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import api from "@/popup/components/api/news";
+
 export default {
   name: "NewsDrawer",
   computed: {
@@ -43,40 +45,26 @@ export default {
     }
   },
   beforeCreate() {
-    this.$http.get("https://top.baidu.com/board?tab=realtime").then(result => {
-      if (result.status === 200) {
-        let rexp = /<!--s-data:(.*?)-->/
-        let content = rexp.exec(result.data)[1]
-        rexp = /\/"/
-        content.replace(rexp, '"')
-        let data = JSON.parse(content)
-        let hots = data.data.cards[0].content
-        console.log(hots)
-        hots.forEach(v=>{
-          this.newsList.push({
-            img: v.img,
-            title: v.word,
-            desc: v.desc,
-            detail: v.rawUrl,
-          })
+    let that = this
+    api.getNews("baidu", (data) => {
+      data.forEach(v=>{
+        that.newsList.push({
+          img: v.img,
+          title: v.title,
+          desc: v.desc,
+          detail: v.detailURL,
         })
-      }
+      })
     })
-    this.$http.get("https://www.zhihu.com/billboard").then(result => {
-      if (result.status === 200) {
-        let rexp = /<script id="js-initialData" type="text\/json">(.*?)<\/script>/
-        let content = rexp.exec(result.data)[1]
-        let data = JSON.parse(content)
-        data.initialState.topstory.hotList.forEach(v => {
-          console.log(v.target.imageArea.url)
-          this.newsList.push({
-            img: v.target.imageArea.url,
-            title: v.target.titleArea.text,
-            desc: v.target.excerptArea.text,
-            detail: v.target.link.url,
-          })
+    api.getNews("zhihu", (data) => {
+      data.forEach(v=>{
+        that.newsList.push({
+          img: v.img,
+          title: v.title,
+          desc: v.desc,
+          detail: v.detailURL,
         })
-      }
+      })
     })
   },
   methods: {

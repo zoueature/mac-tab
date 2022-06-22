@@ -7,6 +7,7 @@
                  group="apps"
                  :sort="true"
                  class="prev-button"
+                 v-if="drag"
       >
         <template #item="{ element }">
           <div :id="element.id">
@@ -20,6 +21,7 @@
                  group="apps"
                  :sort="true"
                  class="next-button"
+                 v-if="drag"
       >
         <template #item="{ element }">
           <div :id="element.id">
@@ -34,7 +36,7 @@
           class="apps"
           ref="apps"
           indicator-position="none"
-          arrow="always"
+          :arrow="drag? 'never': 'always'"
           :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
@@ -351,7 +353,7 @@ export default {
   width: 70px;
   height: 250px;
   position: absolute;
-  left: -70px;
+  left: 0px;
   top: 50%;
   transform: translate(0, -50%);
   display: flex;
@@ -359,17 +361,18 @@ export default {
   justify-content: center;
   align-items: center;
   align-content: center;
-  backdrop: filter(7px);
+  z-index: 1000;
+  transition: 200ms;
 }
 .prev-button img, .next-button img {
-  width: 25px;
-  height: 70px;
+  width: 16px;
+  height: 52px;
 }
 .next-button {
   width: 70px;
   height: 250px;
   position: absolute;
-  right: -70px;
+  right: 0px;
   top: 50%;
   transform: translate(0, -50%);
   display: flex;
@@ -377,7 +380,7 @@ export default {
   justify-content: center;
   align-items: center;
   align-content: center;
-  backdrop: filter(70px);
+  z-index: 1000;
 }
 
 </style>
