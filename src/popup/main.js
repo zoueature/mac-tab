@@ -1,17 +1,18 @@
 import { createApp } from 'vue'
 import App from './components/app'
 import store from './store'
-import {createRouter, createWebHistory} from "vue-router";
+import {createRouter, createMemoryHistory} from "vue-router";
 import appCfg from "./components/App/app_config"
 // import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import './css/common.css'
 import axios from './components/api/axios'
-// import VueAxios from 'vue-axios'
+import installLoading from "@/popup/components/common/loading_install";
+import right_drawer_install from "@/popup/components/common/right_drawer_install";
 
 const router = createRouter({
     // 4. 内部提供了 history 模式的实现s。为了简单起见，我们在这里使用 hash 模式。
-    history: createWebHistory(),
+    history: createMemoryHistory(),
     routes: appCfg.routes, // `routes: routes` 的缩写
 })
 
@@ -19,6 +20,8 @@ const app = createApp(App)
 app.use(store)
 // app.use(ElementPlus)
 app.use(router)
+app.use(installLoading)
+app.use(right_drawer_install)
 
 // let http = axios.create({
 //     // baseURL: "http://127.0.0.1:9090"
