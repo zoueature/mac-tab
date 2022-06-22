@@ -257,6 +257,9 @@ export default {
   .eng-item div {
     float: left;
   }
+  .eng-item:hover {
+    transform: scale(1.06);
+  }
   .eng-img {
     width: 26px;
     height: 26px;
