@@ -10,7 +10,7 @@ import axios from './components/api/axios'
 import installLoading from "@/popup/components/common/loading_install";
 import right_drawer_install from "@/popup/components/common/right_drawer_install";
 import {createI18n} from 'vue-i18n'
-import cn from '../_locales/cn/i18n'
+import cn from '../_locales/zh_CN/i18n'
 import en from '../_locales/en/i18n'
 
 const router = createRouter({
