@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "YangDesktop",
+  "name": "__MSG_extName__",
   "description": "焕然一新的新标签页, 像使用OS一样使用浏览器",
   "version": "1.0.0",
   "action": {
@@ -11,6 +11,7 @@
   "chrome_url_overrides": {
     "newtab": "popup.html"
   },
+  "default_locale": "en",
   "permissions": [
     "contextMenus",
     "notifications",

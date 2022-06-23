@@ -9,16 +9,26 @@ import './css/common.css'
 import axios from './components/api/axios'
 import installLoading from "@/popup/components/common/loading_install";
 import right_drawer_install from "@/popup/components/common/right_drawer_install";
+import {createI18n} from 'vue-i18n'
+import cn from '../_locales/cn/i18n'
+import en from '../_locales/en/i18n'
 
 const router = createRouter({
     // 4. 内部提供了 history 模式的实现s。为了简单起见，我们在这里使用 hash 模式。
     history: createMemoryHistory(),
     routes: appCfg.routes, // `routes: routes` 的缩写
 })
-
+const i18n = createI18n({
+    locale: "zh",
+    silentFallbackWarn: true,
+    messages: {
+        "zh": cn,
+        "en": en,
+    }
+})
 const app = createApp(App)
 app.use(store)
-// app.use(ElementPlus)
+app.use(i18n)
 app.use(router)
 app.use(installLoading)
 app.use(right_drawer_install)

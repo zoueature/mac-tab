@@ -22,6 +22,10 @@ const copyFiles = [
   {
     from: path.resolve("src/plugins/inject.js"),
     to: path.resolve("dist/js")
+  },
+  {
+    from: path.resolve("src/_locales"),
+    to: path.resolve("dist/_locales")
   }
 ];
 

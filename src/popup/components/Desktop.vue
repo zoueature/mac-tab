@@ -223,13 +223,16 @@ export default {
   }
   #apps-container {
     width: v-bind(appContainerWidth);
-    height: 70%;
+    height: 73%;
     margin: 5% auto 0 auto;
   }
 
   #dock-container {
     width: 100%;
-    height: 10%;
+    height: 7%;
+    min-height: 100px;
+    align-items: center;
+    display: flex;
   }
   .setting {
     width: 25px;

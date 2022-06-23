@@ -175,11 +175,13 @@ export default {
       this.activeIndex = newPageIndex
     },
     scroll(e) {
-      e.preventDefault()
-      e.stopPropagation()
+      // e.preventDefault()
       console.log(e)
       let that = this
-      let scrollVal = e.wheelDelta || e.detail
+      let scrollVal = e.wheelDeltaX
+      if (Math.abs(scrollVal) < 25) {
+        return
+      }
       if (!that.timeOut)  {
         that.timeOut = setTimeout(() => {
           // if (that.timeOut) {
@@ -327,8 +329,9 @@ export default {
   grid-template-rows: repeat(auto-fit, 100px);
   grid-auto-flow: dense;
   justify-items: center;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
+  overflow-y: scroll;
 }
 
 /*.apps-enter-active {*/
