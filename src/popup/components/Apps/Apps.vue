@@ -388,5 +388,8 @@ export default {
   align-content: center;
   z-index: 1000;
 }
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
 </style>
