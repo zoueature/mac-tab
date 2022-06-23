@@ -3,7 +3,7 @@
     <div style="flex: 1"></div>
     <Draggable :list="docks"
                item-key="id"
-               :options="option"
+               v-bind="dragOptions"
                class="container"
                @start="start"
                @end="end"
@@ -55,13 +55,8 @@ export default {
   data() {
     return {
       drag: false,
-      option: {
-        group: {name: "apps", put: true, pull: true},
-        sort: true,
-        delay: 1000,
-        animation: 1000,
-        ghostClass: "ghostClass",
-        tag: "transition"
+      dragOptions: {
+        animation: 200,
       },
       scaleIndex: -2,
       size: 66
@@ -175,21 +170,5 @@ export default {
     z-index: -1;
     filter: blur(10px);
     border: 1px solid #ccffcc;
-  }
-
-  .apps-enter-active {
-    transition: all 500ms ease;
-  }
-  .apps-enter-from {
-    transform: scale(0);
-  }
-  .apps-move {
-    transition: transform 0.5s;
-  }
-  .apps-drag-move {
-    transition: transform 0.1s;
-  }
-  .no-move {
-    transition: transform 0s;
   }
 </style>

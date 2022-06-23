@@ -81,4 +81,7 @@ export default {
   .news-item:hover {
     background: rgba(255, 255, 255, 0.52);
   }
+  ::-webkit-scrollbar {
+    display: none;
+  }
 </style>

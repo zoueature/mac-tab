@@ -217,8 +217,9 @@ export default {
           if (this.activeIndex === 0) {
             // 第一页, 前面没有则增加一页
             this.$store.commit('addNewPage', -1)
+          } else {
+            this.$refs.apps.prev()
           }
-          this.$refs.apps.prev()
         }
         return false
       }
