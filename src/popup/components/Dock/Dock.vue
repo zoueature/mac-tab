@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <div class="bg"></div>
     <div style="flex: 1"></div>
     <Draggable :list="docks"
                item-key="id"
@@ -27,13 +28,13 @@
                   :hover="true"
                   :type="element.type"
                   class="dock-item"
+                  :maxSize="97"
                  :app="element"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
         />
       </template>
     </Draggable>
     <div style="flex: 1"></div>
-    <div class="bg"></div>
   </div>
 </template>
 
@@ -142,8 +143,6 @@ export default {
     }
   }
   .container {
-    width: v-bind(containerLength);
-    height: v-bind(dockItemSize);
     margin: 0 auto;
     display: flex;
     position: relative;
@@ -152,10 +151,9 @@ export default {
     flex: 2;
   }
   .bg {
-    width: v-bind(containerLength);
-    height: v-bind(dockItemSize);
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
-    display: flex;
     position: absolute;
     top: -5%;
     background: rgba(215, 211, 211, 0.5);

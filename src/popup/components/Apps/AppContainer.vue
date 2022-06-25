@@ -11,6 +11,7 @@
         :app="app.app"
         :background="app.background"
         :type="'app'"
+        :maxSize="maxSize"
     />
     <Folder v-else-if="app.type === 'folder' "
             :folder="app"
@@ -28,6 +29,7 @@ export default {
   name: "AppContainer",
   props: [
       'app',
+      'maxSize',
   ],
   components: {
     AppItem: DockItem,

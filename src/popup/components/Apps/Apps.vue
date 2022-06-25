@@ -168,6 +168,19 @@ export default {
         return 'card'
       }
       return ''
+    },
+    appGridSize() {
+      // app 大小
+      let size = this.$store.getters.appSize
+      let gridSize = Math.ceil(size * 1.2) + 'px'
+      let result = 'repeat(auto-fill, ' + gridSize + ')'
+      console.log(result)
+      return result
+    },
+    appContainerSize() {
+       let size = this.$store.getters.appSize
+      let gridSize = Math.ceil(size * 1.2) + 'px'
+      return gridSize
     }
   },
   methods: {
@@ -322,11 +335,12 @@ export default {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(auto-fit, 100px);
+  grid-template-columns: v-bind(appGridSize);
+  grid-template-rows: v-bind(appGridSize);
+  grid-auto-rows: v-bind(appContainerSize);
   grid-auto-flow: dense;
   justify-items: center;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   overflow-y: scroll;
 }

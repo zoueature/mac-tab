@@ -35,6 +35,7 @@ export default {
     "background",
     "type",
     "app",
+    "maxSize",
   ],
   created() {
     if (typeof this.click === "function") {
@@ -48,17 +49,17 @@ export default {
       return this.clickApp ? 'click' : null
     },
     itemSize() {
-      let size = this.$store.getters.appSize
+      let size = this.appSize()
       return size + 'px'
     },
     iconSize() {
-      return Math.ceil(this.$store.getters.appSize * 0.7) + "px"
+      return Math.ceil(this.appSize() * 0.7) + "px"
     },
     inEditApp() {
       return this.$store.getters.inEditApp
     },
     iconWordSize() {
-      let size = this.$store.getters.appSize
+      let size = this.appSize()
       return Math.ceil(size / 4) - 1 + "px"
     },
     shake() {
@@ -74,6 +75,13 @@ export default {
       this.$store.commit('startEditApp')
       // this.inOpt = true
     },
+    appSize() {
+      let size = this.$store.getters.appSize
+      if (typeof this.maxSize === 'number' && this.maxSize > 0 && this.maxSize < size) {
+        size = this.maxSize
+      }
+      return size
+    }, 
     removeApp() {
       console.log(this.appId)
       this.$store.commit('removeApp', {id: this.appId})
@@ -176,7 +184,6 @@ export default {
     margin-top: 3px;
     font-size: 12px;
     color: white;
-    #font-weight: bold;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
