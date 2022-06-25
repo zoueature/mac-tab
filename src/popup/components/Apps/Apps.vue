@@ -7,7 +7,7 @@
                  group="apps"
                  :sort="true"
                  class="prev-button"
-                 v-if="drag"
+                 v-show="drag && activeIndex !== 0"
       >
         <template #item="{ element }">
           <div :id="element.id">
@@ -21,11 +21,11 @@
                  group="apps"
                  :sort="true"
                  class="next-button"
-                 v-if="drag"
+                 v-show="drag"
       >
         <template #item="{ element }">
           <div :id="element.id">
-            <img src="../../../assets/icon/go.png">
+            <img :src="activeIndex === appPageNum - 1 ? '../../../assets/icon/plus.png': '../../../assets/icon/go.png'">
           </div>
         </template>
       </Draggable>
@@ -36,7 +36,7 @@
           class="apps"
           ref="apps"
           indicator-position="none"
-          :arrow="drag? 'never': 'always'"
+          :arrow="drag? 'never': 'hover'"
           :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
@@ -173,6 +173,7 @@ export default {
   methods: {
     changePage(newPageIndex) {
       this.activeIndex = newPageIndex
+      console.log(this.activeIndex)
     },
     scroll(e) {
       // e.preventDefault()
@@ -317,10 +318,6 @@ export default {
   opacity: 0.5;
   /*transform: scale(0.1);*/
 }
-.chosenClass {
-  /*cursor: move;*/
-  /*transform: scale(0.3);*/
-}
 .app{
   width: 100%;
   height: 100%;
@@ -333,29 +330,26 @@ export default {
   align-items: center;
   overflow-y: scroll;
 }
-
-/*.apps-enter-active {*/
-/*  transition: all 500ms ease;*/
-/*}*/
-/*.apps-enter-from {*/
-/*  transform: scale(0);*/
-/*}*/
-/*.apps-move {*/
-/*  !*transition: transform 160ms;*!*/
-/*}*/
-/*.no-move {*/
-/*  transition: transform 100ms;*/
-/*}*/
-/*.el-carousel__arrow {*/
-/*  width: 52px !important;*/
-/*  height: 52px !important;*/
-/*  background: red;*/
-/*  */
-/*}*/
 :deep(.el-carousel__container) {
   height: 100%;
+  widows: 100%;
 }
-.prev-button {
+/* :deep(.el-carousel__arrow) {
+  width: 52px;
+  height: 52px;
+  background: red;
+} */
+/* :deep(.el-carousel__arrow--right) {
+  width: 52px;
+  height: 52px;
+  position: position;
+  background: red;
+  z-index: 100;
+  top: 0;
+  z-index: 10000;
+  right: 7.7%;
+} */
+/* .prev-button {
   width: 70px;
   height: 250px;
   position: absolute;
@@ -369,14 +363,15 @@ export default {
   align-content: center;
   z-index: 1000;
   transition: 200ms;
-}
+} */
 .prev-button img, .next-button img {
-  width: 16px;
-  height: 52px;
+  width: 12px;
+  height: 32px;
 }
-.next-button {
-  width: 70px;
-  height: 250px;
+.next-button, .prev-button {
+  width: 88px;
+  height: 88px;
+  border-radius: 100%;
   position: absolute;
   right: 0px;
   top: 50%;
@@ -387,9 +382,14 @@ export default {
   align-items: center;
   align-content: center;
   z-index: 1000;
+  backdrop-filter: blur(7px);
+  background-color: rgba(255, 255, 255, 0.463);
+  opacity: 0.5;
 }
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
+.prev-button {
+  left: 0;
+}
+::-webkit-scrollbar {
+  display: none;
+}
 </style>

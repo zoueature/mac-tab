@@ -141,14 +141,6 @@ export default {
       /*transform: scale(1.2);*/
     }
   }
-  .enlarge {
-    /*animation: enlargeBig 100ms;*/
-    /*transform: scale(1.6);*/
-  }
-  .enlarge-little {
-    /*animation: enlargeLittle 300ms;*/
-    /*transform: scale(1.3);*/
-  }
   .container {
     width: v-bind(containerLength);
     height: v-bind(dockItemSize);

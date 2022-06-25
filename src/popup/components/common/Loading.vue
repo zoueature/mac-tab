@@ -1,5 +1,5 @@
 <template>
-  <div class="loading-container" v-show="showLoading">
+  <div v-show="showLoading">
     <div class="loadingio-spinner-eclipse-hyj11p3vilq"><div class="ldio-88mdma17w4p">
     <div></div>
     </div></div>
@@ -29,6 +29,8 @@ export default {
 <style scoped>
   .loading-container {
     z-index: 1000000;
+    width: auto;
+    transform: scale(0.5);
   }
   @keyframes ldio-88mdma17w4p {
     0% { transform: rotate(0deg) }

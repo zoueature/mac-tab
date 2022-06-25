@@ -1,9 +1,5 @@
 import keys from "@/popup/store/keys";
 
-
-
-
-/* eslint-disable */
 export default {
     initApp(context) {
          chrome.storage.local.get(keys.userApp, function(result) {

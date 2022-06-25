@@ -182,7 +182,7 @@ export default {
   }
   .blank-container {
     width: 100%;
-    height: 85%;
+    height: 87%;
     display: flex;
     overflow: hidden;
   }
@@ -208,7 +208,8 @@ export default {
 
   #search-container {
     width: 70%;
-    margin: 7% auto 0 auto;
+    height: 25%;
+    margin: 0 auto 0 auto;
     display: flex;
     align-content: center;
     align-items: center;
@@ -223,15 +224,16 @@ export default {
   }
   #apps-container {
     width: v-bind(appContainerWidth);
-    height: 73%;
-    margin: 5% auto 0 auto;
+    height: 75%;
+    margin: 0 auto 0 auto;
   }
 
   #dock-container {
     width: 100%;
-    height: 7%;
+    height: 13%;
     min-height: 100px;
     align-items: center;
+    align-content: center;
     display: flex;
   }
   .setting {

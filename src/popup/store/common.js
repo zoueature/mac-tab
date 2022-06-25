@@ -1,14 +1,22 @@
 import keys from "@/popup/store/keys";
-/* eslint-disable */
+
 export default {
     fsyncApp(state) {
         localStorage.setItem(keys.userApp, JSON.stringify(state.fmtApps))
         let val = {}
-        val[keys.userApp] = state.fmtApps
+        let fmtApps = []
+        state.fmtApps.forEach( (page, i) => {
+            if (page.length > 0) {
+                fmtApps.push(page)
+            } else {
+                fmtApps.splice(i, 1)
+            }
+        })
+        val[keys.userApp] = fmtApps
         chrome.storage.local.set(val, function() {
             // console.log(val);
         });
-        chrome.storage.local.get([keys.userApp], function (res) {
+        chrome.storage.local.get([keys.userApp], function () {
             // console.log(res)
         });
     },
