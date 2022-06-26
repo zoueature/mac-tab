@@ -4,6 +4,7 @@
                   :key="item.id"
                   :component="item"
                   class="component"
+                  :style="item.height"
     />
   </div>
 </template>
@@ -29,12 +30,11 @@ export default {
         {
           id: 1,
           component: "todo",
-          height: 180,
         },
         {
           id: 1,
           component: "news",
-          height: 200,
+          height: "grid-row: span 2; grid-column: span 2;",
         },
       ]
     }
@@ -56,18 +56,35 @@ export default {
 
 <style scoped>
   .components {
-    width: 80%;
+    width: 92%;
     height: 77%;
-    margin: 3% auto 0 auto;
+    margin: 0 auto;
     overflow: scroll;
-    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 10vw);
+    grid-template-rows:repeat(auto-fill, 10vw);
+    grid-gap: 10px 10px;
+    grid-auto-flow: dense;
+    justify-content: center;
+    justify-items: center;
+    /* align-items: center; */
+    /* align-content: center; */
   }
   div::-webkit-scrollbar {
     display: none;
   }
   .component {
     overflow: hidden;
-    margin-top: 16px;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 5%;
   }
+  /* .component::before {
+    content: "";
+    padding-bottom: 100%;
+    display: block;
+    background: blue;
+    grid-area: 1/1/2/2;
+  } */
 </style>
