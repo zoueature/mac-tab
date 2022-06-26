@@ -52,4 +52,9 @@ img {
   margin: 0;
   padding: 0;
 }
+.i-icon {
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
 </style>

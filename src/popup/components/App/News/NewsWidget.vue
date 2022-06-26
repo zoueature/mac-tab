@@ -53,19 +53,18 @@ export default {
     overflow-y: scroll;
   }
   .widget-title {
-    width: 90%;
+    width: 85%;
     margin: 0 auto;
     font-size: 16px;
     text-align: left;
-    padding-top: 7px;
-    padding-left: 7px;
+    padding: 7px 0;
     font-weight: bold;
-    /*color: rgba(255, 255, 255, 0.88);*/
     color: white;
   }
   .news-item {
     text-align: left;
-    width: 90%;
+    width: 85%;
+    margin: 0 auto;
     padding-left: 5%;
     padding-right: 5%;
     font-size: 13px;
@@ -77,6 +76,7 @@ export default {
     display: flex;
     align-items: center;
     align-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   }
   .news-item:hover {
     background: rgba(255, 255, 255, 0.52);

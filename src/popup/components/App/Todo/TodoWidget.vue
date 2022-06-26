@@ -3,9 +3,8 @@
     <div class="todo-container" ref="todo" @click="openDetail">
       <div class="todo-title">待办事项</div>
       <div class="todo-item" v-for="(todo) in todos" :key="todo.id">
-        <div class="done" @click.stop="done(todo)" v-if="!todo.done">
-          <img src="../../../../assets/icon/done.png" alt="done">
-        </div>
+        <check theme="outline" size="16" fill="#333" @click.stop="done(todo)" v-if="!todo.done"/>
+        <success theme="outline" size="16" fill="rgba(206, 205, 205, 0.47)" v-else/>
         <div :class="'todo-name ' + (todo.done ? 'done-word': '')" >
           {{todo.title}}
         </div>
@@ -16,14 +15,14 @@
 
 <script>
 
-// import BScroll from 'better-scroll'
-
- // import CustomModal from "../common/WindowModal";
+import {Check} from '@icon-park/vue-next'
+import {Success} from '@icon-park/vue-next'
 
 export default {
   name: "TodoCom",
   components: {
-     // CustomModal,
+    Check,
+    Success,
   },
   methods: {
     done(todo) {
@@ -62,36 +61,32 @@ export default {
     overflow: hidden;
     background: rgba(39, 142, 225, 0.88);
     position: absolute;
+    overflow-y: scroll;
   }
   .todo-item {
     width: 85%;
-    height: 20%;
+    height: 34px;
     margin: 0 auto;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.38);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     position: relative;
     overflow: hidden;
-  }
-  .todo-item div {
-    float: left;
+    display: flex;
+    align-content: center;
+    align-items: center;
   }
   .todo-title {
-    margin-top: 3%;
+    width: 85%;
+    margin: 7px auto;
     text-align: left;
-    margin-left: 7%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     color: white;
     font-size: 16px;
     font-weight: bold;
   }
   .todo-name {
     font-size: 12px;
+    margin-left: 7px;
     color: rgba(225, 221, 221, 0.91);
-    width: 80%;
-    position: absolute;
-    left: 15%;
-    top: 50%;
-    transform: translate(0, -50%);
+    flex: 10;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -100,14 +95,6 @@ export default {
   .done-word {
     text-decoration: line-through;
     color: rgba(206, 205, 205, 0.47);
-  }
-  .done {
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    top: 37%;
-    left: 3%;
-    transform: translate(0, -50%);
   }
   .todo-op {
     width: 200px;
@@ -118,5 +105,8 @@ export default {
     /*transform: translate(-50%, -50%);*/
     z-index: 1;
     background: grey;
+  }
+  ::-webkit-scrollbar {
+    display: none;
   }
 </style>

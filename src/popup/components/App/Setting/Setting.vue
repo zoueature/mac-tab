@@ -1,21 +1,33 @@
 <template>
   <div class="setting-app">
     <div class="title">设置</div>
-    <div class="app-config-slider">
-      <span class="setting-title">图标大小</span>
-      <el-slider v-model="appSize" class="slider" :min="60" :max="160" @input="appSizeChange" size="small" input-size="small"></el-slider>
+    <div class="app-config">
+      <div class="setting-title">
+        <application-one theme="outline" size="25" fill="#777" :strokeWidth="2"/>
+        <span>图标大小</span>
+      </div>
+      <div class="setting-value">
+        <el-slider v-model="appSize" class="slider" :min="60" :max="160" @input="appSizeChange" size="small" input-size="small"></el-slider>
+      </div>
     </div>
-    <div class="app-config-slider">
-      <p class="setting-title">图标排数</p>
-      <el-slider v-model="appColumnNum" class="slider" :min="7" :max="12" @input="appColumnNumChange"></el-slider>
+    <div class="app-config">
+      <div class="setting-title">
+        <round-distortion theme="outline" size="23" fill="#777" :strokeWidth="2"/>
+        <span>开启小组件</span>
+      </div>
+      <div class="setting-value">
+        <el-switch v-model="showComponent" @change="toggleComponent"/>
+      </div>
     </div>
-    <div class="app-config-switch">
-      <p class="setting-title">开启小组件</p>
-      <el-switch v-model="showComponent" @change="toggleComponent"/>
-    </div>
-    <div class="app-config-switch">
-      <p class="setting-title">黑暗模式</p>
-      <el-switch v-model="darkModel" @change="toggleDarkModel"/>
+    <div class="app-config">
+      <div class="setting-title">
+        <dark-mode theme="outline" size="25" fill="#777" :strokeWidth="2"/>
+        <span>黑暗模式</span>
+      </div>
+       <div class="setting-value">
+         <el-switch v-model="darkModel" @change="toggleDarkModel"/>
+       </div>
+     
     </div>
   </div>
 </template>
@@ -23,12 +35,16 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
+import {ApplicationOne, RoundDistortion, DarkMode} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
   components: {
     ElSlider,
     ElSwitch,
+    ApplicationOne,
+    RoundDistortion,
+    DarkMode,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -88,23 +104,37 @@ export default {
     font-size: 25px;
     margin: 0 auto;
   }
-  .setting-title {
-    color: rgba(0, 0, 0, 0.56);
-    font-weight: normal;
-    font-size: 12px;
-  }
-  .slider {
-    margin: 0 auto;
-    width: 70%;
-    height: 10px;
-  }
-  .app-config-slider {
+  .app-config {
     display: flex;
     margin-top: 16px;
     width: 90%;
     height: 25px;
     text-align: left;
     align-items: center;
+    width: 100%;
+    justify-content: left;
+    justify-items: left;
+  }
+  .setting-title {
+    color: rgba(0, 0, 0, 0.56);
+    font-weight: normal;
+    font-size: 12px;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    flex: 4;
+    justify-self: flex-start;
+  }
+  .settting-name {
+    margin-left: 7px;
+  }
+  .setting-value {
+    flex: 8;
+  }
+  .slider {
+    width: 97%;
+    height: 10px;
   }
   .app-config-switch {
     display: flex;
