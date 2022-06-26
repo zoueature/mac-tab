@@ -25,11 +25,11 @@ export default {
         {
           id: 1,
           component: "friday",
-          height: 120,
         },
         {
           id: 1,
           component: "todo",
+          height: "grid-row: span 2;",
         },
         {
           id: 1,
@@ -56,13 +56,13 @@ export default {
 
 <style scoped>
   .components {
-    width: 92%;
+    width: 80%;
     height: 77%;
     margin: 0 auto;
     overflow: scroll;
     display: grid;
-    grid-template-columns: repeat(2, 10vw);
-    grid-template-rows:repeat(auto-fill, 10vw);
+    grid-template-columns: repeat(2, 9vw);
+    grid-template-rows:repeat(auto-fill, 9vw);
     grid-gap: 10px 10px;
     grid-auto-flow: dense;
     justify-content: center;
