@@ -13,7 +13,7 @@ export default [
         id: 24,
         type: 'app',
         size: 70,
-        name: "AppStore",
+        name: chrome.i18n.getMessage('appNameWebStore'),
         icon: "http://file.crazyman.ml/f7/95/f795251f854f041f5ac2819ed589e8d4.png",
         app: 'appstore',
     },

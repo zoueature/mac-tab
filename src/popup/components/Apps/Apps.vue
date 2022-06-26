@@ -1,6 +1,34 @@
 <template>
   <div class="apps">
       <FolderContent ></FolderContent>
+      <Draggable :list="[{id: 'prev'}]"
+                 v-bind="dragOptions"
+                 item-key="id"
+                 group="apps"
+                 :sort="true"
+                 class="prev-button"
+                 v-show="drag && activeIndex !== 0"
+      >
+        <template #item="{ element }">
+          <div :id="element.id">
+            <img src="../../../assets/icon/back.png">
+          </div>
+        </template>
+      </Draggable>
+      <Draggable :list="[{id: 'next'}]"
+                 item-key="id"
+                 v-bind="dragOptions"
+                 group="apps"
+                 :sort="true"
+                 class="next-button"
+                 v-show="drag"
+      >
+        <template #item="{ element }">
+          <div :id="element.id">
+            <img :src="activeIndex === appPageNum - 1 ? '../../../assets/icon/plus.png': '../../../assets/icon/go.png'">
+          </div>
+        </template>
+      </Draggable>
       <el-carousel
           :autoplay="false"
           @change="changePage"
@@ -8,7 +36,7 @@
           class="apps"
           ref="apps"
           indicator-position="none"
-          arrow="always"
+          :arrow="drag? 'never': 'hover'"
           :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
@@ -58,13 +86,14 @@ import {ElCarousel, ElCarouselItem} from 'element-plus'
 
 let hoverApp = {}
 let createFolderTrigger = 0
+let prevTrigger = 0
+let nextTrigger = 0
 
 let startDragPosition = {
   x: 0,
   y: 0,
 }
-
-
+/* eslint-disable */
 export default {
   name: "AppCom",
   components: {
@@ -124,29 +153,49 @@ export default {
   mounted() {
     let that = this
     setTimeout(function () {
-      console.log(that.$refs)
-      that.$refs.apps.setActiveItem(0)
-    }, 520)
-    // this.$store.dispatch('initApp')
+      that.$refs.apps.setActiveItem(this.activeIndex)
+    }, 250)
   },
   computed: {
     userApps() {
       return this.$store.getters.pageApps
+    },
+    appPageNum(){
+      return this.$store.getters.pageApps.length
     },
     carouselType() {
       if (this.drag) {
         return 'card'
       }
       return ''
+    },
+    appGridSize() {
+      // app 大小
+      let size = this.$store.getters.appSize
+      let gridSize = Math.ceil(size * 1.2) + 'px'
+      let result = 'repeat(auto-fill, ' + gridSize + ')'
+      console.log(result)
+      return result
+    },
+    appContainerSize() {
+       let size = this.$store.getters.appSize
+      let gridSize = Math.ceil(size * 1.2) + 'px'
+      return gridSize
     }
   },
   methods: {
-    scroll( e) {
-      e.preventDefault()
-      e.stopPropagation()
+    changePage(newPageIndex) {
+      this.activeIndex = newPageIndex
+      console.log(this.activeIndex)
+    },
+    scroll(e) {
+      // e.preventDefault()
       console.log(e)
       let that = this
-      let scrollVal = e.wheelDelta || e.detail
+      let scrollVal = e.wheelDeltaX
+      if (Math.abs(scrollVal) < 25) {
+        return
+      }
       if (!that.timeOut)  {
         that.timeOut = setTimeout(() => {
           // if (that.timeOut) {
@@ -157,13 +206,6 @@ export default {
           // }
           // that.timeOut = false
         }, 200)
-      }
-    },
-    openApp(app) {
-      let that = this
-      return function () {
-        that.$store.commit('openApp')
-        that.$router.replace(app)
       }
     },
     start(ev) {
@@ -178,12 +220,41 @@ export default {
       this.drag = false
       this.$store.commit('fsyncApp')
     },
-    /* eslint-disable */
-
     move(ev) {
-      console.log(ev)
+      // console.log(ev)
       let related = ev?.relatedContext?.element?? {};
       let dragged = ev?.draggedContext?.element?? {};
+      if (related.id === 'prev') {
+        // 上一页按钮
+        // 翻页
+        prevTrigger ++
+        if (prevTrigger > 200) {
+          prevTrigger = 0
+          if (this.activeIndex === 0) {
+            // 第一页, 前面没有则增加一页
+            this.$store.commit('addNewPage', -1)
+          } else {
+            this.$refs.apps.prev()
+          }
+        }
+        return false
+      }
+      prevTrigger = 0
+      if (related.id === 'next') {
+        // 下一页按钮
+        // 翻页
+        nextTrigger ++
+        if (nextTrigger > 160) {
+          nextTrigger  = 0
+          if (this.activeIndex === this.appPageNum - 1) {
+            // 第一页, 前面没有则增加一页
+            this.$store.commit('addNewPage', 1)
+          }
+          this.$refs.apps.next()
+        }
+        return false
+      }
+      nextTrigger  = 0
       if (dragged.type === 'folder') {
         // 移动的是文件夹时， 允许自由换位
         return true
@@ -212,9 +283,10 @@ export default {
       let dragY = Math.abs(dragAppPosition.top - startDragPosition.y)
 
       if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 10 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 10) {
+        // 覆盖住某个app
         createFolderTrigger ++
         if (createFolderTrigger > 200) {
-          // 覆盖app时， 创建文件夹并打开
+          // 覆盖app的时间达到阈值时， 创建文件夹并打开
           if (related.type === 'app') {
             let app = {
               id: related.id,
@@ -241,9 +313,6 @@ export default {
       }
       return false
     },
-    changePage(e) {
-      this.activeIndex = e.realIndex
-    },
     add() {
       this.$store.commit('fsyncApp')
     }
@@ -262,41 +331,79 @@ export default {
   opacity: 0.5;
   /*transform: scale(0.1);*/
 }
-.chosenClass {
-  /*cursor: move;*/
-  /*transform: scale(0.3);*/
-}
 .app{
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 100px);
-  grid-template-rows: repeat(auto-fit, 100px);
+  grid-template-columns: v-bind(appGridSize);
+  grid-template-rows: v-bind(appGridSize);
+  grid-auto-rows: v-bind(appContainerSize);
   grid-auto-flow: dense;
   justify-items: center;
   justify-content: center;
   align-items: center;
+  overflow-y: scroll;
 }
-
-/*.apps-enter-active {*/
-/*  transition: all 500ms ease;*/
-/*}*/
-/*.apps-enter-from {*/
-/*  transform: scale(0);*/
-/*}*/
-/*.apps-move {*/
-/*  !*transition: transform 160ms;*!*/
-/*}*/
-/*.no-move {*/
-/*  transition: transform 100ms;*/
-/*}*/
-/*.el-carousel__arrow {*/
-/*  width: 52px !important;*/
-/*  height: 52px !important;*/
-/*  background: red;*/
-/*  */
-/*}*/
-.el-carousel >>> .el-carousel__container {
+:deep(.el-carousel__container) {
   height: 100%;
+  widows: 100%;
+}
+/* :deep(.el-carousel__arrow) {
+  width: 52px;
+  height: 52px;
+  background: red;
+} */
+/* :deep(.el-carousel__arrow--right) {
+  width: 52px;
+  height: 52px;
+  position: position;
+  background: red;
+  z-index: 100;
+  top: 0;
+  z-index: 10000;
+  right: 7.7%;
+} */
+/* .prev-button {
+  width: 70px;
+  height: 250px;
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translate(0, -50%);
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  z-index: 1000;
+  transition: 200ms;
+} */
+.prev-button img, .next-button img {
+  width: 12px;
+  height: 32px;
+}
+.next-button, .prev-button {
+  width: 88px;
+  height: 88px;
+  border-radius: 100%;
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translate(0, -50%);
+  display: flex;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(7px);
+  background-color: rgba(255, 255, 255, 0.463);
+  opacity: 0.5;
+}
+.prev-button {
+  left: 0;
+}
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

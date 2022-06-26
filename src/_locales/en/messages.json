@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "YangDesktop",
+    "description": "Extension name"
+  },
+  "appNameWebStore": {
+    "message": "WebStore",
+    "description": "webStore 名称"
+  }
+}

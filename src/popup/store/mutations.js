@@ -1,6 +1,7 @@
 import keys from "@/popup/store/keys";
 import config from "@/popup/store/config";
 import common from "@/popup/store/common";
+
 /* eslint-disable */
 export default {
     // ----------------- common runtime ---------------------
@@ -108,21 +109,28 @@ export default {
         common.fsyncApp(state)
     },
     addAppToLocal(state, app) {
-        state.userApps.push(app)
+        // state.userApps.push(app)
+        let success = false
         for (let i = 0; i < state.fmtApps.length; i ++) {
             if (state.fmtApps[i].length < config.appNumPerPage) {
                 state.fmtApps[i].push(app)
+                success = true
+                break
             }
+        }
+        if (!success) {
+            // 所有页面都满了， 则新增页面
+            state.fmtApps.push([app])
         }
 
     },
     // removeApp 移除app
     removeApp(state, app) {
-        state.userApps.forEach((v, i) => {
-            if (v.id === app.id) {
-                state.userApps.splice(i, 1)
-            }
-        })
+        // state.userApps.forEach((v, i) => {
+        //     if (v.id === app.id) {
+        //         state.userApps.splice(i, 1)
+        //     }
+        // })
         let succ = false
         for (let i = 0; i < state.fmtApps.length; i ++) {
           for (let j = 0; j < state.fmtApps[i].length; j ++) {
@@ -144,43 +152,37 @@ export default {
     // 本地有数据时， 使用本地的localStorage的数据
     // 本地没有数据时， 使用预定义的初始化数据
     initUserApps(state, userApps) {
-        // await chrome.storage.local.get(keys.userApp, function(result) {
-        //     if (result !== null) {
-        //         state.userApps = result["user_installed_apps"]
-        //     }
-        //     let i = 0
-        //     let appLen = state.userApps.length
-        //     let appNumPerPage = config.appNumPerPage
-        //     /* eslint-disable */
-        //     let fmtApp = []
-        //     while (true) {
-        //         if (i >= appLen) {
-        //             break
-        //         }
-        //         fmtApp.push(state.userApps.slice(i, i + appNumPerPage))
-        //         i += appNumPerPage
-        //     }
-        //     state.fmtApps = fmtApp
-        //     console.log(state.fmtApps)
-        // });
-        let localUserApps = localStorage.getItem(keys.userApp)
-        // let userApps = []
-        if (localUserApps !== "" && localUserApps !== null) {
-            localUserApps = JSON.parse(localUserApps)
-            state.userApps = userApps
+        let str = JSON.stringify(userApps)
+        if (str === '{}' || str === '[]') {
+            return
         }
-        console.log(state.userApps)
-        //state.userApps = userApps
-        let i = 0
-        let appLen = state.userApps.length
-        let appNumPerPage = config.appNumPerPage
-        /* eslint-disable */
-        while (true) {
-            if (i >= appLen) {
-                break
+        state.fmtApps = []
+        for (let key in userApps) {
+            // 遍历每页
+            let page = userApps[key]
+            let pageResult = []
+            for (let appKey in page) {
+                let item = page[appKey]
+                if (item.type === 'folder') {
+                    let folderApps = []
+                    for (let k in item.apps) {
+                        folderApps.push(item.apps[k])
+                    }
+                    // 将folder的apps转位array
+                    item.apps = folderApps
+                }
+                pageResult.push(item)
             }
-            state.fmtApps.push(state.userApps.slice(i, i + appNumPerPage))
-            i += appNumPerPage
+            if (pageResult.length > 0) {
+                state.fmtApps.push(pageResult)
+            }
+        }
+    },
+    addNewPage(state, direction) {
+        if (direction < 0) {
+            state.fmtApps.unshift([])
+        } else {
+            state.fmtApps.push([])
         }
         console.log(state.fmtApps)
     },

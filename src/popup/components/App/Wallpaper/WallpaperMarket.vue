@@ -25,7 +25,7 @@
              :key="category.id"
              @click="selectCate(category)"
         >
-          {{category.name}}
+          {{category.title}}
         </div>
       </div>
       <ul v-infinite-scroll="loadingData" class="wallpaper-list">
@@ -51,6 +51,7 @@
 <script>
 import data from "./wallpaper_list"
 import Back from "@/popup/components/common/Back";
+import api from "@/popup/components/api/wallpaper"
 // import Loading from "@/popup/components/common/Loading";
 
 
@@ -59,11 +60,14 @@ const defaultActiveCateID = data.categoryList[0]
 export default {
   name: "WallpaperMarket",
   components:{
-    // Scroller,
     Back,
-    // Loading,
-    // VInfiniteCcroll,
-    // ul,
+  },
+  created() {
+    let that = this
+    api.getWWallpaperTag((tags) => {
+      console.log(tags)
+      that.cateList = tags
+    })
   },
   mounted() {
     this.selectCate(defaultActiveCateID)
@@ -129,7 +133,7 @@ export default {
       this.showLoading = false
     },
     async getWallpaper(origin) {
-      let result = await this.$http.get("/wallpaper/" + origin, {
+      let result = await this.$http.get("/wallpaper/type/" + origin, {
         params: {
           keyword: this.keyword,
           page:  1,
@@ -211,7 +215,7 @@ export default {
       keyword: '',
       offset: 0,
       limit: 34,
-      cateList: data.categoryList,
+      cateList: [],
       selectedCateId: data.categoryList[0].id,
       showLoading: false
     }
@@ -245,6 +249,10 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    margin-top: 7px;
+  }
+  .wallpaper-category::-webkit-scrollbar{
+    display: none;
   }
   .cate {
     width: 38%;

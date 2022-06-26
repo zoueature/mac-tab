@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "羊羊新标签页",
+    "description": "Extension name"
+  },
+  "appNameWebStore": {
+    "message": "网页市场",
+    "description": "webStore 名称"
+  }
+}

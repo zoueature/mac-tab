@@ -28,7 +28,7 @@
                  @dblclick="modifyID = category.id"
             >
               <div class="category-icon">
-                <img src="../../../../assets/icon/list.png" alt="">
+                <category-management theme="outline" size="20" fill="#333"/>
               </div>
               <div class="category-name">
                 <div v-if="category.id !== modifyID">
@@ -47,7 +47,7 @@
         </div>
         <div class="opt-button">
           <div class="add-icon" @click="createCategory(selectTab)">
-            <img src="../../../../assets/icon/plus_blue.png" alt="">
+            <add-four theme="outline" size="28" fill="#333"/>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
           <div class="todo-title">
             {{todoList.name?? "还没创建TODO哦"}}
             <span class="add-todo-icon" @click="createTodo" v-if="activeTab !== 1000000000000 && activeTab !== 1000000000002 && activeTab !== 1000000000003">
-              <img src="../../../../assets/icon/plus_blue.png" alt="">
+              <add-four theme="outline" size="24" fill="#333"/>
             </span>
           </div>
         </div>
@@ -67,31 +67,31 @@
                @mouseenter="showTodoOp(todoItem.id)"
                @mouseleave="hideTodoOp"
           >
-            <p v-if="createTodoId === todoItem.id">
+            <span v-if="createTodoId === todoItem.id">
               <input type="text"
                      class="input-todo"
                      v-model="todoItem.title"
                      placeholder="创建新TODO"
                      autofocus
-                     :style="'font-size:15px; font-weight: bold;'"
+                     :style="'font-size:12px;'"
                      @focusout="saveTodo(todoItem)"
                      @keyup.enter="saveTodo(todoItem)"
                      ref="inputTodo"
               >
-            </p>
-            <p v-else
+            </span>
+            <span v-else
                :style="todoItem.done ? 'text-decoration: line-through; color: rgba(0,0,0,0.25);' :''"
                style="font-size: 14px;"
             >
               {{todoItem.title}}
-            </p>
+            </span>
             <transition name="optbutton">
               <div class="todo-opt" v-if="(opTodoID === todoItem.id && createTodoId !== todoItem.id)">
                 <div class="opt" @click="done(todoItem)">
-                  <img src="../../../../assets/icon/done_fill.png" alt="done">
+                  <check theme="outline" size="22" fill="#fff"/>
                 </div>
                 <div class="opt" @click="deleteTodo(todoItem)">
-                  <img src="../../../../assets/icon/delete.png" alt="delete">
+                  <delete-two theme="outline" size="22" fill="#fff"/>
                 </div>
               </div>
             </transition>
@@ -102,6 +102,8 @@
 </template>
 
 <script>
+
+import {Check, DeleteTwo, CategoryManagement, AddFour} from '@icon-park/vue-next';
 
 const todayId = 1000000000000
 const doneID = 1000000000002
@@ -129,6 +131,10 @@ const staticTab = [
 export default {
   name: "TodoApp",
   components: {
+    Check,
+    DeleteTwo,
+    CategoryManagement,
+    AddFour,
   },
   created() {
     this.$store.commit('initTodo')
@@ -332,30 +338,26 @@ export default {
     overflow: scroll;
   }
   .category-item {
-    height: 34px;
+    height: 43px;
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
     color: rgba(49, 49, 49, 0.87);
     cursor: pointer;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
   .category-icon {
-    float: left;
-    width: 16px;
-    height: 16px;
-    margin-top: 8px;
-    margin-left: 11px;
-    overflow: hidden;
-  }
-  .category-icon img {
-    width: 100%;
-    height: 100%;
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
   }
   .category-name {
-    float: left;
-    line-height: 34px;
+    flex: 10;
     font-size: 10px;
+    justify-self: start;
     font-weight: bold;
-    margin-left: 10px;
   }
   .opt-button {
     width: 100%;
@@ -374,16 +376,12 @@ export default {
     font-size: 12px;
     color: #505050;
   }
-  .active {
-    background: rgba(62, 206, 239, 0.84) !important;
-    color: white !important;
-  }
   .active-orange {
-    background: rgba(188, 67, 15, 0.8);
+    background: #039BE5;
     color: white !important;
   }
   .active-green {
-    background: #76EA16CC;
+    background: #3949AB;
     color: white !important;
   }
   .active .category-icon {
@@ -404,15 +402,15 @@ export default {
     width: 95%;
     height: 37px;
     color: white;
-    background-image: linear-gradient(to right, rgba(62, 206, 239, 0.87), rgba(62, 206, 239, 0.34));
+    background-image: linear-gradient(to right,#00B0FF, #39bdfa);
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.33);
     text-align: left;
     border-radius: 2px;
-    margin: 3px auto 4px auto;
+    margin: 0 auto 9px auto;
     line-height: 37px;
     position: relative;
   }
-  .todo-item p {
+  .todo-item span {
     max-width: 70%;
     /*overflow: hidden;*/
     margin-left: 16px;
@@ -420,7 +418,7 @@ export default {
     /*white-space: nowrap;*/
     /*text-overflow: ellipsis;*/
   }
-  .todo-item p input {
+  .todo-item span input {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -441,26 +439,26 @@ export default {
     padding-left: 2%;
     display: flex;
     background: rgba(9, 9, 9, 0.34);
+    width: 70px;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
   }
   .opt {
-    margin-top: 6px;
-    width: 20px;
-    height: 20px;
-    margin-left: 5px;
-  }
-  .opt img {
-    width: 100%;
-    height: 100%;
+    float: 1;
+    display: flex;
+    justify-items: center;
+    align-items: center;
   }
   .todo-list-title-container {
-    width: 100%;
+    width: 95%;
+    margin: 0 auto 16px auto;
   }
   .todo-title {
     text-align: left;
     color: rgba(25, 25, 25, 1);
     font-size: 25px;
     font-weight: bold;
-    margin-left: 12px;
   }
   .add-todo-icon {
     width: 16px;

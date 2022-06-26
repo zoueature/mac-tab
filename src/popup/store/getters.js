@@ -46,18 +46,20 @@ export default {
     },
 
     // ------------------- APPS ------------------------
-    userApps(state) {
-        return state.userApps
-    },
+    // userApps(state) {
+    //     return state.userApps
+    // },
     installedAppID(state) {
         let result = {}
-        state.userApps.forEach((v) => {
-            if (v.type === 'folder') {
-                for (let app in v.apps) {
-                    result[app.id] = true
+        state.fmtApps.forEach((v) => {
+            v.forEach(item => {
+                if (item.type === 'folder') {
+                    for (let app in v.apps) {
+                        result[app.id] = true
+                    }
                 }
-            }
-            result[v.id] = true
+                result[item.id] = true
+            })
         })
         state.dockApps.forEach(v => {
             result[v.id] = true
@@ -65,6 +67,7 @@ export default {
         return result
     },
     pageApps(state) {
+        console.log(state.fmtApps)
         return state.fmtApps
     },
     dockApps(state) {

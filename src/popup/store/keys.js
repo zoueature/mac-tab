@@ -1,6 +1,7 @@
 export default {
     // ----------- desktop --------------
     config: "desktop_config",
+    viewedAnnouncement: "viewed_announcement",
     // ----------- app ------------------
     userApp: "user_installed_apps",
     dockApps: "dock_apps",

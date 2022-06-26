@@ -20,19 +20,19 @@ export default {
             },
             blur: 0,
         },
-        appSize: 70,
-        appColumnNum: 10,
-        showComponents: true,
-        darkModel: false,
-        searchEngine: "google",
+        appSize: 70, // 桌面app大小
+        showComponents: true, // 是否展示小组件
+        darkModel: false, // 开启黑暗模式
+        searchEngine: "google", // 选择的搜索引擎
+        showDock: true, // todo 是否展示下方dock
     },
     showSearchEngine: false,
 
     // --------- app -----------
-    userApps: initApps,
+    // userApps: initApps,
     installedAppID: {}, // {123: true}
     activeFolder: {}, // 当前打开的文件夹信息
-    fmtApps: [],
+    fmtApps: [initApps],
     dockApps: initDock,
 
     // todo

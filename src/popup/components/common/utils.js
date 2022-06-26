@@ -1,11 +1,13 @@
 import {ElNotification} from "element-plus"
 
 
-function notify(title, msg) {
+function notify(title, msg, duration = 2000) {
     ElNotification({
       title: title,
       message: msg,
-      position: 'top-left',
+      dangerouslyUseHTMLString: true,
+      // position: 'top-left',
+      duration: duration
     })	
 }
 

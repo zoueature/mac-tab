@@ -1,9 +1,10 @@
 <template>
   <div class="container">
+    <div class="bg"></div>
     <div style="flex: 1"></div>
     <Draggable :list="docks"
                item-key="id"
-               :options="option"
+               v-bind="dragOptions"
                class="container"
                @start="start"
                @end="end"
@@ -27,13 +28,13 @@
                   :hover="true"
                   :type="element.type"
                   class="dock-item"
+                  :maxSize="97"
                  :app="element"
                   @mouseenter="enlarge(element.id)" @mouseleave="recover"
         />
       </template>
     </Draggable>
     <div style="flex: 1"></div>
-    <div class="bg"></div>
   </div>
 </template>
 
@@ -55,13 +56,8 @@ export default {
   data() {
     return {
       drag: false,
-      option: {
-        group: {name: "apps", put: true, pull: true},
-        sort: true,
-        delay: 1000,
-        animation: 1000,
-        ghostClass: "ghostClass",
-        tag: "transition"
+      dragOptions: {
+        animation: 200,
       },
       scaleIndex: -2,
       size: 66
@@ -146,17 +142,7 @@ export default {
       /*transform: scale(1.2);*/
     }
   }
-  .enlarge {
-    /*animation: enlargeBig 100ms;*/
-    /*transform: scale(1.6);*/
-  }
-  .enlarge-little {
-    /*animation: enlargeLittle 300ms;*/
-    /*transform: scale(1.3);*/
-  }
   .container {
-    width: v-bind(containerLength);
-    height: v-bind(dockItemSize);
     margin: 0 auto;
     display: flex;
     position: relative;
@@ -165,31 +151,14 @@ export default {
     flex: 2;
   }
   .bg {
-    width: v-bind(containerLength);
-    height: v-bind(dockItemSize);
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
-    display: flex;
     position: absolute;
     top: -5%;
     background: rgba(215, 211, 211, 0.5);
     z-index: -1;
     filter: blur(10px);
     border: 1px solid #ccffcc;
-  }
-
-  .apps-enter-active {
-    transition: all 500ms ease;
-  }
-  .apps-enter-from {
-    transform: scale(0);
-  }
-  .apps-move {
-    transition: transform 0.5s;
-  }
-  .apps-drag-move {
-    transition: transform 0.1s;
-  }
-  .no-move {
-    transition: transform 0s;
   }
 </style>

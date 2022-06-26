@@ -117,6 +117,11 @@ export default {
   watch: {
     keyword(val) {
       this.suggest(val)
+    },
+    suggest(val) {
+      if (val.length === 0) {
+        this.selectSuggestIndex = -1
+      }
     }
   },
   methods: {
@@ -251,6 +256,9 @@ export default {
   }
   .eng-item div {
     float: left;
+  }
+  .eng-item:hover {
+    transform: scale(1.06);
   }
   .eng-img {
     width: 26px;
