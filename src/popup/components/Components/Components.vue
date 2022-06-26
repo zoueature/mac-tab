@@ -36,6 +36,21 @@ export default {
           component: "news",
           height: "grid-row: span 2; grid-column: span 2;",
         },
+        {
+          id: 1,
+          component: "news",
+          height: "grid-row: span 2; grid-column: span 2;",
+        },
+        {
+          id: 1,
+          component: "news",
+          height: "grid-row: span 2; grid-column: span 2;",
+        },
+        {
+          id: 1,
+          component: "news",
+          height: "grid-row: span 2; grid-column: span 2;",
+        },
       ]
     }
   },
@@ -63,6 +78,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(2, 9vw);
     grid-template-rows:repeat(auto-fill, 9vw);
+    grid-auto-rows: 9vw;
     grid-gap: 10px 10px;
     grid-auto-flow: dense;
     justify-content: center;
