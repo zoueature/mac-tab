@@ -109,6 +109,20 @@ export default {
           icon: "https://s.ssl.qhimg.com/static/121a1737750aa53d.ico",
           link: "https://www.so.com/s?q="
         },
+        {
+          id: 5,
+          name: "搜狗搜索",
+          identify: "sogou",
+          icon: "https://www.sogou.com/images/logo/new/favicon.ico?nv=1&v=3",
+          link: "https://www.sogou.com/web?query="
+        },
+        {
+          id: 6,
+          name: "雅虎",
+          identify:"yahoo",
+          icon: "https://search.yahoo.com/favicon.ico",
+          link: "https://search.yahoo.com/search?p="
+        }
       ],
       suggestList: [],
       selectSuggestIndex: -1,
@@ -227,7 +241,7 @@ export default {
   .eng-list {
     width: 160px;
     height: v-bind(listHeight);
-    background: white;
+    background: rgba(255, 255, 255, 0.97);
     border-radius: 7px;
     position: absolute;
     box-shadow: 1px 7px 7px rgba(0, 0, 0, 0.34);

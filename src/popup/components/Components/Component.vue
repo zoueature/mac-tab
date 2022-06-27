@@ -3,6 +3,7 @@
       <Friday v-if="component.component === 'friday'" class="component-item"/>
       <Todo v-else-if="component.component === 'todo'" class="component-item"/>
       <NewsWidget v-else-if="component.component === 'news'" class="component-item"/>
+      <CalendarWidget v-else-if="component.component === 'calendar'" class="component-item"/>
     </div>
 </template>
 
@@ -11,6 +12,7 @@
 import Friday from "@/popup/components/Widgets/Friday";
 import Todo from "@/popup/components/App/Todo/TodoWidget";
 import NewsWidget from "@/popup/components/App/News/NewsWidget";
+import CalendarWidget from "@/popup/components/Widgets/Calendar"
 
 export default {
   name: "ComponentCom",
@@ -18,6 +20,7 @@ export default {
     Friday,
     Todo,
     NewsWidget,
+    CalendarWidget,
   },
   props: [
       "component"

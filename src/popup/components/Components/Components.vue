@@ -27,18 +27,11 @@ export default {
           component: "friday",
         },
         {
+          component: "calendar",
+        },
+        {
           id: 1,
           component: "todo",
-          height: "grid-row: span 2;",
-        },
-        {
-          id: 1,
-          component: "news",
-          height: "grid-row: span 2; grid-column: span 2;",
-        },
-        {
-          id: 1,
-          component: "news",
           height: "grid-row: span 2; grid-column: span 2;",
         },
         {
@@ -71,13 +64,13 @@ export default {
 
 <style scoped>
   .components {
-    width: 80%;
+    width: 90%;
     height: 77%;
     margin: 0 auto;
     overflow: scroll;
     display: grid;
-    grid-template-columns: repeat(2, 9vw);
-    grid-template-rows:repeat(auto-fill, 9vw);
+    grid-template-columns: repeat(2, 10vw);
+    grid-template-rows:repeat(auto-fill, 10vw);
     grid-auto-rows: 9vw;
     grid-gap: 10px 10px;
     grid-auto-flow: dense;
@@ -94,7 +87,7 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
-    border-radius: 5%;
+    border-radius: 7%;
   }
   /* .component::before {
     content: "";
