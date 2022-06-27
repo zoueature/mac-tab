@@ -23,7 +23,7 @@
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <div class="app-item"  v-for="app in selectedApp" :key="app.id">
+      <div class="app-item"  v-for="app in apps" :key="app.id">
         <div class="app-container">
           <div class="app-icon" @click="preview(app)">
             <img :src="app.icon" alt="">
@@ -87,9 +87,6 @@
 </template>
 
 <script>
-
-import {ElNotification} from "element-plus";
-
 function formatLink(link) {
   let requestLink = link
   if (requestLink.substring(0, 7) !== "http://" && requestLink.substring(0, 8) !== 'https://') {
@@ -98,11 +95,11 @@ function formatLink(link) {
   return requestLink
 }
 
-import apps from './apps'
 import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
+import api from "@/popup/components/api/app"
 
-const diyCategoryId = 7
+const diyCategoryId = 999999999999
 
 const defaultDiyApp = {
   link: '',
@@ -117,61 +114,45 @@ const searchCateIdentify = 'search'
 export default {
   name: "AppStore",
   methods: {
-    async search(e) {
+    search(e) {
       e.preventDefault()
-      let that = this
-      let result = await this.$http.get("/app/search?keyword=" + this.keyword)
-      if (result.status !== 200) {
-        ElNotification({
-          title: '搜索失败',
-          message: result.statusText,
-          type: 'error',
-          position: 'top-left',
-          duration: 2000,
-        })
-        return
-      }
-      let apps = []
-      for (let key in result.data.data) {
-        let item = result.data.data[key]
-        apps.push({
-          id: item.id,
-          name: item.title,
-          icon: item.icon,
-          link: item.target,
-          desc: item.desc,
-        })
-      }
-      that.apps[searchCateIdentify] = {list: apps}
-      that.selectedCategory = searchCateIdentify
+      this.searchApp(this.keyword, this.selectedCategory)
     },
-    async getAppCategoryList() {
+    searchApp(keyword, categoryId) {
       let that = this
-      let result = await this.$http.get("/app/category")
-      if (result.status !== 200) {
-        ElNotification({
-          title: '获取app分类失败',
-          message: result.statusText,
-          type: 'error',
-          position: 'top-left',
-          duration: 2000,
+      api.searchApp(keyword, categoryId, (data) => {
+        let resultApps = []
+        data.forEach(app => {
+          resultApps.push({
+            id: app.id,
+            name: app.title,
+            icon: app.icon,
+            link: app.target,
+            desc: app.desc,
+            })
         })
-        return
-      }
-      let categoryList = []
-      for (let key in result.data.data) {
-        let item = result.data.data[key]
-        categoryList.push({
-          id: item.id,
-          name: item.title,
-          icon: item.icon,
+        that.apps = resultApps
+        that.selectedCategory = searchCateIdentify
+      })
+    },
+    getAppCategoryList() {
+      let that = this
+      api.getAppCategory((data) => {
+        let categoryList = []
+        data.forEach(category => {
+          categoryList.push({
+            id: category.id,
+            name: category.title,
+            icon: category.icon,
+          })
         })
-      }
-     that.categoryList = categoryList
+        that.categoryList = categoryList
+      })
     },
     selectCategory(category) {
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
+      this.searchApp(this.keyword, this.selectedCategory)
     },
     install(app) {
       this.$store.commit('addApp', app)
@@ -230,23 +211,12 @@ export default {
   created() {
     this.getAppCategoryList()
   },
-  computed: {
-    selectedApp() {
-      let result = []
-      for (let v in this.apps[this.selectedCategory].list) {
-        let item = this.apps[this.selectedCategory].list[v]
-        item.installed = this.installedApp[item.id]
-        result.push(item)
-      }
-      return result
-    }
-  },
   data() {
     return {
       selectedCategoryObj: null,
       selectedCategory: diyCategoryId,
       categoryList: [],
-      apps: apps.apps,
+      apps: [],
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
       diyApp: {
@@ -276,6 +246,7 @@ export default {
     padding-top: 3.4%;
     /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
+    overflow-y: scroll;
   }
   .search {
     width: 100%;
