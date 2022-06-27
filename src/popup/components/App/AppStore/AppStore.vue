@@ -73,10 +73,7 @@
              :style="'background: ' + color.color"
              @click="diyApp.wordIconColor = color.color"
         >
-          <img src="../../../../assets/icon/gou_white.png"
-               style="width: 50%; height: 50%; margin-left: 10%; margin-top: 25%;"
-               alt=""
-               v-if="diyApp.wordIconColor === color.color">
+          <check theme="outline" size="20" fill="#fff" :strokeWidth="2" v-if="diyApp.wordIconColor === color.color"/>
         </div>
       </div>
       <div class="opt-container">
@@ -98,6 +95,7 @@ function formatLink(link) {
 import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
 import api from "@/popup/components/api/app"
+import {Check} from "@icon-park/vue-next"
 
 const diyCategoryId = 999999999999
 
@@ -113,6 +111,9 @@ const searchCateIdentify = 'search'
 
 export default {
   name: "AppStore",
+  components: {
+    Check,
+  },
   methods: {
     search(e) {
       e.preventDefault()
@@ -435,6 +436,11 @@ export default {
     width: 25px;
     height: 25px;
     border-radius: 4px;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
   .opt-container {
     width: 90%;
