@@ -133,7 +133,9 @@ export default {
             })
         })
         that.apps = resultApps
-        that.selectedCategory = searchCateIdentify
+        if (categoryId !== 0) {
+           that.selectedCategory = categoryId
+        }
       })
     },
     getAppCategoryList() {
@@ -320,7 +322,7 @@ export default {
   }
   .app-container {
     width: 90%;
-    height: 61%;
+    height: 70%;
     position: relative;
     background: white;
     margin-top: 30px;
@@ -329,8 +331,8 @@ export default {
     border-radius: 7px;
   }
   .app-icon {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     float: left;
     overflow: hidden;
     position: absolute;
@@ -364,7 +366,7 @@ export default {
     font-size: 14px;
     height: 25px;
     /*font-weight: bolder;*/
-    margin-left: 64px;
+    margin-left: 74px;
     margin-top: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -374,7 +376,7 @@ export default {
   }
   .app-desc {
     width: 95%;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 5px;
     font-size: 10px;
     color: rgba(12, 16, 33, 0.52);
