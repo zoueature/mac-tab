@@ -1,9 +1,11 @@
 import http from './axios'
 
-async function searchApp(keyword, categoryId, callback) {
+async function searchApp(keyword, categoryId, page, size, callback) {
     http.get('/app/search', {
         keyword: keyword,
         categoryId: categoryId,
+        page: page, 
+        size: size,
     }, callback)
 }
 

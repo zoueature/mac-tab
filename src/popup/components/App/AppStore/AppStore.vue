@@ -19,12 +19,12 @@
         </div>
       </div>
     </div>
-    <div class="app-list" v-if="diyCategoryId !== selectedCategory">
+    <ul v-infinite-scroll="loadingData" class="app-list" infinite-scroll-distance="20" v-if="diyCategoryId !== selectedCategory">
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
       <loading ref="loading"/>
-      <div class="app-item"  v-for="app in apps" :key="app.id">
+      <li class="app-item"  v-for="app in apps" :key="app.id">
         <div class="app-container">
           <div class="app-icon" @click="preview(app)">
             <img :src="app.icon" alt="">
@@ -40,8 +40,8 @@
             <img src="../../../../assets/icon/gou_white_fill.png" alt="">
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
     <div v-else class="app-list">
       <div class="title">
         自定义应用
@@ -99,7 +99,7 @@ import api from "@/popup/components/api/app"
 import {Check} from "@icon-park/vue-next"
 import Loading from "@/popup/components/common/Loading"
 
-const diyCategoryId = 999999999999
+const diyCategoryId = 7
 
 const defaultDiyApp = {
   link: '',
@@ -121,12 +121,14 @@ export default {
       this.searchApp(this.keyword, 0)
       this.$refs.loading.show()
     },
+    loadingData() {
+      this.searchApp(this.keyword, this.selectedCategory)
+    },
     searchApp(keyword, categoryId) {
       let that = this
-      api.searchApp(keyword, categoryId, (data) => {
-        let resultApps = []
+      api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
         data.forEach(app => {
-          resultApps.push({
+          that.apps.push({
             id: app.id,
             name: app.title,
             icon: app.icon,
@@ -134,10 +136,8 @@ export default {
             desc: app.desc,
             })
         })
-        that.apps = resultApps
-        // if (categoryId !== 0) {
-           that.selectedCategory = categoryId
-        // }
+        that.selectedCategory = categoryId
+        that.page ++
       })
     },
     getAppCategoryList() {
@@ -155,9 +155,12 @@ export default {
       })
     },
     selectCategory(category) {
+      this.apps = []
+      this.page = 1
+      console.log(category)
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
-      this.searchApp(this.keyword, this.selectedCategory)
+      // this.searchApp(this.keyword, this.selectedCategory)
     },
     install(app) {
       this.$store.commit('addApp', app)
@@ -234,6 +237,8 @@ export default {
       },
       colors: color,
       keyword: '',
+      page: 1, 
+      size: 15,
     }
   }
 }
@@ -298,7 +303,10 @@ export default {
     white-space: nowrap;
   }
   .app-list {
+    list-style: none;
+    margin: 0;
     flex: 9;
+    padding-inline-start: 0;
     padding-top: 3.4%;
     display: flex;
     flex-wrap: wrap;
@@ -306,7 +314,8 @@ export default {
     flex-direction: row;
     align-items: flex-start;
     align-content: flex-start;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
+    overflow: scroll;
     position: relative;
   }
   .app-item {

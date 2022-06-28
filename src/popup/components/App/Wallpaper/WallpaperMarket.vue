@@ -68,7 +68,7 @@ export default {
     })
   },
   mounted() {
-    this.selectCate(defaultActiveCateID)
+    // this.selectCate(defaultActiveCateID)
   },
   computed: {
     originClass() {
@@ -212,7 +212,7 @@ export default {
       offset: 0,
       limit: 34,
       cateList: [],
-      selectedCateId: data.categoryList[0].id,
+      selectedCateId: defaultActiveCateID.id,
       showLoading: false,
       fromWallpaper: this.$route.params.fromWallpaper,
     }
