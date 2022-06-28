@@ -196,6 +196,7 @@ export default {
     background: rgb(255, 95, 92);
     border-radius: 100%;
     overflow: hidden;
+    transition: 200ms;
   }
   .delete-icon img {
     position: absolute;

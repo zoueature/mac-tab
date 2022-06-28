@@ -1,9 +1,9 @@
 <template>
-  <div v-show="showLoading">
-    <div class="loadingio-spinner-eclipse-hyj11p3vilq"><div class="ldio-88mdma17w4p">
-    <div></div>
-    </div></div>
-  </div>
+  <div class="loadingio-spinner-eclipse-hyj11p3vilq" v-show="showLoading">
+      <div class="ldio-88mdma17w4p">
+        <div></div>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -16,7 +16,6 @@ export default {
   },
   methods: {
     show() {
-
       this.showLoading = true
     },
     close() {
@@ -27,10 +26,15 @@ export default {
 </script>
 
 <style scoped>
-  .loading-container {
+  .loading {
     z-index: 1000000;
-    width: auto;
-    transform: scale(0.5);
+    /* transform: scale(0.5); */
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
   }
   @keyframes ldio-88mdma17w4p {
     0% { transform: rotate(0deg) }
@@ -49,6 +53,13 @@ export default {
     transform-origin: 79.56px 81.804px;
   }
   .loadingio-spinner-eclipse-hyj11p3vilq {
+    transform: scale(0.7);
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     width: 204px;
     height: 204px;
     display: inline-block;

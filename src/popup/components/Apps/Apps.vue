@@ -11,7 +11,7 @@
       >
         <template #item="{ element }">
           <div :id="element.id">
-            <img src="../../../assets/icon/back.png">
+            <arrow-left heme="outline" size="27" fill="#fff" :strokeWidth="2"/>
           </div>
         </template>
       </Draggable>
@@ -25,7 +25,9 @@
       >
         <template #item="{ element }">
           <div :id="element.id">
-            <img :src="activeIndex === appPageNum - 1 ? '../../../assets/icon/plus.png': '../../../assets/icon/go.png'">
+            <plus v-if="activeIndex === appPageNum - 1" theme="outline" size="27" fill="#fff" :strokeWidth="2"/>
+            <arrow-right v-else theme="outline" size="27" fill="#fff" :strokeWidth="2"/>
+            <!-- <img :src="activeIndex === appPageNum - 1 ? '../../../assets/icon/plus.png': '../../../assets/icon/go.png'"> -->
           </div>
         </template>
       </Draggable>
@@ -83,6 +85,7 @@ import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
 import utils from "@/popup/components/common/utils"
 import {ElCarousel, ElCarouselItem} from 'element-plus'
+import {Plus, ArrowRight, ArrowLeft} from '@icon-park/vue-next'
 
 let hoverApp = {}
 let createFolderTrigger = 0
@@ -99,11 +102,12 @@ export default {
   components: {
     Draggable,
     AppContainer,
-    // Swiper,
-    // SwiperSlide,
     FolderContent,
     ElCarousel,
     ElCarouselItem,
+    Plus,
+    ArrowRight,
+    ArrowLeft,
   },
   setup() {
     return {

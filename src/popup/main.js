@@ -7,7 +7,7 @@ import appCfg from "./components/App/app_config"
 import 'element-plus/dist/index.css'
 import './css/common.css'
 import axios from './components/api/axios'
-import installLoading from "@/popup/components/common/loading_install";
+// import installLoading from "@/popup/components/common/loading_install";
 import right_drawer_install from "@/popup/components/common/right_drawer_install";
 import {createI18n} from 'vue-i18n'
 import cn from '../_locales/zh_CN/i18n'
@@ -30,7 +30,7 @@ const app = createApp(App)
 app.use(store)
 app.use(i18n)
 app.use(router)
-app.use(installLoading)
+// app.use(installLoading)
 app.use(right_drawer_install)
 
 // let http = axios.create({

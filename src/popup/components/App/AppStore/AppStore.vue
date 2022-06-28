@@ -23,6 +23,7 @@
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
+      <loading ref="loading"/>
       <div class="app-item"  v-for="app in apps" :key="app.id">
         <div class="app-container">
           <div class="app-icon" @click="preview(app)">
@@ -96,6 +97,7 @@ import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
 import api from "@/popup/components/api/app"
 import {Check} from "@icon-park/vue-next"
+import Loading from "@/popup/components/common/Loading"
 
 const diyCategoryId = 999999999999
 
@@ -111,11 +113,13 @@ export default {
   name: "AppStore",
   components: {
     Check,
+    Loading,
   },
   methods: {
     search(e) {
       e.preventDefault()
-      this.searchApp(this.keyword, this.selectedCategory)
+      this.searchApp(this.keyword, 0)
+      this.$refs.loading.show()
     },
     searchApp(keyword, categoryId) {
       let that = this
@@ -131,9 +135,9 @@ export default {
             })
         })
         that.apps = resultApps
-        if (categoryId !== 0) {
+        // if (categoryId !== 0) {
            that.selectedCategory = categoryId
-        }
+        // }
       })
     },
     getAppCategoryList() {
@@ -303,6 +307,7 @@ export default {
     align-items: flex-start;
     align-content: flex-start;
     overflow-y: scroll;
+    position: relative;
   }
   .app-item {
     width: 44%;
@@ -336,8 +341,11 @@ export default {
     position: absolute;
     border-radius: 7px;
     top: -25px;
-    background: white;
+    /* background: white; */
   }
+   .app-icon:hover{
+    cursor: pointer;
+   }
   .app-installer {
     position: absolute;
     right: 0px;
@@ -351,6 +359,7 @@ export default {
   .app-icon img, .app-installer img {
     border-radius: 7px;
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
+    background: #2da2df;
     width: 80%;
     height: 80%;
     margin-left: 10%;

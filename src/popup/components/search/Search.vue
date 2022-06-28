@@ -2,12 +2,10 @@
   <div class="search-item" @keydown.up="selectSuggestIndex--" @keydown.down="selectSuggestIndex++">
     <div class="engine-selector">
       <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
-        <div class="eng-icon">
+        <div class="eng-icon" :style="expand ? 'margin-top: -10px; transition: 200ms;': 'transition: 200ms;' ">
           <img :src="currentEng.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="currentEng.name">
         </div>
-        <div class="more-icon" :style="expand ? 'transform: rotate(90deg)': ''">
-          <img src="../../../assets/icon/down.png" style="width: 100%; height: 100%">
-        </div>
+        <right-one class="more-icon"  theme="filled" size="20" fill="#777" :strokeWidth="2" :style="expand ? 'transform: rotate(90deg);  transition: 200ms;': 'transition: 200ms'"/>
       </div>
       <transition name="englist">
         <div class="eng-list" v-if="expand">
@@ -43,11 +41,20 @@
 </template>
 
 <script>
+
+import {RightOne} from '@icon-park/vue-next'
+
 export default {
   name: "SearchCom",
+  components: {
+    RightOne,
+  },
   computed: {
     heightSize() {
       return this.size + "px"
+    },
+    iconShowSize() {
+      return Math.ceil(this.size*1.5) + "px"
     },
     centerTop() {
       return Math.ceil(this.size / 4) + "px"
@@ -215,24 +222,27 @@ export default {
     border-radius: 10px 0 0 10px;
   }
   .eng-show {
-    width: v-bind(heightSize);
+    width: v-bind(iconShowSize);
     height: v-bind(heightSize);
     display: flex;
-    justify-content: space-around;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
   .eng-icon {
-    margin-top: 50%;
-    margin-left: 15%;
-    transform: translateY(-50%);
+    /* margin-top: 50%; */
+    /* margin-left: 15%; */
+    /* transform: translateY(-50%); */
     width: v-bind(halfSize);
     height: v-bind(halfSize);
   }
   .more-icon {
-    margin-top: 43%;
-    margin-left: 16%;
-    width: 5px;
-    height: 10px;
-    transform: translateY(-50%);
+    /* margin-top: 43%; */
+    /* margin-left: 16%; */
+    /* width: 5px; */
+    /* height: 10px; */
+    /* transform: translateY(-50%); */
   }
   .eng-list {
     width: 160px;

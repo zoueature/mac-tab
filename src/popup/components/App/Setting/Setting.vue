@@ -49,7 +49,7 @@ export default {
   created() {
     this.appSize = this.$store.getters.appSize
     this.appColumnNum = this.$store.getters.appSize
-    this.$loading.show()
+    // this.$loading.show()
     console.log(this.$t('appName'))
   },
   data() {
