@@ -71,7 +71,7 @@ export default {
     dark() {
     },
     showMenu(e) {
-      console.log(123, e)
+      console.log(e)
     },
     openDrawer() {
       this.$router.replace('news')
@@ -137,8 +137,6 @@ export default {
       // }, (val) => {
       //   if (val) {
       //     darkmode.showWidget()
-      //     console.log(darkmode.isActivated())
-      //     console.log(darkmode)
       //   }
       // })
   },

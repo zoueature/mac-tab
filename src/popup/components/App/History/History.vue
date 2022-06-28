@@ -40,7 +40,6 @@ export default {
   created() {
     const oneDayMillSec = 24 * 60 * 60 * 1000
     let now = new Date().getTime()
-    console.log(dateFormat(new Date(now - 30 * oneDayMillSec), "yyyy-mm-dd"), dateFormat(new Date(now + oneDayMillSec), "yyyy-mm-dd"), )
     let tomorrow = Date.parse(dateFormat(new Date(now + oneDayMillSec), "yyyy-mm-dd"))
     let before10Day = Date.parse(dateFormat(new Date(now - 30 * oneDayMillSec), "yyyy-mm-dd"))
     this.startTime = before10Day

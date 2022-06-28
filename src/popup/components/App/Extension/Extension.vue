@@ -53,14 +53,12 @@ export default {
     let that = this
     runtime.requestChromeApi("getSelfExtension", function (item) {
       that.selfID = item.id
-      console.log(item)
     })
     chrome.runtime.sendMessage({
       do: "getExtension",
       param: {start: this.startTime, end: this.endTime}
     }, function (response) {
       that.extensions = response
-      console.log(that.extensions)
     })
   },
   data() {
@@ -83,9 +81,8 @@ export default {
         do: doOp,
         param: {id: extension.id}
       }, function (response) {
-        console.log(response)
+        
       })
-      console.log(extension)
     }
   }
 }

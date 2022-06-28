@@ -33,7 +33,6 @@ export default {
       "folder"
   ],
   mounted() {
-    console.log(this.folder)
   },
   data() {
     return {

@@ -67,7 +67,6 @@ export default {
         return result
     },
     pageApps(state) {
-        console.log(state.fmtApps)
         return state.fmtApps
     },
     dockApps(state) {

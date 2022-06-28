@@ -33,7 +33,6 @@ export default {
       this.$store.commit('openApp')
     },
     cancel() {
-      console.log(123)
     }
   },
   created() {

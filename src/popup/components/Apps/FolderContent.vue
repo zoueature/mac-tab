@@ -111,12 +111,7 @@ export default {
       return this.$store.getters.showFolder
     },
     folder() {
-      // let that = this
       let folderInfo = this.$store.getters.activeFolder
-      console.log(folderInfo)
-      // folderInfo.apps.forEach((app) => {
-      //   app.click = that.openApp(app.app)
-      // })
       if (typeof folderInfo.apps === "object") {
         let apps = []
         for (let key in folderInfo.apps) {

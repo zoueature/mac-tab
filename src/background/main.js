@@ -17,7 +17,6 @@ chrome.alarms.onAlarm.addListener(
 )
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request)
     switch (request.do) {
         case "getHistory":
             api.getHistory(sendResponse, request.param)

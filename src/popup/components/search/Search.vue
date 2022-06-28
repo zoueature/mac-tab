@@ -139,14 +139,10 @@ export default {
     }
   },
   methods: {
-    showInput(e) {
-      console.log(123, e)
-    },
     selectNSearch(keyword) {
       this.search(keyword)
     },
     search(e) {
-      console.log(e)
       e.preventDefault()
       let keyword = this.keyword
       if (keyword === "") {

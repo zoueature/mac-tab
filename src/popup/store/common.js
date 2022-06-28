@@ -14,10 +14,8 @@ export default {
         })
         val[keys.userApp] = fmtApps
         chrome.storage.local.set(val, function() {
-            // console.log(val);
         });
         chrome.storage.local.get([keys.userApp], function () {
-            // console.log(res)
         });
     },
     updateConfig(state, key, val) {

@@ -1,7 +1,6 @@
 /* eslint-disable */
 
 function getHistory(sendResponse) {
-    console.log('get history')
     let endTime = 999999999999999
     let result = []
     getAllHistory(result, endTime).then(() => {
@@ -11,10 +10,8 @@ function getHistory(sendResponse) {
 
 async function getAllHistory(container, endTime) {
     let param = {text: "", maxResults: 1000000, startTime: 0, endTime: endTime}
-    console.log(param)
     let result = []
     result = await chrome.history.search(param)
-    console.log(result)
     if (result.length > 0) {
         container.push.apply(container, result)
         let nextEndTime = result[result.length-1].lastVisitTime
@@ -23,7 +20,6 @@ async function getAllHistory(container, endTime) {
 }
 
 function getExtension(sendResponse) {
-    console.log('get history')
     chrome.management.getAll((items) => {
         sendResponse(items)
     })

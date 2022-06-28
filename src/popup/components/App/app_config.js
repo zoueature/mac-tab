@@ -67,7 +67,7 @@ const routes = [
     { name: Video, path: '/video', components: {app: ShortVideo}, },
     { name: Weather, path: '/weather', components: {app: WeatherApp}, },
     { name: History, path: '/history', components: {app: HistoryApp}, },
-    { name: 'index', path: '/', components: {app: History}, },
+    // { name: 'index', path: '/', components: {app: History}, },
     { name: Extension, path: '/extension', components: {app: ExtensionApp}, },
     { name: Search, path: '/search', components: {app: SearchApp}, },
 

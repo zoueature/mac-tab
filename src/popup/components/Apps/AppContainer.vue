@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     openFolder(app) {
-      console.log(app)
       this.$store.commit('openFolder', app)
     }
   }

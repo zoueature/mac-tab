@@ -83,7 +83,6 @@ export default {
       return size
     }, 
     removeApp() {
-      console.log(this.appId)
       this.$store.commit('removeApp', {id: this.appId})
       this.inOpt = false
     },
@@ -103,7 +102,6 @@ export default {
         return;
       } else if (typeof this.app === "string" && this.app !== "") {
         let routeParams = app_config.appSize[this.app]
-        console.log(app_config.appSize)
         if (routeParams === undefined) {
           routeParams = {}
         }

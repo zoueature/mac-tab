@@ -139,21 +139,13 @@ export default {
         that.$http.post('/admin/app/create', request.data)
       }
     })
-    this.$store.watch((state, getter) => {
-      return getter.fmtApps
-    }, (val) => {
-      console.log(val)
-    })
   },
   watch: {
-    userApps(val) {
-      console.log(val)
-    }
   },
   mounted() {
     let that = this
     setTimeout(function () {
-      that.$refs.apps.setActiveItem(this.activeIndex)
+      that.$refs.apps.setActiveItem(that.activeIndex)
     }, 250)
   },
   computed: {
@@ -174,7 +166,6 @@ export default {
       let size = this.$store.getters.appSize
       let gridSize = Math.ceil(size * 1.2) + 'px'
       let result = 'repeat(auto-fill, ' + gridSize + ')'
-      console.log(result)
       return result
     },
     appContainerSize() {
@@ -186,11 +177,9 @@ export default {
   methods: {
     changePage(newPageIndex) {
       this.activeIndex = newPageIndex
-      console.log(this.activeIndex)
     },
     scroll(e) {
       // e.preventDefault()
-      console.log(e)
       let that = this
       let scrollVal = e.wheelDeltaX
       if (Math.abs(scrollVal) < 25) {

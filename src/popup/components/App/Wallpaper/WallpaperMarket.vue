@@ -65,7 +65,6 @@ export default {
   created() {
     let that = this
     api.getWWallpaperTag((tags) => {
-      console.log(tags)
       that.cateList = tags
     })
   },
@@ -77,7 +76,6 @@ export default {
       let that = this
       return function (origin) {
         let cls = "wallpaper-website"
-        console.log(origin)
         if (origin === that.origin) {
           cls += " active"
         }
@@ -101,7 +99,6 @@ export default {
     },
     selectOrigin(origin) {
       this.origin = origin
-      console.log(this.origin)
     },
     selectCate(category) {
       this.selectedCateId = category.id
@@ -140,7 +137,6 @@ export default {
           size: this.limit
         }
       })
-      console.log(result.data.data)
       return result.data.data
     },
     async getData(size) {

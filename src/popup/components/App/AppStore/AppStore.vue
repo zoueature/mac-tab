@@ -107,8 +107,6 @@ const defaultDiyApp = {
   onlineIcon: '',
 }
 
-const searchCateIdentify = 'search'
-
 export default {
   name: "AppStore",
   components: {
