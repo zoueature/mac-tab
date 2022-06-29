@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
   "name": "__MSG_extName__",
-  "description": "焕然一新的新标签页, 像使用OS一样使用浏览器",
+  "description": "__MSG_extDescription__",
   "version": "1.0.0",
   "action": {
-    "default_title": "YangDesktop",
+    "default_title": "__MSG_extName__",
     "default_icon": "assets/images/logo.png",
     "default_popup": "menu.html"
   },
@@ -24,9 +24,6 @@
   "background": {
     "service_worker": "js/background.js",
     "type": "module"
-  },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self';"
   },
   "content_scripts": [
     {
