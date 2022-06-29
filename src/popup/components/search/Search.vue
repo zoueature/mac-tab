@@ -5,7 +5,7 @@
         <div class="eng-icon" :style="expand ? 'margin-top: -10px; transition: 200ms;': 'transition: 200ms;' ">
           <img :src="currentEng.icon" width="100%" height="100%" style="width: 100%; height: 100%" :alt="currentEng.name">
         </div>
-        <right-one class="more-icon"  theme="filled" size="20" fill="#777" :strokeWidth="2" :style="expand ? 'transform: rotate(90deg);  transition: 200ms;': 'transition: 200ms'"/>
+        <right-one  theme="filled" size="20" fill="#777" :strokeWidth="2" :style="expand ? 'transform: rotate(90deg);  transition: 200ms;': 'transition: 200ms'"/>
       </div>
       <transition name="englist">
         <div class="eng-list" v-if="expand">
@@ -236,13 +236,6 @@ export default {
     /* transform: translateY(-50%); */
     width: v-bind(halfSize);
     height: v-bind(halfSize);
-  }
-  .more-icon {
-    /* margin-top: 43%; */
-    /* margin-left: 16%; */
-    /* width: 5px; */
-    /* height: 10px; */
-    /* transform: translateY(-50%); */
   }
   .eng-list {
     width: 160px;

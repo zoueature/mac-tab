@@ -27,7 +27,7 @@
       <li class="app-item"  v-for="app in apps" :key="app.id">
         <div class="app-container">
           <div class="app-icon" @click="preview(app)">
-            <img :src="app.icon" alt="">
+            <img :src="app.icon" alt="" :style="'background:' + app.color">
           </div>
           <div class="app-name">
             <span>{{app.name}}</span>
@@ -118,14 +118,16 @@ export default {
   methods: {
     search(e) {
       e.preventDefault()
+       this.apps = []
+      this.page = 1
       this.searchApp(this.keyword, 0)
-      this.$refs.loading.show()
     },
     loadingData() {
       this.searchApp(this.keyword, this.selectedCategory)
     },
     searchApp(keyword, categoryId) {
       let that = this
+      this.$refs.loading.show()
       api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
         data.forEach(app => {
           that.apps.push({
@@ -134,10 +136,12 @@ export default {
             icon: app.icon,
             link: app.target,
             desc: app.desc,
+            color: app.background_color,
             })
         })
         that.selectedCategory = categoryId
         that.page ++
+        that.$refs.loading.close()
       })
     },
     getAppCategoryList() {
@@ -157,10 +161,9 @@ export default {
     selectCategory(category) {
       this.apps = []
       this.page = 1
-      console.log(category)
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
-      // this.searchApp(this.keyword, this.selectedCategory)
+      this.searchApp(this.keyword, this.selectedCategory)
     },
     install(app) {
       this.$store.commit('addApp', app)
@@ -368,7 +371,6 @@ export default {
   .app-icon img, .app-installer img {
     border-radius: 7px;
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.15);
-    background: #2da2df;
     width: 80%;
     height: 80%;
     margin-left: 10%;

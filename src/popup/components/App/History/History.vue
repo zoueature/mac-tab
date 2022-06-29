@@ -165,10 +165,10 @@ export default {
     overflow-y: scroll;
     margin-top: 5%;
   }
-  .history-list::-webkit-scrollbar {
+  /* .history-list::-webkit-scrollbar { */
     /*width: 2px;*/
     /*display: none;*/
-  }
+  /* } */
   .date-item {
     width: 90%;
     padding-left: 10%;
