@@ -37,6 +37,7 @@
                       :link="element.link"
                       :type="element.type"
                       :app="element.app"
+                      :background="element.background"
                       :click="element.click">
 
             </AppItem>

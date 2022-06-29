@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "OST Thẻ mới",
+    "description": "Extension name"
+  },
+  "inputKeyWord": {
+    "message": "Hãy nhập từ khoá",
+    "description": "请输入关键词"
+  }
+}

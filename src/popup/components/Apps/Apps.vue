@@ -27,7 +27,6 @@
           <div :id="element.id">
             <plus v-if="activeIndex === appPageNum - 1" theme="outline" size="27" fill="#fff" :strokeWidth="2"/>
             <arrow-right v-else theme="outline" size="27" fill="#fff" :strokeWidth="2"/>
-            <!-- <img :src="activeIndex === appPageNum - 1 ? '../../../assets/icon/plus.png': '../../../assets/icon/go.png'"> -->
           </div>
         </template>
       </Draggable>
@@ -96,7 +95,6 @@ let startDragPosition = {
   x: 0,
   y: 0,
 }
-/* eslint-disable */
 export default {
   name: "AppCom",
   components: {
@@ -120,7 +118,6 @@ export default {
     'columns'
   ],
   beforeCreate() {
-    // this.$store.commit('initUserApps')
     this.$store.dispatch('initApp')
   },
   data() {
@@ -221,7 +218,7 @@ export default {
         // 上一页按钮
         // 翻页
         prevTrigger ++
-        if (prevTrigger > 200) {
+        if (prevTrigger > 160) {
           prevTrigger = 0
           if (this.activeIndex === 0) {
             // 第一页, 前面没有则增加一页
@@ -275,10 +272,10 @@ export default {
       let dragX = Math.abs(dragAppPosition.left - startDragPosition.x)
       let dragY = Math.abs(dragAppPosition.top - startDragPosition.y)
 
-      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 10 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 10) {
+      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 16 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 16) {
         // 覆盖住某个app
         createFolderTrigger ++
-        if (createFolderTrigger > 200) {
+        if (createFolderTrigger > 160) {
           // 覆盖app的时间达到阈值时， 创建文件夹并打开
           if (related.type === 'app') {
             let app = {
