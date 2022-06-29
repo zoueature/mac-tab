@@ -166,6 +166,7 @@ export default {
       this.searchApp(this.keyword, this.selectedCategory)
     },
     install(app) {
+      app.background = app.color
       this.$store.commit('addApp', app)
       this.installedApp[app.id] = true
     },
