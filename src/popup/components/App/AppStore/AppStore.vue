@@ -33,7 +33,7 @@
             <span>{{app.name}}</span>
           </div>
           <div class="app-desc">{{app.desc}}</div>
-          <div class="app-installer" @click="install(app)" v-if="!app.installed">
+          <div class="app-installer" @click="install(app)" v-if="installedApp[app.id] !== true">
             <img src="../../../../assets/icon/download.png" alt="">
           </div>
           <div class="app-installer"  v-else>
