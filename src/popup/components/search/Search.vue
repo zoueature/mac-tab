@@ -31,6 +31,7 @@
       <div v-if="suggestList.length > 0" class="suggest-container">
         <div v-for="(suggest, index) in suggestList" :key="index"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
+             :style="index === selectSuggestIndex ? 'transform: scaleY(1.06)' : ''"
              @click="selectNSearch(suggest)"
              @mouseenter="selectSuggest(index)"
         >
