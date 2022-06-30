@@ -1,8 +1,6 @@
 import keys from "@/popup/store/keys";
-import config from "@/popup/store/config";
 import common from "@/popup/store/common";
 
-/* eslint-disable */
 export default {
     // ----------------- common runtime ---------------------
     openApp(state) {
@@ -28,6 +26,9 @@ export default {
     },
     closeEditApp(state) {
         state.editApp = false
+    },
+    setActiveAppPgae(state, page) {
+        state.activeAppPage = page
     },
 
 
@@ -93,44 +94,14 @@ export default {
             background: app.background,
             params: app.params,
         }
-        let success = false
-        // state.userApps.push(app)
-        for (let i = 0; i < state.fmtApps.length; i ++) {
-            if (state.fmtApps[i].length < config.appNumPerPage) {
-                state.fmtApps[i].push(fmtApp)
-                success = true
-                break
-            }
-        }
-        if (!success) {
-            // 所有页面都满了， 则新增页面
-            state.fmtApps.push([fmtApp])
-        }
+        state.fmtApps[state.activeAppPage].push(fmtApp)
         common.fsyncApp(state)
     },
     addAppToLocal(state, app) {
-        // state.userApps.push(app)
-        let success = false
-        for (let i = 0; i < state.fmtApps.length; i ++) {
-            if (state.fmtApps[i].length < config.appNumPerPage) {
-                state.fmtApps[i].push(app)
-                success = true
-                break
-            }
-        }
-        if (!success) {
-            // 所有页面都满了， 则新增页面
-            state.fmtApps.push([app])
-        }
-
+        state.fmtApps[state.fmtApps.length - 1].push(app)
     },
     // removeApp 移除app
     removeApp(state, app) {
-        // state.userApps.forEach((v, i) => {
-        //     if (v.id === app.id) {
-        //         state.userApps.splice(i, 1)
-        //     }
-        // })
         let succ = false
         for (let i = 0; i < state.fmtApps.length; i ++) {
           for (let j = 0; j < state.fmtApps[i].length; j ++) {
@@ -145,8 +116,6 @@ export default {
           }
         }
         common.fsyncApp(state)
-        //this.fsyncApp(state)
-        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     // initUserApps 初始化用户app
     // 本地有数据时， 使用本地的localStorage的数据

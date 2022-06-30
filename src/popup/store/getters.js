@@ -21,6 +21,9 @@ export default {
     inEditApp(state) {
         return state.editApp
     },
+    activeAppPage(state) {
+        return state.activeAppPage
+    },
 
     // ------------------- CONFIG ----------------------
     appSize(state) {
@@ -46,9 +49,6 @@ export default {
     },
 
     // ------------------- APPS ------------------------
-    // userApps(state) {
-    //     return state.userApps
-    // },
     installedAppID(state) {
         let result = {}
         state.fmtApps.forEach((v) => {
@@ -74,10 +74,17 @@ export default {
         return state.dockApps
     },
 
+
+
+    
     // --------------------- Desktop ----------------------
     showEngineList(state) {
         return state.showSearchEngine
     },
+
+
+
+
 
     // ---------- TODO ---------
     userTodoList(state) {

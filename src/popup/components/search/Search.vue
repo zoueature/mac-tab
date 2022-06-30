@@ -34,8 +34,9 @@
              @click="selectNSearch(suggest)"
              @mouseenter="selectSuggest(index)"
         >
-          <search class="suggest-title" theme="outline" size="16" fill="#777" :strokeWidth="2"/>
-          <span :style="index === selectSuggestIndex ? 'margin-left: 7px; font-weight: bold; color: #fff; font-size:15px;' : ''">{{suggest}}</span>
+          <search class="suggest-title" theme="outline" size="16" fill="#777" :strokeWidth="2" v-if="suggest.type === 'search'"/>
+          <img class="suggest-title" :style="'width: 15px; height: 15px; border-radius:20%; background:' + suggest.background" :src="suggest.icon" v-else-if="suggest.type === 'app'"/>
+          <span :style="index === selectSuggestIndex ? 'margin-left: 7px; font-weight: bold; color: #fff; font-size:15px;' : ''">{{suggest.title}}</span>
         </div>
       </div>
     </div>
@@ -107,11 +108,37 @@ export default {
       if (val.length === 0) {
         this.selectSuggestIndex = -1
       }
+    },
+    selectSuggestIndex(val) {
+      console.log(val)
+      // TODO 解决死循环的问题
+      // this.keyword = this.suggestList[val]
     }
   },
+  /* eslint-disable */
   methods: {
-    selectNSearch(keyword) {
-      this.search(keyword)
+    selectNSearch(suggest) {
+      console.log(suggest.type)
+      switch (suggest.type) {
+        case 'search':
+          this.search(suggest.val)
+          break
+        case 'app':
+          this.openApp(suggest)
+          break
+      }
+    },
+    openApp(app) {
+      if (app.link !== undefined) {
+        window.open(app.link, '_blank')
+      } else if (app.app !== undefined) {
+        this.$router.replace({
+          name: app.app,
+          // params: routeParams,
+        })
+        this.$store.commit('openApp')
+        this.suggestList = []
+      }
     },
     selectSuggest(suggestIndex) {
       this.selectSuggestIndex = suggestIndex
@@ -128,6 +155,10 @@ export default {
     },
     search(e) {
       e.preventDefault()
+      if (this.selectSuggestIndex >= 0 && this.suggestList.length > 0) {
+        this.selectNSearch(this.suggestList[this.selectSuggestIndex])
+        return
+      }
       let keyword = this.keyword
       if (keyword === "") {
         return
@@ -141,10 +172,38 @@ export default {
     },
     async suggest(keyword) {
       let that = this
+      // 获取搜索引擎搜索建议
+      that.suggestList = []
       baidu.getSearchSuggest(keyword, function(result) {
-        that.suggestList = result
+        result.forEach(s => {
+          that.suggestList.push({
+            type: "search",
+            title: s,
+          })
+        })
         that.selectSuggestIndex = 0
       })
+      // 获取已经安装的app应用
+      let pages = this.$store.getters.pageApps
+      pages.forEach(apps => {
+        apps.forEach(app => {
+          if (app.type !== 'app') {
+            return
+          }
+          let index = app.name.indexOf(keyword)
+          if (index >= 0) {
+            that.suggestList.push({
+              type: 'app',
+              title: app.name,
+              link: app.link,
+              app: app.app,
+              icon: app.icon,
+              background: app.background,
+            })
+          }
+        })
+      })
+      console.log(that.suggestList)
     },
     selectEng(eng) {
       this.$store.commit("setSearchEngine", eng)
@@ -285,7 +344,7 @@ export default {
     border-radius: 7px 7px 0 0;
   }
   .suggest-title {
-    padding-left: 1%;
-    padding-right: 1%;
+    margin-left: 1%;
+    margin-right: 1.2%;
   }
 </style>

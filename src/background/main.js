@@ -63,7 +63,9 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     }
     chrome.storage.local.get([keys.userApp], function(result) {
         let installedApp = result[keys.userApp]
-        installedApp.push(app)
+        console.log(installedApp)
+        installedApp[installedApp.length-1].push(app)
+        console.log(installedApp)
         let storageVal = {}
         storageVal[keys.userApp] = installedApp
         chrome.storage.local.set(storageVal, function(result) {

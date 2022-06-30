@@ -9,6 +9,8 @@ export default {
     showFolder: false,
     folderStartPtr: {x: 0, y: 0},
     editApp: false,
+    showSearchEngine: false,
+    activeAppPage: 0,
 
     // --------- config -------------------
     config: {
@@ -26,7 +28,6 @@ export default {
         searchEngine: "google", // 选择的搜索引擎
         showDock: true, // todo 是否展示下方dock
     },
-    showSearchEngine: false,
 
     // --------- app -----------
     // userApps: initApps,

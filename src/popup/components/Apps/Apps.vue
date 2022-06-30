@@ -123,7 +123,7 @@ export default {
   data() {
     return {
       drag: false,
-      activeIndex: 0,
+      activeIndex: this.$store.getters.activeAppPage,
       wheelScroll: false,
       dragOptions: {
         animation: 200,
@@ -177,7 +177,8 @@ export default {
   },
   methods: {
     changePage(newPageIndex) {
-      this.activeIndex = newPageIndex
+      this.$store.commit('setActiveAppPgae', newPageIndex)
+      // this.activeIndex = newPageIndex
     },
     scroll(e) {
       // e.preventDefault()

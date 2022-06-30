@@ -3,12 +3,16 @@ import storage from "@/chrome/storage"
 
 export default {
     fsyncApp(state) {
-        localStorage.setItem(keys.userApp, JSON.stringify(state.fmtApps))
+        //localStorage.setItem(keys.userApp, JSON.stringify(state.fmtApps))
         // let val = {}
         let fmtApps = []
         state.fmtApps.forEach( (page, i) => {
             if (page.length > 0) {
-                fmtApps.push(page)
+                let apps = []
+                page.forEach(app => {
+                    apps.push(app)
+                })
+                fmtApps.push(apps)
             } else {
                 fmtApps.splice(i, 1)
             }
