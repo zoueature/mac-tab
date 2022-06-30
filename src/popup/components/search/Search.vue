@@ -156,16 +156,17 @@ export default {
     },
     search(e) {
       e.preventDefault()
-      if (this.selectSuggestIndex >= 0 && this.suggestList.length > 0) {
+      let sugg = this.suggestList[this.selectSuggestIndex]
+      if (sugg !== undefined && sugg.type === 'app') {
         this.selectNSearch(this.suggestList[this.selectSuggestIndex])
         return
-      }
+      } 
       let keyword = this.keyword
       if (keyword === "") {
         return
       }
       if (this.selectSuggestIndex >= 0 && this.selectSuggestIndex < this.suggestList.length) {
-        keyword = this.suggestList[this.selectSuggestIndex]
+        keyword = this.suggestList[this.selectSuggestIndex].title
       }
       window.location.href=this.currentEng.link + keyword
       this.keyword = ""

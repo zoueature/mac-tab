@@ -9,14 +9,9 @@
       </div>
     </div>
     <div v-else class="celebrate">
-      <div class="celebrate-icon">
-        <img src="../../../assets/icon/celebrate.png" style="width: 100%; height: 100%">
-      </div>
+        <img src="../../../assets/images/sport.png" style="height: 100%">
       <div class="celebrate-title">
         周五啦
-      </div>
-      <div class="celebrate-icon">
-        <img src="../../../assets/icon/celebrate_r.png" style="width: 100%; height: 100%">
       </div>
     </div>
   </div>
@@ -58,7 +53,7 @@ export default {
     backdrop-filter: blur(7px);
     width: 100%;
     height: 100%;
-    background: rgba(243, 147, 50, 0.88);
+    background: #4FC3F7;
   }
   .friday-title {
     height: 18%;
@@ -82,11 +77,13 @@ export default {
     height: 100%;
     justify-content: space-around;
     align-items: center;
+    position: relative;
   }
   .celebrate-title {
-    font-size: 28px;
+    font-size: 34px;
     font-weight: bolder;
     color: rgba(255, 255, 255, 0.87);
+    position: absolute;
   }
   .celebrate-icon {
     width: 16%;
