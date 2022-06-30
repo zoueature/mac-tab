@@ -260,14 +260,14 @@ export default {
   }
   .suggest-container {
     position: absolute;
-    width: 100%;
-    height: 400px;
+    width: 100%;  
+    /* height: auto; */
     background: rgba(255, 255, 255, 0.88);
     margin-top: 2px;
     z-index: 1000000;
-    overflow-x: scroll;
     text-align: left;
-    border-radius: 2px; 
+    border-radius: 12px; 
+    padding-bottom: 25px;
   }
   .suggest-item {
     margin-top: 2px;
@@ -276,6 +276,7 @@ export default {
     align-items: center;
     font-size: 14px;
     color: rgba(0, 0, 0, 0.88);
+    border-radius: 7px;
   }
   .suggest-title {
     padding-left: 1%;
