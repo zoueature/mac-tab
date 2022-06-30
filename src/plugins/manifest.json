@@ -32,6 +32,9 @@
       "css": ["css/content.css"]
     }
   ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
   "icons": {
     "16": "assets/images/logo.png",
     "48": "assets/images/logo.png",
