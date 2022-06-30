@@ -98,6 +98,9 @@ export default {
   },
   watch: {
     keyword(val) {
+      if (val === '') {
+        this.suggestList = []
+      }
       this.suggest(val)
     },
     suggest(val) {
@@ -140,6 +143,7 @@ export default {
       let that = this
       baidu.getSearchSuggest(keyword, function(result) {
         that.suggestList = result
+        that.selectSuggestIndex = 0
       })
     },
     selectEng(eng) {
@@ -266,8 +270,8 @@ export default {
     margin-top: 2px;
     z-index: 1000000;
     text-align: left;
-    border-radius: 12px; 
-    padding-bottom: 25px;
+    border-radius: 7px; 
+    padding-bottom: 16px;
   }
   .suggest-item {
     margin-top: 2px;
@@ -276,7 +280,9 @@ export default {
     align-items: center;
     font-size: 14px;
     color: rgba(0, 0, 0, 0.88);
-    border-radius: 7px;
+  }
+   .suggest-container div:nth-child(0n+1) {
+    border-radius: 7px 7px 0 0;
   }
   .suggest-title {
     padding-left: 1%;
