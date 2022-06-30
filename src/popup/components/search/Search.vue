@@ -1,5 +1,5 @@
 <template>
-  <div class="search-item" @keydown.up="selectSuggestIndex--" @keydown.down="selectSuggestIndex++">
+  <div class="search-item" @keydown.up="upSuggest" @keydown.down="downSuggest">
     <div class="engine-selector">
       <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
         <div class="eng-icon" :style="expand ? 'margin-top: -10px; transition: 200ms;': 'transition: 200ms;' ">
@@ -29,11 +29,13 @@
                class="search-input">
       </form>
       <div v-if="suggestList.length > 0" class="suggest-container">
-        <div v-for="(suggest, index) in suggestList" :key="suggest"
+        <div v-for="(suggest, index) in suggestList" :key="index"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
              @click="selectNSearch(suggest)"
+             @mouseenter="selectSuggest(index)"
         >
-          {{suggest}}
+          <search class="suggest-title" theme="outline" size="16" fill="#777" :strokeWidth="2"/>
+          <span :style="index === selectSuggestIndex ? 'margin-left: 7px; font-weight: bold; color: #fff; font-size:15px;' : ''">{{suggest}}</span>
         </div>
       </div>
     </div>
@@ -42,7 +44,7 @@
 
 <script>
 
-import {RightOne} from '@icon-park/vue-next'
+import {RightOne, Search} from '@icon-park/vue-next'
 import engineList from "./engine_list"
 import baidu from '@/popup/components/api/baidu'
 
@@ -50,6 +52,7 @@ export default {
   name: "SearchCom",
   components: {
     RightOne,
+    Search,
   },
   computed: {
     heightSize() {
@@ -107,6 +110,19 @@ export default {
     selectNSearch(keyword) {
       this.search(keyword)
     },
+    selectSuggest(suggestIndex) {
+      this.selectSuggestIndex = suggestIndex
+    },
+    upSuggest() {
+      if (this.selectSuggestIndex > 0) {
+        this.selectSuggestIndex --
+      }
+    },
+    downSuggest() {
+      if (this.selectSuggestIndex < this.suggestList.length -1) {
+        this.selectSuggestIndex ++
+      }
+    },
     search(e) {
       e.preventDefault()
       let keyword = this.keyword
@@ -125,14 +141,6 @@ export default {
       baidu.getSearchSuggest(keyword, function(result) {
         that.suggestList = result
       })
-      // let url = "https://www.baidu.com/sugrec?prod=pc&from=pc_web&wd="
-      // let result = await this.$http.get(url + keyword)
-      // if (result.status === 200) {
-      //   this.suggestList = []
-      //   result.data.g.forEach(v => {
-      //     this.suggestList.push(v.q)
-      //   })
-      // }
     },
     selectEng(eng) {
       this.$store.commit("setSearchEngine", eng)
@@ -253,21 +261,24 @@ export default {
   .suggest-container {
     position: absolute;
     width: 100%;
-    height: 300px;
-    background: white;
+    height: 400px;
+    background: rgba(255, 255, 255, 0.88);
     margin-top: 2px;
     z-index: 1000000;
     overflow-x: scroll;
     text-align: left;
-    border-radius: 2px;
+    border-radius: 2px; 
   }
   .suggest-item {
-    padding-left: 2%;
     margin-top: 2px;
     height: 30px;
     display: flex;
     align-items: center;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.88);
+  }
+  .suggest-title {
+    padding-left: 1%;
+    padding-right: 1%;
   }
 </style>
