@@ -121,6 +121,7 @@ export default {
        this.apps = []
       this.page = 1
       this.searchApp(this.keyword, 0)
+      this.selectCategory = 0
     },
     loadingData() {
       this.searchApp(this.keyword, this.selectedCategory)
@@ -139,7 +140,7 @@ export default {
             color: app.background_color,
             })
         })
-        that.selectedCategory = categoryId
+        // that.selectedCategory = categoryId
         that.page ++
         that.$refs.loading.close()
       })
