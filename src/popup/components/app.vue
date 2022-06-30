@@ -6,6 +6,8 @@
 import Desktop from './Desktop.vue'
 import api from './api/common'
 import utils from './common/utils'
+import storage from '@/chrome/storage'
+import keys from '@/popup/store/keys'
 
 export default {
   name: 'App',
@@ -23,9 +25,18 @@ export default {
   },
   created() {
     api.getAnnouncement((data) => {
-      data.forEach(announcement => {
-        utils.notify(announcement.title, announcement.content)
-      });
+      storage.getSync(keys.viewedAnnouncement, (viewed) => {
+        if (viewed == undefined) {
+          viewed = {}
+        }
+        data.forEach(announcement => {
+          if (viewed[announcement.id] !== true) {
+            utils.notify(announcement.title, announcement.content)
+            viewed[announcement.id] = true
+          }
+        })
+        storage.setSync(keys.viewedAnnouncement, viewed)
+      })
     })
   }
 }

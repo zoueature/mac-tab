@@ -68,8 +68,7 @@ export default {
         name: el.name + " cloned"
       };
     },
-    log: function(evt) {
-      window.console.log(evt);
+    log: function() {
     }
   }
 };

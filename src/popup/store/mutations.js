@@ -184,7 +184,6 @@ export default {
         } else {
             state.fmtApps.push([])
         }
-        console.log(state.fmtApps)
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true

@@ -58,13 +58,11 @@ export default {
     backdrop-filter: blur(7px);
     width: 100%;
     height: 100%;
-    position: absolute;
     background: rgba(243, 147, 50, 0.88);
   }
   .friday-title {
     height: 18%;
     font-size: 12px;
-    margin-top: 2%;
     color: white;
     font-weight: bolder;
   }

@@ -19,28 +19,29 @@
         </div>
       </div>
     </div>
-    <div class="app-list" v-if="diyCategoryId !== selectedCategory">
+    <ul v-infinite-scroll="loadingData" class="app-list" infinite-scroll-distance="20" v-if="diyCategoryId !== selectedCategory">
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <div class="app-item"  v-for="app in selectedApp" :key="app.id">
+      <loading ref="loading"/>
+      <li class="app-item"  v-for="app in apps" :key="app.id">
         <div class="app-container">
           <div class="app-icon" @click="preview(app)">
-            <img :src="app.icon" alt="">
+            <img :src="app.icon" alt="" :style="'background:' + app.color">
           </div>
           <div class="app-name">
             <span>{{app.name}}</span>
           </div>
           <div class="app-desc">{{app.desc}}</div>
-          <div class="app-installer" @click="install(app)" v-if="!app.installed">
+          <div class="app-installer" @click="install(app)" v-if="installedApp[app.id] !== true">
             <img src="../../../../assets/icon/download.png" alt="">
           </div>
           <div class="app-installer"  v-else>
             <img src="../../../../assets/icon/gou_white_fill.png" alt="">
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
     <div v-else class="app-list">
       <div class="title">
         自定义应用
@@ -73,10 +74,7 @@
              :style="'background: ' + color.color"
              @click="diyApp.wordIconColor = color.color"
         >
-          <img src="../../../../assets/icon/gou_white.png"
-               style="width: 50%; height: 50%; margin-left: 10%; margin-top: 25%;"
-               alt=""
-               v-if="diyApp.wordIconColor === color.color">
+          <check theme="outline" size="20" fill="#fff" :strokeWidth="2" v-if="diyApp.wordIconColor === color.color"/>
         </div>
       </div>
       <div class="opt-container">
@@ -87,9 +85,6 @@
 </template>
 
 <script>
-
-import {ElNotification} from "element-plus";
-
 function formatLink(link) {
   let requestLink = link
   if (requestLink.substring(0, 7) !== "http://" && requestLink.substring(0, 8) !== 'https://') {
@@ -98,9 +93,11 @@ function formatLink(link) {
   return requestLink
 }
 
-import apps from './apps'
 import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
+import api from "@/popup/components/api/app"
+import {Check} from "@icon-park/vue-next"
+import Loading from "@/popup/components/common/Loading"
 
 const diyCategoryId = 7
 
@@ -112,68 +109,65 @@ const defaultDiyApp = {
   onlineIcon: '',
 }
 
-const searchCateIdentify = 'search'
-
 export default {
   name: "AppStore",
+  components: {
+    Check,
+    Loading,
+  },
   methods: {
-    async search(e) {
+    search(e) {
       e.preventDefault()
-      let that = this
-      let result = await this.$http.get("/app/search?keyword=" + this.keyword)
-      if (result.status !== 200) {
-        ElNotification({
-          title: '搜索失败',
-          message: result.statusText,
-          type: 'error',
-          position: 'top-left',
-          duration: 2000,
-        })
-        return
-      }
-      let apps = []
-      for (let key in result.data.data) {
-        let item = result.data.data[key]
-        apps.push({
-          id: item.id,
-          name: item.title,
-          icon: item.icon,
-          link: item.target,
-          desc: item.desc,
-        })
-      }
-      that.apps[searchCateIdentify] = {list: apps}
-      that.selectedCategory = searchCateIdentify
+       this.apps = []
+      this.page = 1
+      this.searchApp(this.keyword, 0)
+      this.selectCategory = 0
     },
-    async getAppCategoryList() {
+    loadingData() {
+      this.searchApp(this.keyword, this.selectedCategory)
+    },
+    searchApp(keyword, categoryId) {
       let that = this
-      let result = await this.$http.get("/app/category")
-      if (result.status !== 200) {
-        ElNotification({
-          title: '获取app分类失败',
-          message: result.statusText,
-          type: 'error',
-          position: 'top-left',
-          duration: 2000,
+      this.$refs.loading.show()
+      api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
+        data.forEach(app => {
+          that.apps.push({
+            id: app.id,
+            name: app.title,
+            icon: app.icon,
+            link: app.target,
+            desc: app.desc,
+            color: app.background_color,
+            })
         })
-        return
-      }
-      let categoryList = []
-      for (let key in result.data.data) {
-        let item = result.data.data[key]
-        categoryList.push({
-          id: item.id,
-          name: item.title,
-          icon: item.icon,
+        // that.selectedCategory = categoryId
+        that.page ++
+        that.$refs.loading.close()
+      })
+    },
+    getAppCategoryList() {
+      let that = this
+      api.getAppCategory((data) => {
+        let categoryList = []
+        data.forEach(category => {
+          categoryList.push({
+            id: category.id,
+            name: category.title,
+            icon: category.icon,
+          })
         })
-      }
-     that.categoryList = categoryList
+        that.categoryList = categoryList
+      })
     },
     selectCategory(category) {
+      this.apps = []
+      this.page = 1
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
+      this.searchApp(this.keyword, this.selectedCategory)
     },
     install(app) {
+      app.background = app.color
       this.$store.commit('addApp', app)
       this.installedApp[app.id] = true
     },
@@ -230,23 +224,12 @@ export default {
   created() {
     this.getAppCategoryList()
   },
-  computed: {
-    selectedApp() {
-      let result = []
-      for (let v in this.apps[this.selectedCategory].list) {
-        let item = this.apps[this.selectedCategory].list[v]
-        item.installed = this.installedApp[item.id]
-        result.push(item)
-      }
-      return result
-    }
-  },
   data() {
     return {
       selectedCategoryObj: null,
       selectedCategory: diyCategoryId,
       categoryList: [],
-      apps: apps.apps,
+      apps: [],
       installedApp: this.$store.getters.installedAppID,
       diyCategoryId: diyCategoryId,
       diyApp: {
@@ -259,6 +242,8 @@ export default {
       },
       colors: color,
       keyword: '',
+      page: 1, 
+      size: 15,
     }
   }
 }
@@ -276,6 +261,7 @@ export default {
     padding-top: 3.4%;
     /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
+    overflow-y: scroll;
   }
   .search {
     width: 100%;
@@ -322,7 +308,10 @@ export default {
     white-space: nowrap;
   }
   .app-list {
+    list-style: none;
+    margin: 0;
     flex: 9;
+    padding-inline-start: 0;
     padding-top: 3.4%;
     display: flex;
     flex-wrap: wrap;
@@ -330,7 +319,9 @@ export default {
     flex-direction: row;
     align-items: flex-start;
     align-content: flex-start;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
+    overflow: scroll;
+    position: relative;
   }
   .app-item {
     width: 44%;
@@ -348,7 +339,7 @@ export default {
   }
   .app-container {
     width: 90%;
-    height: 61%;
+    height: 70%;
     position: relative;
     background: white;
     margin-top: 30px;
@@ -357,15 +348,18 @@ export default {
     border-radius: 7px;
   }
   .app-icon {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     float: left;
     overflow: hidden;
     position: absolute;
     border-radius: 7px;
     top: -25px;
-    background: white;
+    /* background: white; */
   }
+   .app-icon:hover{
+    cursor: pointer;
+   }
   .app-installer {
     position: absolute;
     right: 0px;
@@ -392,7 +386,7 @@ export default {
     font-size: 14px;
     height: 25px;
     /*font-weight: bolder;*/
-    margin-left: 64px;
+    margin-left: 74px;
     margin-top: 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -402,7 +396,7 @@ export default {
   }
   .app-desc {
     width: 95%;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: 5px;
     font-size: 10px;
     color: rgba(12, 16, 33, 0.52);
@@ -464,6 +458,11 @@ export default {
     width: 25px;
     height: 25px;
     border-radius: 4px;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
   .opt-container {
     width: 90%;

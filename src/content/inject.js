@@ -9,7 +9,6 @@ function joinContent (element) {
     const div = document.createElement('div')
     div.id = 'joinContentApp'
     document.body.appendChild(div)
-    console.log(div)
     createApp(element).mount('#joinContentApp')
 }
 

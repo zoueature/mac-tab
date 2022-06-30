@@ -11,7 +11,7 @@
       >
         <template #item="{ element }">
           <div :id="element.id">
-            <img src="../../../assets/icon/back.png">
+            <arrow-left heme="outline" size="27" fill="#fff" :strokeWidth="2"/>
           </div>
         </template>
       </Draggable>
@@ -25,7 +25,8 @@
       >
         <template #item="{ element }">
           <div :id="element.id">
-            <img :src="activeIndex === appPageNum - 1 ? '../../../assets/icon/plus.png': '../../../assets/icon/go.png'">
+            <plus v-if="activeIndex === appPageNum - 1" theme="outline" size="27" fill="#fff" :strokeWidth="2"/>
+            <arrow-right v-else theme="outline" size="27" fill="#fff" :strokeWidth="2"/>
           </div>
         </template>
       </Draggable>
@@ -83,6 +84,7 @@ import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
 import utils from "@/popup/components/common/utils"
 import {ElCarousel, ElCarouselItem} from 'element-plus'
+import {Plus, ArrowRight, ArrowLeft} from '@icon-park/vue-next'
 
 let hoverApp = {}
 let createFolderTrigger = 0
@@ -93,17 +95,17 @@ let startDragPosition = {
   x: 0,
   y: 0,
 }
-/* eslint-disable */
 export default {
   name: "AppCom",
   components: {
     Draggable,
     AppContainer,
-    // Swiper,
-    // SwiperSlide,
     FolderContent,
     ElCarousel,
     ElCarouselItem,
+    Plus,
+    ArrowRight,
+    ArrowLeft,
   },
   setup() {
     return {
@@ -116,7 +118,6 @@ export default {
     'columns'
   ],
   beforeCreate() {
-    // this.$store.commit('initUserApps')
     this.$store.dispatch('initApp')
   },
   data() {
@@ -139,21 +140,13 @@ export default {
         that.$http.post('/admin/app/create', request.data)
       }
     })
-    this.$store.watch((state, getter) => {
-      return getter.fmtApps
-    }, (val) => {
-      console.log(val)
-    })
   },
   watch: {
-    userApps(val) {
-      console.log(val)
-    }
   },
   mounted() {
     let that = this
     setTimeout(function () {
-      that.$refs.apps.setActiveItem(this.activeIndex)
+      that.$refs.apps.setActiveItem(that.activeIndex)
     }, 250)
   },
   computed: {
@@ -174,7 +167,6 @@ export default {
       let size = this.$store.getters.appSize
       let gridSize = Math.ceil(size * 1.2) + 'px'
       let result = 'repeat(auto-fill, ' + gridSize + ')'
-      console.log(result)
       return result
     },
     appContainerSize() {
@@ -186,11 +178,9 @@ export default {
   methods: {
     changePage(newPageIndex) {
       this.activeIndex = newPageIndex
-      console.log(this.activeIndex)
     },
     scroll(e) {
       // e.preventDefault()
-      console.log(e)
       let that = this
       let scrollVal = e.wheelDeltaX
       if (Math.abs(scrollVal) < 25) {
@@ -228,7 +218,7 @@ export default {
         // 上一页按钮
         // 翻页
         prevTrigger ++
-        if (prevTrigger > 200) {
+        if (prevTrigger > 160) {
           prevTrigger = 0
           if (this.activeIndex === 0) {
             // 第一页, 前面没有则增加一页
@@ -282,10 +272,10 @@ export default {
       let dragX = Math.abs(dragAppPosition.left - startDragPosition.x)
       let dragY = Math.abs(dragAppPosition.top - startDragPosition.y)
 
-      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 10 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 10) {
+      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 16 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 16) {
         // 覆盖住某个app
         createFolderTrigger ++
-        if (createFolderTrigger > 200) {
+        if (createFolderTrigger > 160) {
           // 覆盖app的时间达到阈值时， 创建文件夹并打开
           if (related.type === 'app') {
             let app = {

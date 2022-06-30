@@ -64,10 +64,10 @@ export default {
         state.dockApps.forEach(v => {
             result[v.id] = true
         })
+        console.log(result)
         return result
     },
     pageApps(state) {
-        console.log(state.fmtApps)
         return state.fmtApps
     },
     dockApps(state) {

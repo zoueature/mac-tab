@@ -1,13 +1,12 @@
 <template>
   <div class="wallpaper-market-app">
     <div class="wallpaper-header">
-      <Back :height="20"></Back>
-      <input placeholder="输入关键词"
+      <Back v-if="fromWallpaper"></Back>
+      <form @submit="search" class="search-form">
+        <input placeholder="输入关键词"
              v-model="keyword"
-             @submit="search(50)"
-             @keyup.enter="search(50)"
-             class="search-input"
-      >
+             class="search-input"/>
+      </form>
       <div :class="originClass('baidu')" @click="selectOrigin('baidu')">
         <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
       </div>
@@ -65,19 +64,17 @@ export default {
   created() {
     let that = this
     api.getWWallpaperTag((tags) => {
-      console.log(tags)
       that.cateList = tags
     })
   },
   mounted() {
-    this.selectCate(defaultActiveCateID)
+    // this.selectCate(defaultActiveCateID)
   },
   computed: {
     originClass() {
       let that = this
       return function (origin) {
         let cls = "wallpaper-website"
-        console.log(origin)
         if (origin === that.origin) {
           cls += " active"
         }
@@ -86,7 +83,8 @@ export default {
     }
   },
   methods: {
-    async search() {
+    async search(e) {
+      e.preventDefault()
       this.$store.commit('openLoading')
       this.offset = 0
       let newList = await this.getData(50)
@@ -101,7 +99,6 @@ export default {
     },
     selectOrigin(origin) {
       this.origin = origin
-      console.log(this.origin)
     },
     selectCate(category) {
       this.selectedCateId = category.id
@@ -140,7 +137,6 @@ export default {
           size: this.limit
         }
       })
-      console.log(result.data.data)
       return result.data.data
     },
     async getData(size) {
@@ -216,8 +212,9 @@ export default {
       offset: 0,
       limit: 34,
       cateList: [],
-      selectedCateId: data.categoryList[0].id,
-      showLoading: false
+      selectedCateId: defaultActiveCateID.id,
+      showLoading: false,
+      fromWallpaper: this.$route.params.fromWallpaper,
     }
   }
 }
@@ -320,15 +317,20 @@ export default {
     backdrop-filter: blur(1px);
     font-size: 12px;
   }
+  .search-form {
+    height: 37px;
+    width: 37%;
+  }
   .search-input {
     display: block;
     outline: none;
     border: none;
     box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.22);
-    height: 37px;
-    width: 37%;
-    padding-left: 16px;
-    margin-left: 16px;
+    height: 95%;
+    width: 100%;
+    color: #777;
+    padding-left: 5%;
+    /* margin-left: 16px; */
     /*margin-top: 16px;*/
     border-radius: 7px;
   }

@@ -10,6 +10,7 @@
         <div class="app-icon" v-for="element in folder.apps" :key="element.id">
           <img :src="element.icon" style="width: 100%; height: 100%"
                :alt="element.name"
+               :style="'background:' + element.background"
                @error="element.loadIconSucc=false"
                v-if="element.loadIconSucc !== false && element.icon !== '' && element.icon !== undefined">
           <div v-else class="icon-word-container" :style="'background: ' + (element.background !== undefined? element.background: 'blue') ">
@@ -33,7 +34,6 @@ export default {
       "folder"
   ],
   mounted() {
-    console.log(this.folder)
   },
   data() {
     return {

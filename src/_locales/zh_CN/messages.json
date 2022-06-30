@@ -1,10 +1,14 @@
 {
   "extName": {
-    "message": "羊羊新标签页",
+    "message": "OST新标签页",
     "description": "Extension name"
   },
-  "appNameWebStore": {
-    "message": "网页市场",
-    "description": "webStore 名称"
+  "extDescription": {
+    "message": "焕然一新的新标签页, 方便的站点管理、精选壁纸、黑暗模式、让你像使用OS一样使用浏览器",
+    "description": "插件描述"
+  },
+  "inputKeyWord": {
+    "message": "请输入搜索关键词",
+    "description": "请输入关键词"
   }
 }

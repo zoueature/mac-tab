@@ -33,7 +33,6 @@ export default {
       this.$store.commit('openApp')
     },
     cancel() {
-      console.log(123)
     }
   },
   created() {
@@ -60,7 +59,6 @@ export default {
     backdrop-filter: blur(7px);
     overflow: hidden;
     background: rgba(39, 142, 225, 0.88);
-    position: absolute;
     overflow-y: scroll;
   }
   .todo-item {

@@ -8,7 +8,6 @@
 //             let rexp = /<\!\-\-s\-data:(.*)?\-\->/
 //             let content = rexp.exec(result.data)
 //             let data = JSON.parse(content[1])
-//             console.log(data)
 //         }
 //     })
 // }

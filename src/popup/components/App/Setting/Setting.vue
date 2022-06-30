@@ -49,7 +49,7 @@ export default {
   created() {
     this.appSize = this.$store.getters.appSize
     this.appColumnNum = this.$store.getters.appSize
-    this.$loading.show()
+    // this.$loading.show()
     console.log(this.$t('appName'))
   },
   data() {
@@ -88,11 +88,11 @@ export default {
 
 <style scoped>
   .setting-app {
-    padding-left: 5%;
-    width: 95%;
+    padding-left: 3%;
+    width: 97%;
     height: 100%;
     backdrop-filter: blur(100px);
-    background: #ececec;
+    background: #efefef;
     box-shadow: -1px -1px 10px white;
   }
   .title {
@@ -126,7 +126,7 @@ export default {
     flex: 4;
     justify-self: flex-start;
   }
-  .settting-name {
+  .setting-title span {
     margin-left: 7px;
   }
   .setting-value {

@@ -4,7 +4,7 @@
       <div class="wallpaper-shower no-need-dark" @mouseenter="hoverWallpaper=true" @mouseleave="hoverWallpaper=false">
         <div v-if="!hoverWallpaper" class="cover" :style=" 'backdrop-filter: ' + backgroundBlur"></div>
         <div v-else class="cover" style="cursor: pointer">
-          <div class="set-wallpaper" @click="$router.push({name: 'wallmarket'})">
+          <div class="set-wallpaper" @click="$router.push({name: 'wallmarket', params: {fromWallpaper: true}})">
             更换壁纸
           </div>
         </div>
@@ -48,9 +48,6 @@ export default {
         position: val,
       })
     },
-    coverBlur(val) {
-      console.log(val)
-    }
   },
   computed: {
     backgroundImg() {

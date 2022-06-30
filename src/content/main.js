@@ -3,10 +3,9 @@ import { createApp } from 'vue'
 import app from './components/app.vue'
 import keys from "@/popup/store/keys";
 
-console.log(11111111111111, 'content inject')
+console.log('content inject')
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request, sender)
     sendResponse("ok")
 })
 
@@ -25,7 +24,6 @@ const dark = 'invert(1) hue-rotate(180deg)'
 // updateBackground 黑暗模式
 function updateBackground() {
     chrome.storage.local.get([keys.config], function(result) {
-        console.log(result[keys.config].darkModel)
         if (result[keys.config].darkModel) {
             let html = document.getElementsByTagName('html')[0]
             html.style.filter = dark

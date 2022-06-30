@@ -7,7 +7,9 @@ let http = axios.create({
 })
 
 async function get(uri, params, callback) {
-    let resp = await http.get(uri, params)
+    let resp = await http.get(uri, {
+      params: params
+    })
     if (resp.status !== 200) {
       utils.notify("请求失败", "网络错误")
       return
