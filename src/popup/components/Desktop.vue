@@ -194,6 +194,7 @@ export default {
     /* flex: 10; */
     width: 75%;
     overflow: hidden;
+    margin: 0 auto;
   }
   .dock-container {
     width: 100%;

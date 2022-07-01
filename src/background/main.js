@@ -52,9 +52,12 @@ chrome.contextMenus.create(
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     console.log(info, tab)
+    let r = Math.ceil(Math.random() * 255)
+    let g = Math.ceil(Math.random() * 255)
+    let b = Math.ceil(Math.random() * 255)
     let app = {
         app: "",
-        background: "#CC3333",
+        background: '#' + r.toString(16) + g.toString(16) + b.toString(16),
         icon: tab.favIconUrl,
         id: new Date().getTime(),
         link: tab.url,
