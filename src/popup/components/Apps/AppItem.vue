@@ -4,7 +4,7 @@
       <div v-if="type === 'app'" style="width: 100%; height: 100%;">
         <img :src="icon" :alt="name" :style="'width: 100%; height: 100%; object-fit: cover; background-color:' + background" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
         <div v-else class="icon-word-container" :style="'background: ' + (background !== undefined? background: 'blue') ">
-          {{name.substring(0, 3)}}
+          {{name.substring(0, 3).toUpperCase()}}
         </div>
       </div>
       <slot v-else></slot>

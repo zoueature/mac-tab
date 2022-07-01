@@ -4,46 +4,50 @@
       <form class="search" @submit="search">
         <input placeholder="输入关键词搜索" v-model="keyword">
       </form>
-      <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
-           v-for="category in categoryList"
-           :key="category.id"
-           @click="selectCategory(category)"
-      >
-        <div class="category">
-          <div class="category-icon">
-            <img :src="category.icon" alt="">
-          </div>
-          <div class="category-name">
-            {{category?.name}}
+      <div class="app-category-list">
+        <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
+            v-for="category in categoryList"
+            :key="category.id"
+            @click="selectCategory(category)"
+        >
+          <div class="category">
+            <div class="category-icon">
+              <img :src="category.icon" alt="">
+            </div>
+            <div class="category-name">
+              {{category?.name}}
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <ul v-infinite-scroll="loadingData" class="app-list" infinite-scroll-distance="20" v-if="diyCategoryId !== selectedCategory">
+    <div class="app-list" v-if="diyCategoryId !== selectedCategory">
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <loading ref="loading"/>
-      <li class="app-item"  v-for="app in apps" :key="app.id">
-        <div class="app-container">
-          <div class="app-icon" @click="preview(app)">
-            <img :src="app.icon" alt="" :style="'background:' + app.color">
+      <ul class="app-list-container" v-infinite-scroll="loadingData" infinite-scroll-distance="70" >
+        <loading ref="loading"/>
+        <li class="app-item"  v-for="app in apps" :key="app.id">
+          <div class="app-container">
+            <div class="app-icon" @click="preview(app)">
+              <img :src="app.icon" alt="" :style="'background:' + app.color">
+            </div>
+            <div class="app-name">
+              <span>{{app.name}}</span>
+            </div>
+            <div class="app-desc">{{app.desc}}</div>
+            <div class="app-installer" @click="install(app)" v-if="installedApp[app.id] !== true">
+              <img src="../../../../assets/icon/download.png" alt="">
+            </div>
+            <div class="app-installer"  v-else>
+              <img src="../../../../assets/icon/gou_white_fill.png" alt="">
+            </div>
           </div>
-          <div class="app-name">
-            <span>{{app.name}}</span>
-          </div>
-          <div class="app-desc">{{app.desc}}</div>
-          <div class="app-installer" @click="install(app)" v-if="installedApp[app.id] !== true">
-            <img src="../../../../assets/icon/download.png" alt="">
-          </div>
-          <div class="app-installer"  v-else>
-            <img src="../../../../assets/icon/gou_white_fill.png" alt="">
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
     <div v-else class="app-list diy-app">
-      <div class="title">
+      <div class="title diy-title">
         自定义应用
       </div>
       <div class="app-input">
@@ -211,6 +215,9 @@ export default {
       if (app.iconType === '') {
         app.iconType = 'word'
       }
+      if (app.iconType === 'word') {
+        app.icon = ''
+      }
       this.$store.commit('addApp', app)
       this.diyApp = {
         link: defaultDiyApp.link,
@@ -261,6 +268,10 @@ export default {
     padding-top: 3.4%;
     /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
+    /* overflow-y: scroll; */
+  }
+  .app-category-list {
+    height: 80%;
     overflow-y: scroll;
   }
   .search {
@@ -308,11 +319,23 @@ export default {
     white-space: nowrap;
   }
   .app-list {
-    list-style: none;
     margin: 0;
     flex: 9;
-    padding-inline-start: 0;
     padding-top: 3.4%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: left;
+    flex-direction: row;
+    align-items: flex-start;
+    align-content: flex-start;
+    /* overflow-y: scroll; */
+    /* overflow: scroll; */
+    position: relative;
+  }
+  .app-list-container {
+    height: 90%;
+    list-style: none;
+    padding-inline-start: 0;
     display: flex;
     flex-wrap: wrap;
     justify-items: left;
@@ -482,8 +505,11 @@ export default {
     margin: 0 auto;
     font-weight: bold;
     text-align: left;
-    font-size: 20px;
+    font-size: 25px;
     /* margin-bottom: 25px; */
+  }
+  .diy-title {
+    font-size: 20px;
   }
   .preview {
     top: 50%;
