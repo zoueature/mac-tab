@@ -29,7 +29,7 @@
                class="search-input">
       </form>
       <div v-if="suggestList.length > 0" class="suggest-container">
-        <div v-for="(suggest, index) in suggestList" :key="index"
+        <div v-for="(suggest, index) in suggestList.slice(0, 16)" :key="index"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
              :style="index === selectSuggestIndex ? 'transform: scaleY(1.06)' : ''"
              @click="selectNSearch(suggest)"
@@ -287,11 +287,14 @@ export default {
   }
   .englist-enter-active,
   .englist-leave-active {
-    transition: all 200ms ease;
+    transition: all 200ms linear;
   }
-  .englist-enter-from,
+  .englist-enter-from {
+    /* height: 0; */
+    transform: translateY(-70px);
+    opacity: 0;
+  }
   .englist-leave-to {
-    height: 0;
     opacity: 0;
   }
   .eng-item {
@@ -329,7 +332,7 @@ export default {
     /* height: auto; */
     background: rgba(255, 255, 255, 0.88);
     margin-top: 2px;
-    z-index: 1000000;
+    z-index: 1000000000000;
     text-align: left;
     border-radius: 7px; 
     padding-bottom: 16px;

@@ -206,7 +206,9 @@ export default {
     height: 200px;
     flex: 1;
   }
-
+  .apps-enter-from {
+    transform: translateX(-100px);
+  }
   #search-container {
     width: 70%;
     height: 25%;
@@ -214,18 +216,21 @@ export default {
     display: flex;
     align-content: center;
     align-items: center;
+    position: relative;
   }
   .news {
     width: 25px;
-    height: 25px;
-    margin-left: 25px;
+    height: 25px; 
+    /* margin-left: 25px; */
+    position: absolute;
+    right: -34px;
   }
   .news:hover {
     cursor: pointer;
   }
   #apps-container {
     width: v-bind(appContainerWidth);
-    height: 75%;
+    height: 70%;
     margin: 0 auto 0 auto;
   }
 
