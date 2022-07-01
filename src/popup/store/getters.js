@@ -64,7 +64,6 @@ export default {
         state.dockApps.forEach(v => {
             result[v.id] = true
         })
-        console.log(result)
         return result
     },
     pageApps(state) {
@@ -76,7 +75,7 @@ export default {
 
 
 
-    
+
     // --------------------- Desktop ----------------------
     showEngineList(state) {
         return state.showSearchEngine

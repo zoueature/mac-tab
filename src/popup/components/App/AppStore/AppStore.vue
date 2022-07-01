@@ -42,17 +42,17 @@
         </div>
       </li>
     </ul>
-    <div v-else class="app-list">
+    <div v-else class="app-list diy-app">
       <div class="title">
         自定义应用
       </div>
       <div class="app-input">
         <div>地址</div>
-        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle">
+        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle" class="input-item">
       </div>
       <div class="app-input">
         <div>名称</div>
-        <input placeholder="输入名称" v-model="diyApp.name">
+        <input placeholder="输入名称" v-model="diyApp.name" class="input-item">
       </div>
       <div class="select-app-icon">
         <div class="app-icon-shower" :style="'background: '  + diyApp.wordIconColor" @click="diyApp.iconType = 'word'">
@@ -118,17 +118,17 @@ export default {
   methods: {
     search(e) {
       e.preventDefault()
-       this.apps = []
+      this.apps = []
       this.page = 1
       this.searchApp(this.keyword, 0)
-      this.selectCategory = 0
+      this.selectedCategory = 0
     },
     loadingData() {
       this.searchApp(this.keyword, this.selectedCategory)
     },
     searchApp(keyword, categoryId) {
       let that = this
-      this.$refs.loading.show()
+      // this.$refs.loading.show()
       api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
         data.forEach(app => {
           that.apps.push({
@@ -142,7 +142,7 @@ export default {
         })
         // that.selectedCategory = categoryId
         that.page ++
-        that.$refs.loading.close()
+        // that.$refs.loading.close()
       })
     },
     getAppCategoryList() {
@@ -412,8 +412,6 @@ export default {
     text-align: left;
     margin: 0 auto;
     font-size: 14px;
-    margin-bottom: 43px;
-
   }
   .app-input input {
     margin-top: 10px;
@@ -422,13 +420,15 @@ export default {
     height: 25px;
     width: 70%;
     background: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     font-size: 15px;
+  }
+  .input-item::placeholder {
+    color: rgba(0, 0, 0, 0.2)
   }
   .select-app-icon {
     width: 90%;
     margin: 0 auto;
-    /*margin-top: 25px;*/
   }
   .app-icon-shower {
     width: 70px;
@@ -450,7 +450,6 @@ export default {
     width: 90%;
     margin: 0 auto;
     height: 34px;
-    margin-top: 43px;
     clear: both;
     justify-content: space-between;
   }
@@ -467,7 +466,6 @@ export default {
   .opt-container {
     width: 90%;
     margin: 0 auto;
-    margin-top: 70px;
   }
   .submit-app {
     width: 25%;
@@ -485,7 +483,7 @@ export default {
     font-weight: bold;
     text-align: left;
     font-size: 20px;
-    margin-bottom: 25px;
+    /* margin-bottom: 25px; */
   }
   .preview {
     top: 50%;
@@ -502,5 +500,10 @@ export default {
   }
   .selected img {
     display: block;
+  }
+  .diy-app {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
   }
 </style>
