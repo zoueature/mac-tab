@@ -1,20 +1,25 @@
 <template>
   <div class="wallpaper-market-app">
     <div class="wallpaper-header">
-      <Back v-if="fromWallpaper"></Back>
-      <form @submit="search" class="search-form">
-        <input placeholder="输入关键词"
-             v-model="keyword"
-             class="search-input"/>
-      </form>
-      <div :class="originClass('baidu')" @click="selectOrigin('baidu')">
-        <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
+      <div class="wallpaper-searcher">
+        <Back v-if="fromWallpaper"></Back>
+        <form @submit="search" class="search-form">
+          <input placeholder="输入关键词"
+              v-model="keyword"
+              class="search-input"/>
+        </form>
       </div>
-      <div :class="originClass('pexels')" @click="selectOrigin('pexels')">
-        <img src="https://www.pexels.com/favicon.ico" alt="" class="website-icon">
-      </div>
-      <div :class="originClass('unsplash')" @click="selectOrigin('unsplash')">
-        <img src="https://www.unsplash.com/favicon.ico" alt="" class="website-icon">
+      <div style="flex: 1;"></div>
+      <div class="wallpaper-origin">
+        <div :class="originClass('baidu')" @click="selectOrigin('baidu')">
+          <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
+        </div>
+        <div :class="originClass('pexels')" @click="selectOrigin('pexels')">
+          <img src="https://www.pexels.com/favicon.ico" alt="" class="website-icon">
+        </div>
+        <div :class="originClass('unsplash')" @click="selectOrigin('unsplash')">
+          <img src="https://www.unsplash.com/favicon.ico" alt="" class="website-icon">
+        </div>
       </div>
     </div>
     <div class="wallpaper-market">
@@ -226,12 +231,30 @@ export default {
     height: 100%;
   }
   .wallpaper-header {
-    width: 97%;
+    width: 100%;
     height: 10%;
     margin: 4% auto 2% auto;
     text-align: left;
     display: flex;
     align-items: center;
+  }
+  .wallpaper-searcher {
+    flex: 5;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+  }
+  .wallpaper-origin {
+    flex: 5;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+  }
+  .search-form {
+    height: 37px;
+    width: 85%;
   }
   .wallpaper-market {
     width: 100%;
@@ -264,15 +287,10 @@ export default {
     color: white;
   }
   .wallpaper-list {
-    /*width: 100%;*/
-    /*height: 300px;*/
-    /*height: 100%;*/
     display: flex;
-    /*justify-content: space-between;*/
     justify-items: left;
     flex-wrap: wrap;
     padding-bottom: 10px;
-    /*overflow: hidden;*/
     align-content: flex-start;
     list-style: none;
     overflow-y: scroll;
@@ -317,10 +335,6 @@ export default {
     backdrop-filter: blur(1px);
     font-size: 12px;
   }
-  .search-form {
-    height: 37px;
-    width: 37%;
-  }
   .search-input {
     display: block;
     outline: none;
@@ -330,9 +344,10 @@ export default {
     width: 100%;
     color: #777;
     padding-left: 5%;
-    /* margin-left: 16px; */
-    /*margin-top: 16px;*/
     border-radius: 7px;
+  }
+  .search-input::placeholder {
+    color: rgba(0, 0, 0, 0.2);
   }
   .wallpaper-website {
     display: flex;
