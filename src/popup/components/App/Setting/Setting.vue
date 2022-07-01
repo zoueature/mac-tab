@@ -3,7 +3,7 @@
     <div class="title">设置</div>
     <div class="app-config">
       <div class="setting-title">
-        <application-one theme="filled" size="22" fill="#880E4F" :strokeWidth="2"/>
+        <application-one theme="outline" size="22" fill="#fff" :strokeWidth="4"/>
         <span>图标大小</span>
       </div>
       <div class="setting-value">
@@ -12,7 +12,7 @@
     </div>
     <div class="app-config">
       <div class="setting-title">
-        <page-template theme="filled"  size="18" fill="#B71C1C" :strokeWidth="2"/>
+        <page-template theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
         <span>小组件</span>
       </div>
       <div class="setting-value">
@@ -21,21 +21,26 @@
     </div>
     <div class="app-config">
       <div class="setting-title">
-        <moon theme="filled"  size="18" fill="#4A148C" :strokeWidth="2"/>
+        <moon theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
         <span>黑暗模式</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="darkModel" @change="toggleDarkModel"/>
        </div>
-     
     </div>
+    <a class="app-config" href="mailto:kqxianren@gmail.com">
+      <div class="setting-title">
+        <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
+        <span>反馈与建议</span>
+      </div>
+    </a>
   </div>
 </template>
 
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, Moon, PageTemplate} from "@icon-park/vue-next"
+import {ApplicationOne, Moon, PageTemplate, AtSign} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -45,6 +50,7 @@ export default {
     ApplicationOne,
     PageTemplate,
     Moon,
+    AtSign,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -114,6 +120,7 @@ export default {
     width: 100%;
     justify-content: left;
     justify-items: left;
+    text-decoration: none;
   }
   .setting-title {
     color: rgba(0, 0, 0, 0.56);
