@@ -185,12 +185,14 @@ export default {
     overflow: hidden;
   }
   .notify-container {
-    flex: 3;
+    /* flex: 3; */
+    width: 25%;
     overflow: hidden;
     height: 100%;
   }
   .application-container {
-    flex: 10;
+    /* flex: 10; */
+    width: 75%;
     overflow: hidden;
   }
   .dock-container {

@@ -69,8 +69,8 @@ export default {
     margin: 0 auto;
     overflow: scroll;
     display: grid;
-    grid-template-columns: repeat(2, 10vw);
-    grid-template-rows:repeat(auto-fill, 10vw);
+    grid-template-columns: repeat(2, 9vw);
+    grid-template-rows:repeat(auto-fill, 9vw);
     grid-auto-rows: 9vw;
     grid-gap: 10px 10px;
     grid-auto-flow: dense;

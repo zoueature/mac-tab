@@ -192,7 +192,7 @@ export default {
           if (app.type !== 'app') {
             return
           }
-          let index = app.name.indexOf(keyword)
+          let index = app.name.toLowerCase().indexOf(keyword.toLowerCase())
           if (index >= 0) {
             that.suggestList.push({
               type: 'app',

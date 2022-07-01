@@ -3,9 +3,9 @@
     <div class="time-shower ">
       {{time}}
       <span class="second-shower">{{second}}</span>
-    </div>
-    <div class="date-shower">
+      <div class="date-shower">
       {{date}}
+      </div>
     </div>
   </div>
 </template>
@@ -46,24 +46,20 @@ export default {
 
 <style scoped>
   .clock {
-    width: 80%;
+    /* width: 80%; */
     margin: 0 auto;
-    height: 90px;
+    height: 97px;
     position: relative;
+    padding-bottom: 16px;
   }
   .time-shower {
-    width: 60%;
-    height: 70%;
     margin: auto;
+    width: auto;
     position: absolute;
-    left: 0;
-    right: 0;
     top: 16px;
-    /*bottom: 0;*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 61px;
     font-weight: bolder;
     color: white;
   }
@@ -78,11 +74,13 @@ export default {
     font-weight: normal;
     position: absolute;
     top: 0;
-    right: -10px;
+    right: -18px;
   }
   .date-shower {
     font-size: 16px;
     color: white;
     font-weight: bold;
+    position: absolute;
+    bottom: -16px;
   }
 </style>
