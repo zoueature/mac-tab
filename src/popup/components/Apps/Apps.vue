@@ -178,7 +178,7 @@ export default {
   methods: {
     changePage(newPageIndex) {
       this.$store.commit('setActiveAppPgae', newPageIndex)
-      // this.activeIndex = newPageIndex
+      this.activeIndex = newPageIndex
     },
     scroll(e) {
       // e.preventDefault()
@@ -386,7 +386,7 @@ export default {
   justify-content: center;
   align-items: center;
   align-content: center;
-  z-index: 1000;
+  z-index: 1000000;
   backdrop-filter: blur(7px);
   background-color: rgba(255, 255, 255, 0.463);
   opacity: 0.5;
