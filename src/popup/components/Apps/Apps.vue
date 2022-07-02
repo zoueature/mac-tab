@@ -190,7 +190,7 @@ export default {
       if (!that.timeOut)  {
         that.timeOut = setTimeout(() => {
           // if (that.timeOut) {
-            scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
+          scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
           setTimeout(() => {
             that.timeOut = false
           }, 1000)

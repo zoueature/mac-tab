@@ -105,10 +105,8 @@ export default {
       }
       this.suggest(val)
     },
-    suggest(val) {
-      if (val.length === 0) {
-        this.selectSuggestIndex = -1
-      }
+    suggesList() {
+      this.selectSuggestIndex = -1
     },
     selectSuggestIndex(val) {
       console.log(val)
@@ -116,7 +114,6 @@ export default {
       // this.keyword = this.suggestList[val]
     }
   },
-  /* eslint-disable */
   methods: {
     selectNSearch(suggest) {
       console.log(suggest.type)
@@ -183,7 +180,7 @@ export default {
             title: s,
           })
         })
-        that.selectSuggestIndex = 0
+        // that.selectSuggestIndex = 0
       })
       // 获取已经安装的app应用
       let pages = this.$store.getters.pageApps
