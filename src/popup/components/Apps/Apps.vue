@@ -393,6 +393,10 @@ export default {
 }
 .prev-button {
   left: 0;
+  transform: translateX(-50%);
+}
+.next-button {
+  transform: translateX(50%);
 }
 ::-webkit-scrollbar {
   display: none;
