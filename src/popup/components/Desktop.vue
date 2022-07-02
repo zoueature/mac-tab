@@ -5,7 +5,7 @@
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent">
 <!--        <NewClock class="new-clock"/>-->
-        <NumberClock class="clock"></NumberClock>
+        <NumberClock></NumberClock>
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
@@ -173,10 +173,6 @@ export default {
     background-position: v-bind(size);
     background-size: v-bind(position);*/
     /*background: rgb(0,0,0,0.1);*/
-  }
-  .clock {
-    margin-top: 16px;
-    margin-bottom: 25px;
   }
   .blank-container {
     width: 100%;

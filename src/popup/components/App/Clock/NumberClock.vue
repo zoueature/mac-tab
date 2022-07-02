@@ -3,9 +3,9 @@
     <div class="time-shower ">
       {{time}}
       <span class="second-shower">{{second}}</span>
-      <div class="date-shower">
+      <!-- <div class="date-shower">
       {{date}}
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
