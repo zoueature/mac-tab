@@ -64,7 +64,7 @@ img {
   padding: 0;
 }
 .i-icon {
-  display: flex;
+  display: flex !important;
   align-items: center;
   align-content: center;
 }

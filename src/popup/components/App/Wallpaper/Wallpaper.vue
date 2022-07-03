@@ -9,17 +9,24 @@
           </div>
         </div>
       </div>
-      <span>模式选择</span>
-      <div class="position-shower">
-        <div :class="'position '  + (position.id === configWallpaperPosition.id? 'active': '')" v-for="(position, index) in positions"
-             :key="index"
-             @click="selectPos(position)"
-        >
-          <img :src="position.icon" style="width: 100%; height: 100%">
+      <div class="wallpaper-setting">
+        <div class="setting-name">
+          <cycle-movement theme="outline" size="18" fill="#777" :strokeWidth="4"/>
+          <span class="setting-title">位置模式</span>
+        </div>
+        <div class="position-shower">
+          <div :class="'position '  + (position.id === configWallpaperPosition.id? 'active': '')" v-for="(position, index) in positions"
+              :key="index"
+              @click="selectPos(position)">
+            <img :src="position.icon" style="width: 100%; height: 100%">
+          </div>
         </div>
       </div>
-      <span>遮罩模糊</span>
-      <div class="cover-setting">
+      <div class="wallpaper-setting">
+        <div class="setting-name">
+          <mosaic theme="outline" size="18" fill="#777" :strokeWidth="2"/>
+          <span class="setting-title">遮罩模糊</span>
+        </div>
         <el-slider :min="0"
                    :max="10"
                    :step="0.01"
@@ -27,7 +34,7 @@
                    v-model="coverBlur"
                    @input="changeCoverBlur"
                    :size="'small'"
-                   class="blur-slider">
+                   class="blur-slider cover-setting">
         </el-slider>
       </div>
     </div>
@@ -36,10 +43,13 @@
 
 <script>
 
+import {CycleMovement, Mosaic} from '@icon-park/vue-next'
+
 export default {
   name: "WallpaperCom",
   components: {
-
+    CycleMovement,
+    Mosaic,
   },
   watch: {
     configWallpaperPosition(val) {
@@ -123,15 +133,18 @@ export default {
   }
   .config-set {
     width: 80%;
-    height: 400px;
+    height: 90%;
     text-align: left;
     margin: 34px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
   .config-set span {
     display: block;
     font-size: 13px;
     color: #5f5f5f;
-    margin-top: 34px;
+    /* margin-top: 34px; */
   }
   .wallpaper-shower {
     width: 100%;
@@ -148,7 +161,7 @@ export default {
   }
   .position-shower {
     width: 100%;
-    margin-top: 7px;
+    /* margin-top: 7px; */
     display: flex;
     justify-content: space-between;
     justify-items: center;
@@ -165,7 +178,7 @@ export default {
   .cover-setting {
     width: 100%;
     height: 10px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
     font-size: 12px !important;
   }
   .cover {
@@ -192,5 +205,15 @@ export default {
     box-shadow: 1px 1px 7px white;
     font-size: 12px;
     color: rgba(0, 0, 0, 0.8);
+  }
+  .setting-name {
+    display: flex;
+    margin-bottom: 1vw;
+    align-content: center;
+    align-items: center;
+  }
+  .setting-title {
+    /* margin-left: 1vw; */
+    margin-left: 7px;
   }
 </style>

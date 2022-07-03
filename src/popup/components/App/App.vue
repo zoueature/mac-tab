@@ -109,7 +109,7 @@ export default {
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
-    background: rgb(232, 232, 232);
+    background: rgb(250, 250, 250);
   }
   .app-title {
     /*width: 100%;*/

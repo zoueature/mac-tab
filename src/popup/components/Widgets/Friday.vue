@@ -1,17 +1,17 @@
 <template>
   <div class="friday-container">
-    <div v-if="leftDay !== 0" class="friday-container">
+    <div v-if="leftDay !== 0 && leftDay < 5" class="friday-container">
       <div class="friday-title">
         今天是周五吗
       </div>
       <div class="friday-countdown">
-        不是, 还有{{leftDay}}天
+        不是<br/>还有{{leftDay}}天
       </div>
     </div>
     <div v-else class="celebrate">
         <img src="../../../assets/images/sport.png" style="height: 100%">
       <div class="celebrate-title">
-        周五啦
+        {{leftDay === 0 ? '周五啦' : '周末快乐'}}
       </div>
     </div>
   </div>
@@ -57,7 +57,8 @@ export default {
   }
   .friday-title {
     height: 18%;
-    font-size: 12px;
+    padding-top: 2%;
+    font-size: 0.7vw;
     color: white;
     font-weight: bolder;
   }
@@ -67,7 +68,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 25px;
+    font-size: 1.6vw;
     font-weight: bolder;
     color: rgba(255, 255, 255, 0.87);
   }
@@ -75,12 +76,14 @@ export default {
     width: 100%;
     display: flex;
     height: 100%;
-    justify-content: space-around;
+    justify-content: center;
+    justify-items: center;
     align-items: center;
+    align-content: center;
     position: relative;
   }
   .celebrate-title {
-    font-size: 34px;
+    font-size: 1.6vw;
     font-weight: bolder;
     color: rgba(255, 255, 255, 0.87);
     position: absolute;

@@ -11,21 +11,18 @@
       </div>
       <div style="flex: 1;"></div>
       <div class="wallpaper-origin">
-        <div :class="originClass('baidu')" @click="selectOrigin('baidu')">
-          <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
-        </div>
-        <div :class="originClass('pexels')" @click="selectOrigin('pexels')">
-          <img src="https://www.pexels.com/favicon.ico" alt="" class="website-icon">
-        </div>
-        <div :class="originClass('unsplash')" @click="selectOrigin('unsplash')">
-          <img src="https://www.unsplash.com/favicon.ico" alt="" class="website-icon">
+        <div v-for="(type) in cateList" :key="type.type" :class="originClass(type.type)" @click="selectOrigin(type)">
+          <div class="website-icon">
+            <img :src="type.icon" alt=""/>
+          </div>
+          <!-- <span class="website-title">{{type.type}}</span> -->
         </div>
       </div>
     </div>
     <div class="wallpaper-market">
       <div class="wallpaper-category">
         <div :class="'cate ' + (selectedCateId === category.id ? 'active' : '')"
-             v-for="category in cateList"
+             v-for="category in originTag"
              :key="category.id"
              @click="selectCate(category)"
         >
@@ -70,6 +67,9 @@ export default {
     let that = this
     api.getWWallpaperTag((tags) => {
       that.cateList = tags
+      if (tags.length > 0) {
+        that.selectOrigin(tags[0])
+      }
     })
   },
   mounted() {
@@ -85,6 +85,15 @@ export default {
         }
         return cls
       }
+    },
+    originTag() {
+      for (let i = 0 ; i < this.cateList.length; i ++) {
+        let item = this.cateList[i]
+        if (item.type === this.origin) {
+          return  item.tags
+        }
+      }
+      return []
     }
   },
   methods: {
@@ -103,15 +112,18 @@ export default {
       this.hoverIndex = -1
     },
     selectOrigin(origin) {
-      this.origin = origin
+      this.origin = origin.type
+      let defaultCate = origin.tags[0]
+      this.selectCate(defaultCate)
     },
     selectCate(category) {
       this.selectedCateId = category.id
-      let list = this.getWallpaperListByCategory(category.tag)
-      this.wallpapers = list
-    },
-    getWallpaperListByCategory(tag) {
-      return data.wallpaperList[tag]
+      this.page = 1
+      this.wallpapers = []
+      let that = this
+      api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
+        that.wallpapers = data
+      })
     },
     setWallpaper(src) {
       let img = new Image()
@@ -124,94 +136,87 @@ export default {
       }
     },
     async loadingData() {
-      this.showLoading = true
-      let newList = []
-      if (this.origin === "baidu") {
-        newList = await this.getData(this.limit)
-      } else {
-        newList = await this.getWallpaper(this.origin)
-      }
-      this.wallpapers.push(...newList)
-      this.showLoading = false
-    },
-    async getWallpaper(origin) {
-      let result = await this.$http.get("/wallpaper/type/" + origin, {
-        params: {
-          keyword: this.keyword,
-          page:  1,
-          size: this.limit
-        }
+      let that = this
+      that.page ++
+      api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
+        that.wallpapers.push(...data)
+        console.log(that.wallpapers)
       })
-      return result.data.data
     },
-    async getData(size) {
-      let list = []
-      let result = await this.$http.get("https://image.baidu.com/search/acjson", {
-        params: {
-          tn: "resulttagjson",
-          logid: "10239998936165607799",
-          ie: "utf-8",
-          fr: "",
-          word:  this.keyword + "壁纸",
-          ipn: "r",
-          fm: "index",
-          pos: "history",
-          queryWord: this.keyword,
-          cl: "2",
-          lm: "-1",
-          oe: "utf-8",
-          adpicid: "",
-          st: "-1",
-          z: "9",
-          ic: "0",
-          hd: 1,
-          latest: "",
-          copyright: "",
-          s: "",
-          se: "",
-          tab: "",
-          width: screen.width,
-          height: screen.height,
-          face: "0",
-          istype: "2",
-          qc: "",
-          nc: "1",
-          expermode: "",
-          nojc: "",
-          isAsync: true,
-          pn: this.offset,
-          rn: size,
-          gsm: "5a",
-        }
-      })
-      if (result.status === 200) {
-        result.data.data.forEach((v) => {
-          let url = v.middleURL
-          if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
-            url = v.replaceUrl[v.replaceUrl.length-1].ObjURL
-          }
-          if (typeof v.thumbURL=== "string" && v.thumbURL !== "" && typeof url === "string" && url !== "") {
-            let u = new URL(url)
-            let rexp = /(_[0-9]+_[0-9]+)/
-            u.pathname = u.pathname.replace(rexp, "")
-            list.push({
-              thumb: v.thumbURL,
-              url: u.toString(),
-              copyright: "By 百度"
-            })
-          }
-        })
-        this.offset += size
-      }
-      return list
-    }
+    // async getWallpaper() {
+    //   let that = this
+    //   that.page = 1
+    //   api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
+    //     that.wallpapers = data
+    //   })
+    // },
+    // async getData(size) {
+    //   let list = []
+    //   let result = await this.$http.get("https://image.baidu.com/search/acjson", {
+    //     params: {
+    //       tn: "resulttagjson",
+    //       logid: "10239998936165607799",
+    //       ie: "utf-8",
+    //       fr: "",
+    //       word:  this.keyword + "壁纸",
+    //       ipn: "r",
+    //       fm: "index",
+    //       pos: "history",
+    //       queryWord: this.keyword,
+    //       cl: "2",
+    //       lm: "-1",
+    //       oe: "utf-8",
+    //       adpicid: "",
+    //       st: "-1",
+    //       z: "9",
+    //       ic: "0",
+    //       hd: 1,
+    //       latest: "",
+    //       copyright: "",
+    //       s: "",
+    //       se: "",
+    //       tab: "",
+    //       width: screen.width,
+    //       height: screen.height,
+    //       face: "0",
+    //       istype: "2",
+    //       qc: "",
+    //       nc: "1",
+    //       expermode: "",
+    //       nojc: "",
+    //       isAsync: true,
+    //       pn: this.offset,
+    //       rn: size,
+    //       gsm: "5a",
+    //     }
+    //   })
+    //   if (result.status === 200) {
+    //     result.data.data.forEach((v) => {
+    //       let url = v.middleURL
+    //       if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
+    //         url = v.replaceUrl[v.replaceUrl.length-1].ObjURL
+    //       }
+    //       if (typeof v.thumbURL=== "string" && v.thumbURL !== "" && typeof url === "string" && url !== "") {
+    //         let u = new URL(url)
+    //         let rexp = /(_[0-9]+_[0-9]+)/
+    //         u.pathname = u.pathname.replace(rexp, "")
+    //         list.push({
+    //           thumb: v.thumbURL,
+    //           url: u.toString(),
+    //           copyright: "By 百度"
+    //         })
+    //       }
+    //     })
+    //     this.offset += size
+    //   }
+    //   return list
+    // }
   },
   data() {
     return {
       origin: "baidu",
       hoverIndex: -1,
-      wallpapers: [
-      ],
+      wallpapers: [],
       inLoading: false,
       keyword: '',
       offset: 0,
@@ -300,8 +305,8 @@ export default {
   }
   .wallpaper-item {
     position: relative;
-    width: 46%;
-    height: 152px;
+    width: 16vw;
+    height: 10vw;
     margin-left: 2%;
     margin-right: 2%;
     margin-bottom: 10px;
@@ -359,11 +364,24 @@ export default {
     color: white;
     background: rgba(0, 0, 0, 0.55);
     height: 37px;
-    width: 70px;
+    width: 52px;
   }
   .website-icon {
-    overflow: hidden;
+    /* overflow: hidden; */
+    /* flex: 1; */
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .website-icon img {
     width: 25px;
     height: 25px;
+    border-radius: 16%;
+    /* width: 70%;
+    height: 70%; */
+  }
+  .website-title {
+    /* flex:1; */
   }
 </style>
