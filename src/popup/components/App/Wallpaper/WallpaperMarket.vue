@@ -97,13 +97,11 @@ export default {
     }
   },
   methods: {
-    async search(e) {
+    search(e) {
       e.preventDefault()
-      this.$store.commit('openLoading')
+      this.page = 1
       this.offset = 0
-      let newList = await this.getData(50)
-      this.wallpapers = newList
-      this.$store.commit('closeLoading')
+      this.requestToSearchWallpaper(this.origin, 0, this.keyword, this.page, this.limit)
     },
     hover(index) {
       this.hoverIndex = index
@@ -120,8 +118,15 @@ export default {
       this.selectedCateId = category.id
       this.page = 1
       this.wallpapers = []
+      // let that = this
+      // api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
+      //   that.wallpapers = data
+      // })
+      this.requestToSearchWallpaper(this.origin, this.selectedCateId, this.keyword, this.page, this.limit)
+    },
+    requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
       let that = this
-      api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
+       api.getWallpaperByOriginCate(origin, selectedCateId, keyword, page, limit, (data) => {
         that.wallpapers = data
       })
     },
@@ -129,18 +134,20 @@ export default {
       let img = new Image()
       img.src = src
       let that = this
-      this.$store.commit('openLoading')
+      // this.$store.commit('openLoading')
       img.onload = function () {
-        that.$store.commit('closeLoading')
+        // that.$store.commit('closeLoading')
         that.$store.commit('setWallpaper', src)
       }
     },
-    async loadingData() {
+    loadingData() {
       let that = this
       that.page ++
       api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
-        that.wallpapers.push(...data)
-        console.log(that.wallpapers)
+        console.log(data)
+        data.forEach(w => {
+          that.wallpapers.push(w)
+        })
       })
     },
     // async getWallpaper() {
