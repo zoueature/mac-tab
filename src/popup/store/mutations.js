@@ -121,7 +121,6 @@ export default {
     // 本地有数据时， 使用本地的localStorage的数据
     // 本地没有数据时， 使用预定义的初始化数据
     initUserApps(state, userApps) {
-        userApps = []
         let str = JSON.stringify(userApps)
         if (str === '{}' || str === '[]') {
             return
