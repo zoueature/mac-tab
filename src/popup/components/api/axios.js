@@ -3,7 +3,8 @@ import utils from '../common/utils'
 
 let http = axios.create({
     // baseURL: "http://127.0.0.1:9090"
-    baseURL: "https://api.crazyman.ml"
+    baseURL: "https://api.crazyman.ml",
+    // baseURL: "http://api.crazyman.ml"
 })
 
 async function get(uri, params, callback) {

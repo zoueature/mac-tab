@@ -7,7 +7,10 @@ export default {
     showDrawer: false,
     showLoading: false,
     showFolder: false,
-    folderStartPtr: {x: 0, y: 0},
+    folderStartPtr: {
+        x: 0,
+        y: 0
+    },
     editApp: false,
     showSearchEngine: false,
     activeAppPage: 0,
@@ -22,7 +25,7 @@ export default {
             },
             blur: 0,
         },
-        appSize: 70, // 桌面app大小
+        appSize: 88, // 桌面app大小
         showComponents: true, // 是否展示小组件
         darkModel: false, // 开启黑暗模式
         searchEngine: "google", // 选择的搜索引擎

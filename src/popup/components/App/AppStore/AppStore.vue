@@ -25,7 +25,7 @@
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <ul class="app-list-container" v-infinite-scroll="loadingData" infinite-scroll-distance="70" >
+      <ul class="app-list-container" v-infinite-scroll="loadingData" infinite-scroll-distance="70" infinite-scroll-immediate="false" >
         <loading ref="loading"/>
         <li class="app-item"  v-for="app in apps" :key="app.id">
           <div class="app-container">
@@ -166,6 +166,7 @@ export default {
     selectCategory(category) {
       this.apps = []
       this.page = 1
+      this.keyword = ''
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
       this.searchApp(this.keyword, this.selectedCategory)
