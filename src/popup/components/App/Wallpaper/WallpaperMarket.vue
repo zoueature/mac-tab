@@ -30,9 +30,9 @@
         </div>
       </div>
       <ul v-infinite-scroll="loadingData" 
-        :infinite-scroll-disabled="noMoreData"
+        :infinite-scroll-disabled="noMoreData || inLoadingData"
+        infinite-scroll-immediate="false"
         class="wallpaper-list">
-        <!-- <loading :scale="0.7" v-if="inLoadingData"/> -->
         <li class="wallpaper-item no-need-dark"
              v-for="(wallpaper, index) in wallpapers"
              :key="wallpaper"
@@ -111,6 +111,7 @@ export default {
       e.preventDefault()
       this.page = 1
       this.offset = 0
+      this.noMoreData = false
       this.requestToSearchWallpaper(this.origin, 0, this.keyword, this.page, this.limit)
     },
     hover(index) {
@@ -128,6 +129,7 @@ export default {
       this.selectedCateId = category.id
       this.page = 1
       this.wallpapers = []
+      this.noMoreData = false
       this.requestToSearchWallpaper(this.origin, this.selectedCateId, this.keyword, this.page, this.limit)
     },
     requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
@@ -151,10 +153,12 @@ export default {
       that.page ++
       that.inLoadingData = true
       api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
-        console.log(data)
         data.forEach(w => {
           that.wallpapers.push(w)
         })
+        if (data.length === 0) {
+          that.noMoreData = true
+        }
         that.inLoadingData = false
       })
     },

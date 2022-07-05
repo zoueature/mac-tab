@@ -25,7 +25,7 @@
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <ul class="app-list-container" v-infinite-scroll="loadingData" infinite-scroll-distance="70" infinite-scroll-immediate="false" >
+      <ul class="app-list-container" v-infinite-scroll="loadingData" :infinite-scroll-disabled="inLoadingData" :infinite-scroll-delay="200" infinite-scroll-immediate="false" >
         <!-- <loading ref="loading"/> -->
         <li class="app-item"  v-for="app in apps" :key="app.id">
           <div class="app-container">
@@ -44,6 +44,9 @@
             </div>
           </div>
         </li>
+        <div style="width:100%; position: relative;" v-if="inLoadingData">
+          <loading-inline :scale="0.7"/>
+        </div>
       </ul>
     </div>
     <div v-else class="app-list diy-app">
@@ -101,7 +104,7 @@ import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
 import api from "@/popup/components/api/app"
 import {Check} from "@icon-park/vue-next"
-// import Loading from "@/popup/components/common/Loading"
+import LoadingInline from "@/popup/components/common/LoadingInline"
 
 const diyCategoryId = 7
 
@@ -117,7 +120,7 @@ export default {
   name: "AppStore",
   components: {
     Check,
-    // Loading,
+    LoadingInline,
   },
   methods: {
     search(e) {
@@ -132,7 +135,7 @@ export default {
     },
     searchApp(keyword, categoryId) {
       let that = this
-      // this.$refs.loading.show()
+      that.inLoadingData = true
       api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
         data.forEach(app => {
           that.apps.push({
@@ -144,9 +147,8 @@ export default {
             color: app.background_color,
             })
         })
-        // that.selectedCategory = categoryId
         that.page ++
-        // that.$refs.loading.close()
+        that.inLoadingData = false
       })
     },
     getAppCategoryList() {
@@ -252,6 +254,7 @@ export default {
       keyword: '',
       page: 1, 
       size: 15,
+      inLoadingData: false,
     }
   }
 }
