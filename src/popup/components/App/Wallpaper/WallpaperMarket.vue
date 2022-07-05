@@ -308,6 +308,7 @@ export default {
     list-style: none;
     overflow-y: scroll;
     flex: 11;
+    padding-right: 1vw;
     width: 50%;
     height: 100%;
   }

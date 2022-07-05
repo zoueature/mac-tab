@@ -117,9 +117,16 @@ export default {
     appContainerWidth() {
       let widthPercent = 90
       if (this.width < 900 || !this.showComponent) {
-        widthPercent = 80
+        widthPercent = 97
       }
       return widthPercent + '%'
+    },
+    desktopWidth() {
+      let width = 75
+      if (this.width < 500) {
+        width = 100
+      }
+      return width + '%'
     }
   },
   mounted() {
@@ -188,7 +195,7 @@ export default {
   }
   .application-container {
     /* flex: 10; */
-    width: 75%;
+    width: v-bind(desktopWidth);
     overflow: hidden;
     margin: 0 auto;
   }
