@@ -304,6 +304,7 @@ export default {
     flex-wrap: wrap;
     padding-bottom: 10px;
     align-content: flex-start;
+    justify-content: space-between;
     list-style: none;
     overflow-y: scroll;
     flex: 11;
@@ -312,11 +313,9 @@ export default {
   }
   .wallpaper-item {
     position: relative;
-    width: 16vw;
+    width: 17vw;
     height: 10vw;
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
