@@ -29,8 +29,10 @@
           {{category.title}}
         </div>
       </div>
-      <ul v-infinite-scroll="loadingData" class="wallpaper-list">
-        <loading v-if="inLoadingData"/>
+      <ul v-infinite-scroll="loadingData" 
+        :infinite-scroll-disabled="noMoreData"
+        class="wallpaper-list">
+        <!-- <loading :scale="0.7" v-if="inLoadingData"/> -->
         <li class="wallpaper-item no-need-dark"
              v-for="(wallpaper, index) in wallpapers"
              :key="wallpaper"
@@ -39,13 +41,16 @@
              :style="'background-image: url(' + wallpaper.thumb + ')'"
         >
           <span class="copyright">{{wallpaper.copyright}}</span>
-          <loading :scale="0.5" v-if="settingBGImgIndex === index"/>
+          <loading-inline :scale="0.5" v-if="settingBGImgIndex === index"/>
           <div class="hover" v-else-if="index === hoverIndex && settingBGImgIndex < 0">
             <div class="set-button" @click="setWallpaper(wallpaper.url, index)">
               <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
             </div>
           </div>
         </li>
+        <div style="width:100%; position: relative;" v-if="inLoadingData">
+          <loading-inline :scale="0.7"/>
+        </div>
       </ul>
     </div>
   </div>
@@ -55,7 +60,8 @@
 import data from "./wallpaper_list"
 import Back from "@/popup/components/common/Back";
 import api from "@/popup/components/api/wallpaper"
-import Loading from "@/popup/components/common/Loading";
+// import Loading from "@/popup/components/common/Loading";
+import LoadingInline from "@/popup/components/common/LoadingInline"
 
 
 const defaultActiveCateID = data.categoryList[0]
@@ -64,7 +70,8 @@ export default {
   name: "WallpaperMarket",
   components:{
     Back,
-    Loading,
+    // Loading,
+    LoadingInline,
   },
   created() {
     let that = this
@@ -125,10 +132,8 @@ export default {
     },
     requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
       let that = this
-      that.inLoadingData = true
        api.getWallpaperByOriginCate(origin, selectedCateId, keyword, page, limit, (data) => {
         that.wallpapers = data
-        that.inLoadingData = false
       })
     },
     setWallpaper(src, index) {
@@ -138,22 +143,25 @@ export default {
       that.settingBGImgIndex = index
       img.onload = function () {
         that.$store.commit('setWallpaper', src)
-        // that.settingBGImgIndex = -1
+        that.settingBGImgIndex = -1
       }
     },
     loadingData() {
       let that = this
       that.page ++
+      that.inLoadingData = true
       api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
         console.log(data)
         data.forEach(w => {
           that.wallpapers.push(w)
         })
+        that.inLoadingData = false
       })
     },
   },
   data() {
     return {
+      noMoreData: false,
       settingBGImgIndex: -1,
       inLoadingData: false,
       origin: "",
@@ -244,6 +252,7 @@ export default {
     padding-right: 1vw;
     width: 50%;
     height: 100%;
+    position: relative;
   }
   .wallpaper-item {
     position: relative;
@@ -320,8 +329,5 @@ export default {
     border-radius: 16%;
     /* width: 70%;
     height: 70%; */
-  }
-  .website-title {
-    /* flex:1; */
   }
 </style>
