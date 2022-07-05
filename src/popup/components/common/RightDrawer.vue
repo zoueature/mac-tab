@@ -42,7 +42,7 @@ export default {
     z-index: 1000000;
   }
   .drawer {
-    width: 22vw;
+    width: 370px;
     height: 100%;
     position: absolute;
     right: 0;
