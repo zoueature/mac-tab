@@ -30,6 +30,7 @@
         </div>
       </div>
       <ul v-infinite-scroll="loadingData" class="wallpaper-list">
+        <loading v-if="inLoadingData"/>
         <li class="wallpaper-item no-need-dark"
              v-for="(wallpaper, index) in wallpapers"
              :key="wallpaper"
@@ -38,9 +39,7 @@
              :style="'background-image: url(' + wallpaper.thumb + ')'"
         >
           <span class="copyright">{{wallpaper.copyright}}</span>
-          <div v-if="settingBGImgIndex === index">
-            <loading/>
-          </div>
+          <loading :scale="0.5" v-if="settingBGImgIndex === index"/>
           <div class="hover" v-else-if="index === hoverIndex && settingBGImgIndex < 0">
             <div class="set-button" @click="setWallpaper(wallpaper.url, index)">
               <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
@@ -126,8 +125,10 @@ export default {
     },
     requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
       let that = this
+      that.inLoadingData = true
        api.getWallpaperByOriginCate(origin, selectedCateId, keyword, page, limit, (data) => {
         that.wallpapers = data
+        that.inLoadingData = false
       })
     },
     setWallpaper(src, index) {
@@ -137,7 +138,7 @@ export default {
       that.settingBGImgIndex = index
       img.onload = function () {
         that.$store.commit('setWallpaper', src)
-        that.settingBGImgIndex = -1
+        // that.settingBGImgIndex = -1
       }
     },
     loadingData() {
@@ -154,6 +155,7 @@ export default {
   data() {
     return {
       settingBGImgIndex: -1,
+      inLoadingData: false,
       origin: "",
       hoverIndex: -1,
       wallpapers: [],
