@@ -11,7 +11,6 @@
           </div>
         </div>
         <div class="app-content">
-          <Loading></Loading>
           <router-view name="app"></router-view>
         </div>
       </div>
@@ -21,12 +20,12 @@
 
 <script>
 
-import Loading from "@/popup/components/common/Loading";
+// import Loading from "@/popup/components/common/Loading";
 
 export default {
   name: "App",
   components: {
-    Loading,
+    // Loading,
   },
   methods: {
     showIcon() {

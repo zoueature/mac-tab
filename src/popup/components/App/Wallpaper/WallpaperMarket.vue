@@ -38,8 +38,11 @@
              :style="'background-image: url(' + wallpaper.thumb + ')'"
         >
           <span class="copyright">{{wallpaper.copyright}}</span>
-          <div class="hover" v-if="index === hoverIndex">
-            <div class="set-button" @click="setWallpaper(wallpaper.url)">
+          <div v-if="settingBGImgIndex === index">
+            <loading/>
+          </div>
+          <div class="hover" v-else-if="index === hoverIndex && settingBGImgIndex < 0">
+            <div class="set-button" @click="setWallpaper(wallpaper.url, index)">
               <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
             </div>
           </div>
@@ -53,7 +56,7 @@
 import data from "./wallpaper_list"
 import Back from "@/popup/components/common/Back";
 import api from "@/popup/components/api/wallpaper"
-// import Loading from "@/popup/components/common/Loading";
+import Loading from "@/popup/components/common/Loading";
 
 
 const defaultActiveCateID = data.categoryList[0]
@@ -62,6 +65,7 @@ export default {
   name: "WallpaperMarket",
   components:{
     Back,
+    Loading,
   },
   created() {
     let that = this
@@ -118,10 +122,6 @@ export default {
       this.selectedCateId = category.id
       this.page = 1
       this.wallpapers = []
-      // let that = this
-      // api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
-      //   that.wallpapers = data
-      // })
       this.requestToSearchWallpaper(this.origin, this.selectedCateId, this.keyword, this.page, this.limit)
     },
     requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
@@ -130,14 +130,14 @@ export default {
         that.wallpapers = data
       })
     },
-    setWallpaper(src) {
+    setWallpaper(src, index) {
       let img = new Image()
       img.src = src
       let that = this
-      // this.$store.commit('openLoading')
+      that.settingBGImgIndex = index
       img.onload = function () {
-        // that.$store.commit('closeLoading')
         that.$store.commit('setWallpaper', src)
+        that.settingBGImgIndex = -1
       }
     },
     loadingData() {
@@ -150,87 +150,18 @@ export default {
         })
       })
     },
-    // async getWallpaper() {
-    //   let that = this
-    //   that.page = 1
-    //   api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
-    //     that.wallpapers = data
-    //   })
-    // },
-    // async getData(size) {
-    //   let list = []
-    //   let result = await this.$http.get("https://image.baidu.com/search/acjson", {
-    //     params: {
-    //       tn: "resulttagjson",
-    //       logid: "10239998936165607799",
-    //       ie: "utf-8",
-    //       fr: "",
-    //       word:  this.keyword + "壁纸",
-    //       ipn: "r",
-    //       fm: "index",
-    //       pos: "history",
-    //       queryWord: this.keyword,
-    //       cl: "2",
-    //       lm: "-1",
-    //       oe: "utf-8",
-    //       adpicid: "",
-    //       st: "-1",
-    //       z: "9",
-    //       ic: "0",
-    //       hd: 1,
-    //       latest: "",
-    //       copyright: "",
-    //       s: "",
-    //       se: "",
-    //       tab: "",
-    //       width: screen.width,
-    //       height: screen.height,
-    //       face: "0",
-    //       istype: "2",
-    //       qc: "",
-    //       nc: "1",
-    //       expermode: "",
-    //       nojc: "",
-    //       isAsync: true,
-    //       pn: this.offset,
-    //       rn: size,
-    //       gsm: "5a",
-    //     }
-    //   })
-    //   if (result.status === 200) {
-    //     result.data.data.forEach((v) => {
-    //       let url = v.middleURL
-    //       if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
-    //         url = v.replaceUrl[v.replaceUrl.length-1].ObjURL
-    //       }
-    //       if (typeof v.thumbURL=== "string" && v.thumbURL !== "" && typeof url === "string" && url !== "") {
-    //         let u = new URL(url)
-    //         let rexp = /(_[0-9]+_[0-9]+)/
-    //         u.pathname = u.pathname.replace(rexp, "")
-    //         list.push({
-    //           thumb: v.thumbURL,
-    //           url: u.toString(),
-    //           copyright: "By 百度"
-    //         })
-    //       }
-    //     })
-    //     this.offset += size
-    //   }
-    //   return list
-    // }
   },
   data() {
     return {
-      origin: "baidu",
+      settingBGImgIndex: -1,
+      origin: "",
       hoverIndex: -1,
       wallpapers: [],
-      inLoading: false,
       keyword: '',
       offset: 0,
       limit: 34,
       cateList: [],
       selectedCateId: defaultActiveCateID.id,
-      showLoading: false,
       fromWallpaper: this.$route.params.fromWallpaper,
     }
   }

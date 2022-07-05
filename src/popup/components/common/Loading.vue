@@ -11,7 +11,7 @@ export default {
   name: "LoadingCom",
   data() {
     return {
-      showLoading: false,
+      showLoading: true,
     }
   },
   methods: {

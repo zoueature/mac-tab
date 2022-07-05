@@ -26,7 +26,7 @@
         {{selectedCategoryObj?.name}}
       </div>
       <ul class="app-list-container" v-infinite-scroll="loadingData" infinite-scroll-distance="70" infinite-scroll-immediate="false" >
-        <loading ref="loading"/>
+        <!-- <loading ref="loading"/> -->
         <li class="app-item"  v-for="app in apps" :key="app.id">
           <div class="app-container">
             <div class="app-icon" @click="preview(app)">
@@ -101,7 +101,7 @@ import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
 import api from "@/popup/components/api/app"
 import {Check} from "@icon-park/vue-next"
-import Loading from "@/popup/components/common/Loading"
+// import Loading from "@/popup/components/common/Loading"
 
 const diyCategoryId = 7
 
@@ -117,7 +117,7 @@ export default {
   name: "AppStore",
   components: {
     Check,
-    Loading,
+    // Loading,
   },
   methods: {
     search(e) {
