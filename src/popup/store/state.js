@@ -7,10 +7,11 @@ export default {
     showDrawer: false,
     showLoading: false,
     showFolder: false,
-    folderStartPtr: {
-        x: 0,
-        y: 0
-    },
+    showSuggest: false,
+    // folderStartPtr: {
+    //     x: 0,
+    //     y: 0
+    // },
     editApp: false,
     showSearchEngine: false,
     activeAppPage: 0,

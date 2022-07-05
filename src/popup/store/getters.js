@@ -24,6 +24,9 @@ export default {
     activeAppPage(state) {
         return state.activeAppPage
     },
+    showSuggest(state) {
+        return state.showSuggest
+    },
 
     // ------------------- CONFIG ----------------------
     appSize(state) {

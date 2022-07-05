@@ -28,11 +28,11 @@
                v-model="keyword"
                class="search-input">
       </form>
-      <div v-if="suggestList.length > 0" class="suggest-container">
+      <div v-if="suggestList.length > 0 && showSuggest" class="suggest-container">
         <div v-for="(suggest, index) in suggestList.slice(0, 16)" :key="index"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
              :style="index === selectSuggestIndex ? 'transform: scaleY(1.06)' : ''"
-             @click="selectNSearch(suggest)"
+             @click.stop="selectNSearch(suggest)"
              @mouseenter="selectSuggest(index)"
         >
           <search class="suggest-title" theme="outline" size="16" fill="#777" :strokeWidth="2" v-if="suggest.type === 'search'"/>
@@ -57,6 +57,9 @@ export default {
     Search,
   },
   computed: {
+    showSuggest() {
+      return this.$store.getters.showSuggest
+    },
     heightSize() {
       return this.size + "px"
     },
@@ -116,10 +119,11 @@ export default {
   },
   methods: {
     selectNSearch(suggest) {
-      console.log(suggest.type)
+      console.log(suggest)
+  
       switch (suggest.type) {
         case 'search':
-          this.search(suggest.val)
+          this.goToSearch(suggest.title)
           break
         case 'app':
           this.openApp(suggest)
@@ -165,6 +169,9 @@ export default {
       if (this.selectSuggestIndex >= 0 && this.selectSuggestIndex < this.suggestList.length) {
         keyword = this.suggestList[this.selectSuggestIndex].title
       }
+      this.goToSearch(keyword)
+    },
+    goToSearch(keyword) {
       window.location.href=this.currentEng.link + keyword
       this.keyword = ""
       this.suggestList = []
@@ -202,7 +209,7 @@ export default {
           }
         })
       })
-      console.log(that.suggestList)
+      this.$store.commit('toggleSearchSuggest', true)
     },
     selectEng(eng) {
       this.$store.commit("setSearchEngine", eng)

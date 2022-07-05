@@ -21,6 +21,7 @@ export default {
       this.$store.commit('toggleSearchEngin', false)
       this.$store.commit('closeFolder')
       this.$store.commit('closeEditApp')
+      this.$store.commit('toggleSearchSuggest', false)
     }
   },
   created() {

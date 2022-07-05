@@ -278,6 +278,10 @@ export default {
     height: 80%;
     overflow-y: scroll;
   }
+  .app-category-list::-webkit-scrollbar {
+    /** TODO 展示滚动条并美化 */
+    display: none;
+  }
   .search {
     width: 100%;
     height: 43px;

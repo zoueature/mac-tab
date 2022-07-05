@@ -42,5 +42,12 @@ export default [
         identify:"yahoo",
         icon: "https://search.yahoo.com/favicon.ico",
         link: "https://search.yahoo.com/search?p="
+      },
+      {
+        id: 7,
+        name: "DuckDuckGo",
+        identify:"duck",
+        icon: "https://duckduckgo.com/favicon.ico",
+        link: "https://duckduckgo.com/?q="
       }
 ]

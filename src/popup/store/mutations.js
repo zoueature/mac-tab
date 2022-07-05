@@ -42,6 +42,9 @@ export default {
     toggleSearchEngin(state, show) {
         state.showSearchEngine = show
     },
+    toggleSearchSuggest(state, show) {
+        state.showSuggest = show
+    },
     // ----------- config ---------------
     updateAppSize(state, size) {
         common.updateConfig(state, 'appSize', size)
