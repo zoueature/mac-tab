@@ -47,6 +47,9 @@ export default {
     searchEngine(state) {
         return state.config.searchEngine
     },
+    newTabOpenApp(state) {
+        return state.config.newTabOpenApp
+    },
 
     // ------------------- APPS ------------------------
     installedAppID(state) {

@@ -28,6 +28,15 @@
          <el-switch v-model="darkModel" @change="toggleDarkModel"/>
        </div>
     </div>
+    <div class="app-config">
+      <div class="setting-title">
+        <browser theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
+        <span>新标签页打开App</span>
+      </div>
+       <div class="setting-value">
+         <el-switch v-model="newTabOpenApp" @change="toggleNewTabOpenApp"/>
+       </div>
+    </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
       <div class="setting-title">
         <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
@@ -40,7 +49,7 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, Moon, PageTemplate, AtSign} from "@icon-park/vue-next"
+import {ApplicationOne, Moon, PageTemplate, AtSign, Browser} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -51,6 +60,7 @@ export default {
     PageTemplate,
     Moon,
     AtSign,
+    Browser,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -71,6 +81,9 @@ export default {
     },
     darkModel() {
       return this.$store.getters.darkModel
+    },
+    newTabOpenApp() {
+      return this.$store.getters.newTabOpenApp
     }
   },
   methods: {
@@ -87,6 +100,9 @@ export default {
       this.$store.commit('setDarkModel', val)
       // this.$store.commit('closeDrawer')
       // window.location.reload()
+    },
+    toggleNewTabOpenApp(val) {
+      this.$store.commit('setOpenAppModel', val)
     }
   }
 }
@@ -130,14 +146,14 @@ export default {
     justify-content: flex-start;
     align-content: center;
     align-items: center;
-    flex: 4;
+    flex: 5;
     justify-self: flex-start;
   }
   .setting-title span {
     margin-left: 7px;
   }
   .setting-value {
-    flex: 8;
+    flex: 7;
   }
   .slider {
     width: 97%;

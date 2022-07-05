@@ -59,6 +59,10 @@ export default {
         common.updateConfig(state, 'darkModel', darkModel)
         // state.config.appSize = size
     },
+    setOpenAppModel(state, model) {
+        common.updateConfig(state, 'newTabOpenApp', model)
+        // state.config.appSize = size
+    },
     setSearchEngine(state, engine) {
         common.updateConfig(state, 'searchEngine', engine)
         // state.config.appSize = size

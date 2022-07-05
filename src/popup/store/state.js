@@ -29,6 +29,7 @@ export default {
         showComponents: true, // 是否展示小组件
         darkModel: false, // 开启黑暗模式
         searchEngine: "google", // 选择的搜索引擎
+        newTabOpenApp: true,
         showDock: true, // todo 是否展示下方dock
     },
 

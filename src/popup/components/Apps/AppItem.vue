@@ -97,8 +97,12 @@ export default {
           100
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
-        window.open(this.appLink, '_blank')
-        // window.location.href = this.appLink
+        let openAppInNewTab = this.$store.getters.newTabOpenApp
+        if (openAppInNewTab) {
+          window.open(this.appLink, '_blank')
+        } else {
+          window.location.href = this.appLink
+        }
         return;
       } else if (typeof this.app === "string" && this.app !== "") {
         let routeParams = app_config.appSize[this.app]
