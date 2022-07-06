@@ -1,6 +1,6 @@
 <template>
-  <sleep-mask v-if="inSleep"/>
   <div id="desktop-background" :class="desktopClass">
+    <sleep-mask v-if="inSleep"/>
     <div class="no-need-dark cover">
     </div>
     <div class="blank-container">
