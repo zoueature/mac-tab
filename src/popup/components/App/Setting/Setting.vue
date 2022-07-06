@@ -1,6 +1,8 @@
 <template>
   <div class="setting-app">
-    <div class="title">设置</div>
+    <div class="title">
+      <span>设置</span>
+    </div>
     <div class="app-config">
       <div class="setting-title">
         <application-one theme="outline" size="22" fill="#fff" :strokeWidth="4"/>
@@ -39,11 +41,11 @@
     </div>
     <div class="app-config">
       <div class="setting-title">
-        <application-one theme="outline" size="22" fill="#fff" :strokeWidth="4"/>
+        <sleep theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
         <span>睡眠时间</span>
       </div>
       <div class="setting-value">
-        <el-slider v-model="goToSleepMinutes" class="slider" :min="5" :max="60" @input="goToSleepMinutesChange" size="small" input-size="small"></el-slider>
+        <el-slider v-model="sleepTime" class="slider" :min="1" :max="60" @input="goToSleepMinutesChange" size="small" input-size="small"></el-slider>
       </div>
     </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
@@ -58,7 +60,7 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, Moon, PageTemplate, AtSign, Browser} from "@icon-park/vue-next"
+import {ApplicationOne, Moon, PageTemplate, AtSign, Browser, Sleep} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -70,6 +72,7 @@ export default {
     Moon,
     AtSign,
     Browser,
+    Sleep,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -92,6 +95,9 @@ export default {
     },
     newTabOpenApp() {
       return this.$store.getters.newTabOpenApp
+    },
+    sleepTime() {
+      return this.$store.getters.goToSleepMinutes
     }
   },
   methods: {
@@ -157,11 +163,12 @@ export default {
     flex: 5;
     justify-self: flex-start;
   }
-  .setting-title span {
+  .setting-app span, .setting-title span {
     margin-left: 7px;
   }
   .setting-value {
     flex: 7;
+    padding-right:1vw;
   }
   .slider {
     width: 97%;

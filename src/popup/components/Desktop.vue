@@ -1,12 +1,14 @@
 <template>
   <div id="desktop-background" :class="desktopClass">
-    <sleep-mask v-if="inSleep"/>
+    <transition name="mask">
+      <sleep-mask v-if="inSleep"/>
+    </transition>
     <div class="no-need-dark cover">
     </div>
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent">
 <!--        <NewClock class="new-clock"/>-->
-        <NumberClock></NumberClock>
+        <NumberClock style="height:125px;"></NumberClock>
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
@@ -71,6 +73,16 @@ export default {
     openSetting() {
       this.$router.replace('setting')
       this.$store.commit('openDrawer')
+    },
+    sleepTimer() {
+      let that = this
+      clearTimeout(timeOut)
+      that.inSleep = false
+      let thresholdTime = that.$store.getters.goToSleepMinutes // 单位分钟
+      timeOut = setTimeout(() => {
+        console.log(new Date().toString())
+        that.inSleep = true
+      }, thresholdTime*60*1000)
     }
   },
   computed: {
@@ -131,15 +143,10 @@ export default {
     this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
     document.addEventListener('mousemove', () => {
-      clearTimeout(timeOut)
-      let thresholdTime = that.$store.getters.goToSleepMinutes // 单位分钟
-      timeOut = setTimeout(() => {
-        console.log(new Date().toString())
-        that.inSleep = true
-      }, thresholdTime*60*1000)
+      that.sleepTimer()
     })
     document.addEventListener('keyup', function () {
-      that.inSleep = false
+      that.sleepTimer()
     })
   },
   data() {
@@ -259,5 +266,13 @@ export default {
     to {
       transform: rotate(3600deg);
     }
+  }
+  .mask-enter-active,
+  .mask-leave-active {
+    transition: all 750ms linear;
+  }
+  .mask-enter-from,
+  .mask-leave-to {
+    transform: translateY(-1000px);
   }
 </style>

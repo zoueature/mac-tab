@@ -21,6 +21,12 @@ export default {
       this.refreshTime()
     }, 100)
   },
+  props: {
+    fontSize: {
+      type: String,
+      default: "52px",
+    }
+  },
   created() {
     this.refreshTime()
   },
@@ -38,7 +44,8 @@ export default {
       second: 0,
       time: '',
       date: '',
-      weekday: ''
+      weekday: '',
+      timeFontSize: this.fontSize,
     }
   }
 }
@@ -48,26 +55,23 @@ export default {
   .clock {
     /* width: 80%; */
     margin: 0 auto;
-    height: 97px;
+    height: 100%;
+    width: 100%;
     position: relative;
     padding-bottom: 16px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
   }
   .time-shower {
     margin: auto;
     width: auto;
-    position: absolute;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 61px;
+    position: relative;
+    font-size: v-bind(timeFontSize);
     font-weight: bolder;
     color: white;
-  }
-  .date-shower {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
   .second-shower {
     font-size: 16px;

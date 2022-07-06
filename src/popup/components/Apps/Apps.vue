@@ -37,7 +37,7 @@
           class="apps"
           ref="apps"
           indicator-position="none"
-          :arrow="drag? 'never': 'hover'"
+          :arrow="drag? 'never': 'never'"
           :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
@@ -72,13 +72,8 @@
 
 <script>
 
-import "swiper/css";
-import "swiper/css/pagination";
-
-import {Pagination} from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
-// import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
@@ -109,7 +104,6 @@ export default {
   },
   setup() {
     return {
-      modules: [Pagination],
     };
   },
   props: [

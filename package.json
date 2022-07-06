@@ -9,18 +9,13 @@
     "watch": "vue-cli-service build --watch"
   },
   "dependencies": {
-    "@better-scroll/mouse-wheel": "^2.4.2",
-    "@better-scroll/pull-up": "^2.4.2",
     "@icon-park/vue-next": "^1.4.1",
     "axios": "^0.26.1",
-    "better-scroll": "^2.4.2",
     "copy-webpack-plugin": "^10.2.4",
-    "core-js": "^3.8.3",
     "dateformat": "^5.0.3",
     "element-plus": "^2.1.10",
     "html-webpack-plugin": "^5.5.0",
     "json-stringify-pretty-compact": "^3.0.0",
-    "swiper": "^8.1.0",
     "vue": "^3.2.13",
     "vue-axios": "^3.4.1",
     "vue-i18n": "^9.1.10",
