@@ -120,7 +120,7 @@ export default {
     appContainerWidth() {
       let widthPercent = 90
       if (this.width < 900 || !this.showComponent) {
-        widthPercent = 97
+        widthPercent = 90
       }
       return widthPercent + '%'
     },

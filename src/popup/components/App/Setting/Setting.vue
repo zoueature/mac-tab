@@ -1,6 +1,7 @@
 <template>
   <div class="setting-app">
     <div class="title">
+      <setting theme="outline" size="27" fill="#0288D1" :strokeWidth="4"/>
       <span>设置</span>
     </div>
     <div class="app-config">
@@ -60,7 +61,7 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, Moon, PageTemplate, AtSign, Browser, Sleep} from "@icon-park/vue-next"
+import {ApplicationOne, Moon, PageTemplate, AtSign, Browser, Sleep, Setting} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -73,6 +74,7 @@ export default {
     AtSign,
     Browser,
     Sleep,
+    Setting,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -132,13 +134,17 @@ export default {
     box-shadow: -1px -1px 10px white;
   }
   .title {
-    padding-top: 10px;
+    /* padding-top: 10px; */
     width: 100%;
     height: 70px;
     text-align: left;
     font-weight: bolder;
     font-size: 25px;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
+    align-content: center;
+
   }
   .app-config {
     display: flex;
@@ -184,7 +190,7 @@ export default {
     align-content: center;
     align-items: center;
   }
-  :deep(.i-icon) {
+  :deep(.setting-title .i-icon) {
     width: 25px;
     height: 25px;
     border-radius: 16%;

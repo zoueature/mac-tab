@@ -1,4 +1,3 @@
-import initApps from "@/popup/store/init/init_app";
 import initDock from "@/popup/store/init/init_dock";
 
 export default {
@@ -39,7 +38,7 @@ export default {
     // userApps: initApps,
     installedAppID: {}, // {123: true}
     activeFolder: {}, // 当前打开的文件夹信息
-    fmtApps: [initApps],
+    fmtApps: [],
     dockApps: initDock,
 
     // todo
