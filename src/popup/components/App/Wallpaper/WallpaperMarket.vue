@@ -76,10 +76,24 @@ export default {
   created() {
     let that = this
     api.getWWallpaperTag((tags) => {
-      that.cateList = tags
       if (tags.length > 0) {
-        that.selectOrigin(tags[0])
+        let setOrigin = false
+        for (let i = 0; i < tags.length; i ++) {
+          let tag = tags[i]
+          if (tag.type === 'selected') {
+            that.selectOrigin(tag)
+            let tmp = tags[i]
+            tags[i] = tags[0]
+            tags[0] = tmp
+            setOrigin = true
+            break
+          }
+        }
+        if (!setOrigin) {
+            that.selectOrigin(tags[0])
+          }
       }
+      that.cateList = tags
     })
   },
   mounted() {

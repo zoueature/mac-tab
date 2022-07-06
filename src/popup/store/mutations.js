@@ -163,6 +163,7 @@ export default {
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true
+        x += y
         // state.folderStartPtr.x = x
         // state.folderStartPtr.y = y
         state.activeFolder = folder
