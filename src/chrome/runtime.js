@@ -1,4 +1,3 @@
-/* eslint-disable */
 function requestChromeApi(method, callback, param = {}) {
     chrome.runtime.sendMessage({
         do: method,

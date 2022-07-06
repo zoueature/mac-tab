@@ -1,44 +1,40 @@
-/* eslint-disable */
-
-import api from './api'
+// import api from './api'
 import keys from "@/popup/store/keys";
-import extension from "@/chrome/extension";
+// import extension from "@/chrome/extension";
 import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
+import alarm from "./alarm"
+import msg from "./msg"
 
 console.log('background is running')
 
-chrome.alarms.create("testAlarm", {periodInMinutes: 1})
+alarm.startAlarm()
+msg.startListenMsg()
 
-chrome.alarms.onAlarm.addListener(
-    function (alarmInfo) {
-        console.log(alarmInfo)
-    }
-)
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//     switch (request.do) {
+//         case "getHistory":
+//             api.getHistory(sendResponse, request.param)
+//             break
+//         case "getExtension":
+//             api.getExtension(sendResponse, request.param)
+//             break
+//         case "enableExtension":
+//             api.setExtensionEnableStatus(sendResponse, request.param.id, true)
+//             break
+//         case "disableExtension":
+//             api.setExtensionEnableStatus(sendResponse, request.param.id, false)
+//             break
+//         case "getSelfExtension":
+//             extension.getSelf(sendResponse)
+//             break
+//         default:
+//             console.log('undefined do ' + request.do)
+//     }
+//     return true
+// })
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    switch (request.do) {
-        case "getHistory":
-            api.getHistory(sendResponse, request.param)
-            break
-        case "getExtension":
-            api.getExtension(sendResponse, request.param)
-            break
-        case "enableExtension":
-            api.setExtensionEnableStatus(sendResponse, request.param.id, true)
-            break
-        case "disableExtension":
-            api.setExtensionEnableStatus(sendResponse, request.param.id, false)
-            break
-        case "getSelfExtension":
-            extension.getSelf(sendResponse)
-            break
-        default:
-            console.log('undefined do ' + request.do)
-    }
-    return true
-})
-
+// 创建右键菜单
 chrome.contextMenus.create(
     {
         id: "jpnpacmaeaiopacmphlndcahkgbepmgm-123131",
@@ -71,7 +67,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
         console.log(installedApp)
         let storageVal = {}
         storageVal[keys.userApp] = installedApp
-        chrome.storage.local.set(storageVal, function(result) {
+        chrome.storage.local.set(storageVal, function() {
             runtime.sendMessage(event.EVENT_ADD_APP_IN_WEBSITE, app, function(response) {
                 console.log(response)
             })

@@ -1,4 +1,3 @@
-/* eslint-disable */
 
 function getHistory(sendResponse) {
     let endTime = 999999999999999
@@ -14,7 +13,7 @@ async function getAllHistory(container, endTime) {
     result = await chrome.history.search(param)
     if (result.length > 0) {
         container.push.apply(container, result)
-        let nextEndTime = result[result.length-1].lastVisitTime
+        // let nextEndTime = result[result.length-1].lastVisitTime
         // await getAllHistory(container, nextEndTime)
     }
 }
