@@ -1,4 +1,5 @@
 <template>
+  <sleep-mask v-if="inSleep"/>
   <div id="desktop-background" :class="desktopClass">
     <div class="no-need-dark cover">
     </div>
@@ -33,12 +34,13 @@
 
 <script>
 import Dock from "./Dock/Dock"
-import Search from "@/popup/components/search/Search";
-import Apps from "@/popup/components/Apps/Apps";
-import ComponentsCom from "@/popup/components/Components/Components";
+import Search from "@/popup/components/search/Search"
+import Apps from "@/popup/components/Apps/Apps"
+import ComponentsCom from "@/popup/components/Components/Components"
 import App from "./App/App"
-import RightDrawer from "@/popup/components/common/RightDrawer";
-import NumberClock from "@/popup/components/App/Clock/NumberClock";
+import RightDrawer from "@/popup/components/common/RightDrawer"
+import NumberClock from "@/popup/components/App/Clock/NumberClock"
+import SleepMask from "@/popup/components/App/SleepMask/SleepMask"
 
 let timeOut = null
 export default {
@@ -54,6 +56,7 @@ export default {
     App,
     RightDrawer,
     NumberClock,
+    SleepMask,
   },
   methods: {
     dark() {
@@ -124,19 +127,25 @@ export default {
     
   },
   created() {
+    let that = this
     this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
     document.addEventListener('mousemove', () => {
       clearTimeout(timeOut)
-      //todo add sleep screen
+      let thresholdTime = that.$store.getters.goToSleepMinutes // 单位分钟
       timeOut = setTimeout(() => {
-        console.log("sleeping")
-      }, 7000)
+        console.log(new Date().toString())
+        that.inSleep = true
+      }, thresholdTime*60*1000)
+    })
+    document.addEventListener('keyup', function () {
+      that.inSleep = false
     })
   },
   data() {
     return {
       width: 0,
+      inSleep: false,
     }
   }
 }

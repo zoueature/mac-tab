@@ -41,14 +41,12 @@ export default {
   },
   mounted() {
     let that = this
-    // this.$nextTick(() => {
-      document.addEventListener('keyup', function (e) {
-        if (e.code === 'Escape') {
-          that.$store.commit('closeApp')
-          that.$store.commit('closeLoading')
-        }
-      })
-    // })
+    document.addEventListener('keyup', function (e) {
+      if (e.code === 'Escape') {
+        that.$store.commit('closeApp')
+        that.$store.commit('closeLoading')
+      }
+    })
   },
   computed: {
     backgroundColor() {

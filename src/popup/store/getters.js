@@ -53,6 +53,9 @@ export default {
     newTabOpenApp(state) {
         return state.config.newTabOpenApp
     },
+    goToSleepMinutes(state) { 
+        return state.config.goToSleepTime
+    },
 
     // ------------------- APPS ------------------------
     installedAppID(state) {

@@ -30,15 +30,6 @@ export default {
     setActiveAppPgae(state, page) {
         state.activeAppPage = page
     },
-
-
-    initCommonConfig(state, config) {
-        let configStr = localStorage.getItem(keys.config)
-        if (configStr !== "" && configStr !== null) {
-            config = JSON.parse(configStr)
-            state.config = config
-        }
-    },
     toggleSearchEngin(state, show) {
         state.showSearchEngine = show
     },
@@ -46,12 +37,20 @@ export default {
         state.showSuggest = show
     },
     // ----------- config ---------------
+    // 读取持久化的用户配置
+    initCommonConfig(state, config) {
+        let configStr = localStorage.getItem(keys.config)
+        if (configStr !== "" && configStr !== null) {
+            config = JSON.parse(configStr)
+            for (let key in config) {
+                state.config[key] = config[key]
+            }
+            // state.config = config
+        }
+    },
+    // updateAppSize 更新app大小
     updateAppSize(state, size) {
         common.updateConfig(state, 'appSize', size)
-        // state.config.appSize = size
-    },
-    updateAppColumnNum(state, num) {
-        common.updateConfig(state, 'appColumnNum', num)
         // state.config.appSize = size
     },
     setShowComponent(state, num) {
@@ -68,6 +67,10 @@ export default {
     },
     setSearchEngine(state, engine) {
         common.updateConfig(state, 'searchEngine', engine)
+        // state.config.appSize = size
+    },
+    setGoToSleepMinutesTime(state, minutes) {
+        common.updateConfig(state, 'goToSleepTime', minutes)
         // state.config.appSize = size
     },
     setWallpaper(state, wallpaper) {

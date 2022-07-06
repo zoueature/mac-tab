@@ -37,6 +37,15 @@
          <el-switch v-model="newTabOpenApp" @change="toggleNewTabOpenApp"/>
        </div>
     </div>
+    <div class="app-config">
+      <div class="setting-title">
+        <application-one theme="outline" size="22" fill="#fff" :strokeWidth="4"/>
+        <span>睡眠时间</span>
+      </div>
+      <div class="setting-value">
+        <el-slider v-model="goToSleepMinutes" class="slider" :min="5" :max="60" @input="goToSleepMinutesChange" size="small" input-size="small"></el-slider>
+      </div>
+    </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
       <div class="setting-title">
         <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
@@ -64,7 +73,6 @@ export default {
   },
   created() {
     this.appSize = this.$store.getters.appSize
-    this.appColumnNum = this.$store.getters.appSize
     // this.$loading.show()
     console.log(this.$t('appName'))
   },
@@ -72,7 +80,7 @@ export default {
     return {
       value: 0,
       appSize: 0,
-      appColumnNum: 0,
+      goToSleepMinutes: 0,
     }
   },
   computed: {
@@ -90,9 +98,6 @@ export default {
     appSizeChange(val) {
       this.$store.commit('updateAppSize', val)
     },
-    appColumnNumChange(val) {
-      this.$store.commit('updateAppColumnNum', val)
-    },
     toggleComponent(val) {
       this.$store.commit('setShowComponent', val)
     },
@@ -103,6 +108,9 @@ export default {
     },
     toggleNewTabOpenApp(val) {
       this.$store.commit('setOpenAppModel', val)
+    },
+    goToSleepMinutesChange(val) {
+      this.$store.commit('setGoToSleepMinutesTime', val)
     }
   }
 }
