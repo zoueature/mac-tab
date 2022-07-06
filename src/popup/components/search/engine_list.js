@@ -49,5 +49,12 @@ export default [
         identify:"duck",
         icon: "https://duckduckgo.com/favicon.ico",
         link: "https://duckduckgo.com/?q="
+      },
+      {
+        id: 8,
+        name: "4Share",
+        identify:"4share",
+        icon: "https://is3-ssl.mzstatic.com/image/thumb/Purple115/v4/93/bf/a5/93bfa590-5c8c-cc28-4637-325020c1f986/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/460x0w.webp        ",
+        link: "https://www.4shared.com/web/q/#query="
       }
 ]
