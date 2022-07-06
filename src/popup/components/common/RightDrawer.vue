@@ -46,6 +46,7 @@ export default {
     height: 100%;
     position: absolute;
     right: 0;
+    background: rgb(250, 250, 250)
     /*position: fixed;*/
 
     /*top: 0;*/

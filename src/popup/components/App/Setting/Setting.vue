@@ -130,7 +130,6 @@ export default {
     width: 97%;
     height: 100%;
     backdrop-filter: blur(100px);
-    background: #efefef;
     box-shadow: -1px -1px 10px white;
   }
   .title {

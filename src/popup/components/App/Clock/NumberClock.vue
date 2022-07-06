@@ -24,7 +24,7 @@ export default {
   props: {
     fontSize: {
       type: String,
-      default: "52px",
+      default: "4vw",
     }
   },
   created() {

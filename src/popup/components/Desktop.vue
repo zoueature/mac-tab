@@ -8,7 +8,7 @@
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent">
 <!--        <NewClock class="new-clock"/>-->
-        <NumberClock style="height:125px;"></NumberClock>
+        <NumberClock style="height: 8vw;"></NumberClock>
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
