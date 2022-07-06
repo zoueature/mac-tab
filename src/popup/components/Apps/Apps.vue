@@ -333,6 +333,14 @@ export default {
   height: 100%;
   widows: 100%;
 }
+.apps-enter-active,
+.apps-leave-active {
+  transition: all 250ms linear;
+}
+.apps-enter-from,
+.apps-leave-to {
+  transform: scale(0);
+}
 /* :deep(.el-carousel__arrow) {
   width: 52px;
   height: 52px;
