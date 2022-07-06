@@ -14,8 +14,6 @@ export default {
   components: {
     Desktop
   },
-  mounted() {
-  },
   methods: {
     hiddenModal() {
       this.$store.commit('toggleSearchEngin', false)

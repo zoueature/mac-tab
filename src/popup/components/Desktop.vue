@@ -35,18 +35,12 @@
 import Dock from "./Dock/Dock"
 import Search from "@/popup/components/search/Search";
 import Apps from "@/popup/components/Apps/Apps";
-import NewClock from "@/popup/components/App/Clock/NewClock";
-import Todo from "@/popup/components/App/Todo/TodoWidget";
-import Friday from "@/popup/components/Widgets/Friday";
-import Components from "@/popup/components/Components/Components";
 import ComponentsCom from "@/popup/components/Components/Components";
-import TodoApp from "@/popup/components/App/Todo/TodoApp"
 import App from "./App/App"
 import RightDrawer from "@/popup/components/common/RightDrawer";
-import FolderContent from "@/popup/components/Apps/FolderContent";
 import NumberClock from "@/popup/components/App/Clock/NumberClock";
 
-/* eslint-disable */
+let timeOut = null
 export default {
   name: 'desk-top',
   props: {
@@ -57,14 +51,8 @@ export default {
     Dock,
     Search,
     Apps,
-    NewClock,
-    Todo,
-    Friday,
-    Components,
-    TodoApp,
     App,
     RightDrawer,
-    FolderContent,
     NumberClock,
   },
   methods: {
@@ -133,19 +121,18 @@ export default {
     window.onresize = () => {
       this.width = document.body.clientWidth
     }
+    
   },
   created() {
     this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
-  },
-  beforeCreate() {
-      // this.$store.watch((state, getter) => {
-      //   return getter.darkModel
-      // }, (val) => {
-      //   if (val) {
-      //     darkmode.showWidget()
-      //   }
-      // })
+    document.addEventListener('mousemove', () => {
+      clearTimeout(timeOut)
+      //todo add sleep screen
+      timeOut = setTimeout(() => {
+        console.log("sleeping")
+      }, 7000)
+    })
   },
   data() {
     return {
