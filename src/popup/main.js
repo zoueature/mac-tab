@@ -26,6 +26,7 @@ const i18n = createI18n({
         "en": en,
     }
 })
+
 const app = createApp(App)
 app.use(store)
 app.use(i18n)
@@ -38,5 +39,12 @@ app.use(right_drawer_install)
 //     baseURL: "http://api.crazyman.ml"
 // })
 app.config.globalProperties.$http = axios.http
+window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-7WBKC1BGJR');
+gtag('open', "dadsa")
+app.config.globalProperties.$gtag = gtag
 // app.use(VueAxios, axios)
 app.mount('#app')
