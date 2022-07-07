@@ -26,7 +26,7 @@ export default {
             blur: 0,
         },
         appSize: 88, // 桌面app大小
-        showComponents: true, // 是否展示小组件
+        showComponents: false, // 是否展示小组件
         darkModel: false, // 开启黑暗模式
         searchEngine: "google", // 选择的搜索引擎
         newTabOpenApp: true, // 是否用新标签页打开app
