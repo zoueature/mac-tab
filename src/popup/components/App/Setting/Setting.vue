@@ -13,7 +13,7 @@
         <el-slider v-model="appSize" class="slider" :min="60" :max="160" @input="appSizeChange" size="small" input-size="small"></el-slider>
       </div>
     </div>
-    <div class="app-config">
+    <!-- <div class="app-config">
       <div class="setting-title">
         <page-template theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
         <span>小组件</span>
@@ -21,7 +21,7 @@
       <div class="setting-value">
         <el-switch v-model="showComponent" @change="toggleComponent"/>
       </div>
-    </div>
+    </div> -->
     <div class="app-config">
       <div class="setting-title">
         <moon theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
@@ -34,7 +34,7 @@
     <div class="app-config">
       <div class="setting-title">
         <browser theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>新标签页打开App</span>
+        <span>新标签页打开</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="newTabOpenApp" @change="toggleNewTabOpenApp"/>
