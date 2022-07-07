@@ -86,6 +86,10 @@ export default {
     iconWordSize() {
       let size = this.appSize()
       return Math.ceil(size / 4) - 1 + "px"
+    },
+    shakeDurations() {
+      let n = Math.ceil(Math.random() * 100) + 200
+      return n + 'ms'
     }
   },
   methods: {
@@ -190,6 +194,7 @@ export default {
   }
   .shake {
     animation: shake-app 250ms infinite linear;
+    animation-duration: v-bind(shakeDurations);
     animation-direction: alternate;
   }
   .icon-word-container {

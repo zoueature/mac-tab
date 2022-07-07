@@ -175,12 +175,12 @@ export default {
       this.activeIndex = newPageIndex
     },
     scroll(e) {
-      // e.preventDefault()
       let that = this
       let scrollVal = e.wheelDeltaX
       if (Math.abs(scrollVal) < 25) {
         return
       }
+      e.preventDefault()
       if (!that.timeOut)  {
         that.timeOut = setTimeout(() => {
           // if (that.timeOut) {
