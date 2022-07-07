@@ -13,7 +13,7 @@
            @click="gotoDetail(news.detail)"
       >
         <div class="news-img">
-          <div class="news-seq" :style="'background:' + 'rgba(255, '+(7 * index)+', '+ (2 * index) +')'">{{index + 1}}</div>
+          <div class="news-seq" :style="'background:' + 'rgba('+(255 - 2 * index) + ', '+(3 * index)+', '+ (1 * index) +')'">{{index + 1}}</div>
           <img :src="news.img" alt="">
         </div>
         <div class="news-content">

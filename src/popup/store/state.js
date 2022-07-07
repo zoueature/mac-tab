@@ -30,7 +30,7 @@ export default {
         darkModel: false, // 开启黑暗模式
         searchEngine: "google", // 选择的搜索引擎
         newTabOpenApp: true, // 是否用新标签页打开app
-        goToSleepTime: 5, // 进入休眠的时间(分钟)
+        goToSleepTime: 16, // 进入休眠的时间(分钟)
         showDock: true, // todo 是否展示下方dock
     },
 

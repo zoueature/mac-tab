@@ -37,7 +37,7 @@
           class="apps"
           ref="apps"
           indicator-position="none"
-          :arrow="drag? 'never': 'never'"
+          :arrow="drag? 'never': 'hover'"
           :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">

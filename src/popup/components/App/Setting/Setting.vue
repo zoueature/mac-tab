@@ -61,7 +61,7 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, Moon, PageTemplate, AtSign, Browser, Sleep, Setting} from "@icon-park/vue-next"
+import {ApplicationOne, Moon, AtSign, Browser, Sleep, Setting} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -69,7 +69,7 @@ export default {
     ElSlider,
     ElSwitch,
     ApplicationOne,
-    PageTemplate,
+    // PageTemplate,
     Moon,
     AtSign,
     Browser,
