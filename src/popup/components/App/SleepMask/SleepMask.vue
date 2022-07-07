@@ -21,7 +21,7 @@ export default {
 <style scoped>
   .sleep-mask {
     position: fixed;
-    z-index: 100000;
+    z-index: 10000000000;
     width: 100%;
     height: 100%;
     backdrop-filter: blur(16px);

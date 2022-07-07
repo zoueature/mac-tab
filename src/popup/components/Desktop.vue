@@ -143,9 +143,17 @@ export default {
     this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
     document.addEventListener('mousemove', () => {
+      if (that.inSleep) {
+        return
+      }
       that.sleepTimer()
     })
-    document.addEventListener('keyup', function () {
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey && e.code == 'KeyL') {
+        // 锁屏
+        that.inSleep = true
+        return
+      }
       that.sleepTimer()
     })
   },
