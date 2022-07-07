@@ -37,7 +37,7 @@
           class="apps"
           ref="apps"
           indicator-position="none"
-          :arrow="drag? 'never': 'hover'"
+          :arrow="drag? 'never': 'never'"
           :loop="false"
       >
         <el-carousel-item v-for="(pageApps, index) in userApps" :key="index">
@@ -72,13 +72,8 @@
 
 <script>
 
-import "swiper/css";
-import "swiper/css/pagination";
-
-import {Pagination} from "swiper";
 import Draggable from 'vuedraggable'
 import AppContainer from "@/popup/components/Apps/AppContainer";
-// import { Swiper, SwiperSlide } from "swiper/vue";
 import FolderContent from "@/popup/components/Apps/FolderContent";
 import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
@@ -109,7 +104,6 @@ export default {
   },
   setup() {
     return {
-      modules: [Pagination],
     };
   },
   props: [
@@ -123,7 +117,7 @@ export default {
   data() {
     return {
       drag: false,
-      activeIndex: 0,
+      activeIndex: this.$store.getters.activeAppPage,
       wheelScroll: false,
       dragOptions: {
         animation: 200,
@@ -177,19 +171,20 @@ export default {
   },
   methods: {
     changePage(newPageIndex) {
+      this.$store.commit('setActiveAppPgae', newPageIndex)
       this.activeIndex = newPageIndex
     },
     scroll(e) {
-      // e.preventDefault()
       let that = this
       let scrollVal = e.wheelDeltaX
       if (Math.abs(scrollVal) < 25) {
         return
       }
+      e.preventDefault()
       if (!that.timeOut)  {
         that.timeOut = setTimeout(() => {
           // if (that.timeOut) {
-            scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
+          scrollVal > 0 ? that.$refs.apps.prev() : that.$refs.apps.next()
           setTimeout(() => {
             that.timeOut = false
           }, 1000)
@@ -338,6 +333,14 @@ export default {
   height: 100%;
   widows: 100%;
 }
+.apps-enter-active,
+.apps-leave-active {
+  transition: all 250ms linear;
+}
+.apps-enter-from,
+.apps-leave-to {
+  transform: scale(0);
+}
 /* :deep(.el-carousel__arrow) {
   width: 52px;
   height: 52px;
@@ -385,13 +388,17 @@ export default {
   justify-content: center;
   align-items: center;
   align-content: center;
-  z-index: 1000;
+  z-index: 1000000;
   backdrop-filter: blur(7px);
   background-color: rgba(255, 255, 255, 0.463);
   opacity: 0.5;
 }
 .prev-button {
   left: 0;
+  transform: translateX(-50%);
+}
+.next-button {
+  transform: translateX(50%);
 }
 ::-webkit-scrollbar {
   display: none;

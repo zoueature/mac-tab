@@ -3,14 +3,24 @@ import storage from "@/chrome/storage"
 
 export default {
     fsyncApp(state) {
-        localStorage.setItem(keys.userApp, JSON.stringify(state.fmtApps))
+        //localStorage.setItem(keys.userApp, JSON.stringify(state.fmtApps))
         // let val = {}
         let fmtApps = []
         state.fmtApps.forEach( (page, i) => {
             if (page.length > 0) {
-                fmtApps.push(page)
+                let apps = []
+                page.forEach((app, index) => {
+                    if (app.type === 'folder' && app.apps.length === 0) {
+                        // 删除空文件夹
+                        state.fmtApps[i].splice(index, 1)
+                    } else {
+                        apps.push(app)
+                    }
+                })
+                fmtApps.push(apps)
             } else {
-                fmtApps.splice(i, 1)
+                // 页面没有app， 删除页面
+                state.fmtApps.splice(i, 1)
             }
         })
         storage.setLocal(keys.userApp, fmtApps)

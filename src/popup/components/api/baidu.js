@@ -13,10 +13,11 @@ async function getSearchSuggest(keyword, callback) {
     })
     let suggest = []
     if (result.status === 200) {
-        console.log(result)
-        result.data.g.forEach(v => {
-            suggest.push(v.q)
-        })
+        if (result.data.g !== undefined) {
+            result.data.g.forEach(v => {
+                suggest.push(v.q)
+            })
+        }
     }
     callback(suggest)
 }

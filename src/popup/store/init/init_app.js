@@ -80,10 +80,7 @@ export default [
         id: 31,
         type: 'app',
         name: "壁纸市场",
-        icon: "http://file.crazyman.ml/c2/77/c277c82bfcdc87f0daa48a554629ed1c.png",
+        icon: "http://file.crazyman.ml/df/98/df985383187bfe668807738d9198346b.png",
         app: 'wallmarket',
-        params: {
-            width: 40,
-        }
     },
 ]

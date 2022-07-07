@@ -1,11 +1,14 @@
 <template>
   <div id="desktop-background" :class="desktopClass">
+    <transition name="mask">
+      <sleep-mask v-if="inSleep"/>
+    </transition>
     <div class="no-need-dark cover">
     </div>
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent">
 <!--        <NewClock class="new-clock"/>-->
-        <NumberClock class="clock"></NumberClock>
+        <NumberClock style="height: 8vw;"></NumberClock>
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
@@ -33,20 +36,15 @@
 
 <script>
 import Dock from "./Dock/Dock"
-import Search from "@/popup/components/search/Search";
-import Apps from "@/popup/components/Apps/Apps";
-import NewClock from "@/popup/components/App/Clock/NewClock";
-import Todo from "@/popup/components/App/Todo/TodoWidget";
-import Friday from "@/popup/components/Widgets/Friday";
-import Components from "@/popup/components/Components/Components";
-import ComponentsCom from "@/popup/components/Components/Components";
-import TodoApp from "@/popup/components/App/Todo/TodoApp"
+import Search from "@/popup/components/search/Search"
+import Apps from "@/popup/components/Apps/Apps"
+import ComponentsCom from "@/popup/components/Components/Components"
 import App from "./App/App"
-import RightDrawer from "@/popup/components/common/RightDrawer";
-import FolderContent from "@/popup/components/Apps/FolderContent";
-import NumberClock from "@/popup/components/App/Clock/NumberClock";
+import RightDrawer from "@/popup/components/common/RightDrawer"
+import NumberClock from "@/popup/components/App/Clock/NumberClock"
+import SleepMask from "@/popup/components/App/SleepMask/SleepMask"
 
-/* eslint-disable */
+let timeOut = null
 export default {
   name: 'desk-top',
   props: {
@@ -57,15 +55,10 @@ export default {
     Dock,
     Search,
     Apps,
-    NewClock,
-    Todo,
-    Friday,
-    Components,
-    TodoApp,
     App,
     RightDrawer,
-    FolderContent,
     NumberClock,
+    SleepMask,
   },
   methods: {
     dark() {
@@ -80,6 +73,16 @@ export default {
     openSetting() {
       this.$router.replace('setting')
       this.$store.commit('openDrawer')
+    },
+    sleepTimer() {
+      let that = this
+      clearTimeout(timeOut)
+      that.inSleep = false
+      let thresholdTime = that.$store.getters.goToSleepMinutes // 单位分钟
+      timeOut = setTimeout(() => {
+        console.log(new Date().toString())
+        that.inSleep = true
+      }, thresholdTime*60*1000)
     }
   },
   computed: {
@@ -117,32 +120,50 @@ export default {
     appContainerWidth() {
       let widthPercent = 90
       if (this.width < 900 || !this.showComponent) {
-        widthPercent = 80
+        widthPercent = 90
       }
       return widthPercent + '%'
+    },
+    desktopWidth() {
+      let width = 75
+      if (this.width < 500) {
+        width = 100
+      }
+      return width + '%'
     }
   },
   mounted() {
     window.onresize = () => {
       this.width = document.body.clientWidth
     }
+    
   },
   created() {
+    let that = this
     this.width = document.body.clientWidth
     this.$store.commit('initCommonConfig')
-  },
-  beforeCreate() {
-      // this.$store.watch((state, getter) => {
-      //   return getter.darkModel
-      // }, (val) => {
-      //   if (val) {
-      //     darkmode.showWidget()
-      //   }
-      // })
+    document.addEventListener('mousemove', () => {
+      if (that.inSleep) {
+        return
+      }
+      that.sleepTimer()
+    })
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey && e.code == 'KeyL') {
+        // 锁屏
+        that.inSleep = true
+        return
+      }
+      that.sleepTimer()
+    })
+    document.addEventListener('click', function () {
+      that.inSleep = false
+    })
   },
   data() {
     return {
       width: 0,
+      inSleep: false,
     }
   }
 }
@@ -174,10 +195,6 @@ export default {
     background-size: v-bind(position);*/
     /*background: rgb(0,0,0,0.1);*/
   }
-  .clock {
-    margin-top: 16px;
-    margin-bottom: 25px;
-  }
   .blank-container {
     width: 100%;
     height: 87%;
@@ -185,13 +202,16 @@ export default {
     overflow: hidden;
   }
   .notify-container {
-    flex: 3;
+    /* flex: 3; */
+    width: 25%;
     overflow: hidden;
     height: 100%;
   }
   .application-container {
-    flex: 10;
+    /* flex: 10; */
+    width: v-bind(desktopWidth);
     overflow: hidden;
+    margin: 0 auto;
   }
   .dock-container {
     width: 100%;
@@ -203,7 +223,9 @@ export default {
     height: 200px;
     flex: 1;
   }
-
+  .apps-enter-from {
+    transform: translateX(-100px);
+  }
   #search-container {
     width: 70%;
     height: 25%;
@@ -211,18 +233,21 @@ export default {
     display: flex;
     align-content: center;
     align-items: center;
+    position: relative;
   }
   .news {
     width: 25px;
-    height: 25px;
-    margin-left: 25px;
+    height: 25px; 
+    /* margin-left: 25px; */
+    position: absolute;
+    right: -34px;
   }
   .news:hover {
     cursor: pointer;
   }
   #apps-container {
     width: v-bind(appContainerWidth);
-    height: 75%;
+    height: 70%;
     margin: 0 auto 0 auto;
   }
 
@@ -252,5 +277,13 @@ export default {
     to {
       transform: rotate(3600deg);
     }
+  }
+  .mask-enter-active,
+  .mask-leave-active {
+    transition: all 750ms linear;
+  }
+  .mask-enter-from,
+  .mask-leave-to {
+    transform: translateY(-1000px);
   }
 </style>

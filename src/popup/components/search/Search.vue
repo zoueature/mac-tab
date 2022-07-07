@@ -1,5 +1,5 @@
 <template>
-  <div class="search-item" @keydown.up="selectSuggestIndex--" @keydown.down="selectSuggestIndex++">
+  <div class="search-item" @keydown.up="upSuggest" @keydown.down="downSuggest">
     <div class="engine-selector">
       <div class="eng-show" @click.stop="$store.commit('toggleSearchEngin', !expand)">
         <div class="eng-icon" :style="expand ? 'margin-top: -10px; transition: 200ms;': 'transition: 200ms;' ">
@@ -28,12 +28,16 @@
                v-model="keyword"
                class="search-input">
       </form>
-      <div v-if="suggestList.length > 0" class="suggest-container">
-        <div v-for="(suggest, index) in suggestList" :key="suggest"
+      <div v-if="suggestList.length > 0 && showSuggest" class="suggest-container">
+        <div v-for="(suggest, index) in suggestList.slice(0, 16)" :key="index"
              :class="'suggest-item ' + (index === selectSuggestIndex ? 'active' : '')"
-             @click="selectNSearch(suggest)"
+             :style="index === selectSuggestIndex ? 'transform: scaleY(1.06)' : ''"
+             @click.stop="selectNSearch(suggest)"
+             @mouseenter="selectSuggest(index)"
         >
-          {{suggest}}
+          <search class="suggest-title" theme="outline" size="16" fill="#777" :strokeWidth="2" v-if="suggest.type === 'search'"/>
+          <img class="suggest-title" :style="'width: 15px; height: 15px; border-radius:20%; background:' + suggest.background" :src="suggest.icon" v-else-if="suggest.type === 'app'"/>
+          <span :style="index === selectSuggestIndex ? 'margin-left: 7px; font-weight: bold; color: #fff; font-size:15px;' : ''">{{suggest.title}}</span>
         </div>
       </div>
     </div>
@@ -42,7 +46,7 @@
 
 <script>
 
-import {RightOne} from '@icon-park/vue-next'
+import {RightOne, Search} from '@icon-park/vue-next'
 import engineList from "./engine_list"
 import baidu from '@/popup/components/api/baidu'
 
@@ -50,8 +54,12 @@ export default {
   name: "SearchCom",
   components: {
     RightOne,
+    Search,
   },
   computed: {
+    showSuggest() {
+      return this.$store.getters.showSuggest
+    },
     heightSize() {
       return this.size + "px"
     },
@@ -95,44 +103,113 @@ export default {
   },
   watch: {
     keyword(val) {
+      if (val === '') {
+        this.suggestList = []
+      }
       this.suggest(val)
     },
-    suggest(val) {
-      if (val.length === 0) {
-        this.selectSuggestIndex = -1
-      }
+    suggesList() {
+      this.selectSuggestIndex = -1
+    },
+    selectSuggestIndex(val) {
+      console.log(val)
+      // TODO 解决死循环的问题
+      // this.keyword = this.suggestList[val]
     }
   },
   methods: {
-    selectNSearch(keyword) {
-      this.search(keyword)
+    selectNSearch(suggest) {
+      console.log(suggest)
+  
+      switch (suggest.type) {
+        case 'search':
+          this.goToSearch(suggest.title)
+          break
+        case 'app':
+          this.openApp(suggest)
+          break
+      }
+    },
+    openApp(app) {
+      if (app.link !== undefined) {
+        window.open(app.link, '_blank')
+      } else if (app.app !== undefined) {
+        this.$router.replace({
+          name: app.app,
+          // params: routeParams,
+        })
+        this.$store.commit('openApp')
+        this.suggestList = []
+      }
+    },
+    selectSuggest(suggestIndex) {
+      this.selectSuggestIndex = suggestIndex
+    },
+    upSuggest() {
+      if (this.selectSuggestIndex > 0) {
+        this.selectSuggestIndex --
+      }
+    },
+    downSuggest() {
+      if (this.selectSuggestIndex < this.suggestList.length -1) {
+        this.selectSuggestIndex ++
+      }
     },
     search(e) {
       e.preventDefault()
+      let sugg = this.suggestList[this.selectSuggestIndex]
+      if (sugg !== undefined && sugg.type === 'app') {
+        this.selectNSearch(this.suggestList[this.selectSuggestIndex])
+        return
+      } 
       let keyword = this.keyword
       if (keyword === "") {
         return
       }
       if (this.selectSuggestIndex >= 0 && this.selectSuggestIndex < this.suggestList.length) {
-        keyword = this.suggestList[this.selectSuggestIndex]
+        keyword = this.suggestList[this.selectSuggestIndex].title
       }
+      this.goToSearch(keyword)
+    },
+    goToSearch(keyword) {
       window.location.href=this.currentEng.link + keyword
       this.keyword = ""
       this.suggestList = []
     },
     async suggest(keyword) {
       let that = this
+      // 获取搜索引擎搜索建议
+      that.suggestList = []
       baidu.getSearchSuggest(keyword, function(result) {
-        that.suggestList = result
+        result.forEach(s => {
+          that.suggestList.push({
+            type: "search",
+            title: s,
+          })
+        })
+        // that.selectSuggestIndex = 0
       })
-      // let url = "https://www.baidu.com/sugrec?prod=pc&from=pc_web&wd="
-      // let result = await this.$http.get(url + keyword)
-      // if (result.status === 200) {
-      //   this.suggestList = []
-      //   result.data.g.forEach(v => {
-      //     this.suggestList.push(v.q)
-      //   })
-      // }
+      // 获取已经安装的app应用
+      let pages = this.$store.getters.pageApps
+      pages.forEach(apps => {
+        apps.forEach(app => {
+          if (app.type !== 'app') {
+            return
+          }
+          let index = app.name.toLowerCase().indexOf(keyword.toLowerCase())
+          if (index >= 0) {
+            that.suggestList.push({
+              type: 'app',
+              title: app.name,
+              link: app.link,
+              app: app.app,
+              icon: app.icon,
+              background: app.background,
+            })
+          }
+        })
+      })
+      this.$store.commit('toggleSearchSuggest', true)
     },
     selectEng(eng) {
       this.$store.commit("setSearchEngine", eng)
@@ -214,11 +291,14 @@ export default {
   }
   .englist-enter-active,
   .englist-leave-active {
-    transition: all 200ms ease;
+    transition: all 200ms linear;
   }
-  .englist-enter-from,
+  .englist-enter-from {
+    /* height: 0; */
+    transform: translateY(-70px);
+    opacity: 0;
+  }
   .englist-leave-to {
-    height: 0;
     opacity: 0;
   }
   .eng-item {
@@ -252,22 +332,28 @@ export default {
   }
   .suggest-container {
     position: absolute;
-    width: 100%;
-    height: 300px;
-    background: white;
+    width: 100%;  
+    /* height: auto; */
+    background: rgba(255, 255, 255, 0.88);
     margin-top: 2px;
-    z-index: 1000000;
-    overflow-x: scroll;
+    z-index: 1000000000000;
     text-align: left;
-    border-radius: 2px;
+    border-radius: 7px; 
+    padding-bottom: 16px;
   }
   .suggest-item {
-    padding-left: 2%;
     margin-top: 2px;
     height: 30px;
     display: flex;
     align-items: center;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.88);
+  }
+   .suggest-container div:nth-child(0n+1) {
+    border-radius: 7px 7px 0 0;
+  }
+  .suggest-title {
+    margin-left: 1%;
+    margin-right: 1.2%;
   }
 </style>

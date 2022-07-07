@@ -3,9 +3,9 @@
     <div class="time-shower ">
       {{time}}
       <span class="second-shower">{{second}}</span>
-    </div>
-    <div class="date-shower">
+      <!-- <div class="date-shower">
       {{date}}
+      </div> -->
     </div>
   </div>
 </template>
@@ -20,6 +20,12 @@ export default {
     setInterval(() => {
       this.refreshTime()
     }, 100)
+  },
+  props: {
+    fontSize: {
+      type: String,
+      default: "4vw",
+    }
   },
   created() {
     this.refreshTime()
@@ -38,7 +44,8 @@ export default {
       second: 0,
       time: '',
       date: '',
-      weekday: ''
+      weekday: '',
+      timeFontSize: this.fontSize,
     }
   }
 }
@@ -46,43 +53,38 @@ export default {
 
 <style scoped>
   .clock {
-    width: 80%;
+    /* width: 80%; */
     margin: 0 auto;
-    height: 90px;
+    height: 100%;
+    width: 100%;
     position: relative;
-  }
-  .time-shower {
-    width: 60%;
-    height: 70%;
-    margin: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 16px;
-    /*bottom: 0;*/
+    padding-bottom: 16px;
     display: flex;
+    align-content: center;
     align-items: center;
     justify-content: center;
-    font-size: 52px;
+    justify-items: center;
+  }
+  .time-shower {
+    margin: auto;
+    width: auto;
+    position: relative;
+    font-size: v-bind(timeFontSize);
     font-weight: bolder;
     color: white;
-  }
-  .date-shower {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
   .second-shower {
     font-size: 16px;
     font-weight: normal;
     position: absolute;
     top: 0;
-    right: -10px;
+    right: -18px;
   }
   .date-shower {
     font-size: 16px;
     color: white;
     font-weight: bold;
+    position: absolute;
+    bottom: -16px;
   }
 </style>

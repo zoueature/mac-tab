@@ -1,33 +1,38 @@
 <template>
   <div class="wallpaper-market-app">
     <div class="wallpaper-header">
-      <Back v-if="fromWallpaper"></Back>
-      <form @submit="search" class="search-form">
-        <input placeholder="输入关键词"
-             v-model="keyword"
-             class="search-input"/>
-      </form>
-      <div :class="originClass('baidu')" @click="selectOrigin('baidu')">
-        <img src="https://www.baidu.com/favicon.ico" alt="" class="website-icon">
+      <div class="wallpaper-searcher">
+        <Back v-if="fromWallpaper"></Back>
+        <form @submit="search" class="search-form">
+          <input placeholder="输入关键词"
+              v-model="keyword"
+              class="search-input"/>
+        </form>
       </div>
-      <div :class="originClass('pexels')" @click="selectOrigin('pexels')">
-        <img src="https://www.pexels.com/favicon.ico" alt="" class="website-icon">
-      </div>
-      <div :class="originClass('unsplash')" @click="selectOrigin('unsplash')">
-        <img src="https://www.unsplash.com/favicon.ico" alt="" class="website-icon">
+      <div style="flex: 1;"></div>
+      <div class="wallpaper-origin">
+        <div v-for="(type) in cateList" :key="type.type" :class="originClass(type.type)" @click="selectOrigin(type)">
+          <div class="website-icon">
+            <img :src="type.icon" alt=""/>
+          </div>
+          <!-- <span class="website-title">{{type.type}}</span> -->
+        </div>
       </div>
     </div>
     <div class="wallpaper-market">
       <div class="wallpaper-category">
         <div :class="'cate ' + (selectedCateId === category.id ? 'active' : '')"
-             v-for="category in cateList"
+             v-for="category in originTag"
              :key="category.id"
              @click="selectCate(category)"
         >
           {{category.title}}
         </div>
       </div>
-      <ul v-infinite-scroll="loadingData" class="wallpaper-list">
+      <ul v-infinite-scroll="loadingData" 
+        :infinite-scroll-disabled="noMoreData || inLoadingData"
+        infinite-scroll-immediate="false"
+        class="wallpaper-list">
         <li class="wallpaper-item no-need-dark"
              v-for="(wallpaper, index) in wallpapers"
              :key="wallpaper"
@@ -36,12 +41,16 @@
              :style="'background-image: url(' + wallpaper.thumb + ')'"
         >
           <span class="copyright">{{wallpaper.copyright}}</span>
-          <div class="hover" v-if="index === hoverIndex">
-            <div class="set-button" @click="setWallpaper(wallpaper.url)">
+          <loading-inline :scale="0.5" v-if="settingBGImgIndex === index"/>
+          <div class="hover" v-else-if="index === hoverIndex && settingBGImgIndex < 0">
+            <div class="set-button" @click="setWallpaper(wallpaper.url, index)">
               <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
             </div>
           </div>
         </li>
+        <div style="width:100%; position: relative;" v-if="inLoadingData">
+          <loading-inline :scale="0.7"/>
+        </div>
       </ul>
     </div>
   </div>
@@ -52,6 +61,7 @@ import data from "./wallpaper_list"
 import Back from "@/popup/components/common/Back";
 import api from "@/popup/components/api/wallpaper"
 // import Loading from "@/popup/components/common/Loading";
+import LoadingInline from "@/popup/components/common/LoadingInline"
 
 
 const defaultActiveCateID = data.categoryList[0]
@@ -60,10 +70,29 @@ export default {
   name: "WallpaperMarket",
   components:{
     Back,
+    // Loading,
+    LoadingInline,
   },
   created() {
     let that = this
     api.getWWallpaperTag((tags) => {
+      if (tags.length > 0) {
+        let setOrigin = false
+        for (let i = 0; i < tags.length; i ++) {
+          let tag = tags[i]
+          if (tag.type === 'selected') {
+            that.selectOrigin(tag)
+            let tmp = tags[i]
+            tags[i] = tags[0]
+            tags[0] = tmp
+            setOrigin = true
+            break
+          }
+        }
+        if (!setOrigin) {
+            that.selectOrigin(tags[0])
+          }
+      }
       that.cateList = tags
     })
   },
@@ -80,16 +109,24 @@ export default {
         }
         return cls
       }
+    },
+    originTag() {
+      for (let i = 0 ; i < this.cateList.length; i ++) {
+        let item = this.cateList[i]
+        if (item.type === this.origin) {
+          return  item.tags
+        }
+      }
+      return []
     }
   },
   methods: {
-    async search(e) {
+    search(e) {
       e.preventDefault()
-      this.$store.commit('openLoading')
+      this.page = 1
       this.offset = 0
-      let newList = await this.getData(50)
-      this.wallpapers = newList
-      this.$store.commit('closeLoading')
+      this.noMoreData = false
+      this.requestToSearchWallpaper(this.origin, 0, this.keyword, this.page, this.limit)
     },
     hover(index) {
       this.hoverIndex = index
@@ -98,122 +135,61 @@ export default {
       this.hoverIndex = -1
     },
     selectOrigin(origin) {
-      this.origin = origin
+      this.origin = origin.type
+      let defaultCate = origin.tags[0]
+      this.selectCate(defaultCate)
     },
     selectCate(category) {
       this.selectedCateId = category.id
-      let list = this.getWallpaperListByCategory(category.tag)
-      this.wallpapers = list
+      this.page = 1
+      this.wallpapers = []
+      this.noMoreData = false
+      this.requestToSearchWallpaper(this.origin, this.selectedCateId, this.keyword, this.page, this.limit)
     },
-    getWallpaperListByCategory(tag) {
-      return data.wallpaperList[tag]
+    requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
+      let that = this
+       api.getWallpaperByOriginCate(origin, selectedCateId, keyword, page, limit, (data) => {
+        that.wallpapers = data
+      })
     },
-    setWallpaper(src) {
+    setWallpaper(src, index) {
       let img = new Image()
       img.src = src
       let that = this
-      this.$store.commit('openLoading')
+      that.settingBGImgIndex = index
       img.onload = function () {
-        that.$store.commit('closeLoading')
         that.$store.commit('setWallpaper', src)
+        that.settingBGImgIndex = -1
       }
     },
-    async loadingData() {
-      this.showLoading = true
-      let newList = []
-      if (this.origin === "baidu") {
-        newList = await this.getData(this.limit)
-      } else {
-        newList = await this.getWallpaper(this.origin)
-      }
-      this.wallpapers.push(...newList)
-      this.showLoading = false
-    },
-    async getWallpaper(origin) {
-      let result = await this.$http.get("/wallpaper/type/" + origin, {
-        params: {
-          keyword: this.keyword,
-          page:  1,
-          size: this.limit
-        }
-      })
-      return result.data.data
-    },
-    async getData(size) {
-      let list = []
-      let result = await this.$http.get("https://image.baidu.com/search/acjson", {
-        params: {
-          tn: "resulttagjson",
-          logid: "10239998936165607799",
-          ie: "utf-8",
-          fr: "",
-          word:  this.keyword + "壁纸",
-          ipn: "r",
-          fm: "index",
-          pos: "history",
-          queryWord: this.keyword,
-          cl: "2",
-          lm: "-1",
-          oe: "utf-8",
-          adpicid: "",
-          st: "-1",
-          z: "9",
-          ic: "0",
-          hd: 1,
-          latest: "",
-          copyright: "",
-          s: "",
-          se: "",
-          tab: "",
-          width: screen.width,
-          height: screen.height,
-          face: "0",
-          istype: "2",
-          qc: "",
-          nc: "1",
-          expermode: "",
-          nojc: "",
-          isAsync: true,
-          pn: this.offset,
-          rn: size,
-          gsm: "5a",
-        }
-      })
-      if (result.status === 200) {
-        result.data.data.forEach((v) => {
-          let url = v.middleURL
-          if (v.replaceUrl !== undefined && v.replaceUrl.length > 0) {
-            url = v.replaceUrl[v.replaceUrl.length-1].ObjURL
-          }
-          if (typeof v.thumbURL=== "string" && v.thumbURL !== "" && typeof url === "string" && url !== "") {
-            let u = new URL(url)
-            let rexp = /(_[0-9]+_[0-9]+)/
-            u.pathname = u.pathname.replace(rexp, "")
-            list.push({
-              thumb: v.thumbURL,
-              url: u.toString(),
-              copyright: "By 百度"
-            })
-          }
+    loadingData() {
+      let that = this
+      that.page ++
+      that.inLoadingData = true
+      api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
+        data.forEach(w => {
+          that.wallpapers.push(w)
         })
-        this.offset += size
-      }
-      return list
-    }
+        if (data.length === 0) {
+          that.noMoreData = true
+        }
+        that.inLoadingData = false
+      })
+    },
   },
   data() {
     return {
-      origin: "baidu",
+      noMoreData: false,
+      settingBGImgIndex: -1,
+      inLoadingData: false,
+      origin: "",
       hoverIndex: -1,
-      wallpapers: [
-      ],
-      inLoading: false,
+      wallpapers: [],
       keyword: '',
       offset: 0,
       limit: 34,
       cateList: [],
       selectedCateId: defaultActiveCateID.id,
-      showLoading: false,
       fromWallpaper: this.$route.params.fromWallpaper,
     }
   }
@@ -226,12 +202,30 @@ export default {
     height: 100%;
   }
   .wallpaper-header {
-    width: 97%;
+    width: 100%;
     height: 10%;
     margin: 4% auto 2% auto;
     text-align: left;
     display: flex;
     align-items: center;
+  }
+  .wallpaper-searcher {
+    flex: 5;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+  }
+  .wallpaper-origin {
+    flex: 5;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+  }
+  .search-form {
+    height: 37px;
+    width: 85%;
   }
   .wallpaper-market {
     width: 100%;
@@ -264,29 +258,25 @@ export default {
     color: white;
   }
   .wallpaper-list {
-    /*width: 100%;*/
-    /*height: 300px;*/
-    /*height: 100%;*/
     display: flex;
-    /*justify-content: space-between;*/
     justify-items: left;
     flex-wrap: wrap;
     padding-bottom: 10px;
-    /*overflow: hidden;*/
     align-content: flex-start;
+    justify-content: space-between;
     list-style: none;
     overflow-y: scroll;
     flex: 11;
+    padding-right: 1vw;
     width: 50%;
     height: 100%;
+    position: relative;
   }
   .wallpaper-item {
     position: relative;
-    width: 46%;
-    height: 152px;
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-bottom: 10px;
+    width: 17vw;
+    height: 10vw;
+    margin-bottom: 16px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -317,10 +307,6 @@ export default {
     backdrop-filter: blur(1px);
     font-size: 12px;
   }
-  .search-form {
-    height: 37px;
-    width: 37%;
-  }
   .search-input {
     display: block;
     outline: none;
@@ -330,9 +316,10 @@ export default {
     width: 100%;
     color: #777;
     padding-left: 5%;
-    /* margin-left: 16px; */
-    /*margin-top: 16px;*/
     border-radius: 7px;
+  }
+  .search-input::placeholder {
+    color: rgba(0, 0, 0, 0.2);
   }
   .wallpaper-website {
     display: flex;
@@ -344,11 +331,21 @@ export default {
     color: white;
     background: rgba(0, 0, 0, 0.55);
     height: 37px;
-    width: 70px;
+    width: 52px;
   }
   .website-icon {
-    overflow: hidden;
+    /* overflow: hidden; */
+    /* flex: 1; */
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .website-icon img {
     width: 25px;
     height: 25px;
+    border-radius: 16%;
+    /* width: 70%;
+    height: 70%; */
   }
 </style>

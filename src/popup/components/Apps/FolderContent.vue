@@ -172,7 +172,7 @@ export default {
   }
   .folder-enter-active,
   .folder-leave-active {
-    transition: all 50ms ease;
+    transition: all 200ms ease;
   }
   .folder-enter-from,
   .folder-leave-to {
@@ -181,7 +181,7 @@ export default {
     /*width: 0;*/
     /*left: -100px;*/
     transform: scale(0);
-    /*opacity: 0;*/
+    opacity: 0;
     /*transform: scale(0);*/
   }
   .apps-move {

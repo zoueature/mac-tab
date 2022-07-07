@@ -11,7 +11,6 @@
           </div>
         </div>
         <div class="app-content">
-          <Loading></Loading>
           <router-view name="app"></router-view>
         </div>
       </div>
@@ -21,12 +20,12 @@
 
 <script>
 
-import Loading from "@/popup/components/common/Loading";
+// import Loading from "@/popup/components/common/Loading";
 
 export default {
   name: "App",
   components: {
-    Loading,
+    // Loading,
   },
   methods: {
     showIcon() {
@@ -42,13 +41,11 @@ export default {
   },
   mounted() {
     let that = this
-    this.$nextTick(() => {
-      document.addEventListener('keyup', function (e) {
-        if (e.code === 'Escape') {
-          that.$store.commit('closeApp')
-          that.$store.commit('closeLoading')
-        }
-      })
+    document.addEventListener('keyup', function (e) {
+      if (e.code === 'Escape') {
+        that.$store.commit('closeApp')
+        that.$store.commit('closeLoading')
+      }
     })
   },
   computed: {
@@ -109,7 +106,7 @@ export default {
     transform: translate(-50%, -50%);
     border-radius: 7px;
     box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.48);
-    background: rgb(232, 232, 232);
+    background: rgb(250, 250, 250);
   }
   .app-title {
     /*width: 100%;*/

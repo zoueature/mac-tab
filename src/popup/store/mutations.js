@@ -1,8 +1,6 @@
 import keys from "@/popup/store/keys";
-import config from "@/popup/store/config";
 import common from "@/popup/store/common";
 
-/* eslint-disable */
 export default {
     // ----------------- common runtime ---------------------
     openApp(state) {
@@ -29,25 +27,30 @@ export default {
     closeEditApp(state) {
         state.editApp = false
     },
-
-
-    initCommonConfig(state, config) {
-        let configStr = localStorage.getItem(keys.config)
-        if (configStr !== "" && configStr !== null) {
-            config = JSON.parse(configStr)
-            state.config = config
-        }
+    setActiveAppPgae(state, page) {
+        state.activeAppPage = page
     },
     toggleSearchEngin(state, show) {
         state.showSearchEngine = show
     },
+    toggleSearchSuggest(state, show) {
+        state.showSuggest = show
+    },
     // ----------- config ---------------
+    // 读取持久化的用户配置
+    initCommonConfig(state, config) {
+        let configStr = localStorage.getItem(keys.config)
+        if (configStr !== "" && configStr !== null) {
+            config = JSON.parse(configStr)
+            for (let key in config) {
+                state.config[key] = config[key]
+            }
+            // state.config = config
+        }
+    },
+    // updateAppSize 更新app大小
     updateAppSize(state, size) {
         common.updateConfig(state, 'appSize', size)
-        // state.config.appSize = size
-    },
-    updateAppColumnNum(state, num) {
-        common.updateConfig(state, 'appColumnNum', num)
         // state.config.appSize = size
     },
     setShowComponent(state, num) {
@@ -58,8 +61,16 @@ export default {
         common.updateConfig(state, 'darkModel', darkModel)
         // state.config.appSize = size
     },
+    setOpenAppModel(state, model) {
+        common.updateConfig(state, 'newTabOpenApp', model)
+        // state.config.appSize = size
+    },
     setSearchEngine(state, engine) {
         common.updateConfig(state, 'searchEngine', engine)
+        // state.config.appSize = size
+    },
+    setGoToSleepMinutesTime(state, minutes) {
+        common.updateConfig(state, 'goToSleepTime', minutes)
         // state.config.appSize = size
     },
     setWallpaper(state, wallpaper) {
@@ -93,44 +104,14 @@ export default {
             background: app.background,
             params: app.params,
         }
-        let success = false
-        // state.userApps.push(app)
-        for (let i = 0; i < state.fmtApps.length; i ++) {
-            if (state.fmtApps[i].length < config.appNumPerPage) {
-                state.fmtApps[i].push(fmtApp)
-                success = true
-                break
-            }
-        }
-        if (!success) {
-            // 所有页面都满了， 则新增页面
-            state.fmtApps.push([fmtApp])
-        }
+        state.fmtApps[state.activeAppPage].push(fmtApp)
         common.fsyncApp(state)
     },
     addAppToLocal(state, app) {
-        // state.userApps.push(app)
-        let success = false
-        for (let i = 0; i < state.fmtApps.length; i ++) {
-            if (state.fmtApps[i].length < config.appNumPerPage) {
-                state.fmtApps[i].push(app)
-                success = true
-                break
-            }
-        }
-        if (!success) {
-            // 所有页面都满了， 则新增页面
-            state.fmtApps.push([app])
-        }
-
+        state.fmtApps[state.fmtApps.length - 1].push(app)
     },
     // removeApp 移除app
     removeApp(state, app) {
-        // state.userApps.forEach((v, i) => {
-        //     if (v.id === app.id) {
-        //         state.userApps.splice(i, 1)
-        //     }
-        // })
         let succ = false
         for (let i = 0; i < state.fmtApps.length; i ++) {
           for (let j = 0; j < state.fmtApps[i].length; j ++) {
@@ -145,8 +126,6 @@ export default {
           }
         }
         common.fsyncApp(state)
-        //this.fsyncApp(state)
-        //localStorage.setItem(keys.userApp, JSON.stringify(state.userApps))
     },
     // initUserApps 初始化用户app
     // 本地有数据时， 使用本地的localStorage的数据
@@ -187,8 +166,9 @@ export default {
     },
     openFolder(state, folder, x, y) {
         state.showFolder = true
-        state.folderStartPtr.x = x
-        state.folderStartPtr.y = y
+        x += y
+        // state.folderStartPtr.x = x
+        // state.folderStartPtr.y = y
         state.activeFolder = folder
     },
     closeFolder(state) {

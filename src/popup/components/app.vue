@@ -14,13 +14,12 @@ export default {
   components: {
     Desktop
   },
-  mounted() {
-  },
   methods: {
     hiddenModal() {
       this.$store.commit('toggleSearchEngin', false)
       this.$store.commit('closeFolder')
       this.$store.commit('closeEditApp')
+      this.$store.commit('toggleSearchSuggest', false)
     }
   },
   created() {
@@ -64,7 +63,7 @@ img {
   padding: 0;
 }
 .i-icon {
-  display: flex;
+  display: flex !important;
   align-items: center;
   align-content: center;
 }

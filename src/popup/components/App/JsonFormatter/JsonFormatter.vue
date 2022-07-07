@@ -10,10 +10,10 @@
     </div>
     <div class="opt-container">
       <div class="submit-button" @click="format">
-        <img src="../../../../assets/icon/beauty.png" alt="" style="width: 18px; height: 15px; margin-top: 8px">
+        <optimize theme="outline" size="25" fill="#fff" :strokeWidth="4"/>
       </div>
       <div class="reset-button" @click="reset">
-        <img src="../../../../assets/icon/reset.png" alt="" style="width: 18px; height: 18px; margin-top: 7px">
+        <refresh theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
       </div>
       <div class="err-reason">
         {{errMsg}}
@@ -24,6 +24,8 @@
 
 <script>
 
+import {Refresh, Optimize} from '@icon-park/vue-next'
+
 const stringifyJson = require("json-stringify-pretty-compact");
 
 export default {
@@ -33,6 +35,10 @@ export default {
       inputStr: "",
       errMsg: '',
     }
+  },
+  components: {
+    Refresh,
+    Optimize,
   },
   methods: {
     format() {
@@ -68,6 +74,7 @@ export default {
     height: 100%;
     border: none;
     outline: none;
+    resize: none;
   }
   .opt-container {
     width: 98%;
@@ -78,13 +85,17 @@ export default {
     width: 60px;
     height: 30px;
     margin-top: 2%;
-    background: #26c2ef;
+    background: #03A9F4;
     border-radius: 10px;
     float: right;
     margin-left: 10px;
+    text-align: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
   }
   .reset-button {
-    background: #dc3232;
+    background: #E91E63;
   }
   .err-reason {
     float: left;
@@ -92,7 +103,7 @@ export default {
     height: 30px;
     line-height: 30px;
     margin-top: 2%;
-    color: #b71a1a;
+    color: #F44336;
     font-size: 14px;
     font-weight: bold;
     overflow: hidden;

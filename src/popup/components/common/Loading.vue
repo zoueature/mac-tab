@@ -9,9 +9,16 @@
 <script>
 export default {
   name: "LoadingCom",
+  props: {
+    scale: {
+      type: Number,
+      default: 1,
+    }
+  },
   data() {
     return {
-      showLoading: false,
+      showLoading: true,
+      scaleSize: 'scale(' + this.scale + ')'
     }
   },
   methods: {
@@ -21,14 +28,13 @@ export default {
     close() {
       this.showLoading = false
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
   .loading {
     z-index: 1000000;
-    /* transform: scale(0.5); */
     position: absolute;
     margin: auto;
     left: 0;
@@ -49,11 +55,11 @@ export default {
     top: 22.44px;
     left: 22.44px;
     border-radius: 50%;
-    box-shadow: 0 4.488px 0 0 #e15b64;
+    box-shadow: 0 4.488px 0 0 #03A9F4;
     transform-origin: 79.56px 81.804px;
   }
   .loadingio-spinner-eclipse-hyj11p3vilq {
-    transform: scale(0.7);
+    transform: v-bind(scaleSize);
     position: absolute;
     margin: auto;
     left: 0;

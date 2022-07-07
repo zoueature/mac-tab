@@ -1,10 +1,10 @@
 <template>
   <div id="dock-item" @click="handler" :class="dockItemClass" @click.right.stop="startEditApp">
-    <div class="icon-container" :style="iconBorder ? 'border: 1px solid rgba(255, 255, 255, 0.45);': '' ">
+    <div :class="iconContainerClass" :style="iconBorder ? 'border: 1px solid rgba(255, 255, 255, 0.45);': '' ">
       <div v-if="type === 'app'" style="width: 100%; height: 100%;">
         <img :src="icon" :alt="name" :style="'width: 100%; height: 100%; object-fit: cover; background-color:' + background" @error="loadIconSucc=false" v-if="loadIconSucc && icon !== '' && icon !== undefined"/>
         <div v-else class="icon-word-container" :style="'background: ' + (background !== undefined? background: 'blue') ">
-          {{name.substring(0, 3)}}
+          {{name.substring(0, 3).toUpperCase()}}
         </div>
       </div>
       <slot v-else></slot>
@@ -12,7 +12,7 @@
     <div class="title-container no-need-dark" :style="'font-size: ' + (size/10) + 'px;'">
       {{name}}
     </div>
-    <div class="delete-icon" v-if="inEditApp" @click.stop="removeApp">
+    <div class="delete-icon" v-if="inEditApp && systemApp[id] !== true" @click.stop="removeApp">
       <img src="../../../assets/icon/close.png" style="width: 50%; height: 50%">
     </div>
   </div>
@@ -21,6 +21,13 @@
 <script>
 
 import app_config from "@/popup/components/App/app_config";
+const systemApp = {
+  31: true, 
+  24: true,
+  22: true,
+}
+
+
 
 export default {
   name: "DockItem",
@@ -46,7 +53,25 @@ export default {
   },
   computed: {
     dockItemClass() {
-      return this.clickApp ? 'click' : null
+      let cls = ''
+      if (this.clickApp) {
+        cls += 'click '
+      }
+      return cls
+    },
+    iconContainerClass() {
+      let cls = "icon-container "
+      if (this.inEditApp) {
+        cls += 'shake'
+      }
+      return cls
+    },
+    scaleApp() {
+      let s = ''
+      if (!this.inEditApp) {
+        s += 'scale(1.1)'
+      }
+      return s
     },
     itemSize() {
       let size = this.appSize()
@@ -62,11 +87,9 @@ export default {
       let size = this.appSize()
       return Math.ceil(size / 4) - 1 + "px"
     },
-    shake() {
-      if (!this.$store.getters.inEditApp) {
-        return ""
-      }
-      return 'shake 500ms infinite linear'
+    shakeDurations() {
+      let n = Math.ceil(Math.random() * 100) + 200
+      return n + 'ms'
     }
   },
   methods: {
@@ -97,8 +120,12 @@ export default {
           100
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
-        window.open(this.appLink, '_blank')
-        // window.location.href = this.appLink
+        let openAppInNewTab = this.$store.getters.newTabOpenApp
+        if (openAppInNewTab) {
+          window.open(this.appLink, '_blank')
+        } else {
+          window.location.href = this.appLink
+        }
         return;
       } else if (typeof this.app === "string" && this.app !== "") {
         let routeParams = app_config.appSize[this.app]
@@ -123,6 +150,7 @@ export default {
       // inOpt: this.$store.getters.inEditApp,
       appId: 0,
       loadIconSucc: true,
+      systemApp: systemApp,
     }
   }
 }
@@ -132,27 +160,23 @@ export default {
   #dock-item {
     width: v-bind(itemSize);
     height: v-bind(itemSize);
-    animation: v-bind(shake);
     user-select: none;
     position: relative;
   }
   #dock-item:hover{
-    transform: scale(1.1);
+    transform: v-bind(scaleApp);
     transition: 200ms;
   }
   .click {
     transform: translate(2px, 2px);
   }
-  @keyframes shake {
+  @keyframes shake-app {
     from {
       transform: rotate(-10deg);
     }
     to {
       transform: rotate(10deg);
     }
-  }
-  .enlarge {
-    transform: scale(1.5);
   }
   .border {
     border: 1px solid rgba(255, 255, 255, 0.45);
@@ -166,9 +190,12 @@ export default {
     margin: 0 auto;
     overflow: hidden;
     border-radius: 25%;
-    /*backdrop-filter: blur(250px);*/
     background: #d5d5d5;
-    /*box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.35);*/
+  }
+  .shake {
+    animation: shake-app 250ms infinite linear;
+    animation-duration: v-bind(shakeDurations);
+    animation-direction: alternate;
   }
   .icon-word-container {
     color: black;
@@ -192,7 +219,7 @@ export default {
     position: absolute;
     right: 0;
     top: 0;
-    transform: translate(-25%, 0%);
+    transform: translate(-25%, -25%);
     background: rgb(255, 95, 92);
     border-radius: 100%;
     overflow: hidden;

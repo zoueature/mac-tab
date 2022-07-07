@@ -1,4 +1,3 @@
-import initApps from "@/popup/store/init/init_app";
 import initDock from "@/popup/store/init/init_dock";
 
 export default {
@@ -7,8 +6,14 @@ export default {
     showDrawer: false,
     showLoading: false,
     showFolder: false,
-    folderStartPtr: {x: 0, y: 0},
+    showSuggest: false,
+    // folderStartPtr: {
+    //     x: 0,
+    //     y: 0
+    // },
     editApp: false,
+    showSearchEngine: false,
+    activeAppPage: 0,
 
     // --------- config -------------------
     config: {
@@ -20,19 +25,20 @@ export default {
             },
             blur: 0,
         },
-        appSize: 70, // 桌面app大小
+        appSize: 88, // 桌面app大小
         showComponents: true, // 是否展示小组件
         darkModel: false, // 开启黑暗模式
         searchEngine: "google", // 选择的搜索引擎
+        newTabOpenApp: true, // 是否用新标签页打开app
+        goToSleepTime: 5, // 进入休眠的时间(分钟)
         showDock: true, // todo 是否展示下方dock
     },
-    showSearchEngine: false,
 
     // --------- app -----------
     // userApps: initApps,
     installedAppID: {}, // {123: true}
     activeFolder: {}, // 当前打开的文件夹信息
-    fmtApps: [initApps],
+    fmtApps: [],
     dockApps: initDock,
 
     // todo

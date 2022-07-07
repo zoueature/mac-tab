@@ -4,55 +4,62 @@
       <form class="search" @submit="search">
         <input placeholder="输入关键词搜索" v-model="keyword">
       </form>
-      <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
-           v-for="category in categoryList"
-           :key="category.id"
-           @click="selectCategory(category)"
-      >
-        <div class="category">
-          <div class="category-icon">
-            <img :src="category.icon" alt="">
-          </div>
-          <div class="category-name">
-            {{category?.name}}
+      <div class="app-category-list">
+        <div :class=" 'category-item ' + (selectedCategory === category.id ? 'active': '')"
+            v-for="category in categoryList"
+            :key="category.id"
+            @click="selectCategory(category)"
+        >
+          <div class="category">
+            <div class="category-icon">
+              <img :src="category.icon" alt="">
+            </div>
+            <div class="category-name">
+              {{category?.name}}
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <ul v-infinite-scroll="loadingData" class="app-list" infinite-scroll-distance="20" v-if="diyCategoryId !== selectedCategory">
+    <div class="app-list" v-if="diyCategoryId !== selectedCategory">
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <loading ref="loading"/>
-      <li class="app-item"  v-for="app in apps" :key="app.id">
-        <div class="app-container">
-          <div class="app-icon" @click="preview(app)">
-            <img :src="app.icon" alt="" :style="'background:' + app.color">
+      <ul class="app-list-container" v-infinite-scroll="loadingData" :infinite-scroll-disabled="inLoadingData" :infinite-scroll-delay="200" infinite-scroll-immediate="false" >
+        <!-- <loading ref="loading"/> -->
+        <li class="app-item"  v-for="app in apps" :key="app.id">
+          <div class="app-container">
+            <div class="app-icon" @click="preview(app)">
+              <img :src="app.icon" alt="" :style="'background:' + app.color">
+            </div>
+            <div class="app-name">
+              <span>{{app.name}}</span>
+            </div>
+            <div class="app-desc">{{app.desc}}</div>
+            <div class="app-installer" @click="install(app)" v-if="installedApp[app.id] !== true">
+              <img src="../../../../assets/icon/download.png" alt="">
+            </div>
+            <div class="app-installer"  v-else>
+              <img src="../../../../assets/icon/gou_white_fill.png" alt="">
+            </div>
           </div>
-          <div class="app-name">
-            <span>{{app.name}}</span>
-          </div>
-          <div class="app-desc">{{app.desc}}</div>
-          <div class="app-installer" @click="install(app)" v-if="installedApp[app.id] !== true">
-            <img src="../../../../assets/icon/download.png" alt="">
-          </div>
-          <div class="app-installer"  v-else>
-            <img src="../../../../assets/icon/gou_white_fill.png" alt="">
-          </div>
+        </li>
+        <div style="width:100%; position: relative;" v-if="inLoadingData">
+          <loading-inline :scale="0.7"/>
         </div>
-      </li>
-    </ul>
-    <div v-else class="app-list">
-      <div class="title">
+      </ul>
+    </div>
+    <div v-else class="app-list diy-app">
+      <div class="title diy-title">
         自定义应用
       </div>
       <div class="app-input">
         <div>地址</div>
-        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle">
+        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle" class="input-item">
       </div>
       <div class="app-input">
         <div>名称</div>
-        <input placeholder="输入名称" v-model="diyApp.name">
+        <input placeholder="输入名称" v-model="diyApp.name" class="input-item">
       </div>
       <div class="select-app-icon">
         <div class="app-icon-shower" :style="'background: '  + diyApp.wordIconColor" @click="diyApp.iconType = 'word'">
@@ -97,7 +104,7 @@ import color from "@/popup/components/App/AppStore/color";
 import utils from "@/utils/funcs"
 import api from "@/popup/components/api/app"
 import {Check} from "@icon-park/vue-next"
-import Loading from "@/popup/components/common/Loading"
+import LoadingInline from "@/popup/components/common/LoadingInline"
 
 const diyCategoryId = 7
 
@@ -113,22 +120,22 @@ export default {
   name: "AppStore",
   components: {
     Check,
-    Loading,
+    LoadingInline,
   },
   methods: {
     search(e) {
       e.preventDefault()
-       this.apps = []
+      this.apps = []
       this.page = 1
       this.searchApp(this.keyword, 0)
-      this.selectCategory = 0
+      this.selectedCategory = 0
     },
     loadingData() {
       this.searchApp(this.keyword, this.selectedCategory)
     },
     searchApp(keyword, categoryId) {
       let that = this
-      this.$refs.loading.show()
+      that.inLoadingData = true
       api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
         data.forEach(app => {
           that.apps.push({
@@ -140,9 +147,8 @@ export default {
             color: app.background_color,
             })
         })
-        // that.selectedCategory = categoryId
         that.page ++
-        that.$refs.loading.close()
+        that.inLoadingData = false
       })
     },
     getAppCategoryList() {
@@ -162,6 +168,7 @@ export default {
     selectCategory(category) {
       this.apps = []
       this.page = 1
+      this.keyword = ''
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
       this.searchApp(this.keyword, this.selectedCategory)
@@ -211,6 +218,9 @@ export default {
       if (app.iconType === '') {
         app.iconType = 'word'
       }
+      if (app.iconType === 'word') {
+        app.icon = ''
+      }
       this.$store.commit('addApp', app)
       this.diyApp = {
         link: defaultDiyApp.link,
@@ -244,6 +254,7 @@ export default {
       keyword: '',
       page: 1, 
       size: 15,
+      inLoadingData: false,
     }
   }
 }
@@ -261,7 +272,15 @@ export default {
     padding-top: 3.4%;
     /*box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.27);*/
     background: rgba(227, 225, 225, 0.49);
+    /* overflow-y: scroll; */
+  }
+  .app-category-list {
+    height: 80%;
     overflow-y: scroll;
+  }
+  .app-category-list::-webkit-scrollbar {
+    /** TODO 展示滚动条并美化 */
+    display: none;
   }
   .search {
     width: 100%;
@@ -308,11 +327,23 @@ export default {
     white-space: nowrap;
   }
   .app-list {
-    list-style: none;
     margin: 0;
     flex: 9;
-    padding-inline-start: 0;
     padding-top: 3.4%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-items: left;
+    flex-direction: row;
+    align-items: flex-start;
+    align-content: flex-start;
+    /* overflow-y: scroll; */
+    /* overflow: scroll; */
+    position: relative;
+  }
+  .app-list-container {
+    height: 90%;
+    list-style: none;
+    padding-inline-start: 0;
     display: flex;
     flex-wrap: wrap;
     justify-items: left;
@@ -412,8 +443,6 @@ export default {
     text-align: left;
     margin: 0 auto;
     font-size: 14px;
-    margin-bottom: 43px;
-
   }
   .app-input input {
     margin-top: 10px;
@@ -422,13 +451,15 @@ export default {
     height: 25px;
     width: 70%;
     background: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     font-size: 15px;
+  }
+  .input-item::placeholder {
+    color: rgba(0, 0, 0, 0.2)
   }
   .select-app-icon {
     width: 90%;
     margin: 0 auto;
-    /*margin-top: 25px;*/
   }
   .app-icon-shower {
     width: 70px;
@@ -450,7 +481,6 @@ export default {
     width: 90%;
     margin: 0 auto;
     height: 34px;
-    margin-top: 43px;
     clear: both;
     justify-content: space-between;
   }
@@ -467,7 +497,6 @@ export default {
   .opt-container {
     width: 90%;
     margin: 0 auto;
-    margin-top: 70px;
   }
   .submit-app {
     width: 25%;
@@ -484,8 +513,11 @@ export default {
     margin: 0 auto;
     font-weight: bold;
     text-align: left;
+    font-size: 25px;
+    /* margin-bottom: 25px; */
+  }
+  .diy-title {
     font-size: 20px;
-    margin-bottom: 25px;
   }
   .preview {
     top: 50%;
@@ -502,5 +534,10 @@ export default {
   }
   .selected img {
     display: block;
+  }
+  .diy-app {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
   }
 </style>
