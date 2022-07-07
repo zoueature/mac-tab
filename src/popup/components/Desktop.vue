@@ -156,6 +156,9 @@ export default {
       }
       that.sleepTimer()
     })
+    document.addEventListener('click', function () {
+      that.inSleep = false
+    })
   },
   data() {
     return {

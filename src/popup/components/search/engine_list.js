@@ -16,7 +16,7 @@ export default [
       },
       {
         id: 3,
-        name: "必应",
+        name: "Bing",
         identify: "bing",
         icon: "../../../assets/icon/bing.png",
         link: "https://www.bing.com/search?q="
@@ -38,7 +38,7 @@ export default [
       },
       {
         id: 6,
-        name: "雅虎",
+        name: "Yahoo",
         identify:"yahoo",
         icon: "https://search.yahoo.com/favicon.ico",
         link: "https://search.yahoo.com/search?p="
