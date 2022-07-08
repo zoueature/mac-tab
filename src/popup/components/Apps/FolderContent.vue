@@ -30,8 +30,7 @@
             id="folder"
         >
           <template #item="{ element }">
-            <AppItem  :size="70"
-                      :id="element.id"
+            <AppItem  :id="element.id"
                       :icon="element.icon"
                       :name="element.name"
                       :link="element.link"
@@ -120,9 +119,15 @@ export default {
         }
         folderInfo.apps = apps
       }
-
       return this.$store.getters.activeFolder
-    }
+    },
+    appGridSize() {
+      // app 大小
+      let size = this.$store.getters.appSize
+      let gridSize = Math.ceil(size * 1.2) + 'px'
+      let result = 'repeat(auto-fill, ' + gridSize + ')'
+      return result
+    },
   },
   data() {
     return {
@@ -162,17 +167,17 @@ export default {
     height: 100%;
     backdrop-filter: blur(10px);
     display: grid;
-    grid-template-columns: repeat(auto-fill, 100px);
-    grid-template-rows: repeat(3, 120px);
+    grid-template-columns: v-bind(appGridSize);
+    grid-template-rows: v-bind(appGridSize);
     grid-auto-flow: dense;
     justify-items: center;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    overflow-y: scroll;
   }
   .folder-enter-active,
   .folder-leave-active {
-    transition: all 200ms ease;
+    transition: all 160ms linear;
   }
   .folder-enter-from,
   .folder-leave-to {

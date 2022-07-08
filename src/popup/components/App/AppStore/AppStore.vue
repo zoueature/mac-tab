@@ -25,7 +25,7 @@
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
-      <ul class="app-list-container" v-infinite-scroll="loadingData" :infinite-scroll-disabled="inLoadingData" :infinite-scroll-delay="200" infinite-scroll-immediate="false" >
+      <ul class="app-list-container" v-infinite-scroll="loadingData" :infinite-scroll-disabled="inLoadingData || noMoreData" :infinite-scroll-delay="250" infinite-scroll-immediate="false" >
         <!-- <loading ref="loading"/> -->
         <li class="app-item"  v-for="app in apps" :key="app.id">
           <div class="app-container">
@@ -127,6 +127,7 @@ export default {
       e.preventDefault()
       this.apps = []
       this.page = 1
+      this.noMoreData = false
       this.searchApp(this.keyword, 0)
       this.selectedCategory = 0
     },
@@ -135,8 +136,11 @@ export default {
     },
     searchApp(keyword, categoryId) {
       let that = this
-      that.inLoadingData = true
+      this.inLoadingData = true
       api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
+        if (data.length == 0) {
+          that.noMoreData = true
+        }
         data.forEach(app => {
           that.apps.push({
             id: app.id,
@@ -169,6 +173,7 @@ export default {
       this.apps = []
       this.page = 1
       this.keyword = ''
+      this.noMoreData = false
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
       this.searchApp(this.keyword, this.selectedCategory)
@@ -255,6 +260,7 @@ export default {
       page: 1, 
       size: 15,
       inLoadingData: false,
+      noMoreData: false,
     }
   }
 }

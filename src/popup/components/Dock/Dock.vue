@@ -3,34 +3,21 @@
     <div class="bg"></div>
     <div style="flex: 1"></div>
     <Draggable :list="docks"
-               item-key="id"
-               v-bind="dragOptions"
-               class="container"
-               @start="start"
-               @end="end"
-               @add="add"
-               group="apps"
-               tag="transition-group"
-               :component-data="{
-                  tag: 'div',
-                  type: 'transition-group',
-                  name: !drag ? 'apps' : 'apps-drag'
-                }"
+              item-key="id"
+              v-bind="dragOptions"
+              class="container"
+              @start="start"
+              @end="end"
+              @add="add"
+              group="apps"
     >
-      <template #item="{ element }"  >
-        <AppContainer
-            :size="dockSize"
-                 :id="element.id"
-                  :icon="element.icon"
-                  :name="element.name"
-                  :link="element.link"
-                  :click="element.click"
-                  :hover="true"
-                  :type="element.type"
-                  class="dock-item"
-                  :maxSize="97"
-                 :app="element"
-                  @mouseenter="enlarge(element.id)" @mouseleave="recover"
+      <template #item="{ element, index }"  >
+        <AppContainer class="dock-item"
+                  :style="scaleStyle(index)"
+                  :app="element"
+                  :hoverScale="false"
+                  :showTitle="false"
+                  @mouseenter="enlarge(index)" @mouseleave="recover"
         />
       </template>
     </Draggable>
@@ -60,7 +47,6 @@ export default {
         animation: 200,
       },
       scaleIndex: -2,
-      size: 66
     }
   },
   computed: {
@@ -72,28 +58,72 @@ export default {
       })
       return apps
     },
-    dockSize() {
-      let size =  this.size
-      if (this.$store.getters.dockApps.length > 16) {
-        size = Math.ceil(size * 0.8)
+    scaleStyle() {
+      let that =  this
+      return index => {
+        if (this.scaleIndex < 0 || this.drag) {
+          return 
+        }
+        let diff = index - that.scaleIndex
+        let transformPosition = ""
+        let transform = ""
+        let padding = ""
+        switch (diff) {
+          case -3:
+            transformPosition = "transform-origin: 80% 40%;"
+            transform = "transform: scale(1.05); margin-top: -0.25vw;"
+            break
+          case -2:
+            transformPosition = "transform-origin: 60% 60%;"
+            transform = "transform: scale(1.1); margin-top: -0.5vw;"
+            break
+          case -1:
+            transformPosition = "transform-origin: 70% 90%;"
+            transform = "transform: scale(1.15); margin-top: -0.75vw;"
+            break
+          case 0:
+            transformPosition = "transform-origin: 50% 100%;"
+            transform = "transform: scale(1.3); margin-top: -1.25vw;"
+            padding = "padding-left: 1vw; padding-right: 1vw;"
+            break
+          case 1:
+            transformPosition = "transform-origin: 30% 90%;"
+            transform = "transform: scale(1.15); margin-top: -0.75vw;"
+            break
+          case 2:
+            transformPosition = "transform-origin: 40% 60%;"
+            transform = "transform: scale(1.1); margin-top: -0.5vw;"
+            break
+          case 3:
+            transformPosition = "transform-origin: 20% 40%;"
+            transform = "transform: scale(1.05); margin-top: -0.25vw;"
+            break
+        }
+        return transform + transformPosition + padding
       }
-      return size
     },
-    containerLength() {
-      let moreApp = 1.5
-      let appNum = this.$store.getters.dockApps.length
-      if (appNum === 0) {
-        moreApp = 4
-      }  else if (appNum < 4) {
-        moreApp = 0.8
+    dockTransition() {
+      let transition = ''
+      if (!this.drag) {
+        transition = 'all 160ms ease-out'
       }
-      return (this.$store.getters.dockApps.length + moreApp ) * this.size  + 'px'
-    },
-    dockItemSize() {
-      return (this.size + 10) + 'px'
-    },
+      return transition
+    }
   },
   methods: {
+    add() {
+      this.$store.commit('fsyncDockApps')
+    },
+    start() {
+      this.recover()
+      this.drag = true
+      this.$store.commit('fsyncDockApps')
+    },
+    end() {
+      this.recover()
+      this.drag = false
+      this.$store.commit('fsyncDockApps')
+    },
     openApp(app) {
       let that = this
       return function () {
@@ -103,52 +133,33 @@ export default {
     },
     enlarge(index) {
       this.scaleIndex = index
-      this.$forceUpdate()
     },
     recover() {
-      this.scaleIndex = -2
-      this.$forceUpdate()
-    },
-    add() {
-      this.$store.commit('fsyncDockApps')
-    },
-    start() {
-      this.inMove = true
-      this.recover()
-      this.drag = true
-      this.$store.commit('fsyncDockApps')
-    },
-    end() {
-      this.recover()
-      this.inMove = false
-      this.drag = false
-      this.$store.commit('fsyncDockApps')
+      this.scaleIndex = -1
     },
   }
 }
 </script>
 
 <style scoped>
-  @keyframes enlargeBig {
-    from {
-      transform: scale(1);
-    }
-    to {
-      transform: scale(1.3);
-    }
-  }
-  @keyframes enlargeLittle {
-    to {
-      /*transform: scale(1.2);*/
-    }
-  }
   .container {
+    /* width: 60%; */
     margin: 0 auto;
+    /* height: 70%;; */
     display: flex;
+    align-items: center;
+    align-content: center;
     position: relative;
+    /* background-color: rgba(204, 204, 204, 0.02); */
+    /* backdrop-filter: blur(7px); */
+    /* border-radius: 16px; */
+    transition: all 160ms linear;
   }
   .dock-item {
-    flex: 2;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
+    flex: 1;
+    transition: v-bind(dockTransition);
   }
   .bg {
     width: 100%;

@@ -3,7 +3,6 @@
     <AppItem
         v-if="app.type === 'app' "
         :id="app.id"
-        :size="appSize"
         :icon="app.icon"
         :name="app.name"
         :link="app.link"
@@ -12,6 +11,8 @@
         :background="app.background"
         :type="'app'"
         :maxSize="maxSize"
+        :hoverScale="hoverScale"
+        :showTitle="showTitle"
     />
     <Folder v-else-if="app.type === 'folder' "
             :folder="app"
@@ -30,6 +31,8 @@ export default {
   props: [
       'app',
       'maxSize',
+      'hoverScale',
+      'showTitle'
   ],
   components: {
     AppItem: DockItem,
@@ -45,9 +48,6 @@ export default {
       }
       return ''
     },
-    appSize() {
-      return this.$store.getters.appSize
-    }
   },
   data() {
     return {
