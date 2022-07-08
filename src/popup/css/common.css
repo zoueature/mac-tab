@@ -14,3 +14,7 @@
 .dark-mode .no-need-dark {
     filter: invert(1) hue-rotate(180deg) !important;
 }
+
+div[background-img] {
+    filter: invert(1) hue-rotate(180deg) !important;
+}

@@ -29,23 +29,28 @@ function updateBackground() {
             html.style.filter = dark
             html.style.WebkitFilter = dark
             let style = document.getElementsByTagName('style')[0]
-            style.textContent += "\nimg{filter: "+dark+"}"
-            let img = document.querySelectorAll('img')
-            for (let i = 0; i < img.length; i ++) {
-                img[i].style.filter = dark
-            }
-            let video = document.querySelectorAll('video')
-            for (let i = 0; i < video.length; i ++) {
-                video[i].style.filter = dark
-            }
-            let canvas = document.querySelectorAll('canvas')
-            for (let i = 0; i < canvas.length; i ++) {
-                canvas[i].style.filter = dark
-            }
-            let emoji = document.querySelectorAll('g-emoji')
-            for (let i = 0; i < canvas.length; i ++) {
-                emoji[i].style.filter = dark
-            }
+            style.textContent += "\nimg{filter: "+dark+"};"
+            style.textContent += "\nvideo{filter: "+dark+"};"
+            style.textContent += "\ncanvas{filter: "+dark+"};"
+            style.textContent += "\ng-emoji{filter: "+dark+"};"
+            style.textContent += "\ndiv[background-img]{filter: "+dark+"};"
+            style.textContent += "\na[background-img]{filter: "+dark+"};"
+            // let img = document.querySelectorAll('img')
+            // for (let i = 0; i < img.length; i ++) {
+            //     img[i].style.filter = dark
+            // }
+            // let video = document.querySelectorAll('video')
+            // for (let i = 0; i < video.length; i ++) {
+            //     video[i].style.filter = dark
+            // }
+            // let canvas = document.querySelectorAll('canvas')
+            // for (let i = 0; i < canvas.length; i ++) {
+            //     canvas[i].style.filter = dark
+            // }
+            // let emoji = document.querySelectorAll('g-emoji')
+            // for (let i = 0; i < canvas.length; i ++) {
+            //     emoji[i].style.filter = dark
+            // }
         }
     })
 }

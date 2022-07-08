@@ -41,6 +41,7 @@
              :style="'background-image: url(' + wallpaper.thumb + ')'"
         >
           <span class="copyright">{{wallpaper.copyright}}</span>
+          <!-- 加载图片内容loadign -->
           <loading-inline :scale="0.5" v-if="settingBGImgIndex === index"/>
           <div class="hover" v-else-if="index === hoverIndex && settingBGImgIndex < 0">
             <div class="set-button" @click="setWallpaper(wallpaper.url, index)">
@@ -49,6 +50,7 @@
           </div>
         </li>
         <div style="width:100%; position: relative;" v-if="inLoadingData">
+          <!-- 翻页加载更多loading -->
           <loading-inline :scale="0.7"/>
         </div>
       </ul>
