@@ -213,7 +213,7 @@ export default {
         // 上一页按钮
         // 翻页
         prevTrigger ++
-        if (prevTrigger > 160) {
+        if (prevTrigger > 110) {
           prevTrigger = 0
           if (this.activeIndex === 0) {
             // 第一页, 前面没有则增加一页
@@ -229,7 +229,7 @@ export default {
         // 下一页按钮
         // 翻页
         nextTrigger ++
-        if (nextTrigger > 160) {
+        if (nextTrigger > 110) {
           nextTrigger  = 0
           if (this.activeIndex === this.appPageNum - 1) {
             // 第一页, 前面没有则增加一页
@@ -267,10 +267,10 @@ export default {
       let dragX = Math.abs(dragAppPosition.left - startDragPosition.x)
       let dragY = Math.abs(dragAppPosition.top - startDragPosition.y)
 
-      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 16 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 16) {
+      if (Math.abs(relatedAppRect.left + diffX - dragAppPosition.left) < 10 && Math.abs(relatedAppRect.top + diffY - dragAppPosition.top) < 10) {
         // 覆盖住某个app
         createFolderTrigger ++
-        if (createFolderTrigger > 160) {
+        if (createFolderTrigger > 70) {
           // 覆盖app的时间达到阈值时， 创建文件夹并打开
           if (related.type === 'app') {
             let app = {
@@ -280,6 +280,7 @@ export default {
               icon: related.icon,
               link: related.link,
               app: related.app,
+              background: related.background,
             }
             related.id = new Date().getTime()
             related.type = 'folder'
@@ -291,7 +292,7 @@ export default {
         }
       } else {
         createFolderTrigger = 0
-        if (dragX - appDiffX > 20 || dragY - appDiffY > 20) {
+        if (dragX - appDiffX > 34 || dragY - appDiffY > 34) {
           // 拖动的距离大于app的间隔距离时， 允许换位
           return  true
         }

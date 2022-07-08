@@ -10,8 +10,6 @@
               @end="end"
               @add="add"
               group="apps"
-              tag="transition-group"
-              :component-data="{tag: 'div',type: 'transition-group',name: !drag ? 'apps' : 'apps-drag'}"
     >
       <template #item="{ element, index }"  >
         <AppContainer :class="dockItemClass(index)"
@@ -71,7 +69,7 @@ export default {
       let that = this
       return index => {
         let cls = 'dock-item'
-        if (index === that.scaleIndex) {
+        if (index === that.scaleIndex && !this.drag) {
           cls += ' scale'
         }
         return cls
@@ -80,7 +78,7 @@ export default {
     scaleStyle() {
       let that =  this
       return index => {
-        if (this.scaleIndex < 0 ) {
+        if (this.scaleIndex < 0 || this.drag) {
           return 
         }
         let diff = index - that.scaleIndex
@@ -130,14 +128,12 @@ export default {
       this.$store.commit('fsyncDockApps')
     },
     start() {
-      this.inMove = true
       this.recover()
       this.drag = true
       this.$store.commit('fsyncDockApps')
     },
     end() {
       this.recover()
-      this.inMove = false
       this.drag = false
       this.$store.commit('fsyncDockApps')
     },
