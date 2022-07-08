@@ -12,7 +12,7 @@
               group="apps"
     >
       <template #item="{ element, index }"  >
-        <AppContainer :class="dockItemClass(index)"
+        <AppContainer class="dock-item"
                   :style="scaleStyle(index)"
                   :app="element"
                   :hoverScale="false"
@@ -58,23 +58,6 @@ export default {
       })
       return apps
     },
-    dockSize() {
-      let size = this.$store.getters.appSize
-      if (97 < size) {
-        size = 97
-      }
-      return Math.ceil(this.docks().length * size * 1.2) + 'px'
-    },
-    dockItemClass() {
-      let that = this
-      return index => {
-        let cls = 'dock-item'
-        if (index === that.scaleIndex && !this.drag) {
-          cls += ' scale'
-        }
-        return cls
-      }
-    },
     scaleStyle() {
       let that =  this
       return index => {
@@ -82,13 +65,9 @@ export default {
           return 
         }
         let diff = index - that.scaleIndex
-        // let abs = Math.abs(diff)
-        // let weight = 0
-        // if (abs < 2) {
-        //   weight = 0.2 - 0.1 * abs
-        // }
         let transformPosition = ""
         let transform = ""
+        let padding = ""
         switch (diff) {
           case -3:
             transformPosition = "transform-origin: 80% 40%;"
@@ -103,8 +82,9 @@ export default {
             transform = "transform: scale(1.15); margin-top: -0.75vw;"
             break
           case 0:
-            transformPosition = "transform-origin: 50% 100%"
+            transformPosition = "transform-origin: 50% 100%;"
             transform = "transform: scale(1.3); margin-top: -1.25vw;"
+            padding = "padding-left: 1vw; padding-right: 1vw;"
             break
           case 1:
             transformPosition = "transform-origin: 30% 90%;"
@@ -119,8 +99,15 @@ export default {
             transform = "transform: scale(1.05); margin-top: -0.25vw;"
             break
         }
-        return transform + transformPosition
+        return transform + transformPosition + padding
       }
+    },
+    dockTransition() {
+      let transition = ''
+      if (!this.drag) {
+        transition = 'all 160ms ease-out'
+      }
+      return transition
     }
   },
   methods: {
@@ -172,14 +159,7 @@ export default {
     padding-left: 0.25vw;
     padding-right: 0.25vw;
     flex: 1;
-    transition: all 160ms ease-out;
-  }
-  .scale {
-    /* transform: scale(1.25); */
-    /* transform-origin: 50% 50%; */
-    padding-top: -10vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
+    transition: v-bind(dockTransition);
   }
   .bg {
     width: 100%;
