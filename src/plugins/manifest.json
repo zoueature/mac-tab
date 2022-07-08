@@ -5,8 +5,7 @@
   "version": "1.0.0",
   "action": {
     "default_title": "__MSG_extName__",
-    "default_icon": "assets/images/logo.png",
-    "default_popup": "menu.html"
+    "default_icon": "assets/images/logo.png"
   },
   "chrome_url_overrides": {
     "newtab": "popup.html"
@@ -14,10 +13,8 @@
   "default_locale": "en",
   "permissions": [
     "contextMenus",
-    "notifications",
     "bookmarks",
     "history",
-    "alarms",
     "management",
     "storage"
   ],

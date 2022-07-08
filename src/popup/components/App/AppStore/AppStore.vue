@@ -344,6 +344,7 @@ export default {
     height: 90%;
     list-style: none;
     padding-inline-start: 0;
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-items: left;

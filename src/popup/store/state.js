@@ -18,7 +18,7 @@ export default {
     // --------- config -------------------
     config: {
         wallpaper: {
-            url: "https://images.unsplash.com/photo-1511300636408-a63a89df3482?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
+            url: "https://images.unsplash.com/photo-1542241647-9cbbada2b309?ixid=MnwzMjI0ODV8MHwxfGNvbGxlY3Rpb258NnxBeWJfNWRJRUF4WXx8fHx8Mnx8MTY1NzI0MjAyOA&ixlib=rb-1.2.1",
             position: {
                 size: "center",
                 position: "cover"

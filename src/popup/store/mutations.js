@@ -135,6 +135,7 @@ export default {
         if (str === '{}' || str === '[]') {
             return
         }
+        console.log
         state.fmtApps = []
         for (let key in userApps) {
             // 遍历每页

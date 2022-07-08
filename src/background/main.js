@@ -3,12 +3,12 @@ import keys from "@/popup/store/keys";
 // import extension from "@/chrome/extension";
 import runtime from "@/chrome/runtime"
 import event from "@/chrome/event"
-import alarm from "./alarm"
+// import alarm from "./alarm"
 import msg from "./msg"
 
 console.log('background is running')
 
-alarm.startAlarm()
+// alarm.startAlarm()
 msg.startListenMsg()
 
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
