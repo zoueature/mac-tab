@@ -213,7 +213,7 @@ export default {
         // 上一页按钮
         // 翻页
         prevTrigger ++
-        if (prevTrigger > 110) {
+        if (prevTrigger > 100) {
           prevTrigger = 0
           if (this.activeIndex === 0) {
             // 第一页, 前面没有则增加一页
@@ -229,7 +229,7 @@ export default {
         // 下一页按钮
         // 翻页
         nextTrigger ++
-        if (nextTrigger > 110) {
+        if (nextTrigger > 100) {
           nextTrigger  = 0
           if (this.activeIndex === this.appPageNum - 1) {
             // 第一页, 前面没有则增加一页
