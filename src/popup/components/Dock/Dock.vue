@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <!-- <div class="bg"></div> -->
+    <div class="bg"></div>
     <div style="flex: 1"></div>
     <Draggable :list="docks"
               item-key="id"
@@ -80,19 +80,48 @@ export default {
     scaleStyle() {
       let that =  this
       return index => {
+        if (this.scaleIndex < 0 ) {
+          return 
+        }
         let diff = index - that.scaleIndex
-        let abs = Math.abs(diff)
-        let weight = 0
-        if (diff < 2) {
-          weight = 0.2 - 0.1 * abs
-        }
+        // let abs = Math.abs(diff)
+        // let weight = 0
+        // if (abs < 2) {
+        //   weight = 0.2 - 0.1 * abs
+        // }
         let transformPosition = ""
-        if (diff > 0) {
-          transformPosition = "transform-origin: 100% 50%;"
-        } else if (diff < 0) {
-          transformPosition = "transform-origin: 0% 50%;"
+        let transform = ""
+        switch (diff) {
+          case -3:
+            transformPosition = "transform-origin: 80% 40%;"
+            transform = "transform: scale(1.05); margin-top: -0.25vw;"
+            break
+          case -2:
+            transformPosition = "transform-origin: 60% 60%;"
+            transform = "transform: scale(1.1); margin-top: -0.5vw;"
+            break
+          case -1:
+            transformPosition = "transform-origin: 70% 90%;"
+            transform = "transform: scale(1.15); margin-top: -0.75vw;"
+            break
+          case 0:
+            transformPosition = "transform-origin: 50% 100%"
+            transform = "transform: scale(1.3); margin-top: -1.25vw;"
+            break
+          case 1:
+            transformPosition = "transform-origin: 30% 90%;"
+            transform = "transform: scale(1.15); margin-top: -0.75vw;"
+            break
+          case 2:
+            transformPosition = "transform-origin: 40% 60%;"
+            transform = "transform: scale(1.1); margin-top: -0.5vw;"
+            break
+          case 3:
+            transformPosition = "transform-origin: 20% 40%;"
+            transform = "transform: scale(1.05); margin-top: -0.25vw;"
+            break
         }
-        return 'transform: scale(' + (1 + weight) + ');' + transformPosition
+        return transform + transformPosition
       }
     }
   },
@@ -123,7 +152,7 @@ export default {
       this.scaleIndex = index
     },
     recover() {
-      this.scaleIndex = -2
+      this.scaleIndex = -1
     },
   }
 }
@@ -133,28 +162,28 @@ export default {
   .container {
     /* width: 60%; */
     margin: 0 auto;
-    height: 100%;;
+    /* height: 70%;; */
     display: flex;
     align-items: center;
     align-content: center;
     position: relative;
-    background-color: rgba(204, 204, 204, 0.02);
-    backdrop-filter: blur(7px);
-    border-radius: 16px;
+    /* background-color: rgba(204, 204, 204, 0.02); */
+    /* backdrop-filter: blur(7px); */
+    /* border-radius: 16px; */
     transition: all 160ms linear;
   }
   .dock-item {
-    padding-left: 0.5vw;
-    padding-right: 0.5vw;
+    padding-left: 0.25vw;
+    padding-right: 0.25vw;
     flex: 1;
-    transition: all 120ms linear;
+    transition: all 160ms ease-out;
   }
   .scale {
-    transform: scale(1.25);
+    /* transform: scale(1.25); */
     /* transform-origin: 50% 50%; */
-    /* padding-top: -1vw; */
+    padding-top: -10vw;
     padding-left: 1vw;
-    /* padding-right: 1vw; */
+    padding-right: 1vw;
   }
   .bg {
     width: 100%;
