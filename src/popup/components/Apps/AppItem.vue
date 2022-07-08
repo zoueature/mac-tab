@@ -70,7 +70,7 @@ export default {
     scaleApp() {
       let s = ''
       if (!this.inEditApp && this.hoverScale !== false) {
-        s += 'scale(1.1)'
+        s += 'scale(1.16)'
       }
       return s
     },
@@ -171,7 +171,7 @@ export default {
     user-select: none;
     position: relative;
   }
-  #dock-item:hover{
+  .icon-container:hover{
     transform: v-bind(scaleApp);
     transition: 200ms;
   }
