@@ -173,7 +173,7 @@ export default {
   }
   .icon-container:hover{
     transform: v-bind(scaleApp);
-    transition: 200ms;
+    transition: 200ms ease;
   }
   .click {
     transform: translate(2px, 2px);
