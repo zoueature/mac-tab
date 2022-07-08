@@ -9,7 +9,7 @@
       </div>
       <slot v-else></slot>
     </div>
-    <div class="title-container no-need-dark" :style="'font-size: ' + (size/10) + 'px;'">
+    <div class="title-container no-need-dark" v-if="showTitle !== false">
       {{name}}
     </div>
     <div class="delete-icon" v-if="inEditApp && systemApp[id] !== true" @click.stop="removeApp">
@@ -33,7 +33,6 @@ export default {
   name: "DockItem",
   props: [
     "id",
-    "size",
     "icon",
     "name",
     "link",
@@ -43,6 +42,8 @@ export default {
     "type",
     "app",
     "maxSize",
+    "hoverScale",
+    "showTitle",
   ],
   created() {
     if (typeof this.click === "function") {
@@ -68,7 +69,7 @@ export default {
     },
     scaleApp() {
       let s = ''
-      if (!this.inEditApp) {
+      if (!this.inEditApp && this.hoverScale !== false) {
         s += 'scale(1.1)'
       }
       return s
@@ -78,7 +79,11 @@ export default {
       return size + 'px'
     },
     iconSize() {
-      return Math.ceil(this.appSize() * 0.7) + "px"
+      let weight = 0.7
+      if (this.showTitle === false) {
+        weight = 0.9
+      }
+      return Math.ceil(this.appSize() * weight) + "px"
     },
     inEditApp() {
       return this.$store.getters.inEditApp
@@ -103,6 +108,9 @@ export default {
       if (typeof this.maxSize === 'number' && this.maxSize > 0 && this.maxSize < size) {
         size = this.maxSize
       }
+      if (this.showTitle === false) {
+        size = Math.ceil(size * 0.8)
+      }
       return size
     }, 
     removeApp() {
@@ -117,7 +125,7 @@ export default {
       let that = this
       setTimeout(
           () => that.clickApp = false,
-          100
+          70
       )
       if (this.appLink !== null && this.appLink !== undefined && this.appLink !== "") {
         let openAppInNewTab = this.$store.getters.newTabOpenApp
@@ -191,6 +199,7 @@ export default {
     overflow: hidden;
     border-radius: 25%;
     background: #d5d5d5;
+    transition: all 250ms linear;
   }
   .shake {
     animation: shake-app 250ms infinite linear;
@@ -204,6 +213,7 @@ export default {
     text-align: center;
     font-size: v-bind(iconWordSize);
     line-height: v-bind(iconSize);
+    transition: all 250ms linear;
   }
   .title-container {
     margin-top: 3px;

@@ -30,8 +30,7 @@
             id="folder"
         >
           <template #item="{ element }">
-            <AppItem  :size="70"
-                      :id="element.id"
+            <AppItem  :id="element.id"
                       :icon="element.icon"
                       :name="element.name"
                       :link="element.link"
@@ -172,7 +171,7 @@ export default {
   }
   .folder-enter-active,
   .folder-leave-active {
-    transition: all 200ms ease;
+    transition: all 160ms linear;
   }
   .folder-enter-from,
   .folder-leave-to {

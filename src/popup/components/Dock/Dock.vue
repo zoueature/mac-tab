@@ -1,36 +1,25 @@
 <template>
   <div class="container">
-    <div class="bg"></div>
+    <!-- <div class="bg"></div> -->
     <div style="flex: 1"></div>
     <Draggable :list="docks"
-               item-key="id"
-               v-bind="dragOptions"
-               class="container"
-               @start="start"
-               @end="end"
-               @add="add"
-               group="apps"
-               tag="transition-group"
-               :component-data="{
-                  tag: 'div',
-                  type: 'transition-group',
-                  name: !drag ? 'apps' : 'apps-drag'
-                }"
+              item-key="id"
+              v-bind="dragOptions"
+              class="container"
+              @start="start"
+              @end="end"
+              @add="add"
+              group="apps"
+              tag="transition-group"
+              :component-data="{tag: 'div',type: 'transition-group',name: !drag ? 'apps' : 'apps-drag'}"
     >
-      <template #item="{ element }"  >
-        <AppContainer
-            :size="dockSize"
-                 :id="element.id"
-                  :icon="element.icon"
-                  :name="element.name"
-                  :link="element.link"
-                  :click="element.click"
-                  :hover="true"
-                  :type="element.type"
-                  class="dock-item"
-                  :maxSize="97"
-                 :app="element"
-                  @mouseenter="enlarge(element.id)" @mouseleave="recover"
+      <template #item="{ element, index }"  >
+        <AppContainer :class="dockItemClass(index)"
+                  :style="scaleStyle(index)"
+                  :app="element"
+                  :hoverScale="false"
+                  :showTitle="false"
+                  @mouseenter="enlarge(index)" @mouseleave="recover"
         />
       </template>
     </Draggable>
@@ -60,7 +49,6 @@ export default {
         animation: 200,
       },
       scaleIndex: -2,
-      size: 66
     }
   },
   computed: {
@@ -73,42 +61,42 @@ export default {
       return apps
     },
     dockSize() {
-      let size =  this.size
-      if (this.$store.getters.dockApps.length > 16) {
-        size = Math.ceil(size * 0.8)
+      let size = this.$store.getters.appSize
+      if (97 < size) {
+        size = 97
       }
-      return size
+      return Math.ceil(this.docks().length * size * 1.2) + 'px'
     },
-    containerLength() {
-      let moreApp = 1.5
-      let appNum = this.$store.getters.dockApps.length
-      if (appNum === 0) {
-        moreApp = 4
-      }  else if (appNum < 4) {
-        moreApp = 0.8
+    dockItemClass() {
+      let that = this
+      return index => {
+        let cls = 'dock-item'
+        if (index === that.scaleIndex) {
+          cls += ' scale'
+        }
+        return cls
       }
-      return (this.$store.getters.dockApps.length + moreApp ) * this.size  + 'px'
     },
-    dockItemSize() {
-      return (this.size + 10) + 'px'
-    },
+    scaleStyle() {
+      let that =  this
+      return index => {
+        let diff = index - that.scaleIndex
+        let abs = Math.abs(diff)
+        let weight = 0
+        if (diff < 2) {
+          weight = 0.2 - 0.1 * abs
+        }
+        let transformPosition = ""
+        if (diff > 0) {
+          transformPosition = "transform-origin: 100% 50%;"
+        } else if (diff < 0) {
+          transformPosition = "transform-origin: 0% 50%;"
+        }
+        return 'transform: scale(' + (1 + weight) + ');' + transformPosition
+      }
+    }
   },
   methods: {
-    openApp(app) {
-      let that = this
-      return function () {
-        that.$store.commit('openApp')
-        that.$router.replace(app)
-      }
-    },
-    enlarge(index) {
-      this.scaleIndex = index
-      this.$forceUpdate()
-    },
-    recover() {
-      this.scaleIndex = -2
-      this.$forceUpdate()
-    },
     add() {
       this.$store.commit('fsyncDockApps')
     },
@@ -124,31 +112,49 @@ export default {
       this.drag = false
       this.$store.commit('fsyncDockApps')
     },
+    openApp(app) {
+      let that = this
+      return function () {
+        that.$store.commit('openApp')
+        that.$router.replace(app)
+      }
+    },
+    enlarge(index) {
+      this.scaleIndex = index
+    },
+    recover() {
+      this.scaleIndex = -2
+    },
   }
 }
 </script>
 
 <style scoped>
-  @keyframes enlargeBig {
-    from {
-      transform: scale(1);
-    }
-    to {
-      transform: scale(1.3);
-    }
-  }
-  @keyframes enlargeLittle {
-    to {
-      /*transform: scale(1.2);*/
-    }
-  }
   .container {
+    /* width: 60%; */
     margin: 0 auto;
+    height: 100%;;
     display: flex;
+    align-items: center;
+    align-content: center;
     position: relative;
+    background-color: rgba(204, 204, 204, 0.02);
+    backdrop-filter: blur(7px);
+    border-radius: 16px;
+    transition: all 160ms linear;
   }
   .dock-item {
-    flex: 2;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    flex: 1;
+    transition: all 120ms linear;
+  }
+  .scale {
+    transform: scale(1.25);
+    /* transform-origin: 50% 50%; */
+    /* padding-top: -1vw; */
+    padding-left: 1vw;
+    /* padding-right: 1vw; */
   }
   .bg {
     width: 100%;
