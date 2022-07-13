@@ -22,7 +22,7 @@
         <el-switch v-model="showComponent" @change="toggleComponent"/>
       </div>
     </div> -->
-    <div class="app-config">
+    <!-- <div class="app-config">
       <div class="setting-title">
         <moon theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
         <span>黑暗模式</span>
@@ -30,7 +30,7 @@
        <div class="setting-value">
          <el-switch v-model="darkModel" @change="toggleDarkModel"/>
        </div>
-    </div>
+    </div> -->
     <div class="app-config">
       <div class="setting-title">
         <browser theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
@@ -61,7 +61,7 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, Moon, AtSign, Browser, Sleep, Setting} from "@icon-park/vue-next"
+import {ApplicationOne, AtSign, Browser, Sleep, Setting} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -70,7 +70,7 @@ export default {
     ElSwitch,
     ApplicationOne,
     // PageTemplate,
-    Moon,
+    // Moon,
     AtSign,
     Browser,
     Sleep,
