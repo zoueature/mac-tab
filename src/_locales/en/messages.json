@@ -1,0 +1,10 @@
+{
+    "extName": {
+      "message": "OST New Tab",
+      "description": "Extension name"
+    },
+    "extDescription": {
+      "message": "A beautiful new tab page, easy website management, featured wallpapers, dark mode and so on",
+      "description": "插件描述"
+    }
+  }
