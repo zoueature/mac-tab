@@ -56,6 +56,12 @@ export default {
     RightOne,
     Search,
   },
+  props: {
+    size: {
+      type: Number,
+      default: 52,
+    }
+  },
   computed: {
     showSuggest() {
       return this.$store.getters.showSuggest
@@ -93,7 +99,6 @@ export default {
   },
   data() {
     return {
-      size: 52,
       keyword: "",
       engine: null,
       searchEngine: engineList,
@@ -231,6 +236,7 @@ export default {
 
 <style scoped>
   .search-item {
+    transition: 200ms;
     width: 100%;
     height: v-bind(heightSize);
     border-radius: 10px;

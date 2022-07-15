@@ -6,24 +6,23 @@
     <div class="no-need-dark cover">
     </div>
     <div class="blank-container">
-      <div class="notify-container" v-if="width > 900 && showComponent">
-<!--        <NewClock class="new-clock"/>-->
+      <div class="notify-container" v-if="width > 900 && showComponent && !simpleMode">
         <NumberClock style="height: 8vw;"></NumberClock>
         <ComponentsCom/>
       </div>
       <div class="application-container" @click.right.prevent="showMenu">
-        <div id="search-container">
-          <Search/>
-          <div class="news" @click="openDrawer">
+        <div id="search-container" :class="simpleMode ? 'simple-mode': null">
+          <Search :size="!simpleMode ? searchHeight: searchHeight * 1.2"></Search>
+          <div class="news" @click="openDrawer" v-if="!simpleMode">
             <img src="../../assets/icon/hot.png" alt="news">
           </div>
         </div>
-        <div id="apps-container">
-          <Apps size="80" rows="4" columns="13"/>
+        <div id="apps-container" v-if="!simpleMode">
+          <Apps/>
         </div>
       </div>
     </div>
-    <div id="dock-container">
+    <div id="dock-container" v-if="!simpleMode">
       <Dock/>
     </div>
     <App></App>
@@ -86,6 +85,10 @@ export default {
     }
   },
   computed: {
+    simpleMode() {
+      console.log(this.$store.getters.simpleMode)
+      return this.$store.getters.simpleMode
+    },
     desktopClass() {
       let isDark = this.$store.getters.darkModel
       let cls = ''
@@ -150,8 +153,13 @@ export default {
     })
     document.addEventListener('keydown', function (e) {
       if (e.ctrlKey && e.code == 'KeyL') {
-        // 锁屏
+        // 锁屏 ctrl + L
         that.inSleep = true
+        return
+      } else if (e.ctrlKey && e.altKey && e.code == 'KeyS') {
+        // 极简模式 ctrl + alt + L
+        console.log(that.$store.getters.simpleMode)
+        that.$store.commit('setSimpleMode', !that.$store.getters.simpleMode)
         return
       }
       that.sleepTimer()
@@ -164,6 +172,7 @@ export default {
     return {
       width: 0,
       inSleep: false,
+      searchHeight: 52,
     }
   }
 }
@@ -234,6 +243,7 @@ export default {
     align-content: center;
     align-items: center;
     position: relative;
+    transition: 200ms;
   }
   .news {
     width: 25px;
@@ -285,5 +295,8 @@ export default {
   .mask-enter-from,
   .mask-leave-to {
     transform: translateY(-1000px);
+  }
+  .simple-mode {
+    margin: 10% auto 0 auto !important;
   }
 </style>
