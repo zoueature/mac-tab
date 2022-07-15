@@ -128,32 +128,6 @@ export default {
 </script>
 
 <style scoped>
-  .app-name {
-    width: 50%;
-    font-size: 14px;
-    height: 25px;
-    /*font-weight: bolder;*/
-    margin-left: 74px;
-    margin-top: 10px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-weight: bold;
-    /*float: left;*/
-  }
-  .app-desc {
-    width: 95%;
-    margin-top: 20px;
-    margin-left: 5px;
-    font-size: 10px;
-    color: rgba(12, 16, 33, 0.52);
-    font-weight: normal;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
   .app-input {
     width: 90%;
     text-align: left;

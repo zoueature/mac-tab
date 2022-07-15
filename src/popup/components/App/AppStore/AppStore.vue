@@ -21,7 +21,9 @@
         </div>
       </div>
     </div>
-    <div class="app-list" v-if="diyCategoryId !== selectedCategory">
+    <diy-app v-if="diyCategoryId === selectedCategory" class="app-list"/>
+    <bookmark-importer v-else-if="selectedCategory === bookmarkImpoterCatgoryId" class="app-list"/>
+    <div v-else class="app-list" >
       <div class="title">
         {{selectedCategoryObj?.name}}
       </div>
@@ -49,7 +51,6 @@
         </div>
       </ul>
     </div>
-    <diy-app v-else class="app-list"></diy-app>
   </div>
 </template>
 
@@ -58,14 +59,17 @@
 import api from "@/popup/components/api/app"
 import LoadingInline from "@/popup/components/common/LoadingInline"
 import DiyApp from "@/popup/components/App/AppStore/DiyApp"
+import BookmarkImporter from "@/popup/components/App/AppStore/BookmarkImporter"
 
 const diyCategoryId = 7
+const bookmarkImpoterCatgoryId = 5
 
 export default {
   name: "AppStore",
   components: {
     LoadingInline,
     DiyApp,
+    BookmarkImporter,
   },
   methods: {
     search(e) {
@@ -144,8 +148,11 @@ export default {
   },
   data() {
     return {
-      selectedCategoryObj: null,
       selectedCategory: diyCategoryId,
+      bookmarkImpoterCatgoryId: bookmarkImpoterCatgoryId,
+
+
+      selectedCategoryObj: null,
       categoryList: [],
       apps: [],
       installedApp: this.$store.getters.installedAppID,
