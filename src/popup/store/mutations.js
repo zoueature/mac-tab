@@ -45,33 +45,30 @@ export default {
             for (let key in config) {
                 state.config[key] = config[key]
             }
-            // state.config = config
         }
     },
     // updateAppSize 更新app大小
     updateAppSize(state, size) {
         common.updateConfig(state, 'appSize', size)
-        // state.config.appSize = size
     },
     setShowComponent(state, num) {
         common.updateConfig(state, 'showComponents', num)
-        // state.config.appSize = size
     },
     setDarkModel(state, darkModel) {
         common.updateConfig(state, 'darkModel', darkModel)
-        // state.config.appSize = size
     },
     setOpenAppModel(state, model) {
         common.updateConfig(state, 'newTabOpenApp', model)
-        // state.config.appSize = size
     },
     setSearchEngine(state, engine) {
         common.updateConfig(state, 'searchEngine', engine)
-        // state.config.appSize = size
     },
     setGoToSleepMinutesTime(state, minutes) {
         common.updateConfig(state, 'goToSleepTime', minutes)
-        // state.config.appSize = size
+    },
+    setSimpleMode(state, simpleMode) {
+        console.log(simpleMode)
+        common.updateConfig(state, 'simpleMode', simpleMode)
     },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {

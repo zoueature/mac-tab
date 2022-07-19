@@ -56,6 +56,9 @@ export default {
     goToSleepMinutes(state) { 
         return state.config.goToSleepTime
     },
+    simpleMode(state) { 
+        return state.config.simpleMode
+    },
 
     // ------------------- APPS ------------------------
     installedAppID(state) {

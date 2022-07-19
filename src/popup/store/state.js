@@ -32,6 +32,7 @@ export default {
         newTabOpenApp: true, // 是否用新标签页打开app
         goToSleepTime: 16, // 进入休眠的时间(分钟)
         showDock: true, // todo 是否展示下方dock
+        simpleMode: false, // 极简模式
     },
 
     // --------- app -----------

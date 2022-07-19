@@ -49,6 +49,15 @@
         <el-slider v-model="sleepTime" class="slider" :min="1" :max="60" @input="goToSleepMinutesChange" size="small" input-size="small"></el-slider>
       </div>
     </div>
+    <div class="app-config">
+      <div class="setting-title">
+        <easy theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
+        <span>极简模式</span>
+      </div>
+       <div class="setting-value">
+         <el-switch v-model="simpleMode" @change="toggleSimpleMode"/>
+       </div>
+    </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
       <div class="setting-title">
         <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
@@ -61,7 +70,7 @@
 <script>
 
 import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, AtSign, Browser, Sleep, Setting} from "@icon-park/vue-next"
+import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -75,11 +84,10 @@ export default {
     Browser,
     Sleep,
     Setting,
+    Easy,
   },
   created() {
     this.appSize = this.$store.getters.appSize
-    // this.$loading.show()
-    console.log(this.$t('appName'))
   },
   data() {
     return {
@@ -98,6 +106,9 @@ export default {
     newTabOpenApp() {
       return this.$store.getters.newTabOpenApp
     },
+    simpleMode() {
+      return this.$store.getters.simpleMode
+    },
     sleepTime() {
       return this.$store.getters.goToSleepMinutes
     }
@@ -113,6 +124,9 @@ export default {
       this.$store.commit('setDarkModel', val)
       // this.$store.commit('closeDrawer')
       // window.location.reload()
+    },
+    toggleSimpleMode(val) {
+      this.$store.commit('setSimpleMode', val)
     },
     toggleNewTabOpenApp(val) {
       this.$store.commit('setOpenAppModel', val)
