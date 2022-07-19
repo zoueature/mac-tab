@@ -76,6 +76,9 @@ export default {
   border-radius: 100% !important;
   border: none;
 }
+.el-color-dropdown__value {
+  display: none;
+}
 body {
   user-select: none;
   margin: 0;
