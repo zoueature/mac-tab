@@ -2,12 +2,12 @@
   <div class="setting-app">
     <div class="title">
       <setting theme="outline" size="27" fill="#0288D1" :strokeWidth="4"/>
-      <span>设置</span>
+      <span>{{$i18n('setting')}}</span>
     </div>
     <div class="app-config">
       <div class="setting-title">
         <application-one theme="outline" size="22" fill="#fff" :strokeWidth="4"/>
-        <span>图标大小</span>
+        <span>{{$i18n('appSize')}}</span>
       </div>
       <div class="setting-value">
         <el-slider v-model="appSize" class="slider" :min="60" :max="160" @input="appSizeChange" size="small" input-size="small"></el-slider>
@@ -34,7 +34,7 @@
     <div class="app-config">
       <div class="setting-title">
         <browser theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>新标签页打开</span>
+        <span>{{$i18n('openLinkMode')}}</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="newTabOpenApp" @change="toggleNewTabOpenApp"/>
@@ -43,7 +43,7 @@
     <div class="app-config">
       <div class="setting-title">
         <sleep theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>睡眠时间</span>
+        <span>{{$i18n('sleepTime')}}</span>
       </div>
       <div class="setting-value">
         <el-slider v-model="sleepTime" class="slider" :min="1" :max="60" @input="goToSleepMinutesChange" size="small" input-size="small"></el-slider>
@@ -52,16 +52,32 @@
     <div class="app-config">
       <div class="setting-title">
         <easy theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
-        <span>极简模式</span>
+        <span>{{$i18n('simpleMode')}}</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="simpleMode" @change="toggleSimpleMode"/>
        </div>
     </div>
+    <div class="app-config">
+      <div class="setting-title">
+        <translate theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
+        <span>{{$i18n('switchLanguage')}}</span>
+      </div>
+       <div class="setting-value">
+           <el-select v-model="language" filterable placeholder="Select" @change="selectLanguage">
+            <el-option
+              v-for="item in $supportLanguage()"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
+       </div>
+    </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
       <div class="setting-title">
         <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>反馈与建议</span>
+        <span>{{$i18n('feedback')}}</span>
       </div>
     </a>
   </div>
@@ -69,8 +85,8 @@
 
 <script>
 
-import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy} from "@icon-park/vue-next"
+import {ElSlider, ElSwitch, ElSelect} from "element-plus"
+import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy, Translate} from "@icon-park/vue-next"
 
 export default {
   name: "SettingCom",
@@ -85,6 +101,8 @@ export default {
     Sleep,
     Setting,
     Easy,
+    Translate,
+    ElSelect,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -94,6 +112,7 @@ export default {
       value: 0,
       appSize: 0,
       goToSleepMinutes: 0,
+      language: this.$store.getters.language,
     }
   },
   computed: {
@@ -133,6 +152,10 @@ export default {
     },
     goToSleepMinutesChange(val) {
       this.$store.commit('setGoToSleepMinutesTime', val)
+    },
+    selectLanguage(val) {
+      this.$switchLanguage(val)
+      this.$store.commit('setLanguage', val)
     }
   }
 }

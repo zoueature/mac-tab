@@ -79,14 +79,12 @@ export default {
       that.inSleep = false
       let thresholdTime = that.$store.getters.goToSleepMinutes // 单位分钟
       timeOut = setTimeout(() => {
-        console.log(new Date().toString())
         that.inSleep = true
       }, thresholdTime*60*1000)
     }
   },
   computed: {
     simpleMode() {
-      console.log(this.$store.getters.simpleMode)
       return this.$store.getters.simpleMode
     },
     desktopClass() {
@@ -144,7 +142,6 @@ export default {
   created() {
     let that = this
     this.width = document.body.clientWidth
-    this.$store.commit('initCommonConfig')
     document.addEventListener('mousemove', () => {
       if (that.inSleep) {
         return
@@ -158,7 +155,6 @@ export default {
         return
       } else if (e.ctrlKey && e.altKey && e.code == 'KeyS') {
         // 极简模式 ctrl + alt + L
-        console.log(that.$store.getters.simpleMode)
         that.$store.commit('setSimpleMode', !that.$store.getters.simpleMode)
         return
       }

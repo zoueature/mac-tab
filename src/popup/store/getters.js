@@ -59,6 +59,9 @@ export default {
     simpleMode(state) { 
         return state.config.simpleMode
     },
+    language(state) { 
+        return state.config.language
+    },
 
     // ------------------- APPS ------------------------
     installedAppID(state) {

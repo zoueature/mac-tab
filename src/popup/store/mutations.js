@@ -67,8 +67,10 @@ export default {
         common.updateConfig(state, 'goToSleepTime', minutes)
     },
     setSimpleMode(state, simpleMode) {
-        console.log(simpleMode)
         common.updateConfig(state, 'simpleMode', simpleMode)
+    },
+    setLanguage(state, language) {
+        common.updateConfig(state, 'language', language)
     },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {

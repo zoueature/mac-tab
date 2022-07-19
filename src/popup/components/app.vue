@@ -23,6 +23,9 @@ export default {
     }
   },
   created() {
+    this.$store.commit('initCommonConfig')
+    let language = this.$store.getters.language
+    this.$switchLanguage(language)
     api.getAnnouncement((data) => {
       storage.getSync(keys.viewedAnnouncement, (viewed) => {
         if (viewed == undefined) {

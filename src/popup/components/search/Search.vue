@@ -24,7 +24,7 @@
     </div>
     <div class="input-item">
       <form action="" @submit="search" class="input-item">
-        <input placeholder="输入搜索内容"
+        <input :placeholder="$i18n('searchPlaceholder')"
                v-model="keyword"
                class="search-input">
       </form>
@@ -185,6 +185,9 @@ export default {
       let that = this
       // 获取搜索引擎搜索建议
       that.suggestList = []
+      if (keyword === "") {
+        return
+      }
       baidu.getSearchSuggest(keyword, function(result) {
         result.forEach(s => {
           that.suggestList.push({
