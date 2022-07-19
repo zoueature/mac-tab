@@ -1,7 +1,7 @@
 <template>
   <div class="setting-app">
     <div class="title">
-      <setting theme="outline" size="27" fill="#0288D1" :strokeWidth="4"/>
+      <setting theme="outline" size="27" :fill="color" :strokeWidth="4"/>
       <span>{{$i18n('setting')}}</span>
     </div>
     <div class="app-config">
@@ -125,26 +125,28 @@ export default {
       appSize: 0,
       goToSleepMinutes: 0,
       language: this.$store.getters.language,
-      color: this.$store.getters.primaryColor,
       predefineColors: [
-          '#ff4500',
-          '#ff8c00',
-          '#ffd700',
-          '#90ee90',
-          '#00ced1',
-          '#1e90ff',
-          '#c71585',
-          'rgba(255, 69, 0, 0.68)',
-          'rgb(255, 120, 0)',
-          'hsv(51, 100, 98)',
-          'hsva(120, 40, 94, 0.5)',
-          'hsl(181, 100%, 37%)',
-          'hsla(209, 100%, 56%, 0.73)',
-          '#c7158577',
+          '#2196F3',
+          '#03A9F4',
+          '#00BCD4',
+          '#009688',
+          '#F44336',
+          '#E91E63',
+          '#9C27B0',
+          '#673AB7',
+          '#3F51B5',
+          '#8BC34A',
+          '#CDDC39',
+          '#FFC107',
+          '#FF9800',
+          '#795548',
       ]
     }
   },
   computed: {
+    color() {
+      return this.$store.getters.primaryColor
+    },
     showComponent() {
       return this.$store.getters.showComponents
     },
@@ -187,7 +189,6 @@ export default {
       this.$store.commit('setLanguage', val)
     },
     selectColor(val) {
-      this.$switchLanguage(val)
       this.$store.commit('setPrimaryColor', val)
     }
   }
@@ -263,7 +264,7 @@ export default {
     width: 25px;
     height: 25px;
     border-radius: 16%;
-    background: #0288D1;
+    background: v-bind(color);
     display: flex;
     justify-content: center;
     justify-items: center;

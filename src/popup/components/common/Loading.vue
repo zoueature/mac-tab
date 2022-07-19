@@ -13,6 +13,10 @@ export default {
     scale: {
       type: Number,
       default: 1,
+    },
+    color: {
+      type: String,
+      default: "#03A9F4"
     }
   },
   data() {
@@ -55,7 +59,7 @@ export default {
     top: 22.44px;
     left: 22.44px;
     border-radius: 50%;
-    box-shadow: 0 4.488px 0 0 #03A9F4;
+    box-shadow: 0 4.488px 0 0 v-bind(color);
     transform-origin: 79.56px 81.804px;
   }
   .loadingio-spinner-eclipse-hyj11p3vilq {

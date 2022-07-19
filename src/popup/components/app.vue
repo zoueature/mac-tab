@@ -40,12 +40,42 @@ export default {
         storage.setSync(keys.viewedAnnouncement, viewed)
       })
     })
+  },
+  computed: {
+    color() {
+      return this.$store.getters.primaryColor
+    }
   }
 }
 </script>
 
 <style>
 
+.active {
+  background: v-bind(color) !important;
+}
+.el-slider__bar {
+  background: v-bind(color) !important;
+}
+.el-slider__button {
+  border: solid 2px v-bind(color) !important;
+  width: 16px;
+  height: 16px;
+}
+.el-switch.is-checked .el-switch__core {
+    border-color: v-bind(color) !important;
+    background-color: v-bind(color) !important;
+}
+.el-color-picker__color {
+  border-radius: 100% !important;
+}
+.el-color-picker__color-inner {
+  border-radius: 100% !important;
+}
+.el-color-picker__trigger {
+  border-radius: 100% !important;
+  border: none;
+}
 body {
   user-select: none;
   margin: 0;
