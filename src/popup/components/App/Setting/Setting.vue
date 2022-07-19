@@ -74,6 +74,15 @@
           </el-select>
        </div>
     </div>
+    <div class="app-config">
+      <div class="setting-title">
+        <platte theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
+        <span>{{$i18n('primaryColor')}}</span>
+      </div>
+       <div class="setting-value">
+         <el-color-picker v-model="color" show-alpha :predefine="predefineColors" @change="selectColor"/>
+       </div>
+    </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
       <div class="setting-title">
         <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
@@ -85,8 +94,9 @@
 
 <script>
 
-import {ElSlider, ElSwitch, ElSelect} from "element-plus"
-import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy, Translate} from "@icon-park/vue-next"
+import {ElSlider, ElSwitch, ElSelect,ElColorPicker} from "element-plus"
+import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy, Translate, Platte} from "@icon-park/vue-next"
+
 
 export default {
   name: "SettingCom",
@@ -103,6 +113,8 @@ export default {
     Easy,
     Translate,
     ElSelect,
+    Platte,
+    ElColorPicker,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -113,6 +125,23 @@ export default {
       appSize: 0,
       goToSleepMinutes: 0,
       language: this.$store.getters.language,
+      color: this.$store.getters.primaryColor,
+      predefineColors: [
+          '#ff4500',
+          '#ff8c00',
+          '#ffd700',
+          '#90ee90',
+          '#00ced1',
+          '#1e90ff',
+          '#c71585',
+          'rgba(255, 69, 0, 0.68)',
+          'rgb(255, 120, 0)',
+          'hsv(51, 100, 98)',
+          'hsva(120, 40, 94, 0.5)',
+          'hsl(181, 100%, 37%)',
+          'hsla(209, 100%, 56%, 0.73)',
+          '#c7158577',
+      ]
     }
   },
   computed: {
@@ -156,6 +185,10 @@ export default {
     selectLanguage(val) {
       this.$switchLanguage(val)
       this.$store.commit('setLanguage', val)
+    },
+    selectColor(val) {
+      this.$switchLanguage(val)
+      this.$store.commit('setPrimaryColor', val)
     }
   }
 }

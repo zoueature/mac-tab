@@ -62,6 +62,9 @@ export default {
     language(state) { 
         return state.config.language
     },
+    primaryColor(state) { 
+        return state.config.primaryColor
+    },
 
     // ------------------- APPS ------------------------
     installedAppID(state) {

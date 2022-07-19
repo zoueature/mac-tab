@@ -7,4 +7,5 @@ export default {
     openLinkMode: "新标签页打开",
     switchLanguage: "语言切换",
     searchPlaceholder: "输入搜索内容",
+    primaryColor: "主色调",
 }

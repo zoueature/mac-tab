@@ -72,6 +72,9 @@ export default {
     setLanguage(state, language) {
         common.updateConfig(state, 'language', language)
     },
+    setPrimaryColor(state, color) {
+        common.updateConfig(state, 'primaryColor', color)
+    },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {
             let position = state.config.wallpaper.position
