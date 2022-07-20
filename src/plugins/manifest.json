@@ -17,6 +17,13 @@
     "history",
     "management",
     "storage"
+  ],  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["js/chunk-vendors.js","js/content.js"],
+      "css": ["css/content.css"]
+    }
   ],
   "background": {
     "service_worker": "js/background.js",

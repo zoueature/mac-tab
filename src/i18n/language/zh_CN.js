@@ -8,4 +8,5 @@ export default {
     switchLanguage: "语言切换",
     searchPlaceholder: "输入搜索内容",
     primaryColor: "主色调",
+    darkMode: "黑暗模式",
 }

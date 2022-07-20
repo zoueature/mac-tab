@@ -1,6 +1,7 @@
 /* eslint-disable */
 import api from './api'
 import extension from "@/chrome/extension"
+import fetch from '@/api/api'
 
 const msgHandler = {
     getHistory: api.getHistory,
@@ -13,6 +14,9 @@ const msgHandler = {
     },
     getSelfExtension: (sendResponse, params) => {
         extension.getSelf(sendResponse)
+    },
+    fetchGET: (sendResponse, params) => {
+        fetch.get(params.url, params.params, sendResponse)
     }
 
 }

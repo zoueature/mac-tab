@@ -148,6 +148,7 @@ export default {
       this.wallpapers = []
       this.noMoreData = false
       this.initSearch = true
+      this.settingBGImgIndex = -1
       let that = this
       this.requestToSearchWallpaper(this.origin, 
         this.selectedCateId, 

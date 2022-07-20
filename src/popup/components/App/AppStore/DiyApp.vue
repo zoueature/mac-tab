@@ -5,7 +5,7 @@
       </div>
       <div class="app-input">
         <div>地址</div>
-        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle" class="input-item">
+        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" class="input-item">
       </div>
       <div class="app-input">
         <div>名称</div>
@@ -45,6 +45,7 @@
 import colors from "@/popup/components/common/colors"
 import utils from "@/utils/funcs"
 import {Check} from "@icon-park/vue-next"
+// import runtime from "@/chrome/runtime"
 
 function formatLink(link) {
   let requestLink = link
@@ -74,12 +75,19 @@ export default {
         let requestLink = this.diyApp.link
         requestLink = formatLink(requestLink)
         let url = new URL(requestLink)
-        this.diyApp.onlineIcon = url.origin + "/favicon.ico"
+        let onlineIcon = url.origin + "/favicon.ico"
         this.$http.get(requestLink).then((res) => {
           if (res.status === 200) {
-            let title = utils.getTitleFromHTML(res.data)
-            if (title !== "") {
-              that.diyApp.name = title
+            let result = utils.getTitleFromHTML(res.data)
+            that.diyApp.name = result.title
+            onlineIcon = result.icon
+            if (onlineIcon != null) {
+              let img = new Image()
+              img.src = onlineIcon
+              img.onload = () => {
+                that.diyApp.onlineIcon = onlineIcon
+                that.diyApp.iconType = 'img'
+              }
             }
           }
         })

@@ -6,6 +6,7 @@ export default {
     feedback: "Feedback",
     openLinkMode: "Open with new tab",
     switchLanguage: "Languages",
-    searchPlaceholder: "Input keyword to search",
-    primaryColor: "Primary color"
+    searchPlaceholder: "Search",
+    primaryColor: "Primary color",
+    darkMode: "Dark Mode",
 }

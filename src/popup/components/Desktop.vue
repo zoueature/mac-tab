@@ -1,8 +1,10 @@
 <template>
   <div id="desktop-background" :class="desktopClass">
-    <transition name="mask">
-      <sleep-mask v-if="inSleep"/>
-    </transition>
+    <div class="no-need-dark bg">
+      <transition name="mask">
+        <sleep-mask v-if="inSleep"/>
+      </transition>
+    </div>
     <div class="no-need-dark cover">
     </div>
     <div class="blank-container">
@@ -95,14 +97,6 @@ export default {
       }
       return cls
     },
-    coverClass() {
-      let isDark = this.$store.getters.darkModel
-      let cls = 'cover'
-      if (isDark) {
-        cls += ' no-need-dark'
-      }
-      return cls
-    },
     showComponent() {
       return this.$store.getters.showComponents
     },
@@ -131,6 +125,12 @@ export default {
         width = 100
       }
       return width + '%'
+    },
+    bgZIndex() {
+      if (this.inSleep) {
+        return 7777777777777777
+      }
+      return -200
     }
   },
   mounted() {
@@ -180,12 +180,17 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
+  }
+  .bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: v-bind(bgZIndex);
     background-image: v-bind(wallpaper);
     /*background-size: auto 100%;*/
     background-repeat: no-repeat;
     background-position: v-bind(size);
     background-size: v-bind(position);
-    /*background: rgb(0,0,0,0.1);*/
   }
   .cover {
     width: 100%;
@@ -193,12 +198,6 @@ export default {
     position: fixed;
     backdrop-filter: v-bind(blur);
     z-index: -100;
-    /*background-image: v-bind(wallpaper);*/
-    /*background-size: auto 100%;*/
-   /* background-repeat: no-repeat;
-    background-position: v-bind(size);
-    background-size: v-bind(position);*/
-    /*background: rgb(0,0,0,0.1);*/
   }
   .blank-container {
     width: 100%;
@@ -286,11 +285,14 @@ export default {
   }
   .mask-enter-active,
   .mask-leave-active {
-    transition: all 750ms linear;
+    transition: all 250ms linear;
   }
-  .mask-enter-from,
-  .mask-leave-to {
+  .mask-enter-from {
     transform: translateY(-1000px);
+  }
+  .mask-leave-to {
+    transform: translateX(1000px);
+    opacity: 0;
   }
   .simple-mode {
     margin: 10% auto 0 auto !important;

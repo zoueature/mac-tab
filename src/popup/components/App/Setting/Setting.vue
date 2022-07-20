@@ -25,7 +25,7 @@
     <div class="app-config">
       <div class="setting-title">
         <moon theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
-        <span>黑暗模式</span>
+        <span>{{$i18n('darkMode')}}</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="darkModel" @change="toggleDarkModel"/>
@@ -190,7 +190,7 @@ export default {
     box-shadow: -1px -1px 10px white;
   }
   .title {
-    /* padding-top: 10px; */
+    transition: 1600ms;
     width: 100%;
     height: 70px;
     text-align: left;
