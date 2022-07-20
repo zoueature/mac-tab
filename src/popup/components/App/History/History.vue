@@ -101,10 +101,10 @@ export default {
           if (dateIndex[date] === undefined) {
             dateIndex[date] = result.length
           }
-          v.icon = "chrome://favicon/size/32@5x/" + v.url
+          v.icon = "chrome://favicon2/?size=16&scale_factor=1x&page_url="
           v.icon = "chrome://favicon2/?size=32&scale_factor=4x&page_url=" + encodeURIComponent(v.url)
-          let url = new URL(v.url)
-          v.icon = url.origin + "/favicon.ico"
+          // let url = new URL(v.url)
+          // v.icon = url.origin + "/favicon.ico"
           let index = dateIndex[date]
           if (result[index] === undefined) {
             result[index] = {

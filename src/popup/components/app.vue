@@ -56,15 +56,18 @@ export default {
 }
 .el-slider__bar {
   background: v-bind(color) !important;
+  transition: 1600ms;
 }
 .el-slider__button {
   border: solid 2px v-bind(color) !important;
   width: 16px;
   height: 16px;
+  transition: 1600ms;
 }
 .el-switch.is-checked .el-switch__core {
     border-color: v-bind(color) !important;
     background-color: v-bind(color) !important;
+    transition: 1600ms;
 }
 .el-color-picker__color {
   border-radius: 100% !important;

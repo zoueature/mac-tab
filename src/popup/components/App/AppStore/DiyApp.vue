@@ -28,10 +28,10 @@
       <div class="select-icon-color">
         <div class="color-shower" v-for="(color, index) in colors"
              :key="index"
-             :style="'background: ' + color.color"
-             @click="diyApp.wordIconColor = color.color"
+             :style="'background: ' + color"
+             @click="diyApp.wordIconColor = color"
         >
-          <check theme="outline" size="20" fill="#fff" :strokeWidth="2" v-if="diyApp.wordIconColor === color.color"/>
+          <check theme="outline" size="20" fill="#fff" :strokeWidth="2" v-if="diyApp.wordIconColor === color"/>
         </div>
       </div>
       <div class="opt-container">
@@ -42,7 +42,7 @@
 
 <script>
 
-import color from "@/popup/components/App/AppStore/color";
+import colors from "@/popup/components/common/colors"
 import utils from "@/utils/funcs"
 import {Check} from "@icon-park/vue-next"
 
@@ -58,7 +58,7 @@ const defaultDiyApp = {
   link: '',
   name: '',
   wordIcon: '',
-  wordIconColor: color[0].color,
+  wordIconColor: colors[0],
   onlineIcon: '',
 }
 
@@ -121,7 +121,7 @@ export default {
         onlineIcon: defaultDiyApp.onlineIcon,
         iconType: '',
       },
-      colors: color,
+      colors: colors,
     }
   }
 }

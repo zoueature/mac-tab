@@ -22,7 +22,7 @@
         <el-switch v-model="showComponent" @change="toggleComponent"/>
       </div>
     </div> -->
-    <!-- <div class="app-config">
+    <div class="app-config">
       <div class="setting-title">
         <moon theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
         <span>黑暗模式</span>
@@ -30,7 +30,7 @@
        <div class="setting-value">
          <el-switch v-model="darkModel" @change="toggleDarkModel"/>
        </div>
-    </div> -->
+    </div>
     <div class="app-config">
       <div class="setting-title">
         <browser theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
@@ -95,7 +95,8 @@
 <script>
 
 import {ElSlider, ElSwitch, ElSelect,ElColorPicker} from "element-plus"
-import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy, Translate, Platte} from "@icon-park/vue-next"
+import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy, Translate, Platte, Moon} from "@icon-park/vue-next"
+import colors from "@/popup/components/common/colors"
 
 
 export default {
@@ -105,7 +106,7 @@ export default {
     ElSwitch,
     ApplicationOne,
     // PageTemplate,
-    // Moon,
+    Moon,
     AtSign,
     Browser,
     Sleep,
@@ -125,22 +126,7 @@ export default {
       appSize: 0,
       goToSleepMinutes: 0,
       language: this.$store.getters.language,
-      predefineColors: [
-          '#2196F3',
-          '#03A9F4',
-          '#00BCD4',
-          '#009688',
-          '#F44336',
-          '#E91E63',
-          '#9C27B0',
-          '#673AB7',
-          '#3F51B5',
-          '#8BC34A',
-          '#CDDC39',
-          '#FFC107',
-          '#FF9800',
-          '#795548',
-      ]
+      predefineColors: colors,
     }
   },
   computed: {
@@ -264,6 +250,7 @@ export default {
     width: 25px;
     height: 25px;
     border-radius: 16%;
+    transition: 1600ms;
     background: v-bind(color);
     display: flex;
     justify-content: center;

@@ -34,7 +34,7 @@ export default {
         showDock: true, // todo 是否展示下方dock
         simpleMode: false, // 极简模式
         language: "en", // 语言
-        primaryColor: "",
+        primaryColor: "#03A9F4", // 主色调
     },
 
     // --------- app -----------
