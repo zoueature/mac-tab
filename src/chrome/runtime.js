@@ -1,4 +1,7 @@
 function requestChromeApi(method, callback, param = {}) {
+    if  (typeof chrome === undefined) {
+        return
+    }
     chrome.runtime.sendMessage({
         do: method,
         param: param
@@ -8,6 +11,9 @@ function requestChromeApi(method, callback, param = {}) {
 }
 
 function sendMessage(event, data, callback) {
+    if  (typeof chrome === undefined) {
+        return
+    }
     chrome.runtime.sendMessage({
         event: event,
         data: data,
@@ -18,6 +24,9 @@ function sendMessage(event, data, callback) {
 
 
 function listenMessage(callback) {
+    if  (typeof chrome === undefined) {
+        return
+    }
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         callback(request, sender, sendResponse)
     })
