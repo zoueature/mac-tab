@@ -1,6 +1,6 @@
 
 function getSelf(sendResponse) {
-    if  (typeof chrome === undefined) {
+    if  (chrome == undefined) {
         return
     }
     chrome.management.getSelf(function (item) {
