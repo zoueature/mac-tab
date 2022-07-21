@@ -3,6 +3,7 @@ function setLocal(key, value) {
     let val = {}
     val[key] = value
     if  (chrome == undefined) {
+        localStorage.setItem(key, JSON.stringify(val))
         return
     }
     chrome.storage.local.set(val, function() {})
@@ -10,6 +11,11 @@ function setLocal(key, value) {
 
 function getLocal(key, callback) {
     if  (chrome == undefined) {
+        let data = localStorage.getItem(key)
+        if (data != "") {
+            data = JSON.parse(data)
+        }
+        callback(data)
         return
     }
     chrome.storage.local.get(key, function (res) {

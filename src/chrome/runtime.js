@@ -1,4 +1,5 @@
-function requestChromeApi(method, callback, param = {}) {
+/* eslint-disable */
+function requestChromeApi(method, param = {}, callback = (resp) => {}) {
     if  (chrome == undefined) {
         return
     }

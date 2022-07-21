@@ -29,6 +29,8 @@
 <script>
 
 import dateFormat from "dateformat";
+import runtime from "@/chrome/runtime"
+
 
 const mostHistoryNum = 25
 let dateIndex = {}
@@ -61,12 +63,12 @@ export default {
     },
     loadHistory() {
       let that = this
-      chrome.runtime.sendMessage({do: "getHistory", param: {start: this.startTime, end: this.endTime}}, function(response) {
+      runtime.requestChromeApi("getHistory", {start: this.startTime, end: this.endTime}, function(response) {
         // response
         //   []{
         //     id: "2526",
         //     lastVisitTime: 1650629782668.347,
-        //     title: "chrome.runtime.sendMessage 回调函数参数为undefined_景影随形的博客-CSDN博客",
+        //     title: 回调函数参数为undefined_景影随形的博客-CSDN博客",
         //     typedCount: 0,
         //     url: "https://blog.csdn.net/anjingshen/article/details/75579521",
         //     visitCount: 1,
