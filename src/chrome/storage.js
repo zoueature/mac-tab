@@ -2,14 +2,14 @@
 function setLocal(key, value) {
     let val = {}
     val[key] = value
-    if  (typeof chrome === undefined) {
+    if  (chrome == undefined) {
         return
     }
     chrome.storage.local.set(val, function() {})
 }
 
 function getLocal(key, callback) {
-    if  (typeof chrome === undefined) {
+    if  (chrome == undefined) {
         return
     }
     chrome.storage.local.get(key, function (res) {
@@ -19,7 +19,7 @@ function getLocal(key, callback) {
 }
 
 function setSync(key, value) {
-    if  (typeof chrome === undefined) {
+    if  (chrome == undefined) {
         return
     }
     let val = {}
@@ -28,7 +28,7 @@ function setSync(key, value) {
 }
 
 function getSync(key, callback) {
-    if  (typeof chrome === undefined) {
+    if  (chrome == undefined) {
         return
     }
     chrome.storage.sync.get(key, function (res) {
