@@ -56,7 +56,7 @@ export default {
 }
 .el-slider__bar {
   background: v-bind(color) !important;
-  transition: 1600ms;
+  transition: 200ms;
 }
 .el-slider__button {
   border: solid 2px v-bind(color) !important;
