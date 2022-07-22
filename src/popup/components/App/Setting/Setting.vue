@@ -249,7 +249,7 @@ export default {
   :deep(.setting-title .i-icon) {
     width: 25px;
     height: 25px;
-    border-radius: 16%;
+    border-radius: 25%;
     transition: 1600ms;
     background: v-bind(color);
     display: flex;
