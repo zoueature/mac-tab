@@ -5,7 +5,7 @@
         <sleep-mask v-if="inSleep"/>
       </transition>
     </div>
-    <div class="no-need-dark cover">
+    <div class="cover">
     </div>
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent && !simpleMode">

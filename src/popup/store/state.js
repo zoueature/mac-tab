@@ -18,7 +18,7 @@ export default {
     // --------- config -------------------
     config: {
         wallpaper: {
-            url: "http://file.crazyman.ml/c4/5b/c45b5d650be49e531e8a7e44dc960a7c.png",
+            url: "https://tva1.sinaimg.cn/large/007SmAD0gy1h4frgerwp1j34002o0qv7.jpg",
             position: {
                 size: "center",
                 position: "cover"
