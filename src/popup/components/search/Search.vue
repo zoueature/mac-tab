@@ -63,6 +63,9 @@ export default {
     }
   },
   computed: {
+    primaryColor() {
+      return this.$store.getters.primaryColor
+    },
     showSuggest() {
       return this.$store.getters.showSuggest
     },
@@ -288,7 +291,8 @@ export default {
   .eng-list {
     width: 160px;
     height: v-bind(listHeight);
-    background: rgba(255, 255, 255, 0.97);
+    background: rgba(255, 255, 255, 0.52);
+    backdrop-filter: blur(25px);
     border-radius: 7px;
     position: absolute;
     box-shadow: 1px 7px 7px rgba(0, 0, 0, 0.34);
@@ -304,7 +308,7 @@ export default {
   }
   .englist-enter-from {
     /* height: 0; */
-    transform: translateY(-70px);
+    transform: translateY(-50px);
     opacity: 0;
   }
   .englist-leave-to {
@@ -312,11 +316,13 @@ export default {
   }
   .eng-item {
     width: 100%;
-    height: 40px;
+    height: 3vw;
     margin-top: 10px;
-   /* display: flex;*/
+    display: flex;
     justify-content: flex-start;
     justify-items: start;
+    align-items: center;
+    align-content: center;
   }
   .eng-item div {
     float: left;
@@ -325,19 +331,27 @@ export default {
     transform: scale(1.06);
   }
   .eng-img {
-    width: 26px;
-    height: 26px;
+    width: 2vw;
+    height: 2vw;
     margin-left: 9px;
     margin-right: 16px;
+    border-radius: 100%;
+    overflow: hidden;
+  }
+  .img {
+    width: 100%;
+    height: 100%;
+    
   }
   .eng-name {
     display: flex;
     align-content: center;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #42b983;
+    color: v-bind(primaryColor);
     font-weight: bold;
-    line-height: 26px;
+    font-size: 1.02vw;
+    overflow: hidden
   }
   .suggest-container {
     position: absolute;
