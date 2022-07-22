@@ -1,15 +1,18 @@
 import zh_CN from './language/zh_CN'
-import en from './language/en'
+// import en from './language/en'
 import {reactive} from 'vue'
 
 export function registerI18n(language, languageConfig) {
     i18n.i18n[language] = languageConfig
 }
-
+const languageName = {
+    zh_CN: "中文",
+    en: "English",
+}
 const i18n = {
     i18n:  {
         zh_CN: zh_CN,
-        en: en,
+        // en: en,
     },
     current: reactive({'language': 'zh_CN'}),
     install(Vue) {
@@ -25,7 +28,7 @@ const i18n = {
         Vue.config.globalProperties.$supportLanguage = () => {
             let languages = []
             for (let key in this.i18n) {
-                languages.push(key)
+                languages.push({code: key, name: languageName[key]})
             }
             return languages
         }

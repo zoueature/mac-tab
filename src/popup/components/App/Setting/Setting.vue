@@ -58,7 +58,7 @@
          <el-switch v-model="simpleMode" @change="toggleSimpleMode"/>
        </div>
     </div>
-    <div class="app-config">
+    <div class="app-config" v-if="$supportLanguage().length > 1">
       <div class="setting-title">
         <translate theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
         <span>{{$i18n('switchLanguage')}}</span>
@@ -67,9 +67,9 @@
            <el-select v-model="language" filterable placeholder="Select" @change="selectLanguage">
             <el-option
               v-for="item in $supportLanguage()"
-              :key="item"
-              :label="item"
-              :value="item"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
             />
           </el-select>
        </div>

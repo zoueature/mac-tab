@@ -77,6 +77,8 @@ export default {
 }
 .el-color-picker__trigger {
   border-radius: 100% !important;
+  width: 27px !important;
+  height: 27px !important;
   border: none;
 }
 .el-color-dropdown__value {

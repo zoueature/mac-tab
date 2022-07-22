@@ -33,7 +33,7 @@ export default {
         goToSleepTime: 2, // 进入休眠的时间(分钟)
         showDock: true, // todo 是否展示下方dock
         simpleMode: false, // 极简模式
-        language: "en", // 语言
+        language: "zh_CN", // 语言
         primaryColor: "#03A9F4", // 主色调
     },
 
