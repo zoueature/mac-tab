@@ -15,7 +15,7 @@
         <AppContainer class="dock-item"
                   :style="scaleStyle(index)"
                   :app="element"
-                  :maxSize="97"
+                  :maxSize="88"
                   :hoverScale="false"
                   :showTitle="false"
                   @mouseenter="enlarge(index)" @mouseleave="recover"

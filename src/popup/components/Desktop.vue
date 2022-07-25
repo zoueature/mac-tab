@@ -120,7 +120,7 @@ export default {
       return widthPercent + '%'
     },
     desktopWidth() {
-      let width = 75
+      let width = 92
       if (this.width < 500) {
         width = 100
       }
@@ -168,7 +168,7 @@ export default {
     return {
       width: 0,
       inSleep: false,
-      searchHeight: 52,
+      searchHeight: 61,
     }
   }
 }
@@ -231,7 +231,7 @@ export default {
     transform: translateX(-100px);
   }
   #search-container {
-    width: 70%;
+    width: 61%;
     height: 25%;
     margin: 0 auto 0 auto;
     display: flex;

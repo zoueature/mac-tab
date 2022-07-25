@@ -59,7 +59,7 @@ export default {
   props: {
     size: {
       type: Number,
-      default: 52,
+      default: 70
     }
   },
   computed: {
