@@ -5,9 +5,8 @@ import storage from "@/chrome/storage"
 export default {
     initApp(context) {
         storage.getLocal(keys.userApp, function(result) {
-            if (result != null && result[keys.userApp] != null) {
-                let userApps = result[keys.userApp]
-                context.commit("initUserApps", userApps)
+            if (result != null) {
+                context.commit("initUserApps", result)
             } else {
                 context.commit("initUserApps", [initApps])
             }
