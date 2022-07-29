@@ -2,15 +2,15 @@
 function setLocal(key, value) {
     let val = {}
     val[key] = value
-    if  (chrome == undefined) {
-        localStorage.setItem(key, JSON.stringify(val))
+    if  (chrome.storage == undefined) {
+        localStorage.setItem(key, JSON.stringify(value))
         return
     }
     chrome.storage.local.set(val, function() {})
 }
 
 function getLocal(key, callback) {
-    if  (chrome == undefined) {
+    if  (chrome.storage == undefined) {
         let data = localStorage.getItem(key)
         if (data != "") {
             data = JSON.parse(data)
@@ -25,7 +25,7 @@ function getLocal(key, callback) {
 }
 
 function setSync(key, value) {
-    if  (chrome == undefined) {
+    if  (chrome.storage == undefined) {
         return
     }
     let val = {}
@@ -34,7 +34,7 @@ function setSync(key, value) {
 }
 
 function getSync(key, callback) {
-    if  (chrome == undefined) {
+    if  (chrome.storage == undefined) {
         return
     }
     chrome.storage.sync.get(key, function (res) {

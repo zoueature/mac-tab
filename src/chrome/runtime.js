@@ -1,6 +1,6 @@
 /* eslint-disable */
 function requestChromeApi(method, param = {}, callback = (resp) => {}) {
-    if  (chrome == undefined) {
+    if  (chrome.runtime == undefined) {
         return
     }
     chrome.runtime.sendMessage({
@@ -12,7 +12,7 @@ function requestChromeApi(method, param = {}, callback = (resp) => {}) {
 }
 
 function sendMessage(event, data, callback) {
-    if  (chrome == undefined) {
+    if  (chrome.runtime == undefined) {
         return
     }
     chrome.runtime.sendMessage({
