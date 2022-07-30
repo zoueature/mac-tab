@@ -25,7 +25,7 @@ function sendMessage(event, data, callback) {
 
 
 function listenMessage(callback) {
-    if  (chrome == undefined) {
+    if  (chrome.runtime == undefined) {
         return
     }
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
