@@ -1,5 +1,5 @@
-
-function getHistory(sendResponse) {
+/* eslint-disable */
+function getHistory(sendResponse, params) {
     let endTime = 999999999999999
     let result = []
     getAllHistory(result, endTime).then(() => {
@@ -18,7 +18,7 @@ async function getAllHistory(container, endTime) {
     }
 }
 
-function getExtension(sendResponse) {
+function getExtension(sendResponse, params) {
     chrome.management.getAll((items) => {
         sendResponse(items)
     })

@@ -23,6 +23,9 @@ export default {
     }
   },
   created() {
+    this.$store.commit('initCommonConfig')
+    let language = this.$store.getters.language
+    this.$switchLanguage(language)
     api.getAnnouncement((data) => {
       storage.getSync(keys.viewedAnnouncement, (viewed) => {
         if (viewed == undefined) {
@@ -37,12 +40,50 @@ export default {
         storage.setSync(keys.viewedAnnouncement, viewed)
       })
     })
+  },
+  computed: {
+    color() {
+      return this.$store.getters.primaryColor
+    }
   }
 }
 </script>
 
 <style>
 
+.active {
+  background: v-bind(color) !important;
+}
+.el-slider__bar {
+  background: v-bind(color) !important;
+  transition: 200ms;
+}
+.el-slider__button {
+  border: solid 2px v-bind(color) !important;
+  width: 16px;
+  height: 16px;
+  transition: 1600ms;
+}
+.el-switch.is-checked .el-switch__core {
+    border-color: v-bind(color) !important;
+    background-color: v-bind(color) !important;
+    transition: 1600ms;
+}
+.el-color-picker__color {
+  border-radius: 100% !important;
+}
+.el-color-picker__color-inner {
+  border-radius: 100% !important;
+}
+.el-color-picker__trigger {
+  border-radius: 100% !important;
+  width: 27px !important;
+  height: 27px !important;
+  border: none;
+}
+.el-color-dropdown__value {
+  display: none;
+}
 body {
   user-select: none;
   margin: 0;

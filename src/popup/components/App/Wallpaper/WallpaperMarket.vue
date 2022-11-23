@@ -38,20 +38,21 @@
              :key="wallpaper"
              @mouseenter="hover(index)"
              @mouseleave="leave"
-             :style="'background-image: url(' + wallpaper.thumb + ')'"
+             :style="'background-image: url(' + wallpaper.thumb + ');' 
+             + (wallpaper.loaded !== true ? 'box-shadow: 1px 1px 7px rgba(0,0,0,0.2)': '')"
         >
           <span class="copyright">{{wallpaper.copyright}}</span>
           <!-- 加载图片内容loadign -->
-          <loading-inline :scale="0.5" v-if="settingBGImgIndex === index"/>
+          <loading :scale="0.45" :color="$store.getters.primaryColor" v-if="settingBGImgIndex === index || wallpaper.loaded !== true"/>
           <div class="hover" v-else-if="index === hoverIndex && settingBGImgIndex < 0">
             <div class="set-button" @click="setWallpaper(wallpaper.url, index)">
               <img src="../../../../assets/icon/done_fill.png" style="width: 100%; height: 100%"/>
             </div>
           </div>
         </li>
-        <div style="width:100%; position: relative;" v-if="inLoadingData">
+        <div :style="'width:100%; position: relative;' + (initSearch? 'margin-top: 20%;': '')"  v-if="inLoadingData || initSearch">
           <!-- 翻页加载更多loading -->
-          <loading-inline :scale="0.7"/>
+          <loading-inline :scale="0.5"/>
         </div>
       </ul>
     </div>
@@ -62,8 +63,8 @@
 import data from "./wallpaper_list"
 import Back from "@/popup/components/common/Back";
 import api from "@/popup/components/api/wallpaper"
-// import Loading from "@/popup/components/common/Loading";
 import LoadingInline from "@/popup/components/common/LoadingInline"
+import Loading from "@/popup/components/common/Loading"
 
 
 const defaultActiveCateID = data.categoryList[0]
@@ -72,7 +73,7 @@ export default {
   name: "WallpaperMarket",
   components:{
     Back,
-    // Loading,
+    Loading,
     LoadingInline,
   },
   created() {
@@ -146,12 +147,29 @@ export default {
       this.page = 1
       this.wallpapers = []
       this.noMoreData = false
-      this.requestToSearchWallpaper(this.origin, this.selectedCateId, this.keyword, this.page, this.limit)
+      this.initSearch = true
+      this.settingBGImgIndex = -1
+      let that = this
+      this.requestToSearchWallpaper(this.origin, 
+        this.selectedCateId, 
+        this.keyword, 
+        this.page, 
+        this.limit,
+        () => {that.initSearch = false}
+      )
     },
-    requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit) {
+    requestToSearchWallpaper(origin, selectedCateId, keyword, page, limit, callback = () => {}) {
       let that = this
        api.getWallpaperByOriginCate(origin, selectedCateId, keyword, page, limit, (data) => {
         that.wallpapers = data
+        that.wallpapers.forEach((wallpaper, i) => {
+          let img = new Image()
+          img.src = wallpaper.thumb
+          img.onload = function () {
+            that.wallpapers[i].loaded = true
+          }
+        })
+        callback()
       })
     },
     setWallpaper(src, index) {
@@ -169,8 +187,14 @@ export default {
       that.page ++
       that.inLoadingData = true
       api.getWallpaperByOriginCate(this.origin, this.selectedCateId, this.keyword, this.page, this.limit, (data) => {
-        data.forEach(w => {
+        let len = that.wallpapers.length
+        data.forEach((w, i)=> {
           that.wallpapers.push(w)
+          let img = new Image()
+          img.src = w.thumb
+          img.onload = function () {
+            that.wallpapers[i+len].loaded = true
+          }
         })
         if (data.length === 0) {
           that.noMoreData = true
@@ -184,6 +208,7 @@ export default {
       noMoreData: false,
       settingBGImgIndex: -1,
       inLoadingData: false,
+      initSearch: false,
       origin: "",
       hoverIndex: -1,
       wallpapers: [],
@@ -276,7 +301,7 @@ export default {
   }
   .wallpaper-item {
     position: relative;
-    width: 17vw;
+    width: 48%;
     height: 10vw;
     margin-bottom: 16px;
     background-repeat: no-repeat;

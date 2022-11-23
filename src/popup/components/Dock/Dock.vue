@@ -15,6 +15,7 @@
         <AppContainer class="dock-item"
                   :style="scaleStyle(index)"
                   :app="element"
+                  :maxSize="88"
                   :hoverScale="false"
                   :showTitle="false"
                   @mouseenter="enlarge(index)" @mouseleave="recover"
@@ -71,32 +72,32 @@ export default {
         switch (diff) {
           case -3:
             transformPosition = "transform-origin: 80% 40%;"
-            transform = "transform: scale(1.05); margin-top: -0.25vw;"
+            transform = "transform: scale(1.02); margin-top: -0.25vw;"
             break
           case -2:
             transformPosition = "transform-origin: 60% 60%;"
-            transform = "transform: scale(1.1); margin-top: -0.5vw;"
+            transform = "transform: scale(1.07); margin-top: -0.5vw;"
             break
           case -1:
             transformPosition = "transform-origin: 70% 90%;"
-            transform = "transform: scale(1.15); margin-top: -0.75vw;"
+            transform = "transform: scale(1.12); margin-top: -0.75vw;"
             break
           case 0:
             transformPosition = "transform-origin: 50% 100%;"
-            transform = "transform: scale(1.3); margin-top: -1.25vw;"
+            transform = "transform: scale(1.17); margin-top: -1.25vw;"
             padding = "padding-left: 1vw; padding-right: 1vw;"
             break
           case 1:
             transformPosition = "transform-origin: 30% 90%;"
-            transform = "transform: scale(1.15); margin-top: -0.75vw;"
+            transform = "transform: scale(1.12); margin-top: -0.75vw;"
             break
           case 2:
             transformPosition = "transform-origin: 40% 60%;"
-            transform = "transform: scale(1.1); margin-top: -0.5vw;"
+            transform = "transform: scale(1.07); margin-top: -0.5vw;"
             break
           case 3:
             transformPosition = "transform-origin: 20% 40%;"
-            transform = "transform: scale(1.05); margin-top: -0.25vw;"
+            transform = "transform: scale(1.02); margin-top: -0.25vw;"
             break
         }
         return transform + transformPosition + padding
@@ -153,7 +154,7 @@ export default {
     /* background-color: rgba(204, 204, 204, 0.02); */
     /* backdrop-filter: blur(7px); */
     /* border-radius: 16px; */
-    transition: all 160ms linear;
+    transition: all 70ms linear;
   }
   .dock-item {
     padding-left: 0.25vw;

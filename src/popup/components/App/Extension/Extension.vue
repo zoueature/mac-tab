@@ -27,13 +27,10 @@ export default {
   },
   created() {
     let that = this
-    runtime.requestChromeApi("getSelfExtension", function (item) {
+    runtime.requestChromeApi("getSelfExtension", {}, function (item) {
       that.selfID = item.id
     })
-    chrome.runtime.sendMessage({
-      do: "getExtension",
-      param: {start: this.startTime, end: this.endTime}
-    }, function (response) {
+    runtime.requestChromeApi("getExtension", {}, function (response) {
       that.extensions = response
     })
   },
@@ -53,12 +50,7 @@ export default {
       } else {
         doOp = "disableExtension"
       }
-      chrome.runtime.sendMessage({
-        do: doOp,
-        param: {id: extension.id}
-      }, function () {
-        
-      })
+      runtime.requestChromeApi(doOp,  {id: extension.id})
     }
   }
 }

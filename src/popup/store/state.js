@@ -18,7 +18,7 @@ export default {
     // --------- config -------------------
     config: {
         wallpaper: {
-            url: "http://file.crazyman.ml/c4/5b/c45b5d650be49e531e8a7e44dc960a7c.png",
+            url: "https://tva1.sinaimg.cn/large/007SmAD0gy1h4frgerwp1j34002o0qv7.jpg",
             position: {
                 size: "center",
                 position: "cover"
@@ -30,9 +30,11 @@ export default {
         darkModel: false, // 开启黑暗模式
         searchEngine: "google", // 选择的搜索引擎
         newTabOpenApp: true, // 是否用新标签页打开app
-        goToSleepTime: 16, // 进入休眠的时间(分钟)
+        goToSleepTime: 2, // 进入休眠的时间(分钟)
         showDock: true, // todo 是否展示下方dock
         simpleMode: false, // 极简模式
+        language: "zh_CN", // 语言
+        primaryColor: "#03A9F4", // 主色调
     },
 
     // --------- app -----------

@@ -1,13 +1,13 @@
 <template>
   <div class="setting-app">
     <div class="title">
-      <setting theme="outline" size="27" fill="#0288D1" :strokeWidth="4"/>
-      <span>设置</span>
+      <setting theme="outline" size="27" :fill="color" :strokeWidth="4"/>
+      <span>{{$i18n('setting')}}</span>
     </div>
     <div class="app-config">
       <div class="setting-title">
         <application-one theme="outline" size="22" fill="#fff" :strokeWidth="4"/>
-        <span>图标大小</span>
+        <span>{{$i18n('appSize')}}</span>
       </div>
       <div class="setting-value">
         <el-slider v-model="appSize" class="slider" :min="60" :max="160" @input="appSizeChange" size="small" input-size="small"></el-slider>
@@ -22,19 +22,19 @@
         <el-switch v-model="showComponent" @change="toggleComponent"/>
       </div>
     </div> -->
-    <!-- <div class="app-config">
+    <div class="app-config">
       <div class="setting-title">
         <moon theme="outline"  size="18" fill="#fff" :strokeWidth="4"/>
-        <span>黑暗模式</span>
+        <span>{{$i18n('darkMode')}}</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="darkModel" @change="toggleDarkModel"/>
        </div>
-    </div> -->
+    </div>
     <div class="app-config">
       <div class="setting-title">
         <browser theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>新标签页打开</span>
+        <span>{{$i18n('openLinkMode')}}</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="newTabOpenApp" @change="toggleNewTabOpenApp"/>
@@ -43,7 +43,7 @@
     <div class="app-config">
       <div class="setting-title">
         <sleep theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>睡眠时间</span>
+        <span>{{$i18n('sleepTime')}}</span>
       </div>
       <div class="setting-value">
         <el-slider v-model="sleepTime" class="slider" :min="1" :max="60" @input="goToSleepMinutesChange" size="small" input-size="small"></el-slider>
@@ -52,16 +52,41 @@
     <div class="app-config">
       <div class="setting-title">
         <easy theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
-        <span>极简模式</span>
+        <span>{{$i18n('simpleMode')}}</span>
       </div>
        <div class="setting-value">
          <el-switch v-model="simpleMode" @change="toggleSimpleMode"/>
        </div>
     </div>
+    <div class="app-config" v-if="$supportLanguage().length > 1">
+      <div class="setting-title">
+        <translate theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
+        <span>{{$i18n('switchLanguage')}}</span>
+      </div>
+       <div class="setting-value">
+           <el-select v-model="language" filterable placeholder="Select" @change="selectLanguage">
+            <el-option
+              v-for="item in $supportLanguage()"
+              :key="item.code"
+              :label="item.name"
+              :value="item.code"
+            />
+          </el-select>
+       </div>
+    </div>
+    <div class="app-config">
+      <div class="setting-title">
+        <platte theme="outline" size="20" fill="#fff" :strokeWidth="4"/>
+        <span>{{$i18n('primaryColor')}}</span>
+      </div>
+       <div class="setting-value">
+         <el-color-picker v-model="color" show-alpha :predefine="predefineColors" @change="selectColor"/>
+       </div>
+    </div>
     <a class="app-config" href="mailto:kqxianren@gmail.com">
       <div class="setting-title">
         <at-sign theme="outline" size="18" fill="#fff" :strokeWidth="4"/>
-        <span>反馈与建议</span>
+        <span>{{$i18n('feedback')}}</span>
       </div>
     </a>
   </div>
@@ -69,8 +94,10 @@
 
 <script>
 
-import {ElSlider, ElSwitch} from "element-plus"
-import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy} from "@icon-park/vue-next"
+import {ElSlider, ElSwitch, ElSelect,ElColorPicker} from "element-plus"
+import {ApplicationOne, AtSign, Browser, Sleep, Setting, Easy, Translate, Platte, Moon} from "@icon-park/vue-next"
+import colors from "@/popup/components/common/colors"
+
 
 export default {
   name: "SettingCom",
@@ -79,12 +106,16 @@ export default {
     ElSwitch,
     ApplicationOne,
     // PageTemplate,
-    // Moon,
+    Moon,
     AtSign,
     Browser,
     Sleep,
     Setting,
     Easy,
+    Translate,
+    ElSelect,
+    Platte,
+    ElColorPicker,
   },
   created() {
     this.appSize = this.$store.getters.appSize
@@ -94,9 +125,14 @@ export default {
       value: 0,
       appSize: 0,
       goToSleepMinutes: 0,
+      language: this.$store.getters.language,
+      predefineColors: colors,
     }
   },
   computed: {
+    color() {
+      return this.$store.getters.primaryColor
+    },
     showComponent() {
       return this.$store.getters.showComponents
     },
@@ -133,6 +169,13 @@ export default {
     },
     goToSleepMinutesChange(val) {
       this.$store.commit('setGoToSleepMinutesTime', val)
+    },
+    selectLanguage(val) {
+      this.$switchLanguage(val)
+      this.$store.commit('setLanguage', val)
+    },
+    selectColor(val) {
+      this.$store.commit('setPrimaryColor', val)
     }
   }
 }
@@ -147,7 +190,7 @@ export default {
     box-shadow: -1px -1px 10px white;
   }
   .title {
-    /* padding-top: 10px; */
+    transition: 1600ms;
     width: 100%;
     height: 70px;
     text-align: left;
@@ -206,8 +249,9 @@ export default {
   :deep(.setting-title .i-icon) {
     width: 25px;
     height: 25px;
-    border-radius: 16%;
-    background: #0288D1;
+    border-radius: 25%;
+    transition: 1600ms;
+    background: v-bind(color);
     display: flex;
     justify-content: center;
     justify-items: center;

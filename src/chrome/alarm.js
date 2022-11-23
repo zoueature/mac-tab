@@ -1,6 +1,9 @@
 
 // startAlarmListener 开始监听定时任务回调
 function startAlarmListener() {
+    if  (chrome == undefined) {
+        return
+    }
     chrome.alarms.onAlarm.addListener(alarmInfo => {
         // name: "testAlarm"
         // periodInMinutes: 1

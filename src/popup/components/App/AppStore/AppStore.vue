@@ -46,8 +46,8 @@
             </div>
           </div>
         </li>
-        <div style="width:100%; position: relative;" v-if="inLoadingData">
-          <loading-inline :scale="0.7"/>
+        <div :style="'width:100%; position: relative;' + (initData? 'margin-top: 45%;': '')" v-if="inLoadingData || initData">
+          <loading-inline :scale="0.5"/>
         </div>
       </ul>
     </div>
@@ -77,13 +77,15 @@ export default {
       this.apps = []
       this.page = 1
       this.noMoreData = false
-      this.searchApp(this.keyword, 0)
+      this.initData = true
+      let that = this
+      this.searchApp(this.keyword, 0, () => {that.initData = false})
       this.selectedCategory = 0
     },
     loadingData() {
       this.searchApp(this.keyword, this.selectedCategory)
     },
-    searchApp(keyword, categoryId) {
+    searchApp(keyword, categoryId, callback = () => {}) {
       let that = this
       this.inLoadingData = true
       api.searchApp(keyword, categoryId, this.page, this.size, (data) => {
@@ -102,6 +104,7 @@ export default {
         })
         that.page ++
         that.inLoadingData = false
+        callback()
       })
     },
     getAppCategoryList() {
@@ -125,7 +128,9 @@ export default {
       this.noMoreData = false
       this.selectedCategory = category.id
       this.selectedCategoryObj = category
-      this.searchApp(this.keyword, this.selectedCategory)
+      this.initData = true
+      let that = this
+      this.searchApp(this.keyword, this.selectedCategory, () => {that.initData = false})
     },
     install(app) {
       app.background = app.color
@@ -150,8 +155,6 @@ export default {
     return {
       selectedCategory: diyCategoryId,
       bookmarkImpoterCatgoryId: bookmarkImpoterCatgoryId,
-
-
       selectedCategoryObj: null,
       categoryList: [],
       apps: [],
@@ -161,7 +164,13 @@ export default {
       page: 1, 
       size: 15,
       inLoadingData: false,
+      initData: false,
       noMoreData: false,
+    }
+  },
+  computed:{
+    color() {
+      return this.$store.getters.primaryColor
     }
   }
 }

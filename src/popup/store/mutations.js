@@ -67,8 +67,13 @@ export default {
         common.updateConfig(state, 'goToSleepTime', minutes)
     },
     setSimpleMode(state, simpleMode) {
-        console.log(simpleMode)
         common.updateConfig(state, 'simpleMode', simpleMode)
+    },
+    setLanguage(state, language) {
+        common.updateConfig(state, 'language', language)
+    },
+    setPrimaryColor(state, color) {
+        common.updateConfig(state, 'primaryColor', color)
     },
     setWallpaper(state, wallpaper) {
         if (typeof wallpaper === "string") {
@@ -132,7 +137,6 @@ export default {
         if (str === '{}' || str === '[]') {
             return
         }
-        console.log
         state.fmtApps = []
         for (let key in userApps) {
             // 遍历每页
@@ -154,6 +158,7 @@ export default {
                 state.fmtApps.push(pageResult)
             }
         }
+        common.fsyncApp(state)
     },
     addNewPage(state, direction) {
         if (direction < 0) {

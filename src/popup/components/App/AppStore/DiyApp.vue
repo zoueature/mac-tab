@@ -5,7 +5,7 @@
       </div>
       <div class="app-input">
         <div>地址</div>
-        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" @keyup.enter="getWebsiteTitle" class="input-item">
+        <input placeholder="http://" v-model="diyApp.link" @focusout="getWebsiteTitle" class="input-item">
       </div>
       <div class="app-input">
         <div>名称</div>
@@ -28,10 +28,10 @@
       <div class="select-icon-color">
         <div class="color-shower" v-for="(color, index) in colors"
              :key="index"
-             :style="'background: ' + color.color"
-             @click="diyApp.wordIconColor = color.color"
+             :style="'background: ' + color"
+             @click="diyApp.wordIconColor = color"
         >
-          <check theme="outline" size="20" fill="#fff" :strokeWidth="2" v-if="diyApp.wordIconColor === color.color"/>
+          <check theme="outline" size="20" fill="#fff" :strokeWidth="2" v-if="diyApp.wordIconColor === color"/>
         </div>
       </div>
       <div class="opt-container">
@@ -42,9 +42,10 @@
 
 <script>
 
-import color from "@/popup/components/App/AppStore/color";
+import colors from "@/popup/components/common/colors"
 import utils from "@/utils/funcs"
 import {Check} from "@icon-park/vue-next"
+// import runtime from "@/chrome/runtime"
 
 function formatLink(link) {
   let requestLink = link
@@ -58,7 +59,7 @@ const defaultDiyApp = {
   link: '',
   name: '',
   wordIcon: '',
-  wordIconColor: color[0].color,
+  wordIconColor: colors[0],
   onlineIcon: '',
 }
 
@@ -74,12 +75,19 @@ export default {
         let requestLink = this.diyApp.link
         requestLink = formatLink(requestLink)
         let url = new URL(requestLink)
-        this.diyApp.onlineIcon = url.origin + "/favicon.ico"
+        let onlineIcon = url.origin + "/favicon.ico"
         this.$http.get(requestLink).then((res) => {
           if (res.status === 200) {
-            let title = utils.getTitleFromHTML(res.data)
-            if (title !== "") {
-              that.diyApp.name = title
+            let result = utils.getTitleFromHTML(res.data)
+            that.diyApp.name = result.title
+            onlineIcon = result.icon
+            if (onlineIcon != null) {
+              let img = new Image()
+              img.src = onlineIcon
+              img.onload = () => {
+                that.diyApp.onlineIcon = onlineIcon
+                that.diyApp.iconType = 'img'
+              }
             }
           }
         })
@@ -121,7 +129,7 @@ export default {
         onlineIcon: defaultDiyApp.onlineIcon,
         iconType: '',
       },
-      colors: color,
+      colors: colors,
     }
   }
 }

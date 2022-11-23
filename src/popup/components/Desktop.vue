@@ -1,9 +1,11 @@
 <template>
   <div id="desktop-background" :class="desktopClass">
-    <transition name="mask">
-      <sleep-mask v-if="inSleep"/>
-    </transition>
-    <div class="no-need-dark cover">
+    <div class="no-need-dark bg">
+      <transition name="mask">
+        <sleep-mask v-if="inSleep"/>
+      </transition>
+    </div>
+    <div class="cover">
     </div>
     <div class="blank-container">
       <div class="notify-container" v-if="width > 900 && showComponent && !simpleMode">
@@ -79,14 +81,12 @@ export default {
       that.inSleep = false
       let thresholdTime = that.$store.getters.goToSleepMinutes // 单位分钟
       timeOut = setTimeout(() => {
-        console.log(new Date().toString())
         that.inSleep = true
       }, thresholdTime*60*1000)
     }
   },
   computed: {
     simpleMode() {
-      console.log(this.$store.getters.simpleMode)
       return this.$store.getters.simpleMode
     },
     desktopClass() {
@@ -94,14 +94,6 @@ export default {
       let cls = ''
       if (isDark) {
         cls = "dark-mode "
-      }
-      return cls
-    },
-    coverClass() {
-      let isDark = this.$store.getters.darkModel
-      let cls = 'cover'
-      if (isDark) {
-        cls += ' no-need-dark'
       }
       return cls
     },
@@ -128,11 +120,17 @@ export default {
       return widthPercent + '%'
     },
     desktopWidth() {
-      let width = 75
+      let width = 92
       if (this.width < 500) {
         width = 100
       }
       return width + '%'
+    },
+    bgZIndex() {
+      if (this.inSleep) {
+        return 7777777777777777
+      }
+      return -200
     }
   },
   mounted() {
@@ -144,7 +142,6 @@ export default {
   created() {
     let that = this
     this.width = document.body.clientWidth
-    this.$store.commit('initCommonConfig')
     document.addEventListener('mousemove', () => {
       if (that.inSleep) {
         return
@@ -158,7 +155,6 @@ export default {
         return
       } else if (e.ctrlKey && e.altKey && e.code == 'KeyS') {
         // 极简模式 ctrl + alt + L
-        console.log(that.$store.getters.simpleMode)
         that.$store.commit('setSimpleMode', !that.$store.getters.simpleMode)
         return
       }
@@ -172,7 +168,7 @@ export default {
     return {
       width: 0,
       inSleep: false,
-      searchHeight: 52,
+      searchHeight: 61,
     }
   }
 }
@@ -184,12 +180,17 @@ export default {
     width: 100%;
     height: 100%;
     position: fixed;
+  }
+  .bg {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: v-bind(bgZIndex);
     background-image: v-bind(wallpaper);
     /*background-size: auto 100%;*/
     background-repeat: no-repeat;
     background-position: v-bind(size);
     background-size: v-bind(position);
-    /*background: rgb(0,0,0,0.1);*/
   }
   .cover {
     width: 100%;
@@ -197,12 +198,6 @@ export default {
     position: fixed;
     backdrop-filter: v-bind(blur);
     z-index: -100;
-    /*background-image: v-bind(wallpaper);*/
-    /*background-size: auto 100%;*/
-   /* background-repeat: no-repeat;
-    background-position: v-bind(size);
-    background-size: v-bind(position);*/
-    /*background: rgb(0,0,0,0.1);*/
   }
   .blank-container {
     width: 100%;
@@ -236,7 +231,7 @@ export default {
     transform: translateX(-100px);
   }
   #search-container {
-    width: 70%;
+    width: 61%;
     height: 25%;
     margin: 0 auto 0 auto;
     display: flex;
@@ -290,11 +285,14 @@ export default {
   }
   .mask-enter-active,
   .mask-leave-active {
-    transition: all 750ms linear;
+    transition: all 250ms linear;
   }
-  .mask-enter-from,
-  .mask-leave-to {
+  .mask-enter-from {
     transform: translateY(-1000px);
+  }
+  .mask-leave-to {
+    transform: translateX(1000px);
+    opacity: 0;
   }
   .simple-mode {
     margin: 10% auto 0 auto !important;

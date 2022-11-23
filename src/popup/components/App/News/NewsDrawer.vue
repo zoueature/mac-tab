@@ -6,7 +6,8 @@
 <!--        <div class="news-tab">知乎热榜</div>-->
 <!--      </div>-->
 <!--    </div>-->
-    <div class="news">
+    <loading-inline :scale="0.7" v-if="inLoadingData"/>
+    <div class="news" v-else>
       <div class="news-item"
            v-for="(news, index) in newsList"
            :key="index"
@@ -31,9 +32,14 @@
 
 <script>
 import api from "@/popup/components/api/news";
+import LoadingInline from "@/popup/components/common/LoadingInline"
+
 
 export default {
   name: "NewsDrawer",
+  components: {
+    LoadingInline,
+  },
   computed: {
     desc() {
       return function (desc) {
@@ -55,6 +61,7 @@ export default {
           detail: v.detailURL,
         })
       })
+      that.inLoadingData = false
     })
     api.getNews("zhihu", (data) => {
       data.forEach(v=>{
@@ -65,6 +72,7 @@ export default {
           detail: v.detailURL,
         })
       })
+      that.inLoadingData = false
     })
   },
   methods: {
@@ -74,7 +82,8 @@ export default {
   },
   data() {
     return {
-      newsList: []
+      newsList: [],
+      inLoadingData: true,
     }
   }
 }
