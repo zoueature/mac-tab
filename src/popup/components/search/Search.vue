@@ -350,7 +350,7 @@ export default {
     text-overflow: ellipsis;
     color: v-bind(primaryColor);
     font-weight: bold;
-    font-size: 16px;
+    font-size: 15px;
     overflow: hidden
   }
   .suggest-container {
